@@ -1,0 +1,40 @@
+
+:root {
+  --bg-color: rgba(0, 0, 0, 0.75);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+button:hover {background-color: #006a8d;}
+button:active{background-color: #005a79;}
+
+button {
+    border: none;
+    border-radius: 10px;
+    font-size: 0.8vw;
+    padding: 0.8vh 0.8vw;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #008CBA;
+}
+
+strong {
+  color: white;
+  display: inline;
+} 
+
+.search {
+    width: 13vw;
+}
+
+.slider {
+    cursor: pointer;
+}
+
+

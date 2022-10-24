@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<style type="text/css">
+    
+    .sliderRed {
+      -webkit-appearance: none;
+      background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 0, 0));
+    }
+    
+    .sliderRed::-moz-range-thumb {
+      width: 5px;
+      height: 25px;
+    }
+    .sliderGreen {
+      -webkit-appearance: none;
+      background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 255, 0));
+    }
+    
+    .sliderGreen::-moz-range-thumb {
+      width: 5px;
+      height: 25px;
+    }
+    .sliderBlue {
+      -webkit-appearance: none;
+      background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 0, 255));
+    }
+    .sliderBlue::-moz-range-thumb {
+      width: 5px;
+      height: 25px;
+    }
+    .sliderOpac {
+      -webkit-appearance: none;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0, 1));
+    }
+    .sliderOpac::-moz-range-thumb {
+      width: 5px;
+      height: 25px;
+    }
+    .sliderPearl {
+      -webkit-appearance: none;
+      background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 245, 158));
+    }
+    .sliderPearl::-moz-range-thumb {
+      width: 5px;
+      height: 25px;
+    }
+    
+    
+  </style>
+
+
+<body>
+
+  <head>
+      <button id="cancel" class="button">Cancel</button>
+      <button id="save" class="button">Save</button>
+      <button id="done" class="button">Done</button>
+  </head>
+
+
+  <table class="menuTable" id="modTable">
+    <tr>
+      <td>
+        <h2>Custom Color</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3>Primary Color</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="red1" class="sliderRed" type="range" min="0" max="255" value="0">
+          <h3 id="showred1">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="green1" class="sliderGreen" type="range" min="0" max="255" value="0">
+          <h3 id="showgreen1">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="blue1" class="sliderBlue" type="range" min="0" max="255" value="0">
+          <h3 id="showblue1">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3>Secondary Color</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="red2" class="sliderRed" type="range" min="0" max="255" value="0">
+          <h3 id="showred2">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="green2" class="sliderGreen" type="range" min="0" max="255" value="0">
+          <h3 id="showgreen2">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="blue2" class="sliderBlue" type="range" min="0" max="255" value="0">
+          <h3 id="showblue2">0</h3>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td>
+        <input id="opac" class="sliderOpac" type="range" min="0" max="255" value="0">
+          <h3 id="showopac">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="pearl" class="sliderPearl" type="range" min="0" max="160" value="0">
+          <h3 id="showpearl">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3>Colors ID</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="primary" class="slider" type="range" min="0" max="160" value="0">
+          <h3 id="showprimary">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="secondary" class="slider" type="range" min="0" max="160" value="0">
+          <h3 id="showsecondary">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3>Neons</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="neonsred" class="sliderRed" type="range" min="0" max="255" value="0">
+          <h3 id="showneonsred">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="neonsgreen" class="sliderGreen" type="range" min="0" max="255" value="0">
+          <h3 id="showneonsgreen">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="neonsblue" class="sliderBlue" type="range" min="0" max="255" value="0">
+          <h3 id="showneonsblue">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3>Wheels</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="wheeltype" class="slider" type="range" min="0" max="15" value="0">
+          <h3 id="showwheeltype">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="wheelmodel" class="slider" type="range" min="0" max="217" value="0">
+          <h3 id="showwheelmodel">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <input id="wheelcolor" class="slider" type="range" min="0" max="160" value="0">
+          <h3 id="showwheelcolor">0</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3>Mod</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="11"><</button>
+          <button id="next" name="11">></button>
+          <h3 id="show11">0</h3>
+          <h3>Engine</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="12"><</button>
+          <button id="next" name="12">></button>
+          <h3 id="show12">0</h3>
+          <h3>Brakes</h3>
+      </td>
+      <td>
+        
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="13"><</button>
+          <button id="next" name="13">></button>
+          <h3 id="show13">0</h3>
+          <h3>Transmission</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="15"><</button>
+          <button id="next" name="15">></button>
+          <h3 id="show15">0</h3>
+          <h3>Suspension</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="18"><</button>
+          <button id="next" name="18">></button>
+          <h3 id="show18">0</h3>
+          <h3>Turbo</h3>
+      </td>
+      <tr>
+        <td>
+          <button id="previous" name="16"><</button>
+          <button id="next" name="16">></button>
+          <h3 id="show16">0</h3>
+          <h3>Armor</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <button id="previous" name="22"><</button>
+            <button id="next" name="22">></button>
+            <h3 id="show22">0</h3>
+            <h3>Xenon</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <button id="previous" name="0"><</button>
+            <button id="next" name="0">></button>
+            <h3 id="show0">0</h3>
+            <h3>Spoiler</h3>
+        </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="1"><</button>
+          <button id="next" name="1">></button>
+          <h3 id="show1">0</h3>
+          <h3>Front Bumper</h3>
+      </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="2"><</button>
+        <button id="next" name="2">></button>
+        <h3 id="show2">0</h3>
+        <h3>Rear Bumper</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="3"><</button>
+        <button id="next" name="3">></button>
+        <h3 id="show3">0</h3>
+        <h3>Side Skirt</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="4"><</button>
+        <button id="next" name="4">></button>
+        <h3 id="show4">0</h3>
+        <h3>Exhaust</h3>
+    </td>
+  </tr>
+    <tr>
+      <td>
+          <button id="previous" name="20"><</button>
+          <button id="next" name="20">></button>
+          <h3 id="show20">0</h3>
+          <h3>Tire Smoke</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="48"><</button>
+          <button id="next" name="48">></button>
+          <h3 id="show48">0</h3>
+          <h3>Livery</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <button id="previous" name="14"><</button>
+          <button id="next" name="14">></button>
+          <h3 id="show14">0</h3>
+          <h3>Horns</h3>
+      </td>
+    </tr>
+  <tr>
+    <td>
+        <button id="previous" name="5"><</button>
+        <button id="next" name="5">></button>
+        <h3 id="show5">0</h3>
+        <h3>Frame</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="6"><</button>
+        <button id="next" name="6">></button>
+        <h3 id="show6">0</h3>
+        <h3>Grille</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="7"><</button>
+        <button id="next" name="7">></button>
+        <h3 id="show7">0</h3>
+        <h3>Hood</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="8"><</button>
+        <button id="next" name="8">></button>
+        <h3 id="show8">0</h3>
+        <h3>Left Wing</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="9"><</button>
+        <button id="next" name="9">></button>
+        <h3 id="show9">0</h3>
+        <h3>Right Wing</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="10"><</button>
+        <button id="next" name="10">></button>
+        <h3 id="show10">0</h3>
+        <h3>Roof</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="23"><</button>
+        <button id="next" name="23">></button>
+        <h3 id="show23">0</h3>
+        <h3>Front Wheels</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="24"><</button>
+        <button id="next" name="24">></button>
+        <h3 id="show24">0</h3>
+        <h3>Back Wheels</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="46"><</button>
+        <button id="next" name="46">></button>
+        <h3 id="show46">0</h3>
+        <h3>Window Tint</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="62"><</button>
+        <button id="next" name="62">></button>
+        <h3 id="show62">0</h3>
+        <h3>Plate Type</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h2>Benny's</h2>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="25"><</button>
+        <button id="next" name="25">></button>
+        <h3 id="show25">0</h3>
+        <h3>Plate Holers</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="26"><</button>
+        <button id="next" name="26">></button>
+        <h3 id="show26">0</h3>
+        <h3>Plate Vanity</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="27"><</button>
+        <button id="next" name="27">></button>
+        <h3 id="show27">0</h3>
+        <h3>Trim Design</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="28"><</button>
+        <button id="next" name="28">></button>
+        <h3 id="show28">0</h3>
+        <h3>Ornaments</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="30"><</button>
+        <button id="next" name="30">></button>
+        <h3 id="show30">0</h3>
+        <h3>Dial Design</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="31"><</button>
+        <button id="next" name="31">></button>
+        <h3 id="show31">0</h3>
+        <h3>Door Interior</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="32"><</button>
+        <button id="next" name="32">></button>
+        <h3 id="show32">0</h3>
+        <h3>Seats</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="33"><</button>
+        <button id="next" name="33">></button>
+        <h3 id="show33">0</h3>
+        <h3>Steering Wheels</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="34"><</button>
+        <button id="next" name="34">></button>
+        <h3 id="show15">0</h3>
+        <h3>Shift Lever</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="35"><</button>
+        <button id="next" name="35">></button>
+        <h3 id="show35">0</h3>
+        <h3>Plaques</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="36"><</button>
+        <button id="next" name="36">></button>
+        <h3 id="show36">0</h3>
+        <h3>Rear Shelf</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="37"><</button>
+        <button id="next" name="37">></button>
+        <h3 id="show37">0</h3>
+        <h3>Trunk</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="38"><</button>
+        <button id="next" name="38">></button>
+        <h3 id="show38">0</h3>
+        <h3>Hydraulics</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="39"><</button>
+        <button id="next" name="39">></button>
+        <h3 id="show39">0</h3>
+        <h3>Engine Block</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="40"><</button>
+        <button id="next" name="40">></button>
+        <h3 id="show40">0</h3>
+        <h3>Air Filter</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="41"><</button>
+        <button id="next" name="41">></button>
+        <h3 id="show41">0</h3>
+        <h3>Strut Bar</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="42"><</button>
+        <button id="next" name="42">></button>
+        <h3 id="show42">0</h3>
+        <h3>Arch Cover</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="43"><</button>
+        <button id="next" name="43">></button>
+        <h3 id="show43">0</h3>
+        <h3>Antenna</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="44"><</button>
+        <button id="next" name="44">></button>
+        <h3 id="show44">0</h3>
+        <h3>Exterior Parts</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="45"><</button>
+        <button id="next" name="45">></button>
+        <h3 id="show45">0</h3>
+        <h3>Tank</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="46"><</button>
+        <button id="next" name="46">></button>
+        <h3 id="show46">0</h3>
+        <h3>Door</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <button id="previous" name="47"><</button>
+        <button id="next" name="47">></button>
+        <h3 id="show47">0</h3>
+        <h3>WHEELS REAR / HYDRAULICS</h3>
+    </td>
+  </tr>
+    <script src="../preact.min.js"></script>
+    <script src="modApp.js"></script>
+  </table>
+
+</body>

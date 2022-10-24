@@ -1,0 +1,17 @@
+//	main
+	npm init
+	npm i node-fetch
+	npm i typeorm
+	npm i mysql
+	
+//	garage
+	npm init
+	
+//	mainWebview
+	npm init
+	
+//	mainWaypoint
+	npm init
+	
+//	addonCar
+	npm init

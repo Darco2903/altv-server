@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<style type="text/css">
+    
+    body{
+      width:99.5%;
+      overflow: hidden;
+      display: block;
+    }
+
+    ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    }
+
+    .button {
+      float: right;
+    }
+
+    button, .button {
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      background-color: #008CBA;
+      
+    }
+    
+
+    input {
+      width: 13vw;
+    }
+
+    #type {
+      width: 5vw;
+    }
+
+    .slider {
+      cursor: pointer;
+    }
+    
+    table{
+        width: 20vw;
+        height: 98vh;
+        background-color: rgba(0, 0, 0, 0.75);
+        margin-left: 0.05vh;
+        display: block;
+        overflow-y: scroll;
+    }
+
+    p{
+      float:right; margin-right: 2%;
+    }
+
+    tr{
+        height: 50px;
+    }
+    
+    h1, h2, h3 {
+      padding: 0px 10px;
+      color: white;
+      display: inline;
+    }
+
+    
+  </style>
+
+
+<body>
+
+  <head>
+      <button id="done" class="button">Done</button>
+      <button id="save" class="button">Save</button>
+      <button id="restore" class="button">Restore</button>
+  </head>
+
+
+  <table class="app">
+
+
+      <button id="mods">Mods</button>
+      <button id="color">Color</button>
+      <button id="wheels">Wheels</button>
+      <button id="neon">Neon</button>
+  
+  
+    
+
+    <script src="../preact.min.js"></script>
+    <script src="modApp.js"></script>
+  </table>
+
+</body>
