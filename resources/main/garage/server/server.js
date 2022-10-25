@@ -1,29 +1,32 @@
 //import * as alt from 'alt';
 import * as alt from 'alt-server';
 import * as chat from 'chat';
-import { garages } from '../../main/server/data/Tables';
-import * as Function from '../../main/server/data/Functions'
+import { garages } from '../tables';
+import { spawnVehicle } from '../../carManager/server/functions';
+import { getDataBase } from '../../database/startup';
 
+//import * as Function from '../../main/server/data/Functions'
 
+let db
+alt.once('ConnectionComplete', () => db = getDataBase())
 
 let garageWaypoint = []
 for (const name in garages) {
     const pos = garages[name].pos
     const waypoint = new alt.Checkpoint(48, pos.x, pos.y, pos.z-2, pos.w, 5, 255, 100, 0, 255)
+    
     waypoint.setMeta('type', "garage") ; waypoint.setMeta('id', name) ; waypoint.dimension = 0
     garageWaypoint.push(waypoint)
 }
 
 
-
 function initGarage (player, garageName) {
-
     const data = {}
     data.player = player
     data.garage = garages[garageName]
     const parkPlace = data.garage.places
 
-    Function.selectDataDB("Vehicle", ["id", "model", "appearance", "owner", "garage"]).then((vehList) => {
+    db.selectData("Vehicle", ["id", "model", "appearance", "owner", "garage"], vehList => {
         var vehInGarage = []
         for (const vehData of vehList) {
             vehData.garage = JSON.parse(vehData.garage)
@@ -33,7 +36,7 @@ function initGarage (player, garageName) {
                     vehData.position = parkPlace[vehData.garage.place].pos
                     vehData.rotation = parkPlace[vehData.garage.place].rot
                     var initialPlaces = {}
-                    Function.spawnVehicle(vehData).then((veh) => {
+                    spawnVehicle(vehData).then((veh) => {
                         vehInGarage[vehData.garage.place] = veh
                         initialPlaces[vehData.id] = vehData.garage.place
                     })
@@ -94,14 +97,18 @@ function garageCheck (data) {
             initialPlaces[id] = vehGarage.place
             //console.log(vehGarage.place, !isNaN(vehGarage.place))
             if (!isNaN(vehGarage.place)) vehInGarage[vehGarage.place] = veh
-            Function.updateDB(id, {garage: JSON.stringify(vehGarage)}, "Vehicle")
+            db.updatePartialData(id, {garage: JSON.stringify(vehGarage)}, "Vehicle", callback => {})
         }
     }
 
 
     function deleteList (list) {
-        if (list.length < 1) return
-        for (const elem of list) if (elem) elem.destroy()
+        if (list.length == 0) return
+        for (const elem of list) {
+            console.log(elem);
+            if (elem) elem.destroy()
+        }
+            
     }
 
     function clearGarage () {

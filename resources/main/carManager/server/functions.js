@@ -1,9 +1,9 @@
 import * as alt from 'alt-server';
-//import * as chat from 'chat';
-import { getDataBase } from "../../database/startup";
+import * as chat from 'chat';
 import { color } from "../../data/globalTables"
 import { vectorFormat } from '../../data/globalFunctions';
 import { modList } from '../tables';
+import { getDataBase } from "../../database/startup";
 
 
 let db
@@ -78,12 +78,15 @@ export function createVehicle (player, model, save) {
 
     spawnVehicle(vehData)
     .then(veh => {
-        if (!save) return
-        const vehData = getVehData()
-        db.upsertData(vehData, 'Vehicle', res => {
-            veh.setSyncedMeta("id", res.id)
-            alt.log(`${color.FgRed}Vehicle registered in database`)
-        })
+        //if (!save) return
+        //const vehData = getVehData(veh)
+        //  Object.keys(vehData).forEach(function(key, index) {
+        //      vehData[key] = JSON.stringify(vehData)
+        //  })
+        //  db.upsertData(vehData, 'Vehicle', res => {
+        //      veh.setSyncedMeta("id", res.id)
+        //      alt.log(`${color.FgRed}Vehicle registered in database`)
+        //  })
     })
     .catch(err => alt.logError(err))
 }

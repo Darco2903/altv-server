@@ -237,94 +237,6 @@ function coords (player, arg) {
     chat.send(player, 'Arrived to ' + arg)
 }
 
-
-
-function destroy (player) {     //destroy the vehicle the player is sitting in
-    const vehicle = player.vehicle
-
-    if (!vehicle) {
-        Function.vehCatch(player, 'noVeh')
-        return
-    } 
-
-    if (player.name != vehicle.getSyncedMeta('owner')) {
-        if (!Function.authorized(player, 2)) {
-            return chat.send(player, '{ff8f00}This is not your vehicle')
-        }
-    }
-    const callback = Function.destroyVehicle(vehicle)
-    switch (callback) {
-        case "deleted":
-            chat.send(player, `${vehicle.model} supprimé`)
-            break;
-
-        case "databaseErr":
-            chat.send(player, `L'entitée n'a pas été supprimé dans la database`)
-            break;
-    
-        default:
-            break;
-    }
-}
-
-function mod(player, arg) {
-    const vehicle = player.vehicle
-    if (!vehicle) {
-        Function.vehCatch(player, 'noVeh')
-        return
-    }
-
-    if (player.name != vehicle.getSyncedMeta('owner') && !Function.authorized(player, 2)) {
-        Function.vehCatch(player, "notOwner")
-        return
-        
-    }
-
-    //const vehModOption = Function.getVehMod(vehicle)
-
-    if (!arg[0]) {
-        alt.emitClient(player, 'modWebview:load')
-        return
-    }
-    if (!arg[1]) {
-        chat.send(player, '{fff800}Command use /mod [modID][modIndex]')
-        return
-    }
-
-    var n = parseInt(arg[0])
-    var b = parseInt(arg[1])
-    if (!(0 <= n <= 67) || !(-1 <= b < vehModOption.count[n])) {
-        chat.send(player, '{fff800}Wrong ModID or ModIndex')
-    }
-
-    vehicle.modKit = 1;
-    vehicle.setMod(n, b);   
-
-    //Function.saveAppearance(vehicle)
-
-}
-
-function repair (player) {
-    if (player.vehicle) {
-        var vehicle = player.vehicle
-        vehicle.repair()
-        return
-    }
-    alt.emitClient(player, 'vehicle:Repair')
-}
-
-function h (player) {
-    if (!player.vehicle) {
-        Function.vehCatch(player, 'noVeh')
-        return
-    }
-    alt.emitClient(player, 'handlingWebview:load')
-}
-
-function p (player) {
-    alt.emit('p', (player))
-}
-
 function vannish (player) {
     Function.visibility(player)
 }
@@ -510,32 +422,6 @@ chat.registerCmd('coords', (player, arg) => {
     coords(player, arg)
 });
 
-
-chat.registerCmd('destroy', (player) => {
-    destroy(player)
-})
-
-chat.registerCmd('mod', (player, arg) => {
-    mod(player, arg)
-})
-
-chat.registerCmd('repair', (player) => {
-    repair(player)
-})
-
-chat.registerCmd('h', (player) => {
-    h(player)
-})
-
-
-chat.registerCmd('p', (player) => {
-    p(player)
-})
-
-
-chat.registerCmd('enter', (player) => {
-    alt.emitClient(player, 'vehicle:Enter')
-})
 
 
 

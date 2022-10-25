@@ -6,5 +6,6 @@ fi
 
 (cd resources &&  git pull)
 ./update.sh
+npm i
 sudo service mysql start
 ./altv-server

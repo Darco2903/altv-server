@@ -45,7 +45,6 @@ export default class ConnectionInfo {
                     throw err;
                 });
         }
-
         return currentConnection;
     }
 

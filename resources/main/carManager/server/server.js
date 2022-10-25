@@ -1,19 +1,19 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
-import { getDataBase } from "../../database/startup";
 import * as Function from "./functions"
 import { vehicleList } from '../tables';
 import { multipleExist } from '../../data/globalFunctions';
+import { getDataBase } from "../../database/startup";
 
 ///////////////////////////////
 
 //DATABASE
 
 let db
-let carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.getByName(name))
 alt.on('ConnectionComplete', () => {
     db = getDataBase()
     const noVeh = alt.Vehicle.all.length == 0
+    const carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.getByName(name))
     const resourcesLoaded = multipleExist(alt.Resource.all, carResources)
     if (resourcesLoaded && noVeh) Function.serverStartVehicleSpawn()
 })
@@ -21,23 +21,7 @@ alt.on('ConnectionComplete', () => {
 ///////////////////////////////
 
 
-/*
-alt.onClient('vehicle:CustomColor', (player, arg) => {
-    var parsedColor1 = ['', parseInt(arg[0]), parseInt(arg[1]), parseInt(arg[2]), parseInt(arg[6]), parseInt(arg[7])]
-    var parsedColor2 = ['', parseInt(arg[3]), parseInt(arg[4]), parseInt(arg[5]), parseInt(arg[6]), parseInt(arg[7])]
-    Exports.color(player, parsedColor1, 1)
-    Exports.color(player, parsedColor2, 2)
-})
-
-alt.onClient('vehicle:Color', (player, arg) => {
-    alt.log('color')
-    player.vehicle.primaryColor = arg[0]
-    player.vehicle.secondaryColor = arg[1]
-})
-*/
-
-
-alt.onClient('Server:SaveVehicle', (player, data) => {
+alt.onClient('SaveVehicle', (player, data) => {
     
     let veh = player.vehicle
     alt.log(data)
@@ -128,9 +112,8 @@ alt.onClient('spawn:Vehicle', (player, model) => {
 })
 
 
-chat.registerCmd('veh', (player, arg) => {
+chat.registerCmd("veh", (player, arg) => {
     let [command, model] = arg
-
     switch (command) {
         case "help":
             chat.send(player, "{00FF00}'/veh' command help :")
@@ -143,7 +126,6 @@ chat.registerCmd('veh', (player, arg) => {
         
         case undefined:
             alt.emitClient(player, 'vehWebview:load')
-            alt.log("vehWebview:load")
             break;
 
         case "spawn":
@@ -158,7 +140,7 @@ chat.registerCmd('veh', (player, arg) => {
             const vehicle = player.vehicle
             if (!vehicle) {
                 return Function.vehCatch(player, 'noVeh')
-            };
+            }
             Function.visibility(vehicle)
             break;
 
@@ -166,39 +148,94 @@ chat.registerCmd('veh', (player, arg) => {
             chat.send(player, '{ff8f00}Use /veh help for more information')
             break;
     }
+})
 
 
-    //  if (arg[0] === 'help') {
-    //      chat.send(player, "{00FF00}'/veh' command help :")
-    //      chat.send(player, '{ff8f00}/veh spawn [model]')
-    //      chat.send(player, '{ff8f00}/veh destroy [vehID]')
-    //      chat.send(player, '{ff8f00}/veh garage')
-    //      chat.send(player, '{ff8f00}/veh visible')
-    //      chat.send(player, '{ff8f00}For more information enter /veh [command] help')
-    //      return
-    //  }
-    //  
-    //  if (!arg[0]) {
-    //      alt.emitClient(player, 'vehWebview:load')
-    //      return
-    //  }
-//  
-    //  if (arg[0] === 'spawn') {
-    //      if (!arg[1] || arg[1] == 'help') {
-    //          return chat.send(player, '{ff8f00}Command use : /veh spawn [model]')
-    //      }
-    //      Exports.createVehicle(player, arg[1])
-    //      return
-    //  }
-//  
-    //  if (arg[0] === 'visible') {
-    //      const vehicle = player.vehicle
-    //      if (!vehicle) {
-    //          return Exports.vehCatch(player, 'noVeh')
-    //      };
-    //      Exports.visibility(vehicle)
-    //      return
-    //  }
-    //  
-    //  return chat.send(player, '{ff8f00}Use /veh help for more information')
-});
+chat.registerCmd('delete', (player) => {
+    const vehicle = player.vehicle
+
+    if (!vehicle) {
+        Function.vehCatch(player, 'noVeh')
+        return
+    } 
+
+    if (player.name != vehicle.getSyncedMeta('owner')) {
+        if (!Function.authorized(player, 2)) {
+            return chat.send(player, '{ff8f00}This is not your vehicle')
+        }
+    }
+    const callback = Function.destroyVehicle(vehicle)
+    switch (callback) {
+        case "deleted":
+            chat.send(player, `${vehicle.model} supprimé`)
+            break;
+
+        case "databaseErr":
+            chat.send(player, `L'entitée n'a pas été supprimé dans la database`)
+            break;
+    
+        default:
+            break;
+    }
+})
+
+chat.registerCmd('mod', (player, arg) => {
+    const vehicle = player.vehicle
+    if (!vehicle) {
+        Function.vehCatch(player, 'noVeh')
+        return
+    }
+
+    if (player.name != vehicle.getSyncedMeta('owner') && !Function.authorized(player, 2)) {
+        Function.vehCatch(player, "notOwner")
+        return
+        
+    }
+
+    //const vehModOption = Function.getVehMod(vehicle)
+
+    if (!arg[0]) {
+        alt.emitClient(player, 'modWebview:load')
+        return
+    }
+    if (!arg[1]) {
+        chat.send(player, '{fff800}Command use /mod [modID][modIndex]')
+        return
+    }
+
+    var n = parseInt(arg[0])
+    var b = parseInt(arg[1])
+    if (!(0 <= n <= 67) || !(-1 <= b < vehModOption.count[n])) {
+        chat.send(player, '{fff800}Wrong ModID or ModIndex')
+    }
+
+    vehicle.modKit = 1;
+    vehicle.setMod(n, b);   
+
+    //Function.saveAppearance(vehicle)
+})
+
+chat.registerCmd('repair', (player) => {
+    if (player.vehicle) {
+        var vehicle = player.vehicle
+        vehicle.repair()
+        return
+    }
+    alt.emitClient(player, 'vehicle:Repair')
+})
+
+chat.registerCmd('h', (player) => {
+    if (!player.vehicle) {
+        Function.vehCatch(player, 'noVeh')
+        return
+    }
+    alt.emitClient(player, 'handlingWebview:load')
+})
+
+chat.registerCmd('p', (player) => {
+    alt.emit('p', (player))
+})
+
+chat.registerCmd('enter', (player) => {
+    alt.emitClient(player, 'vehicle:Enter')
+})

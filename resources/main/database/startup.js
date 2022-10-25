@@ -1,9 +1,11 @@
+import * as alt from "alt-server"
 import SQL from './database.js'
 import { Account, Character, Vehicle, Server } from './entities.js';
 
 
-let db
 const Tables = [Account, Character, Vehicle, Server]
+
+let db
 
 export function getDataBase () {
     return db
@@ -21,3 +23,11 @@ export function initConnection () {
     if (process.platform === "win32") dbUniserverZ()
     else dbServer()
 }
+
+
+alt.on("dbUpdate", (updateData) => {
+    const [id, data, repoName] = updateData
+    db.updatePartialData(id, data, repoName, callback => {
+        alt.emit("dbUpdate")
+    })
+})
