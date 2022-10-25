@@ -36,11 +36,11 @@ pm_new/
 
 
 #stuff
-cache/
-crashdumps/
-data/
-modules/
-UniServerZ/
+/cache/
+/crashdumps/
+/data/
+/modules/
+/UniServerZ/
 *.log
 *test*
 
