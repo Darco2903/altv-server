@@ -1,10 +1,13 @@
-import * as alt from 'alt-server';
+import * as alt from 'alt-server'
+import * as color from './colors.mjs'
 
-alt.log(`Extended v0.5 is running`);
+//alt.log(`Extended v0.5 is running`)
 
-const markersToLoad = [];
-const callbacks = [];
-const registeredCallbacks = new Set();
+export { color }
+
+const markersToLoad = []
+const callbacks = []
+const registeredCallbacks = new Set()
 
 alt.on('playerConnect', (player) => {
 	if (markersToLoad.length >= 1) {

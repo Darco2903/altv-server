@@ -1,6 +1,7 @@
 import * as alt from 'alt';
 import orm from 'typeorm';
-import { color } from "../data/globalTables";
+import { color } from 'server-extended';
+
 
 let currentConnection;
 
@@ -35,7 +36,7 @@ export default class ConnectionInfo {
                     this.connection = conn;
                     conn.synchronize().then(res => {
                         currentConnection = this;
-                        alt.log(`${color.FgRed}Database Connected Successfully`);
+                        alt.log(`${color}Database Connected Successfully`);
                         alt.emit('ConnectionComplete');
                         return currentConnection;
                     });

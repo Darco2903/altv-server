@@ -42,7 +42,7 @@ data/
 modules/
 UniServerZ/
 *.log
-test.js
+*test*
 
 
 #node_modules

@@ -1,13 +1,13 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
-import { color } from "../../data/globalTables"
+import * as db from "database"
+import { color } from "server-extended"
 import { vectorFormat } from '../../data/globalFunctions';
 import { modList } from '../tables';
-import { getDataBase } from "../../database/startup";
 
 
-let db
-alt.once('ConnectionComplete', () => db = getDataBase())
+///////////////////////////////
+
 
 export function serverStartVehicleSpawn () {
     db.selectData("Vehicle", ['id', 'model', 'position', 'rotation', 'owner', 'appearance', 'garage'], data => {
@@ -16,7 +16,8 @@ export function serverStartVehicleSpawn () {
             vehData.rotation = JSON.parse(vehData.rotation)
             vehData.appearance = JSON.parse(vehData.appearance)
             vehData.garage = JSON.parse(vehData.garage)
-            if (!vehData.garage.inGarage) spawnVehicle(vehData)
+            spawnVehicle(vehData)
+            //if (!vehData.garage.inGarage) spawnVehicle(vehData)
         })
         alt.log(`${color.FgCyan}All vehicle spawned`)
     })

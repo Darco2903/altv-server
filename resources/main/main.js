@@ -1,37 +1,35 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
+import * as db from "database"
 import * as Function from './data/globalFunctions.js';
 import * as Table from './data/globalTables.js';
-import { getDataBase, initConnection } from './database/startup.js';
 
 import("./commandHandler")
 //import * as carManager from "./carManager/server/server"
-import("./carManager/server/server")
-import("./garage/server/server")
+//import("./carManager/server/server")
+//import("./garage/server/server")
+
 //import * as extended from "server-extended"
 //import { createRequire } from 'module'
 //const require = createRequire(import.meta.url)
 
 
-////////////////////////////////////////////
+///////////////////////////////
 
-
-let db
 let autoSave = false
 let saveTime = 5    //minutes
+
 
 Function.update()
 
 //console.log(alt);
 
-  alt.once("initDataBase", initConnection)
-  
-  alt.on('ConnectionComplete', () => {
-      db = getDataBase()
-      Function.initServer()
-      if (autoSave) Function.startAutoSave(saveTime)
-      //Function.initServerTimeout(10) //20min
-  })
+
+alt.on("ConnectionComplete", () => {
+    Function.initServer()
+    if (autoSave) Function.startAutoSave(saveTime)
+    //Function.initServerTimeout(10) //20min
+})
 
 
 ////////////////////////////////////////////

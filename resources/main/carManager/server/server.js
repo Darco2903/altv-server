@@ -1,20 +1,18 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
+import * as db from "database"
 import * as Function from "./functions"
 import { vehicleList } from '../tables';
 import { multipleExist } from '../../data/globalFunctions';
-import { getDataBase } from "../../database/startup";
+
 
 ///////////////////////////////
 
-//DATABASE
-
-let db
-alt.on('ConnectionComplete', () => {
-    db = getDataBase()
+alt.on("ConnectionComplete", () => {
     const noVeh = alt.Vehicle.all.length == 0
     const carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.getByName(name))
     const resourcesLoaded = multipleExist(alt.Resource.all, carResources)
+    console.log(resourcesLoaded, noVeh, resourcesLoaded && noVeh);
     if (resourcesLoaded && noVeh) Function.serverStartVehicleSpawn()
 })
 

@@ -17,19 +17,17 @@ export class WebView {
                 native.disableControlAction(0, 199, true)
                 native.disableControlAction(0, 200, true)
             })
-            
-            //RClick
             alt.on('keydown', unlockCam);
             alt.on('keyup', freezeCam);
-            
         }
         
         webview.close = function () {
             enableChat(true)
             alt.showCursor(false)
-            setTimeout(() => {
-                native.setPlayerControl(alt.Player.local.scriptID, true, 1)
-            }, 100)
+            setTimeout(native.setPlayerControl, 100, alt.Player.local.scriptID, true, 1)
+            //  setTimeout(() => {
+            //      native.setPlayerControl(alt.Player.local.scriptID, true, 1)
+            //  }, 100)
             alt.clearEveryTick(webview.disablePauseMenu)
             webview.destroy()
             webview = undefined
@@ -42,9 +40,11 @@ export class WebView {
 }
 
 function freezeCam (key) {
-    if (key == 2) native.setPlayerControl(alt.Player.local.scriptID, false, 1)
+    if (key == 2) //RClick
+        native.setPlayerControl(alt.Player.local.scriptID, false, 1)
 }
 
 function unlockCam (key) {
-    if (key == 2) native.setPlayerControl(alt.Player.local.scriptID, false, 256)
+    if (key == 2) //RClick
+        native.setPlayerControl(alt.Player.local.scriptID, false, 256)
 }

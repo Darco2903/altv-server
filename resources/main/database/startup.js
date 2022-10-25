@@ -7,7 +7,10 @@ const Tables = [Account, Character, Vehicle, Server]
 
 let db
 
-export function getDataBase () {
+alt.on("resourceStart", initConnection)
+
+
+function getDataBase () {
     return db
 }
 
@@ -19,15 +22,26 @@ function dbUniserverZ () {
     db = new SQL('mysql', 'localhost', 3306, 'root', 'abc123', 'altv', Tables)
 }
 
-export function initConnection () {
+function initConnection () {
     if (process.platform === "win32") dbUniserverZ()
     else dbServer()
 }
 
 
-alt.on("dbUpdate", (updateData) => {
-    const [id, data, repoName] = updateData
-    db.updatePartialData(id, data, repoName, callback => {
-        alt.emit("dbUpdate")
-    })
-})
+function selectData (repoName, fieldNamesArray, callback) {
+        db.selectData(repoName, fieldNamesArray, callback)
+}
+
+function updatePartialData (id, partialObjectData, repoName, callback) {
+    db.updatePartialData(id, partialObjectData, repoName, callback)
+}
+
+function upsertData (document, repoName, callback) {
+    db.upsertData(document, repoName, callback)
+}
+
+function deleteByIds (ids, repoName, callback) {
+    db.deleteByIds(ids, repoName, callback)
+}
+
+export {selectData, updatePartialData, upsertData, deleteByIds}
