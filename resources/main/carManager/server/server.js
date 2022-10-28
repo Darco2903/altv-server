@@ -1,18 +1,18 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
 import * as db from "database"
+//import { globalFunction } from "main"
 import * as Function from "./functions"
-import { vehicleList } from '../tables';
-import { multipleExist } from '../../data/globalFunctions';
+import { vehicleList } from '../tables.js';
+
 
 
 ///////////////////////////////
 
 alt.on("ConnectionComplete", () => {
     const noVeh = alt.Vehicle.all.length == 0
-    const carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.getByName(name))
-    const resourcesLoaded = multipleExist(alt.Resource.all, carResources)
-    console.log(resourcesLoaded, noVeh, resourcesLoaded && noVeh);
+    const carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.all.includes(alt.Resource.getByName(name)))
+    const resourcesLoaded = !carResources.includes(false)
     if (resourcesLoaded && noVeh) Function.serverStartVehicleSpawn()
 })
 
@@ -105,7 +105,7 @@ alt.onClient('vehicle:Neons', (player, color) => {
 
 alt.onClient('spawn:Vehicle', (player, model) => {
     model = JSON.parse(model)
-    if (vehicleList[model]) model = vehicleList[model]
+    if (model in vehicleList) model = vehicleList[model]
     Function.createVehicle(player, model, false)
 })
 

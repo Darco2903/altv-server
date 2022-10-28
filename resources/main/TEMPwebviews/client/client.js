@@ -1,9 +1,11 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
+import { WebView } from './classWebview';
 
+export { WebView }
 
+/*
 let webview
-
 alt.on('keydown', (key) => {
     //²
     if (key == 222) {
@@ -114,3 +116,5 @@ function playerDiscardChange () {
 function weaponGive (weap) {
     alt.emitServer('giveWeapon:Player', weap)
 }
+
+*/

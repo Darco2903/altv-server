@@ -1,18 +1,16 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
 import * as db from "database"
-import * as Function from './data/globalFunctions.js';
-import * as Table from './data/globalTables.js';
+import { color } from "server-extended";
+import * as globalFunction from './data/globalFunctions.js';
+import * as globalTable from './data/globalTables.js';
 
-import("./commandHandler")
-//import * as carManager from "./carManager/server/server"
-//import("./carManager/server/server")
-//import("./garage/server/server")
 
 //import * as extended from "server-extended"
 //import { createRequire } from 'module'
 //const require = createRequire(import.meta.url)
 
+export { globalFunction, globalTable }
 
 ///////////////////////////////
 
@@ -20,14 +18,14 @@ let autoSave = false
 let saveTime = 5    //minutes
 
 
-Function.update()
+globalFunction.update()
 
 //console.log(alt);
 
 
 alt.on("ConnectionComplete", () => {
-    Function.initServer()
-    if (autoSave) Function.startAutoSave(saveTime)
+    globalFunction.initServer()
+    if (autoSave) globalFunction.startAutoSave(saveTime)
     //Function.initServerTimeout(10) //20min
 })
 
@@ -53,9 +51,9 @@ alt.on("beforePlayerConnect", (connectionInfo) => {
 
 
 alt.on('playerConnect', (player) => {
-    Function.AuthPlayer(player)
+    globalFunction.AuthPlayer(player)
     alt.emitClient(player, 'load:Locations')
-    Function.setTime(player)
+    globalFunction.setTime(player)
 
     //extended.SetupExportsForPlayer(player)
     //Function.initServerTimeout()
@@ -64,7 +62,7 @@ alt.on('playerConnect', (player) => {
 alt.on('playerDisconnect', (player, reason) => {
     //if (alt.Player.all == {}) Function.initServerTimeout(120) //10min (1 = 5s)
     db.updatePartialData(player.getSyncedMeta('id'), { position: JSON.stringify(player.pos) }, 'Character', res => {})
-    alt.log(`${Table.color.FgYellow}${player.name} disconnected from the server : ${reason}`)
+    alt.log(`${color.FgYellow}${player.name} disconnected from the server : ${reason}`)
     chat.broadcast(`{00FFFF}${player.name} {000000}allez hop ça dégage`)
 });
 
@@ -104,7 +102,7 @@ alt.onClient('tpm:PlayerTPM', (player, coords, veh) => {
     } else {
         if (!veh) return player.spawn(coords)
 
-        Function.tpmVehicle(player, veh, coords)
+        globalFunction.tpmVehicle(player, veh, coords)
         //alt.emitClient(player, 'tpm:VehicleTPM', (coords))
     }
 })
@@ -121,11 +119,11 @@ alt.onClient('giveWeapon:Player', (player, weap) => {
     if (weap == 'all') {
         console.log(player.name, 'gived all weapons')
         for(var hash in Table.weaponList) {
-            Function.weapongive(player, hash)
+            globalFunction.weapongive(player, hash)
         }
     } else {
         console.log(player.name, 'gived', weap)
-        Function.weapongive(player, weap)
+        globalFunction.weapongive(player, weap)
     }
 })
 
@@ -144,30 +142,30 @@ alt.onClient('setpm:SendToServer', (player, pm) => {
     }
 
     if (data.pm) {
-        Function.setCustomPlayerModel(player, data)
+        globalFunction.setCustomPlayerModel(player, data)
         return
     }
-    Function.setNewPlayerModel(player, pm)
+    globalFunction.setNewPlayerModel(player, pm)
 })
 
 
 
 
 alt.onClient('editClothes:Player', (player, clothes) => {
-    Function.editPlayerClothes(player, clothes)
+    globalFunction.editPlayerClothes(player, clothes)
 })
 
 
 
 alt.onClient('saveClothes:Player', (player) => {
-    Function.savePlayerClothes(player)
+    globalFunction.savePlayerClothes(player)
     chat.send(player, '{00ff00}Clothes saved')
 })
 
 
 
 alt.onClient('discardChange:Player', (player) => {
-    Function.setPlayerClothes(player, player.getSyncedMeta('clothes'))
+    globalFunction.setPlayerClothes(player, player.getSyncedMeta('clothes'))
 })
 
 
@@ -213,7 +211,7 @@ alt.onClient('discardChange:Player', (player) => {
 
 
 alt.onClient('NoClip:Request', (player) => {
-    if (!Function.authorized(player, 2)) {
+    if (!globalFunction.authorized(player, 2)) {
         return
     }
     alt.emitClient(player, 'NoClip:Toggle')

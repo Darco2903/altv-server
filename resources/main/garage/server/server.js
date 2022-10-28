@@ -2,7 +2,7 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
 import { garages } from '../tables';
-import { spawnVehicle } from '../../carManager/server/functions';
+//import { spawnVehicle } from '../../carManager/server/functions';
 import { getDataBase } from '../../database/startup';
 
 //import * as Function from '../../main/server/data/Functions'

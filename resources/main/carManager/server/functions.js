@@ -2,7 +2,7 @@ import * as alt from 'alt-server';
 import * as chat from 'chat';
 import * as db from "database"
 import { color } from "server-extended"
-import { vectorFormat } from '../../data/globalFunctions';
+import { globalFunction } from "main"
 import { modList } from '../tables';
 
 
@@ -66,7 +66,7 @@ export function spawnVehicle (vehData) {
 
 
 export function createVehicle (player, model, save) {
-    let pos = vectorFormat(player.pos)
+    let pos = globalFunction.vectorFormat(player.pos)
     pos.x += 2
     let vehData = {
         model: model,

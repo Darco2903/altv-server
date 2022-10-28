@@ -4,7 +4,7 @@ import * as db from "database"
 import * as Table from './globalTables.js'
 import fs from "fs"
 import fetch from 'node-fetch';
-
+import { color } from "server-extended";
 
 ///////////////////////////////
 
@@ -14,18 +14,18 @@ export async function saveAll () {
     savePlayers()
     saveVehicles()
     saveServer()
-    alt.log(`${Table.color.FgGreen}Server saved`)
+    alt.log(`${color.FgGreen}Server saved`)
 }
 
 let saveInterval
 export function startAutoSave (interval) {
     saveInterval = setInterval(saveAll, interval*60*1000);
-    alt.log(`${Table.color.FgGreen}Auto save start`)
+    alt.log(`${color.FgGreen}Auto save start`)
 }
 
 export function stopAutoSave () {
     clearInterval(autoSave)
-    alt.log(`${Table.color.FgGreen}Auto save stop`)
+    alt.log(`${color.FgGreen}Auto save stop`)
 }
 
 export function savePlayers () {
@@ -181,7 +181,7 @@ export function setTime (player) {
 
 
 function killProcess (msg) {
-    alt.log(Table.color.FgMagenta + msg)
+    alt.log(color.FgMagenta + msg)
     saveAll()
     setTimeout(() => {
         alt.Player.all.forEach(player => player.kick(msg))
@@ -445,7 +445,7 @@ function login(player, id) {
         player.setSyncedMeta('noclip', false)
         player.setSyncedMeta('godmode', false)
 
-        alt.log(`${Table.color.FgYellow}${player.name} connected to the server`)
+        alt.log(`${color.FgYellow}${player.name} connected to the server`)
         chat.broadcast(`{00FFFF}${player.name} {FFFFFF}le best est arrivé`)
         
         spawn(player)
@@ -544,7 +544,7 @@ export function dbUpdateBuild (version) {
             db.updatePartialData(vehData.id, { appearance: newAppearance }, "Vehicle")
             //db.updatePartialData(vehData.id, { garage: JSON.stringify({inGarage: false}) }, "Vehicle")
         })
-        //alt.log(`${Table.color.FgYellow}DataBase updated build succesfully`)
+        //alt.log(`${color.FgYellow}DataBase updated build succesfully`)
     })
 }
 
@@ -556,7 +556,7 @@ export function update () {
             if (server.version != last.version) {
                 fs.writeFile("version", JSON.stringify(last), function (err) {})
                 dbUpdateBuild(last.buildnumber)
-                alt.log(`${Table.color.FgYellow}Updated successfully`)
+                alt.log(`${color.FgYellow}Updated successfully`)
                 setTimeout(restartServer, 1000)
                 return
             }
@@ -605,7 +605,7 @@ function getVersion () {
 function checkDbConnection () {
     setTimeout(() => {
         if (db.connection) return
-        alt.log(`${Table.color.FgRed}DB Connection Error`)
+        alt.log(`${color.FgRed}DB Connection Error`)
         setTimeout(restartServer, 1000)
     }, 5000);
 }

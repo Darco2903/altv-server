@@ -1,6 +1,6 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { WebView } from '../../webview/client/functions';
+import { WebView } from '../../webview/webview';
 import { modList } from '../tables';
 
 alt.log("WEBVIEW STARTED")
@@ -11,12 +11,7 @@ let restoreData = {}
 alt.on('keydown', (key) => {
     switch (key) {
         case 49:    //&
-            let vehicle = alt.Player.local.vehicle
-            if (!vehicle) return
-            let engine = !vehicle.getMeta('engine')
-            vehicle.setMeta('engine', engine)
-            native.setVehicleEngineOn(vehicle.scriptID, engine, false, true)
-            //native.setVehicleUndriveable(!engine)
+            toogleEngine()
             break;
     
         default:
@@ -26,17 +21,16 @@ alt.on('keydown', (key) => {
 
 alt.on('keyup', (key) => {
     if (key == 27 && webview) { //Escape
-        if (webview.url == 'http://resource/client/html/modWebview.html') vehicleDiscardChange()
-        else if (webview.url == 'http://resource/client/html/clothesWebview.html') playerDiscardChange()
+        //if (webview.url == 'http://resource/client/html/modWebview.html') vehicleDiscardChange()
+        //else if (webview.url == 'http://resource/client/html/clothesWebview.html') playerDiscardChange()
         webview = webview.close()
     }
 })
 
-
 alt.onServer('vehWebview:load', () => {
     alt.log("vehWebview:load")
     if (webview) return
-    webview = new WebView("http://resource/carManager/webview/html/vehWebview.html")
+    webview = new WebView("http://resource/client/html/vehWebview.html")
     webview.on('spawnVehicle', model => {
         alt.emitServer('spawn:Vehicle', JSON.stringify(model))
         webview = webview.close()
@@ -47,15 +41,15 @@ alt.onServer('vehWebview:load', () => {
 
 alt.onServer('modWebview:load', () => {
     if (webview) return
-    webview = new WebView('http://resource/carManager/webview/html/modWebview.html')
+    webview = new WebView('http://resource/client/html/modWebview.html')
     webview.on('stock', setStock)
     webview.on('restore', () => setAllMod(restoreData.mod))
     webview.on('setMod', setMod)
     webview.on('toogleMod', toogleMod)
-    webview.on('setwheels', setwheels)
-    webview.on('customColor', customColor)
-    webview.on('color', color)
-    webview.on('neons', neons)
+    //  webview.on('setwheels', setwheels)
+    //  webview.on('customColor', customColor)
+    //  webview.on('color', color)
+    //  webview.on('neons', neons)
     webview.on("startApp", startApp)
     startApp("mods")
     webview.open()
@@ -189,84 +183,79 @@ function getModsData () {
     return data
 }
 
-function setwheels (wheels) {
-    alt.emitServer('vehicle:SetWheels', wheels)
-}
 
-function customColor (customColor) {
-    alt.emitServer('vehicle:CustomColor', customColor)
-}
-
-function color (color) {
-    alt.emitServer('vehicle:Color', color)
-}
-
-function neons (neons) {
-    alt.emitServer('vehicle:Neons', neons)
+function toogleEngine () {
+    let vehicle = alt.Player.local.vehicle
+    if (!vehicle) return
+    let engine = !vehicle.getMeta('engine')
+    vehicle.setMeta('engine', engine)
+    native.setVehicleEngineOn(vehicle.scriptID, engine, false, true)
+    //native.setVehicleUndriveable(!engine)
 }
 
 
-alt.onServer('handlingWebview:load', () => {
-    handlingWebview()
-})
+//  alt.onServer('handlingWebview:load', () => {
+//      handlingWebview()
+//  })
+//  
+//  
+//  function handlingWebview () {
+//      if (webview) return
+//      webview = new WebView('http://resource/client/html/handlingWebview.html')
+//      webview.on('close:Webview', () => webview = webview.close())
+//      webview.on('handling:Set', toSetHandling)
+//  
+//      const handlingData = alt.Player.local.vehicle.handling
+//      
+//      for (const elem in handlingData) {
+//          //console.log(elem, handlingData[elem])
+//  
+//          if (elem != null && elem != 'isModified' && elem != 'reset') {
+//              webview.emit('handlingData', [elem, handlingData[elem]])
+//          }
+//      }
+//      webview.open()
+//  }
+//  
+//  alt.onServer("personnalVehWebview:load", (vehList) => {
+//      personnalVehWebview()
+//  })
+//  
+//  function personnalVehWebview () {
+//      if (webview) return
+//      webview = new WebView('http://resource/client/html/personnalVehWebview.html')
+//      webview.on('close:Webview', () => webview = webview.close())
+//  
+//      webview.emit('vehList', vehList)
+//  
+//      webview.open()
+//  }
+//  
+//  
+//  function toSetHandling (handling) {
+//      var veh = alt.Player.local.vehicle
+//      if (!veh) return
+//  
+//      if (handling == 'reset' && veh.handling.isModified()) {
+//          veh.handling.reset()
+//          closeWebview()
+//          setTimeout(() => {
+//              handlingWebview()
+//          }, 100);
+//          return
+//      }
+//      
+//      if (typeof handling == 'object' && Object.keys(handling).length > 2) {
+//          console.log('obj')
+//          for (const elem in handling) veh.handling[elem] = handling[elem]
+//          closeWebview()
+//          setTimeout(() => {
+//              handlingWebview()
+//          }, 100);
+//          return
+//      }
+//      console.log('hand')
+//      veh.handling[handling[0]] = handling[1]
+//  }
 
-
-function handlingWebview () {
-    if (webview) return
-    webview = new WebView('http://resource/carManager/webview/html/handlingWebview.html')
-    webview.on('close:Webview', () => webview = webview.close())
-    webview.on('handling:Set', toSetHandling)
-
-    const handlingData = alt.Player.local.vehicle.handling
-    
-    for (const elem in handlingData) {
-        //console.log(elem, handlingData[elem])
-
-        if (elem != null && elem != 'isModified' && elem != 'reset') {
-            webview.emit('handlingData', [elem, handlingData[elem]])
-        }
-    }
-    webview.open()
-}
-
-alt.onServer("personnalVehWebview:load", (vehList) => {
-    personnalVehWebview()
-})
-
-function personnalVehWebview () {
-    if (webview) return
-    webview = new WebView('http://resource/carManager/webview/html/personnalVehWebview.html')
-    webview.on('close:Webview', () => webview = webview.close())
-
-    webview.emit('vehList', vehList)
-
-    webview.open()
-}
-
-
-function toSetHandling (handling) {
-    var veh = alt.Player.local.vehicle
-    if (!veh) return
-
-    if (handling == 'reset' && veh.handling.isModified()) {
-        veh.handling.reset()
-        closeWebview()
-        setTimeout(() => {
-            handlingWebview()
-        }, 100);
-        return
-    }
-    
-    if (typeof handling == 'object' && Object.keys(handling).length > 2) {
-        console.log('obj')
-        for (const elem in handling) veh.handling[elem] = handling[elem]
-        closeWebview()
-        setTimeout(() => {
-            handlingWebview()
-        }, 100);
-        return
-    }
-    console.log('hand')
-    veh.handling[handling[0]] = handling[1]
-}
 

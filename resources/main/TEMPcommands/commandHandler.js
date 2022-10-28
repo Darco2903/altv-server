@@ -1,25 +1,24 @@
 import * as alt from 'alt';
 import * as chat from 'chat';
-//  import {db} from '../../database/server.js';
-import * as Function from './data/globalFunctions.js';
-import * as Table from './data/globalTables.js';
+import * as db from "database";
+import { globalFunction, globalTable } from 'main';
 
 
 function r (player, arg) {
-    if (!Function.authorized(player, 4)) {
+    if (!globalFunction.authorized(player, 4)) {
         chat.send(player, '{ff8f00}Permissions insuffisantes')
         return
     }
 
-    if (!arg || !arg[0]) Function.restartServer()
-    else Function.restartResource(arg[0])
+    if (!arg || !arg[0]) globalFunction.restartServer()
+    else globalFunction.restartResource(arg[0])
 
 }
 
 function kill (player, arg) {
     var toKill = player
     if (arg[0]) {
-        toKill = Function.findEntityInList(arg[0], alt.Player.all)
+        toKill = globalFunction.findEntityInList(arg[0], alt.Player.all)
     }
     toKill.health = 0
 
@@ -37,7 +36,7 @@ function time (player, arg) {
     else if (arg[0] == "night") arg[0] = 0
     if (arg[0] >= 0 && arg[0] < 24) {
         var time = ['time', parseInt(arg[0])]
-        Function.clockInteract(time)
+        globalFunction.clockInteract(time)
         chat.broadcast(`{00FFFF}Changing time to ${arg[0]}h00`)
     } else {
         chat.send(player, '{ff8f00}La valeur entrée doit être comprise entre 0 et 23')
@@ -48,7 +47,7 @@ function clock (player, action) {
     if (!action[0]) {
         return chat.send(player, '{ff8f00}Command use : /clock [action]')
     }
-    const callback = Function.clockInteract(action)
+    const callback = globalFunction.clockInteract(action)
     if (callback) chat.send(player, callback)
 }
 
@@ -59,12 +58,12 @@ function weather (player, arg) {
     }
     if (!isNaN(arg[0])) {
         if (arg[0] >= 0 && arg[0] <= 14) {
-            return Function.changeWeather(arg[0])
+            return globalFunction.changeWeather(arg[0])
         }
         return chat.send(player, '{ff8f00}La valeur entrée doit être comprise entre 0 et 14')
     } 
-    if (Table.weatherTable[arg[0].toLowerCase()]) {
-        return Function.changeWeather(Table.weatherTable[arg[0].toLowerCase()])
+    if (globalTable.weatherTable[arg[0].toLowerCase()]) {
+        return globalFunction.changeWeather(globalTable.weatherTable[arg[0].toLowerCase()])
     }
     return chat.send(player, '{ff8f00}Unknow weather')
 }
@@ -73,9 +72,9 @@ function kick (kicker, arg) {
     if (!arg[0]) {
         return chat.send(kicker, '{ff8f00}Command use : /kick [player]')
     }
-    var kicked = Function.findEntityInList(arg[0], alt.Player.all)
+    var kicked = globalFunction.findEntityInList(arg[0], alt.Player.all)
     var message = arg[1]
-    Function.kick(kicker, kicked, message)
+    globalFunction.kick(kicker, kicked, message)
 
 }
 
@@ -90,7 +89,7 @@ function tp (player, arg) {
         player2 = arg[1]
     }
     
-    const callback = Function.tpPlayerToPlayer(player1, player2)
+    const callback = globalFunction.tpPlayerToPlayer(player1, player2)
     if (callback) {
         chat.send(player, '{ff8f00}Player not found')
     }
@@ -154,11 +153,11 @@ function setarmor (player, arg) {
 }
 
 function heal (player) {
-    Function.playerheal(player)
+    globalFunction.playerheal(player)
 }
 
 function armor (player) {
-    Function.playerarmor(player)
+    globalFunction.playerarmor(player)
 }
 
 function respawn (player) {
@@ -172,7 +171,7 @@ function weapon (player, arg) {
         alt.emitClient(player, 'weaponWebview:load')
         return;
     }
-    Function.weapongive(player, arg[0])
+    globalFunction.weapongive(player, arg[0])
 }
 
 function pm (player, arg) {
@@ -180,7 +179,7 @@ function pm (player, arg) {
         alt.emitClient(player, 'pmWebview:load')
         return;
     }
-    Function.setNewPlayerModel(player, arg[0])
+    globalFunction.setNewPlayerModel(player, arg[0])
 }
 
 function pmraw (player, arg) {
@@ -201,13 +200,13 @@ function setclothes (player, arg) {
     if (!index || isNaN(index)) return 'error'
     const id = player.getSyncedMeta('id')
     //db.selectData('Character', ['id', 'savedClothes'], data => {
-    Function.selectDataDB("Character", ["id", "savedClothes"]).then((data) => {
+    globalFunction.selectDataDB("Character", ["id", "savedClothes"]).then((data) => {
         const savedClothesData = data.find(res => {
             if (res.id == id) return res
         })
         const clothes = JSON.parse(savedClothesData.savedClothes)[index]
         if (!clothes) return 'error'
-        Function.setPlayerClothes(player, clothes)
+        globalFunction.setPlayerClothes(player, clothes)
         chat.send(player, (`{00ff00}Appearance set ${index}`))
     })
 }
@@ -219,11 +218,11 @@ function goto (player, arg) {
     }
 
     const locationName = arg[0].toLowerCase();
-    if (Table.locationsList[locationName] === undefined) {
+    if (globalTable.locationsList[locationName] === undefined) {
         chat.send(player, '{ff8f00}Location undefined');
         return;
     }
-    player.spawn(Table.locationsList[locationName].x, Table.locationsList[locationName].y, Table.locationsList[locationName].z)
+    player.spawn(globalTable.locationsList[locationName].x, globalTable.locationsList[locationName].y, globalTable.locationsList[locationName].z)
     alt.log(player.name, 'going to', arg)
     chat.send(player, '{00ff00}Arrived to location')
 }
@@ -238,7 +237,7 @@ function coords (player, arg) {
 }
 
 function vannish (player) {
-    Function.visibility(player)
+    globalFunction.visibility(player)
 }
 
 function ping (player) {
@@ -253,7 +252,7 @@ function clone (player) {
 }
 
 function godmode (player) {
-    if (!Function.authorized(player, 2)) {
+    if (!globalFunction.authorized(player, 2)) {
         return chat.send(player, "{ff8f00}Permissions insuffisantes")
     }
 
@@ -280,7 +279,7 @@ function command (player) {
 }
 
 function op (player, arg) {
-    if(!isNaN(arg[0]) && Function.authorized(player)){
+    if(!isNaN(arg[0]) && globalFunction.authorized(player)){
         player.setSyncedMeta('op', arg[0])
         db.updatePartialData(player.getSyncedMeta('id'), { op: arg[0]}, 'Character', res => {});
     }
@@ -290,7 +289,7 @@ function msg (player, arg) {
     if (!arg[0] || !arg[1]) {
         return chat.send(player, '{ff8f00}Command use : /msg [player] [message]')
     }
-    var receiver = Function.findEntityInList(arg[0], alt.Player.all)
+    var receiver = globalFunction.findEntityInList(arg[0], alt.Player.all)
     chat.send(receiver, arg[1])
 }
 
@@ -299,7 +298,7 @@ function help (player) {
 }
 
 function garage (player, arg) {
-    //Function.vehicleToGarage(player)
+    //globalFunction.vehicleToGarage(player)
     //alt.emitClient(player, 'vehicleToGarage:Request')
     alt.emit('garage', player, arg)
 }
@@ -404,7 +403,7 @@ chat.registerCmd('saveclothes', (player, arg) => {
         chat.send(player, '{fff800}Command use : /saveclothes [index]')
         return
     }
-    Function.savePlayerClothes(player, arg[0])
+    globalFunction.savePlayerClothes(player, arg[0])
 });
 
 

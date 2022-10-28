@@ -7,7 +7,7 @@ native.setPlayerInvincible(alt.Player.local.scriptID, false)
 
 
 //alt.on("resourceStart", () => {
-    import("./carManager/webview/webviews")
+    //import("./carManager/client/client")
 //})
 
 

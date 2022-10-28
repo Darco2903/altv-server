@@ -36,7 +36,8 @@ export default class ConnectionInfo {
                     this.connection = conn;
                     conn.synchronize().then(res => {
                         currentConnection = this;
-                        alt.log(`${color}Database Connected Successfully`);
+                        alt.log(`${color.FgRed}Database Connected Successfully`);
+                        //alt.log(`Database Connected Successfully`);
                         alt.emit('ConnectionComplete');
                         return currentConnection;
                     });
