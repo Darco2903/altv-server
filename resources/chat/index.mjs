@@ -51,6 +51,4 @@ export function registerCmd(cmd, callback) {
   }
 }
 
-export toogleChat ()
-
-export default { send, broadcast, registerCmd,  };
+export default { send, broadcast, registerCmd };

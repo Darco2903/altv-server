@@ -53,11 +53,13 @@ function keyup (key) {
     if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
       opened = true;
       view.emit("openChat", false);
+      //alt.emit("enableWebview", false)
       alt.toggleGameControls(false);
       view.focus();
     } else if (!opened && key === 0xbf && alt.gameControlsEnabled()) {
       opened = true;
       view.emit("openChat", true);
+      //alt.emit("enableWebview", true)
       alt.toggleGameControls(false);
       view.focus();
     } else if (opened && key == 0x1b) {
@@ -75,6 +77,10 @@ export function enableChat (enable) {
 }
 
 enableChat(true)
+
+export function chatOpened () {
+  return opened
+}
 
 ////////////////////////
 
