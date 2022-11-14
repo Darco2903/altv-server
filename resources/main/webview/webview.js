@@ -3,7 +3,7 @@ import * as native from 'natives';
 import { enableChat } from "chat"
 
 
-export class WebView extends alt.WebView {
+export default class WebView extends alt.WebView {
     constructor(url) {
         super(url, false)
         this.disablePauseMenu = false

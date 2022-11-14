@@ -17,6 +17,7 @@ export const vehicleList = {
     
 }
 
+export const wheelTypeList = ["Sport", "Muscle", "Lowrider", "SUV", "Tout Terrain", "Tuner", "Moto", /*"Haut de Gamme"*/"Luxe", "Rue", /*"Rue Rouillés"*/"Rue", "Circuit", "Tunning 1", "Tunning 2"]
 
 export const modList = [
     "Spoilers",

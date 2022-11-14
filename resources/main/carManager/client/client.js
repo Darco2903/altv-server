@@ -1,16 +1,18 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { WebView } from '../../webview/webview';
-import { modList } from '../tables';
+import WebView from "./WebView";
+//import { WebView } from "exports";
+import { modList, wheelTypeList } from '../tables';
 
-alt.log("WEBVIEW STARTED")
 
 let webview
+let veh
 let restoreData = {}
+
 
 alt.on('keydown', (key) => {
     switch (key) {
-        case 49:    //&
+        case 49: //&
             toogleEngine()
             break;
     
@@ -19,16 +21,21 @@ alt.on('keydown', (key) => {
     }
 })
 
+
 alt.on('keyup', (key) => {
     if (key == 27 && webview) { //Escape
-        //if (webview.url == 'http://resource/client/html/modWebview.html') vehicleDiscardChange()
-        //else if (webview.url == 'http://resource/client/html/clothesWebview.html') playerDiscardChange()
+        if (webview.url.includes("modWebview")){
+            sendModsToServer()
+            native.releasePreloadMods(veh)
+        }
         webview = webview.close()
     }
 })
 
-alt.onServer('vehWebview:load', () => {
-    alt.log("vehWebview:load")
+alt.on("spawnVeh:load", openVeh)
+alt.onServer('spawnVeh:load', openVeh)
+
+function openVeh () {
     if (webview) return
     webview = new WebView("http://resource/client/html/vehWebview.html")
     webview.on('spawnVehicle', model => {
@@ -36,24 +43,26 @@ alt.onServer('vehWebview:load', () => {
         webview = webview.close()
     })
     webview.open()
-})
+}
 
+alt.on('modVeh:load', openMod)
+alt.onServer('modVeh:load', openMod)
 
-alt.onServer('modWebview:load', () => {
+function openMod () {
     if (webview) return
     webview = new WebView('http://resource/client/html/modWebview.html')
     webview.on('stock', setStock)
-    webview.on('restore', () => setAllMod(restoreData.mod))
+    webview.on('restore', () => restoreAll())
     webview.on('setMod', setMod)
     webview.on('toogleMod', toogleMod)
-    //  webview.on('setwheels', setwheels)
+    webview.on('setWheels', setWheels)
     //  webview.on('customColor', customColor)
     //  webview.on('color', color)
     //  webview.on('neons', neons)
     webview.on("startApp", startApp)
     startApp("mods")
     webview.open()
-})
+}
 
 function startApp (app) {
     alt.log("startApp: ", app)
@@ -61,7 +70,22 @@ function startApp (app) {
     switch (app) {
         case "mods":
             data = getModsData()
-            restoreData.mod = data
+            restoreData.mods = data
+            break;
+        
+        case "colors":
+            //data = 
+            //restoreData.colors = data
+            break;
+        
+        case "wheels":
+            data = getWheelsData()
+            restoreData.wheels = data.restore
+            break;
+        
+        case "neons":
+            //data = 
+            //restoreData.neons = data
             break;
             
         default:
@@ -71,7 +95,7 @@ function startApp (app) {
 }
 
 function setStock () {
-    const veh = alt.Player.local.vehicle
+    veh = alt.Player.local.vehicle
     const n = modList.length
     for (let modType = 0 ; modType < n ; modType++) {
         switch (modType) {
@@ -91,26 +115,26 @@ function setStock () {
     }
 }
 
+function restoreAll () {
+    setAllMod(restoreData.mods)
+    setWheels(restoreData.wheels)
+}
 
 function setMod (data) {
     const [modType, modId] = data
-    const veh = alt.Player.local.vehicle
     native.setVehicleMod(veh, modType, modId -1, false)
 }
-
-
+ 
 function toogleMod (data) {
     const [modType, bool] = data
-    const veh = alt.Player.local.vehicle
     native.toggleVehicleMod(veh, modType, bool)
 }
 
-
 function setAllMod (data) {
-    const n = modList.length
-    for (let modType=0 ; modType < n ; modType++) {
+    veh = alt.Player.local.vehicle
+    for (let modType=0 ; modType < data.length ; modType++) {
         const mod = data[modType]
-        alt.log(mod)
+        
         switch (modType) {
             //  case 17: ??
             case 18: //Turbo
@@ -127,13 +151,12 @@ function setAllMod (data) {
     }
 }
 
-
 function getModsData () {
-    const veh = alt.Player.local.vehicle
+    veh = alt.Player.local.vehicle
     const n = modList.length
     let data = []
     for (let modType = 0 ; modType < n ; modType++) {
-        
+        native.preloadVehicleMod(veh, modType, 1)
         switch (modType) {
             //  case 17: ??
             case 18:
@@ -144,6 +167,7 @@ function getModsData () {
                 const toogle = native.isToggleModOn(veh, modType)
                 data.push([modType, toogle])
                 break;
+                
             case 0:
             case 1:
             case 2:
@@ -173,7 +197,7 @@ function getModsData () {
             case 38:
             case 48:
                 const num = native.getVehicleMod(veh, modType) +1
-                const count = native.getNumVehicleMods(veh, modType)
+                const count = native.getNumVehicleMods(veh, modType, 1)
                 data.push([modType, num, count])
                 break;
             default:
@@ -183,14 +207,49 @@ function getModsData () {
     return data
 }
 
-
 function toogleEngine () {
-    let vehicle = alt.Player.local.vehicle
-    if (!vehicle) return
-    let engine = !vehicle.getMeta('engine')
-    vehicle.setMeta('engine', engine)
-    native.setVehicleEngineOn(vehicle.scriptID, engine, false, true)
+    veh = alt.Player.local.vehicle
+    if (!veh) return
+    let engine = !veh.getMeta('engine')
+    veh.setMeta('engine', engine)
+    native.setVehicleEngineOn(veh.scriptID, engine, false, true)
     //native.setVehicleUndriveable(!engine)
+}
+
+function sendModsToServer () {
+    let data = {
+        mods: getModsData(),
+        wheels: getWheelsData().restore
+    }
+    alt.emitServer("sendModsToServer", (data))
+}
+
+const wheelsModType = 23    // Front Wheels
+
+function getWheelsData () {
+    veh = alt.Player.local.vehicle
+    let data = {}
+    const typeIndex = native.getVehicleWheelType(veh)
+    const wheelNum = native.getVehicleMod(veh, wheelsModType) +1
+    const customWheels = native.getVehicleModVariation(veh, wheelsModType)
+    native.preloadVehicleMod(veh, wheelsModType, 1)
+    wheelTypeList.forEach((type, typeIndex) => {
+        native.setVehicleWheelType(veh, typeIndex)
+        const wheelCount = native.getNumVehicleMods(veh, wheelsModType)
+        data[typeIndex] = {name: type, count: wheelCount}
+    })
+    native.setVehicleWheelType(veh, typeIndex)
+    native.setVehicleMod(veh, wheelsModType, wheelNum -1, customWheels)
+    data.restore = {typeIndex, wheelNum, wheelTypeCount: wheelTypeList.length}
+    return data
+}
+
+function setWheels (data) {
+    veh = alt.Player.local.vehicle
+    const {typeIndex, wheelNum} = data
+    const customWheels = native.getVehicleModVariation(veh, wheelsModType)
+    native.setVehicleWheelType(veh, typeIndex)
+    native.setVehicleMod(veh, wheelsModType, wheelNum -1, customWheels)
 }
 
 
@@ -217,7 +276,7 @@ function toogleEngine () {
 //      webview.open()
 //  }
 //  
-//  alt.onServer("personnalVehWebview:load", (vehList) => {
+//  alt.onServer("personnalspawnVeh:load", (vehList) => {
 //      personnalVehWebview()
 //  })
 //  

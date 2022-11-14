@@ -1,14 +1,12 @@
 import * as alt from 'alt';
 import * as chat from 'chat';
 import * as db from "database";
-import { globalFunction, globalTable } from 'main';
+import { globalFunction, globalTable } from 'exports';
 
 
 function r (player, arg) {
-    if (!globalFunction.authorized(player, 4)) {
-        chat.send(player, '{ff8f00}Permissions insuffisantes')
+    if (!globalFunction.authorized(player, 4))
         return
-    }
 
     if (!arg || !arg[0]) globalFunction.restartServer()
     else globalFunction.restartResource(arg[0])
@@ -25,10 +23,9 @@ function kill (player, arg) {
 }
 
 function save (player) {
-    db.updatePartialData(player.getSyncedMeta('id'),
-        { position: JSON.stringify(player.pos), playerModel: JSON.stringify(player.model) }, 'Character', res => {});
-    chat.send(player, '{00FF00}Sauvegarde effectuée')
-
+    if (!globalFunction.authorized(player, 4))
+        return
+    globalFunction.saveAll()
 }
 
 function time (player, arg) {
@@ -113,7 +110,7 @@ function getPos (player) {
     console.log('Coordonnées : ' + player.pos)
     chat.send(player, `{FF0000}x : {FFFF00}${player.pos.x}`)
     chat.send(player, `{00FF00}y : {FFFF00}${player.pos.y}`)
-    chat.send(player, `{0000FF}y : {FFFF00}${player.pos.z}`)
+    chat.send(player, `{0000FF}z : {FFFF00}${player.pos.z}`)
 }
 
 function sethp (player , arg) {

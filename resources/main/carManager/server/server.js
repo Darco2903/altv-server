@@ -1,10 +1,9 @@
 import * as alt from 'alt-server';
 import * as chat from 'chat';
-import * as db from "database"
-//import { globalFunction } from "main"
-import * as Function from "./functions"
+import * as carManager from "./functions"
+import * as globalFunction from 'exports';
 import { vehicleList } from '../tables.js';
-
+import Vehicle from './Vehicle';
 
 
 ///////////////////////////////
@@ -13,77 +12,30 @@ alt.on("ConnectionComplete", () => {
     const noVeh = alt.Vehicle.all.length == 0
     const carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.all.includes(alt.Resource.getByName(name)))
     const resourcesLoaded = !carResources.includes(false)
-    if (resourcesLoaded && noVeh) Function.serverStartVehicleSpawn()
+    if (resourcesLoaded && noVeh) carManager.serverStartVehicleSpawn()
 })
 
 ///////////////////////////////
 
-
-alt.onClient('SaveVehicle', (player, data) => {
-    
-    let veh = player.vehicle
-    alt.log(data)
-    
-    let modified
-    
-    const modData = data.mod
-    if (modData) {
-
-        //if (veh.modKitsCount < 1) veh.modKit = 0
-        //else veh.modKit = 1
-
-        for (const modIndex in modData) {
-            var mod = modData[modIndex]
-            veh.setMod(modIndex, mod +1)
-        }
-        modified = true
-    }
-
-    if (data.color) {
-        //alt.log(data.color[1]) fghg
-        veh.primaryColor = data.color[1]
-        veh.secondaryColor = data.color[2]
-        modified = true
-    }
-
-    const wheel = data.wheel
-    if (wheel) {
-        veh.setWheels(wheel.type, wheel.num +1)
-        veh.wheelColor = wheel.color
-        modified = true
-    }
-
-    const neon = data.neon
-
-    if (neon) {
-        veh.neon = {front: true, back: true, left: true, right: true}
-        veh.neonColor = {r: neon.r, g: neon.g, b: neon.b, a: 1}
-        modified = true
-    }
-
 /*
-    if (modData) alt.log("mod")
-    if (data.color) alt.log("color")
-    if (wheel) alt.log("wheel")
-    if (neon) alt.log("neon")
-*/
-
-    if (modified) Function.saveAppearance(veh)
-
-})
-
-
-
-
-/*
-alt.onClient('vehicle:SetWheels', (player, wheels) => {
-    var vehicle = player.vehicle
-    wheels = [parseInt(wheels[0]), parseInt(wheels[1]), parseInt(wheels[2])]
-    vehicle.setWheels(wheels[0], wheels[1])
-    vehicle.wheelColor = wheels[2]
+chat.registerCmd("saveTest", (player) => {
+    player.vehicle.register()
 })
 */
 
+export function saveVehicles () {
+    Vehicle.all.forEach(veh => {
+        veh.save()
+    });
+}
+
+alt.onClient("sendModsToServer", (player, data) => {
+    const veh = player.vehicle
+    console.log("data.wheels", data.wheels);
+    veh.setAllMods(data.mods)
+    veh.setAllWheels(data.wheels)
+    veh.saveAppearance()
+})
 
 alt.onClient('vehicle:ToRepair', (player, vehicle) => {
     if (!vehicle) {
@@ -106,10 +58,10 @@ alt.onClient('vehicle:Neons', (player, color) => {
 alt.onClient('spawn:Vehicle', (player, model) => {
     model = JSON.parse(model)
     if (model in vehicleList) model = vehicleList[model]
-    Function.createVehicle(player, model, false)
+    carManager.createVehicle(player, model, false)
 })
 
-
+/*
 chat.registerCmd("veh", (player, arg) => {
     let [command, model] = arg
     switch (command) {
@@ -123,7 +75,7 @@ chat.registerCmd("veh", (player, arg) => {
             break;
         
         case undefined:
-            alt.emitClient(player, 'vehWebview:load')
+            alt.emitClient(player, 'spawnVeh:load')
             break;
 
         case "spawn":
@@ -131,15 +83,15 @@ chat.registerCmd("veh", (player, arg) => {
                 chat.send(player, '{ff8f00}Command use : /veh spawn [model]')
                 return
             }
-            Function.createVehicle(player, model)
+            carManager.createVehicle(player, model)
             break;
         
         case "visible":
             const vehicle = player.vehicle
             if (!vehicle) {
-                return Function.vehCatch(player, 'noVeh')
+                return carManager.vehCatch(player, 'noVeh')
             }
-            Function.visibility(vehicle)
+            carManager.visibility(vehicle)
             break;
 
         default:
@@ -150,42 +102,30 @@ chat.registerCmd("veh", (player, arg) => {
 
 
 chat.registerCmd('delete', (player) => {
-    const vehicle = player.vehicle
+    const veh = player.vehicle
 
-    if (!vehicle) {
-        Function.vehCatch(player, 'noVeh')
+    if (!veh) {
+        carManager.vehCatch(player, 'noVeh')
         return
     } 
 
-    if (player.name != vehicle.getSyncedMeta('owner')) {
-        if (!Function.authorized(player, 2)) {
-            return chat.send(player, '{ff8f00}This is not your vehicle')
-        }
+    if (player.name != veh.owner) {
+        if (!globalFunction.authorized(player, 2))
+            return
     }
-    const callback = Function.destroyVehicle(vehicle)
-    switch (callback) {
-        case "deleted":
-            chat.send(player, `${vehicle.model} supprimé`)
-            break;
-
-        case "databaseErr":
-            chat.send(player, `L'entitée n'a pas été supprimé dans la database`)
-            break;
-    
-        default:
-            break;
-    }
+    veh.delete()
+    veh.destroy()
 })
 
 chat.registerCmd('mod', (player, arg) => {
     const vehicle = player.vehicle
     if (!vehicle) {
-        Function.vehCatch(player, 'noVeh')
+        carManager.vehCatch(player, 'noVeh')
         return
     }
 
-    if (player.name != vehicle.getSyncedMeta('owner') && !Function.authorized(player, 2)) {
-        Function.vehCatch(player, "notOwner")
+    if (player.name != vehicle.getSyncedMeta('owner') && !carManager.authorized(player, 2)) {
+        carManager.vehCatch(player, "notOwner")
         return
         
     }
@@ -193,7 +133,7 @@ chat.registerCmd('mod', (player, arg) => {
     //const vehModOption = Function.getVehMod(vehicle)
 
     if (!arg[0]) {
-        alt.emitClient(player, 'modWebview:load')
+        alt.emitClient(player, 'modVeh:load')
         return
     }
     if (!arg[1]) {
@@ -224,7 +164,7 @@ chat.registerCmd('repair', (player) => {
 
 chat.registerCmd('h', (player) => {
     if (!player.vehicle) {
-        Function.vehCatch(player, 'noVeh')
+        carManager.vehCatch(player, 'noVeh')
         return
     }
     alt.emitClient(player, 'handlingWebview:load')
@@ -237,3 +177,4 @@ chat.registerCmd('p', (player) => {
 chat.registerCmd('enter', (player) => {
     alt.emitClient(player, 'vehicle:Enter')
 })
+*/

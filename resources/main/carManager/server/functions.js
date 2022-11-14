@@ -2,8 +2,9 @@ import * as alt from 'alt-server';
 import * as chat from 'chat';
 import * as db from "database"
 import { color } from "server-extended"
-import { globalFunction } from "main"
+import { globalFunction } from "exports"
 import { modList } from '../tables';
+import Vehicle from './Vehicle';
 
 
 ///////////////////////////////
@@ -11,85 +12,26 @@ import { modList } from '../tables';
 
 export function serverStartVehicleSpawn () {
     db.selectData("Vehicle", ['id', 'model', 'position', 'rotation', 'owner', 'appearance', 'garage'], data => {
-        data.forEach(vehData => {
-            vehData.position = JSON.parse(vehData.position)
-            vehData.rotation = JSON.parse(vehData.rotation)
-            vehData.appearance = JSON.parse(vehData.appearance)
-            vehData.garage = JSON.parse(vehData.garage)
-            spawnVehicle(vehData)
-            //if (!vehData.garage.inGarage) spawnVehicle(vehData)
+        data.forEach(data => {
+            Object.keys(data).forEach(function(key) {
+                data[key] = JSON.parse(data[key])
+            })
+            const { id, model, owner, position, rotation, appearance, garage } = data
+            if (!data.garage.inGarage)
+                new Vehicle(model, position, rotation, id, owner, appearance, garage)
         })
-        alt.log(`${color.FgCyan}All vehicle spawned`)
+        log("All vehicle spawned")
     })
 }
 
-
-export function spawnVehicle (vehData) {
-    if (!vehData) return
-    
-    return new Promise((resolve, reject) => {
-        let veh
-        let position = vehData.position
-        let rotation = vehData.rotation
-
-        try {
-            veh = new alt.Vehicle(
-                vehData.model,
-                position.x,
-                position.y,
-                position.z,
-                rotation.x,
-                rotation.y,
-                rotation.z,
-            )
-        } catch (err) {
-            reject(err)
-            return
-        }
-
-        veh.manualEngineControl = 1;
-
-        if (veh.modKitsCount < 1) veh.modKit = 0
-        else veh.modKit = 1
-
-        if (vehData.appearance) veh.setAppearanceDataBase64(vehData.appearance)
-        else {
-            veh.primaryColor = 0
-            veh.secondaryColor = 0
-            vehData.appearance = veh.getAppearanceDataBase64()
-        }
-        vehData.modData = getVehMod(veh)
-        for (const meta in vehData) veh.setSyncedMeta(meta, vehData[meta])
-        resolve(veh)
-    })
+export function log (msg) {
+    alt.log(color.FgCyan + msg)
 }
-
 
 export function createVehicle (player, model, save) {
     let pos = globalFunction.vectorFormat(player.pos)
     pos.x += 2
-    let vehData = {
-        model: model,
-        position: pos,
-        rotation: {x: 0, y: 0, z: 0},
-        owner: player.name,
-        appearance: null,
-        garage: {inGarage: false}
-    }
-
-    spawnVehicle(vehData)
-    .then(veh => {
-        //if (!save) return
-        //const vehData = getVehData(veh)
-        //  Object.keys(vehData).forEach(function(key, index) {
-        //      vehData[key] = JSON.stringify(vehData)
-        //  })
-        //  db.upsertData(vehData, 'Vehicle', res => {
-        //      veh.setSyncedMeta("id", res.id)
-        //      alt.log(`${color.FgRed}Vehicle registered in database`)
-        //  })
-    })
-    .catch(err => alt.logError(err))
+    new Vehicle(model, pos, {x: 0, y: 0, z:0}, null, player.name, null, {inGarage: false})
 }
 
 
@@ -108,18 +50,20 @@ export function vehCatch (player, x) {
     }
 }
 
-
+/*
 export function saveAppearance (vehicle) {
     alt.log('saveAppearance')
     const appearance = vehicle.getAppearanceDataBase64()
-    vehicle.setSyncedMeta('appearance', appearance)
-    db.updatePartialData(vehicle.getSyncedMeta('id'), {appearance: JSON.stringify(appearance)}, 'Vehicle', callback => {})
+    //vehicle.setSyncedMeta('appearance', appearance)
+    //db.updatePartialData(vehicle.getSyncedMeta('id'), {appearance: JSON.stringify(appearance)}, 'Vehicle', callback => {})
+    vehicle.appearance = appearance
+    db.updatePartialData(vehicle.dbId, {appearance: JSON.stringify(appearance)}, 'Vehicle', callback => {})
 
 }
-
-
+*/
+/*
 export function destroyVehicle (vehicle) {
-    const id = vehicle.getSyncedMeta('id')
+    //const id = vehicle.getSyncedMeta('id')
     let msg
     try {
         vehicle.destroy()
@@ -127,13 +71,13 @@ export function destroyVehicle (vehicle) {
     } catch {
          msg = "destroyErr"
     }
-    db.deleteByIds(id, "Vehicle", callback => {
+    db.deleteByIds(vehicle.dbId, "Vehicle", callback => {
         if (!callback) msg = " databaseErr"
         else msg = " deleted"
     })
     return msg
 }
-
+*/
 /*
 export function color (player, arg, x) {
     alt.log('color')
@@ -248,7 +192,7 @@ alt.onClient('vehicleToGarage:Found', (player, veh) => {
 })
 */
 
-
+/*
 export function getVehMod (veh) {
     let modData = []
     let n = modList.length
@@ -256,15 +200,15 @@ export function getVehMod (veh) {
         modData[i] = {mod: veh.getMod(i), count: veh.getModsCount(i)}
     return modData
 }
-
-
+*/
+/*
 export function getVehData (veh) {
     let vehData = {}
     const vehDataList = ['id', 'model', 'position', 'rotation', 'owner', 'appearance', 'garage', "modData"]
     for (const meta of vehDataList) vehData[meta] = veh.getSyncedMeta(meta)
     return vehData
 }
-
+*/
 
 export function getPersonnalVehData (player) { // return all vehcile player own
     let playerVehList = []
@@ -275,4 +219,3 @@ export function getPersonnalVehData (player) { // return all vehcile player own
     })
     return playerVehList
 }
-

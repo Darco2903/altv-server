@@ -239,7 +239,7 @@ function veh (player, arg) {
     }
     
     if (!arg[0]) {
-        alt.emitClient(player, 'vehWebview:load')
+        alt.emitClient(player, 'spawnVeh:load')
         return
     }
 
@@ -291,7 +291,7 @@ function mod(player, arg) {
     const vehModOption = Function.getVehMod(vehicle)
 
     if (!arg[0]) {
-        alt.emitClient(player, 'modWebview:load')
+        alt.emitClient(player, 'modVeh:load')
         return
     }
     if (!arg[1]) {

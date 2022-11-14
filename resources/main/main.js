@@ -2,15 +2,13 @@ import * as alt from 'alt-server';
 import * as chat from 'chat';
 import * as db from "database"
 import { color } from "server-extended";
-import * as globalFunction from './data/globalFunctions.js';
-import * as globalTable from './data/globalTables.js';
+import {globalFunction, globalTable} from "exports"
+import { Player } from './Player';
 
 
 //import * as extended from "server-extended"
 //import { createRequire } from 'module'
 //const require = createRequire(import.meta.url)
-
-export { globalFunction, globalTable }
 
 ///////////////////////////////
 
@@ -46,7 +44,8 @@ alt.on("beforePlayerConnect", (connectionInfo) => {
     //  alt.log(connectionInfo.isDebug); // Prints out whether the client is in debug mode.
     //  alt.log(connectionInfo.passwordHash); // Prints out a hash of the password that was used to connect to the server.
     //  alt.log(connectionInfo.socialID); // Prints out the social ID of the client.
-    if (!db) return false
+    if (!db)
+        return false
 })
 
 
@@ -59,6 +58,7 @@ alt.on('playerConnect', (player) => {
     //Function.initServerTimeout()
 });
 
+
 alt.on('playerDisconnect', (player, reason) => {
     //if (alt.Player.all == {}) Function.initServerTimeout(120) //10min (1 = 5s)
     db.updatePartialData(player.getSyncedMeta('id'), { position: JSON.stringify(player.pos) }, 'Character', res => {})
@@ -69,28 +69,30 @@ alt.on('playerDisconnect', (player, reason) => {
 
 alt.on('playerDeath', (victim, killer, weaponHash) => {
     if (!autoRespawn) return
-
+    const veh = victim.veh
     alt.emitClient(victim, 'player:Death')
-    var pos = victim.pos
+    let pos = victim.pos
     setTimeout(() => {        
-        if (victim.vehicle) {
-            const vehicle = victim.vehicle
-            alt.emitClient(victim, 'vehicle:SetPlayerIn', (vehicle))
-        }
         victim.clearBloodDamage()
-        victim.spawn(pos.x, pos.y, pos.z)
+        if (veh)
+            alt.emitClient(victim, 'vehicle:SetPlayerIn', (veh))
+        else
+            victim.spawn(pos.x, pos.y, pos.z)
     }, 5000);
-    if (!killer) {
-        var killer = 0
+    const deathCause = globalTable.CauseOfDeath[weaponHash]
+    if (killer) {
+        if (killer.name == victim.name) {
+            alt.log(`${victim.name} kill himself with ${deathCause}`)
+            chat.broadcast(`{00FFFF}${victim.name} {FFFFFF}s'est tué avec ${deathCause}`)
+            return
+        } else {
+            alt.log(`${victim.name} was killed by ${killer.name} with ${deathCause}`)
+            chat.broadcast(`{00FFFF}${victim.name} {FFFFFF}a été tué par {FF0000}${killer.name} {FFFFFF}avec {00FF00}${deathCause}`)
+        }
+    } else {
+        alt.log(`${victim.name} is dead of ${deathCause}`)
+        chat.broadcast(`{00FFFF}${victim.name} {FFFFFF}est mort de {00FF00}${deathCause}`)
     }
-    if (killer.name === victim.name) {
-        alt.log(`${victim.name} kill himself with ${Table.CauseOfDeath[weaponHash]}`)
-        chat.broadcast(`{00FFFF}${victim.name} {FFFFFF}s'est tué avec ${Table.CauseOfDeath[weaponHash]}`)
-        return
-    }
-
-    chat.broadcast(`{00FFFF}${victim.name} {FFFFFF}a été tué par {FF0000}${killer.name} {FFFFFF}avec {00FF00}${Table.CauseOfDeath[weaponHash]}`)
-    alt.log(victim.name, 'was killed by', killer.name, 'with', Table.CauseOfDeath[weaponHash])
 
 });
 
@@ -118,7 +120,7 @@ alt.onClient('tpm:PlayerTPM', (player, coords, veh) => {
 alt.onClient('giveWeapon:Player', (player, weap) => {
     if (weap == 'all') {
         console.log(player.name, 'gived all weapons')
-        for(var hash in Table.weaponList) {
+        for(let hash in globalTable.weaponList) {
             globalFunction.weapongive(player, hash)
         }
     } else {
@@ -132,7 +134,7 @@ alt.onClient('giveWeapon:Player', (player, weap) => {
 
 alt.onClient('setpm:SendToServer', (player, pm) => {
 
-    var data = Table.playerModelsList[pm]
+    let data = globalTable.playerModelsList[pm]
     
     if (!data) {
         try {

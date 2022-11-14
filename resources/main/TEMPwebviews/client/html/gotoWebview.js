@@ -1,4 +1,4 @@
-let veh
+let this
 
 let vehClass = []
 for (const elem in vehList) {

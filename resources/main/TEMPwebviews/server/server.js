@@ -46,7 +46,7 @@ alt.on('p', (player) => {
         var veh = vehList[i][1]
         vehList[i] = {id: veh.getSyncedMeta('id'), model: veh.getSyncedMeta('model'), color: getVehColor(veh)[0]}
     }
-    alt.emitClientRaw(player, 'personnalVehWebview:load', (vehList))
+    alt.emitClientRaw(player, 'personnalspawnVeh:load', (vehList))
 })
 
 function getVehColor (vehicle) {

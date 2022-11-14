@@ -28,9 +28,9 @@ function tdGen () {
     var h2ID = document.createElement('h2')
     var tdColor = document.createElement('td')
     var h2Color = document.createElement('h2')
-    h2Model.innerHTML = veh.model
-    h2ID = veh.getSyncedMeta('id')
-    h2Color = veh.color
+    h2Model.innerHTML = this.model
+    h2ID = this.getSyncedMeta('id')
+    h2Color = this.color
 }
 
 
@@ -70,7 +70,7 @@ for (var i = 0; i < buttonList.length; i++) {
 };
 
 
-function veh(veh) {
+function this(veh) {
     console.log(weap)
     if('alt' in window) {
         if (weap != 'close') {
