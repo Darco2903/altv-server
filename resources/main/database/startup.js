@@ -1,4 +1,5 @@
 import * as alt from "alt-server"
+import { color } from "server-extended"
 import SQL from './database.js'
 import { Account, Character, Vehicle, Server } from './entities.js';
 
@@ -44,4 +45,8 @@ function deleteByIds (ids, repoName, callback) {
     db.deleteByIds(ids, repoName, callback)
 }
 
-export {selectData, updatePartialData, upsertData, deleteByIds}
+function log (msg) {
+    alt.log(color.FgMagenta + msg)
+}
+
+export {selectData, updatePartialData, upsertData, deleteByIds, log}
