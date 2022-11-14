@@ -2516,70 +2516,77 @@
       <statMods>
         <Item>
           <identifier />
-          <modifier value="25" />
+          <modifier value="50" />
           <audioApply value="1.000000" />
           <weight value="20" />
           <type>VMT_ENGINE</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="50" />
+          <modifier value="300" />
           <audioApply value="1.000000" />
           <weight value="20" />
           <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="600" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="1100" />
+          <audioApply value="1.000000" />
+          <weight value="20" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="10000" />
+          <audioApply value="10.000000" />
+          <weight value="2000" />
+          <type>VMT_ENGINE</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="25" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_BRAKES</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="125" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_BRAKES</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="250" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_BRAKES</type>
+        </Item>
+        <Item>
+          <identifier />
+          <modifier value="30" />
+          <audioApply value="1.000000" />
+          <weight value="5" />
+          <type>VMT_GEARBOX</type>
         </Item>
         <Item>
           <identifier />
           <modifier value="75" />
           <audioApply value="1.000000" />
-          <weight value="20" />
-          <type>VMT_ENGINE</type>
-        </Item>
-        <Item>
-          <identifier />
-          <modifier value="100" />
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <type>VMT_ENGINE</type>
-        </Item>
-        <Item>
-          <identifier />
-          <modifier value="25" />
-          <audioApply value="1.000000" />
-          <weight value="5" />
-          <type>VMT_BRAKES</type>
-        </Item>
-        <Item>
-          <identifier />
-          <modifier value="65" />
-          <audioApply value="1.000000" />
-          <weight value="5" />
-          <type>VMT_BRAKES</type>
-        </Item>
-        <Item>
-          <identifier />
-          <modifier value="100" />
-          <audioApply value="1.000000" />
-          <weight value="5" />
-          <type>VMT_BRAKES</type>
-        </Item>
-        <Item>
-          <identifier />
-          <modifier value="25" />
-          <audioApply value="1.000000" />
           <weight value="5" />
           <type>VMT_GEARBOX</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="50" />
-          <audioApply value="1.000000" />
-          <weight value="5" />
-          <type>VMT_GEARBOX</type>
-        </Item>
-        <Item>
-          <identifier />
-          <modifier value="100" />
+          <modifier value="150" />
           <audioApply value="1.000000" />
           <weight value="5" />
           <type>VMT_GEARBOX</type>
@@ -2890,28 +2897,28 @@
         </Item>
         <Item>
           <identifier />
-          <modifier value="1" />
+          <modifier value="10" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="2" />
+          <modifier value="20" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="3" />
+          <modifier value="30" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="4" />
+          <modifier value="40" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
