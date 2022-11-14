@@ -1,6 +1,5 @@
 
 let appLoaded
-let html = {}
 
 let htmlGenerated = document.querySelector("generated")
 const nodeList = document.querySelectorAll("button")
@@ -37,7 +36,19 @@ function appManager (res) {
         case "mods":
             initMods(data)
             break;
-    
+            
+        case "color":
+            initColors(data)
+            break;
+
+        case "wheels":
+            initWheels(data)
+            break;
+
+        case "neons":
+            initNeons(data)
+            break;
+
         default:
             console.log("cant load: ", app);
             break;
@@ -61,7 +72,6 @@ function initMods (data) {
     for (const mod of data) {
         const [modType, num, count] = mod
         const modName = modList[modType]
-        console.log(modType, modName, num, count)
         let htmlMod = document.createElement("mod")
         let htmlName = document.createElement('strong')
         htmlName.innerHTML = modName
@@ -88,7 +98,6 @@ function initMods (data) {
                 break;
         
             default:
-                console.log("count", modType, count);
                 if (count == 0) continue
                 let htmlSelector = createSlider(num, count)
                 let htmlShow = document.createElement('strong')
@@ -108,157 +117,7 @@ function initMods (data) {
 }
 
 
-/*
-function deleteButton () {
-    for (var i = 0; i < button.length; i++) {
-        console.log(button[i])
-        button[i].removeEventListener("click", buttonListener())
-    }
-}*/
-
-
-const apps = ['mods', 'color', 'wheels', 'neon']
-
-function btnSelector (action, modIndex) {
-    
-    switch (action) {
-        case "next":
-            if (selector[modIndex] < modData[modIndex].max -1) selector[modIndex] ++
-            break;
-
-        case "prev":
-            if (selector[modIndex] > -1) selector[modIndex] --
-            break;
-
-        case "restore":
-            restore(true)
-            break;
-
-        case "done":
-            close()
-            break;
-
-        case "save":
-            save()
-            break;
-    
-        default:
-            break;
-    }
-
-    //if (action == 'mods' || action == 'color') return changeApp(action)
-
-    for (const app of apps) if (action == app) return changeApp(app)
-
-    let id = 'show' + modIndex.toString()
-    let show = document.getElementById(id);
-    show.innerHTML = selector[modIndex] +1;
-    
-    let mod = [modIndex, selector[modIndex]]
-
-
-    //alt.emit('client:SetMod', mod)
-
-}
-
-
-function refresh () {
-    var i=2
-    if (appLoaded == "mods") {
-        if (html.childElementCount -2 != Object.keys(modData).length) {
-            return
-        }
-        for (const modIndex in modData) {
-            html.children[i].children[0].children[3].innerHTML = modData[modIndex].mod +1
-            i++
-        }
-    }
-
-    if (color) {
-
-    }
-
-    if (appLoaded == "color") ""
-
-    if (appLoaded == "wheels") {
-        for (const elem in wheelsData) {
-            html.children[i].children[0].children[2].innerHTML = wheelsData[elem]
-            html.children[i].children[0].children[1].value = wheelsData[elem]
-            i++
-        }
-    }
-
-    if (appLoaded == "neon") ""
-}
-
-function save () {
-    
-    var saveBut = document.querySelector('#save')
-    
-    buttonConfirm(saveBut, 'Save')
-
-    //alt.emit('client:Save')
-    //refresh()
-}
-
-function restore (bool) {
-
-    var restoreBut = document.querySelector('#restore')    
-    buttonConfirm(restoreBut, 'Restore')
-    //alt.emit('client:Restore')
-    
-    if (bool) {
-        modData = restoreData.mod
-        colorData = restoreData.color
-        wheelsData = restoreData.wheels
-        neonData = restoreData.neon
-        refresh()
-    }
-    
-}
-
-function close () {
-    //if (saveVerif("mod", modData) || saveVerif("color", colorData) || saveVerif("wheels", wheelsData)) restore("close")
-    restore("close")
-    //alt.emit('client:Close')
-}
-
-
-function saveVerif (elem, dic) {
-    const sameDic = JSON.stringify(dic[elem]) == JSON.stringify(restoreData[elem])
-    
-    if (elem == "wheel") var nullBut0 = !restoreData[elem].type && restoreData[elem].type != 0
-    else var nullBut0 = !restoreData[elem][0] && restoreData[elem][0] != 0
-
-    return nullBut0 || sameDic
-}
-
-
-function buttonConfirm (button, text) {
-    const color = button.style.background
-
-    button.style.background = "green"
-    button.innerHTML = text + 'd'
-
-    setTimeout(() => {
-        button.style.background = color
-        button.innerHTML = text
-    }, 1000);
-}
-
-
-function changeApp (app) {
-    //alt.emit('client:ChangeWebview', app)
-}
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 //  alt.on('initColor:return', data => {
 //      colorData = data    
@@ -269,16 +128,7 @@ function changeApp (app) {
 //  })
 
 
-const colorsId = [
-    {name: "Pearl", max: 74},
-    {name: 1, max: 74},
-    {name: "Normal", max: 73},
-    {name: "Matte", max: 19},
-    {name: "Metal", max: 3},
-    {name: "Chrome", max: 1},
-]
-
-
+/*
 function initColor () {
 
     appLoaded = "color"
@@ -333,10 +183,10 @@ function initColor () {
         }
     }
 }
+*/
 
 
-
-
+/*
 function updateColorSliders (slider) {
     //for (var i=1 ; i<=2 ; i++) slider["color" +i].max = colorsId[slider["type" +i].value].max
 
@@ -347,98 +197,73 @@ function updateColorSliders (slider) {
     //slider["color1"].max = colorsId[slider["type1"].value].max
     //slider["color2"].max = colorsId[slider["type2"].value].max
 }
-
+*/
 
 
 ///////////////////////////////////////////////////////////////////////////
 
 
-
-//alt.on('initWheels:return', data => {
-//    
-//    wheelsData = data    
-//    restoreData.wheels = {type: data.type, num: data.num, color: data.color}
-//
-//    initWheels()
-//
-//})
-
-
-const wheelType = ["Sport", "Muscle", "Lowrider", "SUV", "Tout Terrain", "Tuner", "Moto", "Haut de Gamme", "Rue", "Rue Rouillés", "Circuit", "Tunning 1", "Tunning 2"]
-
-
-function initWheels () {
-
+function initWheels (data) {
     appLoaded = "wheels"
 
-    const wheelsMax = {type: 12, num: wheelsData.max[wheelsData.type], color: 160}
-    wheelsHtml.max = wheelsData.max
-    delete wheelsData.max
+    let {typeIndex, wheelNum, wheelTypeCount} = data.restore
+    
+    let htmlWheelType = document.createElement("wheel")
+    let htmlWheelNum = document.createElement("wheel")
+    
+    let htmlNameType = document.createElement('strong')
+    htmlNameType.innerHTML = "Type"
+    let htmlSelectorType = createSlider(typeIndex, wheelTypeCount)
+    let htmlShowType = document.createElement('strong')
+    htmlShowType.className = "show"
+    htmlShowType.innerHTML = data[typeIndex].name
 
-    for (const elem in wheelsMax) {
-
-        var tr = document.createElement('tr')
-        var td = document.createElement('td')
-        const slider = document.createElement('input')
-        slider.type = "range" ; slider.id = elem ; slider.max = wheelsMax[elem] ; slider.value = wheelsData[elem]
-
-        const show = document.createElement('h3') ; wheelsHtml[elem] = {sld: slider, show: show}
-        show.innerHTML = wheelsData[elem] ; if (wheelsData[elem] == -1) updateWheelsSliders("default")
-        if (elem == "type") show.innerHTML = wheelType[wheelsData[elem]]
-        var h3 = document.createElement('h3')
-        h3.innerHTML = elem
-
-        td.append(h3, slider, show) ; tr.append(td) ; html.append(tr)
-
-
-        slider.oninput = function () {
-            if (slider.id == "type") show.innerHTML = wheelType[this.value]
-            else show.innerHTML = this.value
-            //if (slider.min = -1) slider.min = 0
-            
-            updateWheelsSliders(slider, show)
-
-            wheelsData[elem] = this.value
-
-            //alt.emit('client:SetWheels', wheelsData)
+    let htmlNameNum = document.createElement('strong')
+    htmlNameNum.innerHTML = "Num"
+    let htmlSelectorNum = createSlider(wheelNum, data[typeIndex].count)
+    let htmlShowNum = document.createElement('strong')
+    htmlShowNum.className = "show"
+    htmlShowNum.innerHTML = origine(wheelNum)
+    htmlSelectorType.oninput = function () {
+        typeIndex = parseInt(this.value)
+        htmlShowType.innerHTML = data[typeIndex].name
+        const max = data[typeIndex].count
+        htmlSelectorNum.max = max
+        if (htmlSelectorNum.value > max) {
+            htmlSelectorNum.value = max
+            htmlShowNum.innerHTML = max
         }
+        alt.emit("setWheels", {typeIndex, wheelNum})
+    }
+    
+    htmlSelectorNum.oninput = function () {
+        wheelNum = parseInt(this.value)
+        htmlShowNum.innerHTML = origine(wheelNum)
+        alt.emit("setWheels", {typeIndex, wheelNum})
+    }
+    
+    let htmlWheelBut = document.createElement("wheel")
+    let htmlOrigineBut = document.createElement("button")
+    htmlOrigineBut.innerHTML = "Jantes d'origine"
+    htmlOrigineBut.onclick = function () {
+        const origine = 0
+        htmlSelectorNum.value = origine
+        wheelNum = origine
+        htmlShowNum.innerHTML = "Origine"
+        alt.emit("setWheels", {typeIndex, wheelNum: origine})
     }
 
-    var tr = document.createElement('tr')
-    var td = document.createElement('td')
-    const button = document.createElement('button')
-    button.id = "default" ; button.innerHTML = "Default"
-
-    td.append(button) ; tr.append(td) ; html.append(tr)
-        
-
-    button.addEventListener("click", function(event){
-        //var btn = event.target || event.srcElement
-        updateWheelsSliders("default")
-        wheelsData.num = -1
-        //alt.emit('client:SetWheels', wheelsData)
-
-    })
-
+    htmlWheelType.append(htmlNameType, htmlSelectorType, htmlShowType)
+    htmlWheelNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
+    htmlWheelBut.append(htmlOrigineBut)
+    htmlGenerated.append(htmlWheelType, htmlWheelNum, htmlWheelBut)
 }
 
-var wheelsHtml = {}
-
-function updateWheelsSliders (slider) {
-    if (slider == "default") {
-        //console.log(wheelsHtml.num, wheelsHtml.num.show)
-        wheelsHtml.type.sld.value = 0
-        wheelsHtml.type.show.innerHTML = wheelType[0]
-        wheelsHtml.num.sld.value = -1
-        wheelsHtml.num.show.innerHTML = "Default"
-
-        //html.children[i].children[0].children[2].innerHTML = "Default"
-        //html.children[i].children[0].children[1].value = -1
-    }
-    if (slider.id == "type") wheelsHtml.num.sld.max = wheelsHtml.max[slider.value]
+function origine (wheelNum) {
+    if (wheelNum == 0)
+        return "Origine"
+    return wheelNum
 }
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -451,7 +276,7 @@ function updateWheelsSliders (slider) {
 //    initNeon()
 //})
 
-
+/*
 function initNeon () {
 
     appLoaded = "neon"
@@ -501,12 +326,12 @@ function initNeon () {
 
 
 }
-
-
+*/
+/*
 function updateColorInput (input) {
     input.value = rgbToHex(neonData)
 }
-
+*/
 
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -525,9 +350,6 @@ function componentToHex(c) {
 function rgbToHex(rgb) {
     return "#" + componentToHex(rgb.r) + componentToHex(rgb.g) + componentToHex(rgb.b);
 }
-
-
-
 
 const modList = [
     "Spoilers",
@@ -581,6 +403,15 @@ const modList = [
     "Livery",
 ]
 
+
+const colorsId = [
+    {name: "Pearl", max: 74},
+    {name: 1, max: 74},
+    {name: "Normal", max: 73},
+    {name: "Matte", max: 19},
+    {name: "Metal", max: 3},
+    {name: "Chrome", max: 1},
+]
 
 const colorsSwitch = {
     0	: {type: 1, name: "Black"},
@@ -737,163 +568,3 @@ const colorsSwitch = {
     147	: {type: "Normal", name: " MODSHOP BLACK1"},
     157	: {type: "Normal", name: " Epsilon Blue"},
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-var red1 = document.getElementById("red1");
-var showred1 = document.getElementById("showred1");
-showred1.innerHTML = red1.value
-red1.oninput = function() {
-    showred1.innerHTML = this.value
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-var green1 = document.getElementById("green1");
-var showgreen1 = document.getElementById("showgreen1");
-showgreen1.innerHTML = green1.value
-green1.oninput = function() {
-    showgreen1.innerHTML = this.value
-
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-var blue1 = document.getElementById("blue1");
-var showblue1 = document.getElementById("showblue1");
-showblue1.innerHTML = blue1.value
-blue1.oninput = function() {
-    showblue1.innerHTML = this.value
-
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-var red2 = document.getElementById("red2");
-var showred2 = document.getElementById("showred2");
-showred2.innerHTML = red2.value
-red2.oninput = function() {
-    showred2.innerHTML = this.value
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-var green2 = document.getElementById("green2");
-var showgreen2 = document.getElementById("showgreen2");
-showgreen2.innerHTML = green2.value
-green2.oninput = function() {
-    showgreen2.innerHTML = this.value
-
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-var blue2 = document.getElementById("blue2");
-var showblue2 = document.getElementById("showblue2");
-showblue2.innerHTML = blue2.value
-blue2.oninput = function() {
-    showblue2.innerHTML = this.value
-
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-
-var primary = document.getElementById("primary");
-var showprimary = document.getElementById("showprimary");
-showprimary.innerHTML = primary.value
-primary.oninput = function() {
-    showprimary.innerHTML = this.value
-
-    var color = [primary.value, secondary.value]
-    //alt.emit('color', color)
-}
-var secondary = document.getElementById("secondary");
-var showsecondary = document.getElementById("showsecondary");
-showsecondary.innerHTML = secondary.value
-secondary.oninput = function() {
-    showsecondary.innerHTML = this.value
-
-    var color = [primary.value, secondary.value]
-    //alt.emit('color', color)
-}
-
-var opac = document.getElementById("opac");
-var showpopac = document.getElementById("showopac");
-showopac.innerHTML = opac.value
-opac.oninput = function() {
-    showopac.innerHTML = this.value
-
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-var pearl = document.getElementById("pearl");
-var showpearl = document.getElementById("showpearl");
-showpearl.innerHTML = pearl.value
-pearl.oninput = function() {
-    showpearl.innerHTML = this.value
-
-    var customColor = [red1.value, green1.value, blue1.value, red2.value, green2.value, blue2.value, opac.value, pearl.value]
-    //alt.emit('customColor', customColor)
-}
-
-
-var neonsred = document.getElementById("neonsred");
-var showneonsred = document.getElementById("showneonsred");
-showneonsred.innerHTML = neonsred.value
-neonsred.oninput = function() {
-    showneonsred.innerHTML = this.value
-    var neons = [neonsred.value, neonsgreen.value, neonsblue.value]
-    //alt.emit('neons', neons)
-}
-var neonsgreen = document.getElementById("neonsgreen");
-var showneonsgreen = document.getElementById("showneonsgreen");
-showneonsgreen.innerHTML = neonsgreen.value
-neonsgreen.oninput = function() {
-    showneonsgreen.innerHTML = this.value
-
-    var neons = [neonsred.value, neonsgreen.value, neonsblue.value]
-    //alt.emit('neons', neons)
-}
-var neonsblue = document.getElementById("neonsblue");
-var showneonsblue = document.getElementById("showneonsblue");
-showneonsblue.innerHTML = neonsblue.value
-neonsblue.oninput = function() {
-    showneonsblue.innerHTML = this.value
-
-    var neons = [neonsred.value, neonsgreen.value, neonsblue.value]
-    //alt.emit('neons', neons)
-}
-var wheeltype = document.getElementById("wheeltype");
-var showwheeltype = document.getElementById("showwheeltype");
-showwheeltype.innerHTML = wheeltype.value
-wheeltype.oninput = function() {
-    showwheeltype.innerHTML = this.value
-
-    var wheels = [wheeltype.value, wheelmodel.value, wheelcolor.value]
-    //alt.emit('setwheels', wheels)
-}
-var wheelmodel = document.getElementById("wheelmodel");
-var showwheelmodel = document.getElementById("showwheelmodel");
-showwheelmodel.innerHTML = wheelmodel.value
-wheelmodel.oninput = function() {
-    showwheelmodel.innerHTML = this.value
-
-    var wheels = [wheeltype.value, wheelmodel.value, wheelcolor.value]
-    //alt.emit('setwheels', wheels)
-}
-var wheelcolor = document.getElementById("wheelcolor");
-var showwheelcolor = document.getElementById("showwheelcolor");
-showwheelcolor.innerHTML = wheelcolor.value
-wheelcolor.oninput = function() {
-    showwheelcolor.innerHTML = this.value
-
-    var wheels = [wheeltype.value, wheelmodel.value, wheelcolor.value]
-    //alt.emit('setwheels', wheels)
-}
-*/
