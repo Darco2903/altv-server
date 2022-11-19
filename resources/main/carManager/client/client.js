@@ -21,6 +21,14 @@ alt.on('keydown', (key) => {
     }
 })
 
+function toogleEngine () {
+    veh = alt.Player.local.vehicle
+    if (!veh) return
+    let engine = !veh.getMeta('engine')
+    veh.setMeta('engine', engine)
+    native.setVehicleEngineOn(veh.scriptID, engine, false, true)
+    //native.setVehicleUndriveable(!engine)
+}
 
 alt.on('keyup', (key) => {
     if (key == 27 && webview) { //Escape
@@ -92,6 +100,14 @@ function startApp (app) {
             break;
     }
     webview.emit("app", [app, data])
+}
+
+function sendModsToServer () {
+    let data = {
+        mods: getModsData(),
+        wheels: getWheelsData().restore
+    }
+    alt.emitServer("sendModsToServer", (data))
 }
 
 function setStock () {
@@ -207,23 +223,6 @@ function getModsData () {
     return data
 }
 
-function toogleEngine () {
-    veh = alt.Player.local.vehicle
-    if (!veh) return
-    let engine = !veh.getMeta('engine')
-    veh.setMeta('engine', engine)
-    native.setVehicleEngineOn(veh.scriptID, engine, false, true)
-    //native.setVehicleUndriveable(!engine)
-}
-
-function sendModsToServer () {
-    let data = {
-        mods: getModsData(),
-        wheels: getWheelsData().restore
-    }
-    alt.emitServer("sendModsToServer", (data))
-}
-
 const wheelsModType = 23    // Front Wheels
 
 function getWheelsData () {
@@ -250,6 +249,33 @@ function setWheels (data) {
     const customWheels = native.getVehicleModVariation(veh, wheelsModType)
     native.setVehicleWheelType(veh, typeIndex)
     native.setVehicleMod(veh, wheelsModType, wheelNum -1, customWheels)
+}
+
+function getColors () {
+    veh = alt.Player.local.vehicle
+    const xenon = native.getVehicleXenonLightsColor(veh)
+    const interior = native.getVehicleInteriorColor(veh, 1)
+    const dash = native.getVehicleDashboardColor(veh, 1)
+    const count = native.getNumModColors(veh, 1)
+    const modColor1 = native.getVehicleModColor1(veh, 1, 1, 1)
+    const modColor2 = native.getVehicleModColor2(veh, 1)
+    const modColor1Name = native.getVehicleModColor1Name(veh, true)
+    const modColor2Name = native.getVehicleModColor1Name(veh)
+    const tireSmoke = native.getVehicleTyreSmokeColor(veh, 1, 1, 1)
+    const color = native.getVehicleColor(veh, 1, 1, 1)
+    
+    console.log(
+    "xenon:", xenon,
+    "interior:", interior,
+    "dash:", dash,
+    "count:", count,
+    "modColor1:", modColor1,
+    "modColor2:", modColor2,
+    "modColor1Name:", modColor1Name,
+    "modColor2Name:", modColor2Name,
+    "tireSmoke:", tireSmoke,
+    "color:", color
+    );
 }
 
 

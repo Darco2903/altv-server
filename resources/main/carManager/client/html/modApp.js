@@ -1,4 +1,9 @@
 
+import * as t from "../../tables.js"
+
+
+console.log(t);
+
 let appLoaded
 
 let htmlGenerated = document.querySelector("generated")
@@ -119,6 +124,73 @@ function initMods (data) {
 
 ///////////////////////////////////////////////////////////////////////////
 
+
+function initWheels (data) {
+    appLoaded = "wheels"
+
+    let {typeIndex, wheelNum, wheelTypeCount} = data.restore
+    
+    let htmlWheelType = document.createElement("wheel")
+    let htmlWheelNum = document.createElement("wheel")
+    
+    let htmlNameType = document.createElement('strong')
+    htmlNameType.innerHTML = "Type"
+    let htmlSelectorType = createSlider(typeIndex, wheelTypeCount)
+    let htmlShowType = document.createElement('strong')
+    htmlShowType.className = "show"
+    htmlShowType.innerHTML = data[typeIndex].name
+
+    let htmlNameNum = document.createElement('strong')
+    htmlNameNum.innerHTML = "Num"
+    let htmlSelectorNum = createSlider(wheelNum, data[typeIndex].count)
+    let htmlShowNum = document.createElement('strong')
+    htmlShowNum.className = "show"
+    htmlShowNum.innerHTML = origine(wheelNum)
+    htmlSelectorType.oninput = function () {
+        typeIndex = parseInt(this.value)
+        htmlShowType.innerHTML = data[typeIndex].name
+        const max = data[typeIndex].count
+        htmlSelectorNum.max = max
+        if (htmlSelectorNum.value > max) {
+            htmlSelectorNum.value = max
+            htmlShowNum.innerHTML = max
+        }
+        alt.emit("setWheels", {typeIndex, wheelNum})
+    }
+    
+    htmlSelectorNum.oninput = function () {
+        wheelNum = parseInt(this.value)
+        htmlShowNum.innerHTML = origine(wheelNum)
+        alt.emit("setWheels", {typeIndex, wheelNum})
+    }
+    
+    let htmlWheelBut = document.createElement("wheel")
+    let htmlOrigineBut = document.createElement("button")
+    htmlOrigineBut.innerHTML = "Jantes d'origine"
+    htmlOrigineBut.onclick = function () {
+        const origine = 0
+        htmlSelectorNum.value = origine
+        wheelNum = origine
+        htmlShowNum.innerHTML = "Origine"
+        alt.emit("setWheels", {typeIndex, wheelNum: origine})
+    }
+
+    htmlWheelType.append(htmlNameType, htmlSelectorType, htmlShowType)
+    htmlWheelNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
+    htmlWheelBut.append(htmlOrigineBut)
+    htmlGenerated.append(htmlWheelType, htmlWheelNum, htmlWheelBut)
+}
+
+function origine (wheelNum) {
+    if (wheelNum == 0)
+        return "Origine"
+    return wheelNum
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
 //  alt.on('initColor:return', data => {
 //      colorData = data    
 //      restoreData.color = data
@@ -200,73 +272,79 @@ function updateColorSliders (slider) {
 */
 
 
-///////////////////////////////////////////////////////////////////////////
+function initColors (data) {
+    appLoaded = "colors"
+    console.log(data)
 
-
-function initWheels (data) {
-    appLoaded = "wheels"
-
-    let {typeIndex, wheelNum, wheelTypeCount} = data.restore
+    let htmlColorType = document.createElement("color")
+    let htmlColorNum = document.createElement("color")
     
-    let htmlWheelType = document.createElement("wheel")
-    let htmlWheelNum = document.createElement("wheel")
-    
-    let htmlNameType = document.createElement('strong')
-    htmlNameType.innerHTML = "Type"
-    let htmlSelectorType = createSlider(typeIndex, wheelTypeCount)
+    let htmlColorTypeName = document.createElement('strong')
+    htmlColorTypeName.innerHTML = "Type"
+    let htmlSelectorType = createSlider(type, typeMax)
     let htmlShowType = document.createElement('strong')
     htmlShowType.className = "show"
     htmlShowType.innerHTML = data[typeIndex].name
 
     let htmlNameNum = document.createElement('strong')
     htmlNameNum.innerHTML = "Num"
-    let htmlSelectorNum = createSlider(wheelNum, data[typeIndex].count)
+    let htmlSelectorNum = createSlider(num, numMax)
     let htmlShowNum = document.createElement('strong')
     htmlShowNum.className = "show"
-    htmlShowNum.innerHTML = origine(wheelNum)
+    htmlShowNum.innerHTML = num
+
     htmlSelectorType.oninput = function () {
-        typeIndex = parseInt(this.value)
-        htmlShowType.innerHTML = data[typeIndex].name
-        const max = data[typeIndex].count
-        htmlSelectorNum.max = max
-        if (htmlSelectorNum.value > max) {
-            htmlSelectorNum.value = max
-            htmlShowNum.innerHTML = max
-        }
-        alt.emit("setWheels", {typeIndex, wheelNum})
+        alt.emit("setColors", null)
     }
     
     htmlSelectorNum.oninput = function () {
-        wheelNum = parseInt(this.value)
-        htmlShowNum.innerHTML = origine(wheelNum)
-        alt.emit("setWheels", {typeIndex, wheelNum})
-    }
-    
-    let htmlWheelBut = document.createElement("wheel")
-    let htmlOrigineBut = document.createElement("button")
-    htmlOrigineBut.innerHTML = "Jantes d'origine"
-    htmlOrigineBut.onclick = function () {
-        const origine = 0
-        htmlSelectorNum.value = origine
-        wheelNum = origine
-        htmlShowNum.innerHTML = "Origine"
-        alt.emit("setWheels", {typeIndex, wheelNum: origine})
+        alt.emit("setColors", null)
     }
 
-    htmlWheelType.append(htmlNameType, htmlSelectorType, htmlShowType)
-    htmlWheelNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
-    htmlWheelBut.append(htmlOrigineBut)
-    htmlGenerated.append(htmlWheelType, htmlWheelNum, htmlWheelBut)
-}
+    htmlColorType.append(htmlColorTypeName, htmlSelectorType, htmlShowType)
+    htmlColorNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
+    htmlGenerated.append(htmlColorType, htmlColorNum)
 
-function origine (wheelNum) {
-    if (wheelNum == 0)
-        return "Origine"
-    return wheelNum
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
+
+
+function initNeons (data) {
+    appLoaded = "neons"
+    console.log(data)
+
+    let htmlNeonType = document.createElement("neon")
+    let htmlNeonNum = document.createElement("neon")
+    
+    let htmlNeonTypeName = document.createElement('strong')
+    htmlNeonTypeName.innerHTML = "Type"
+    let htmlSelectorType = createSlider(type, typeMax)
+    let htmlShowType = document.createElement('strong')
+    htmlShowType.className = "show"
+    htmlShowType.innerHTML = data[typeIndex].name
+
+    let htmlNameNum = document.createElement('strong')
+    htmlNameNum.innerHTML = "Num"
+    let htmlSelectorNum = createSlider(num, numMax)
+    let htmlShowNum = document.createElement('strong')
+    htmlShowNum.className = "show"
+    htmlShowNum.innerHTML = num
+
+    htmlSelectorType.oninput = function () {
+        alt.emit("setNeons", null)
+    }
+    
+    htmlSelectorNum.oninput = function () {
+        alt.emit("setNeons", null)
+    }
+
+    htmlNeonType.append(htmlNeonTypeName, htmlSelectorType, htmlShowType)
+    htmlNeonNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
+    htmlGenerated.append(htmlNeonType, htmlNeonNum)
+
+}
 
 
 //alt.on('initNeon:return', data => {
@@ -334,7 +412,7 @@ function updateColorInput (input) {
 */
 
 function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
       r: parseInt(result[1], 16),
       g: parseInt(result[2], 16),
@@ -343,7 +421,7 @@ function hexToRgb(hex) {
 }
 
 function componentToHex(c) {
-    var hex = c.toString(16);
+    let hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
 
