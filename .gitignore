@@ -47,3 +47,4 @@ pm_new/
 
 #node_modules
 node_modules
+package*.json
