@@ -17,11 +17,11 @@ alt.on("ConnectionComplete", () => {
 
 ///////////////////////////////
 
-/*
+
 chat.registerCmd("saveTest", (player) => {
     player.vehicle.register()
 })
-*/
+
 
 export function saveVehicles () {
     Vehicle.all.forEach(veh => {
@@ -34,6 +34,7 @@ alt.onClient("sendModsToServer", (player, data) => {
     console.log("data.wheels", data.wheels);
     veh.setAllMods(data.mods)
     veh.setAllWheels(data.wheels)
+    //  veh.setAllColors(data.colors)
     veh.saveAppearance()
 })
 
@@ -56,9 +57,11 @@ alt.onClient('vehicle:Neons', (player, color) => {
 
 
 alt.onClient('spawn:Vehicle', (player, model) => {
-    model = JSON.parse(model)
-    if (model in vehicleList) model = vehicleList[model]
-    carManager.createVehicle(player, model, false)
+    console.log(model);
+    if (model.toLowerCase() in vehicleList)
+    model = vehicleList[model]
+    console.log(model);
+    carManager.createVehicle(player, model)
 })
 
 /*

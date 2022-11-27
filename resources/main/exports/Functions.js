@@ -403,7 +403,10 @@ export function tpPlayerToPlayer (player1, player2) {     //teleport player1 to 
 
 export function AuthPlayer(player) {      //get Player id with RSID or create an Account if not found
     db.selectData('Account', ['id', 'name', 'rsid', 'ip'], data => {
-        if (!data) return accountcreation(player)
+        if (!data) {
+            accountcreation(player)
+            return
+        }
         data.find(acc => {
             if (acc.rsid == player.socialID) {
                 db.updatePartialData(acc.id, { name: player.name, ip: player.ip }, 'Account', callback => {})

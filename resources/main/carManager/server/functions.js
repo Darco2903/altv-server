@@ -12,6 +12,8 @@ import Vehicle from './Vehicle';
 
 export function serverStartVehicleSpawn () {
     db.selectData("Vehicle", ['id', 'model', 'position', 'rotation', 'owner', 'appearance', 'garage'], data => {
+        if (!data)
+            return
         data.forEach(data => {
             Object.keys(data).forEach(function(key) {
                 data[key] = JSON.parse(data[key])
@@ -28,7 +30,7 @@ export function log (msg) {
     alt.log(color.FgCyan + msg)
 }
 
-export function createVehicle (player, model, save) {
+export function createVehicle (player, model) {
     let pos = globalFunction.vectorFormat(player.pos)
     pos.x += 2
     new Vehicle(model, pos, {x: 0, y: 0, z:0}, null, player.name, null, {inGarage: false})
