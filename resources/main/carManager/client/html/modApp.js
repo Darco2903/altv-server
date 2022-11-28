@@ -1,9 +1,4 @@
 
-import * as t from "../../tables.js"
-
-
-console.log(t);
-
 let appLoaded
 
 let htmlGenerated = document.querySelector("generated")
@@ -42,7 +37,7 @@ function appManager (res) {
             initMods(data)
             break;
             
-        case "color":
+        case "colors":
             initColors(data)
             break;
 
@@ -62,12 +57,30 @@ function appManager (res) {
 
 
 function createSlider (value, max) {
-    let slider = document.createElement("input")
-    slider.type = "range"
-    slider.class = "slider"
+    let div = document.getElementById("divSlider").cloneNode(true)
+    div.removeAttribute("hidden")
+    let slider = div.childNodes[1]
     slider.max = max
     slider.value = value
-    return slider
+    updateSliderFill(slider)
+    slider.addEventListener("mousemove", function () {
+        updateSliderFill(slider)
+    })
+    return [div, slider]
+}
+
+function updateSliderFill (slider) {
+    let x = (slider.value/slider.max)*100
+    let color = "linear-gradient(90deg, rgb(223, 200, 0)" + x + "%, rgba(0, 0, 0, 0)" + x + "%)"
+    slider.style.background = color
+}
+
+
+function createCheckbox () {
+    let label = document.getElementById("labelCheckbox").cloneNode(true)
+    label.removeAttribute("hidden")
+    let checkbox = label.childNodes[1]
+    return [label, checkbox]
 }
 
 
@@ -89,32 +102,29 @@ function initMods (data) {
             case 20:
             //  case 21: ??
             case 22:
-                let htmlButton = document.createElement("button")
-                htmlButton.className = "toogleMod"
-                htmlButton.id = !!num
-                htmlButton.innerHTML = !!num
-                htmlButton.onclick = function () {
-                    const bool = (this.innerHTML != "true")
-                    this.id = bool
-                    this.innerHTML = bool
+                let [label, checkbox] = createCheckbox()
+                checkbox.checked = !!num
+                checkbox.onchange = function () {
+                    const bool = checkbox.checked
+                    console.log(bool);
                     alt.emit("toogleMod", [modType, bool])
                 }
-                htmlMod.append(htmlButton)
+                htmlMod.append(label)
                 break;
         
             default:
                 if (count == 0) continue
-                let htmlSelector = createSlider(num, count)
+                let [htmlSliderDiv, htmlSlider] = createSlider(num, count)
                 let htmlShow = document.createElement('strong')
                 htmlShow.className = "show"
                 htmlShow.innerHTML = num
 
-                htmlSelector.oninput = function () {
+                htmlSlider.oninput = function () {
                     let modNum = parseInt(this.value)
                     htmlShow.innerHTML = modNum
                     alt.emit("setMod", [modType, modNum])
                 }
-                htmlMod.append(htmlSelector, htmlShow)
+                htmlMod.append(htmlSliderDiv, htmlShow)
                 break;
         }
         htmlGenerated.append(htmlMod)
@@ -124,61 +134,79 @@ function initMods (data) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-
 function initWheels (data) {
     appLoaded = "wheels"
 
-    let {typeIndex, wheelNum, wheelTypeCount} = data.restore
+    let {typeIndex, wheelNum, wheelColor} = data.restore
+    let wheelTypeCount = wheelTypeList.length
     
     let htmlWheelType = document.createElement("wheel")
     let htmlWheelNum = document.createElement("wheel")
-    
+    let htmlWheelColor = document.createElement("wheel")
+
     let htmlNameType = document.createElement('strong')
     htmlNameType.innerHTML = "Type"
-    let htmlSelectorType = createSlider(typeIndex, wheelTypeCount)
+    let [htmlSliderTypeDiv, htmlSliderType] = createSlider(typeIndex, wheelTypeCount)
     let htmlShowType = document.createElement('strong')
     htmlShowType.className = "show"
-    htmlShowType.innerHTML = data[typeIndex].name
+    htmlShowType.innerHTML = wheelTypeList[typeIndex]
 
     let htmlNameNum = document.createElement('strong')
     htmlNameNum.innerHTML = "Num"
-    let htmlSelectorNum = createSlider(wheelNum, data[typeIndex].count)
+    let [htmlSliderNumDiv, htmlSliderNum] = createSlider(wheelNum, data[typeIndex])
     let htmlShowNum = document.createElement('strong')
     htmlShowNum.className = "show"
     htmlShowNum.innerHTML = origine(wheelNum)
-    htmlSelectorType.oninput = function () {
+
+    let htmlNameColor = document.createElement('strong')
+    htmlNameColor.innerHTML = "Color"
+    let [htmlSliderColorDiv, htmlSliderColor] = createSlider(wheelColor, data.colorCount)
+    let htmlShowColor = document.createElement('strong')
+    htmlShowColor.className = "show"
+    htmlShowColor.innerHTML = wheelColor
+
+    htmlSliderType.oninput = function () {
         typeIndex = parseInt(this.value)
-        htmlShowType.innerHTML = data[typeIndex].name
-        const max = data[typeIndex].count
-        htmlSelectorNum.max = max
-        if (htmlSelectorNum.value > max) {
-            htmlSelectorNum.value = max
+        htmlShowType.innerHTML = wheelTypeList[typeIndex]
+        const max = data[typeIndex]
+        htmlSliderNum.max = max
+        if (htmlSliderNum.value > max) {
+            htmlSliderNum.value = max
             htmlShowNum.innerHTML = max
         }
-        alt.emit("setWheels", {typeIndex, wheelNum})
+        alt.emit("setWheels", {typeIndex, wheelNum, wheelColor})
     }
     
-    htmlSelectorNum.oninput = function () {
+    htmlSliderNum.oninput = function () {
         wheelNum = parseInt(this.value)
         htmlShowNum.innerHTML = origine(wheelNum)
-        alt.emit("setWheels", {typeIndex, wheelNum})
+        alt.emit("setWheels", {typeIndex, wheelNum, wheelColor})
+    }
+    
+    htmlSliderColor.oninput = function () {
+        wheelColor = parseInt(this.value)
+        htmlShowColor.innerHTML = wheelColor
+        alt.emit("setWheels", {typeIndex, wheelNum, wheelColor})
     }
     
     let htmlWheelBut = document.createElement("wheel")
     let htmlOrigineBut = document.createElement("button")
     htmlOrigineBut.innerHTML = "Jantes d'origine"
     htmlOrigineBut.onclick = function () {
-        const origine = 0
-        htmlSelectorNum.value = origine
-        wheelNum = origine
+        wheelNum = 0
+        htmlSliderNum.value = wheelNum
         htmlShowNum.innerHTML = "Origine"
-        alt.emit("setWheels", {typeIndex, wheelNum: origine})
+        wheelColor = data.restore.wheelColor
+        htmlSliderColor.value = wheelColor
+        htmlShowColor.innerHTML = wheelColor
+        alt.emit("setWheels", {typeIndex, wheelNum: wheelNum, wheelColor})
     }
 
-    htmlWheelType.append(htmlNameType, htmlSelectorType, htmlShowType)
-    htmlWheelNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
+    htmlWheelType.append(htmlNameType, htmlSliderTypeDiv, htmlShowType)
+    htmlWheelNum.append(htmlNameNum, htmlSliderNumDiv, htmlShowNum)
+    htmlWheelColor.append(htmlNameColor, htmlSliderColorDiv, htmlShowColor)
     htmlWheelBut.append(htmlOrigineBut)
-    htmlGenerated.append(htmlWheelType, htmlWheelNum, htmlWheelBut)
+    htmlGenerated.append(htmlWheelType, htmlWheelNum, htmlWheelColor, htmlWheelBut)
 }
 
 function origine (wheelNum) {
@@ -191,119 +219,143 @@ function origine (wheelNum) {
 ///////////////////////////////////////////////////////////////////////////
 
 
-//  alt.on('initColor:return', data => {
-//      colorData = data    
-//      restoreData.color = data
-//  
-//      initColor()
-//  
-//  })
-
-
-/*
-function initColor () {
-
-    appLoaded = "color"
-
-    ////    Création de la page html    ////
-
-    const colorDoc = [
-        {name: 'type', max: 5},
-        {name: 'color', max: 75}
-    ]
-    const Title = ['Prim', 'Second']
-
-    for (var i=1 ; i <= 2 ; i++) {
-
-        var trTitle = document.createElement('tr')
-        var h1Title = document.createElement('h1')
-        h1Title.innerHTML = Title[i-1] + "ary Color"
-        
-        trTitle.append(h1Title) ; html.append(trTitle)
-
-        for (var elem of colorDoc) {
-
-            const name = elem.name + i
-
-            var tr = document.createElement('tr')
-            var td = document.createElement('td')
-            const colorSld = document.createElement('input')
-            colorSld.type = "range" ; colorSld.id = elem.name ; colorSld.max = elem.max ; colorSld.value = colorData[i-1][elem.name]
-
-            const show = document.createElement('h3')
-            
-            show.id = "show" + name ; show.innerHTML = colorData[i-1][elem.name]
-            //  if (elem.name == "type") show.innerHTML = colorsId[colorData[i-1][elem.name]].name
-            var h3 = document.createElement('h3')
-            h3.innerHTML = elem.name
-
-            td.append(h3, colorSld, show) ; tr.append(td) ; html.append(tr)
-
-            slider[name] = {sld: colorSld, show: show}
-
-            colorSld.oninput = function () {
-                show.innerHTML = this.value
-
-                updateColorSliders(colorSld)
-
-                if (show.id.indexOf('type') > 0) show.innerHTML = colorsId[this.value].name
-                colorData[0] = {type: slider["type1"].sld.value, color: slider["color1"].sld.value}
-                colorData[1] = {type: slider["type2"].sld.value, color: slider["color2"].sld.value}
-
-                //alt.emit('client:SetColor', colorData)
-            }
-        }
-    }
-}
-*/
-
-
-/*
-function updateColorSliders (slider) {
-    //for (var i=1 ; i<=2 ; i++) slider["color" +i].max = colorsId[slider["type" +i].value].max
-
-    //if (slider.id == "type1") slider["color1"].max = 
-
-
-    //console.log(slider["type1"].value)
-    //slider["color1"].max = colorsId[slider["type1"].value].max
-    //slider["color2"].max = colorsId[slider["type2"].value].max
-}
-*/
-
-
 function initColors (data) {
     appLoaded = "colors"
-    console.log(data)
 
-    let htmlColorType = document.createElement("color")
-    let htmlColorNum = document.createElement("color")
-    
-    let htmlColorTypeName = document.createElement('strong')
-    htmlColorTypeName.innerHTML = "Type"
-    let htmlSelectorType = createSlider(type, typeMax)
-    let htmlShowType = document.createElement('strong')
-    htmlShowType.className = "show"
-    htmlShowType.innerHTML = data[typeIndex].name
+    let {primary, secondary} = data.restore //pearl
 
-    let htmlNameNum = document.createElement('strong')
-    htmlNameNum.innerHTML = "Num"
-    let htmlSelectorNum = createSlider(num, numMax)
-    let htmlShowNum = document.createElement('strong')
-    htmlShowNum.className = "show"
-    htmlShowNum.innerHTML = num
+    let htmlColorPrimaryType = document.createElement("color")
+    let htmlColorSecondaryType = document.createElement("color")
+    let htmlColorPrimaryNum = document.createElement("color")
+    let htmlColorSecondaryNum = document.createElement("color")
+    let htmlColorPearl = document.createElement("colorPearl")
+    let htmlColorPearlNum = document.createElement("color")
 
-    htmlSelectorType.oninput = function () {
-        alt.emit("setColors", null)
-    }
-    
-    htmlSelectorNum.oninput = function () {
-        alt.emit("setColors", null)
+    function pearlVisibility () {
+        if (primary.colorType == 2) {    //  Pearl
+            htmlColorPearl.style.visibility = "visible"
+        } else {
+            htmlColorPearl.style.visibility = "hidden"
+        }
     }
 
-    htmlColorType.append(htmlColorTypeName, htmlSelectorType, htmlShowType)
-    htmlColorNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
-    htmlGenerated.append(htmlColorType, htmlColorNum)
+    pearlVisibility()
+
+    let htmlNamePrimaryType = document.createElement('strong')
+    htmlNamePrimaryType.innerHTML = "Primary"
+    let htmlSelectorPrimaryType = document.createElement("select")
+    //  htmlSelectorPrimaryType.class = "selector"
+    let htmlNameSecondaryType = document.createElement('strong')
+    htmlNameSecondaryType.innerHTML = "Secondary"
+    let htmlSelectorSecondaryType = document.createElement("select")
+    //  htmlSelectorSecondaryType.class = "selector"
+    
+    colors.forEach(({name, index}) => {
+        const option1 = new Option(name, index, false, index == primary.colorType);
+        htmlSelectorPrimaryType.options.add(option1)
+        if (name != "Pearl") {
+            const option2 = new Option(name, index, false, index == secondary.colorType);
+            htmlSelectorSecondaryType.options.add(option2)
+        }
+    })
+
+    let htmlNamePrimaryNum = document.createElement('strong')
+    htmlNamePrimaryNum.innerHTML = "Num"
+    let [htmlSliderPrimaryNumDiv, htmlSliderPrimaryNum] = createSlider(primary.colorNum, colors[primary.colorType].count -1)
+    let htmlShowPrimaryNum = document.createElement('strong')
+    htmlShowPrimaryNum.className = "show"
+    //  console.log(primary.colorNum);
+    //  if (!colors[primary.colorType].colors[primary.colorNum])
+    //      primary.colorNum = colors[primary.colorType].colors.length -1
+    //  console.log(primary.colorNum);
+    const name1 = colors[primary.colorType].colors[primary.colorNum].name
+    htmlShowPrimaryNum.innerHTML = formatColorName(name1)
+
+    let htmlNameSecondaryNum = document.createElement('strong')
+    htmlNameSecondaryNum.innerHTML = "Num"
+    let [htmlSliderSecondaryNumDiv, htmlSliderSecondaryNum] = createSlider(secondary.colorNum, colors[secondary.colorType].count -1)
+    let htmlShowSecondaryNum = document.createElement('strong')
+    htmlShowSecondaryNum.className = "show"
+    //  console.log(secondary.colorNum);
+    //  if (!colors[secondary.colorType].colors[secondary.colorNum]) 
+    //      secondary.colorNum = colors[secondary.colorType].colors.length -1
+    //  console.log(secondary.colorNum);
+    const name2 = colors[secondary.colorType].colors[secondary.colorNum].name
+    htmlShowSecondaryNum.innerHTML = formatColorName(name2)
+    
+    console.log(primary.colorNum, secondary.colorNum, primary.pearl);   
+
+    let htmlNamePearl = document.createElement('strong')
+    htmlNamePearl.innerHTML = "Pearl"
+    let [htmlSliderPearlDiv, htmlSliderPearl] = createSlider(primary.pearl, colors[2].colors.length -1)
+    let htmlShowPearl = document.createElement('strong')
+    htmlShowPearl.className = "show"
+    if (primary.pearl == -1)
+        primary.pearl = 0
+    const namePearl = colors[2].colors[primary.pearl].name
+    htmlShowPearl.innerHTML = formatColorName(namePearl)
+
+    htmlSelectorPrimaryType.onchange = function () {
+        primary.colorType = parseInt(this.value)
+        let colorIndex = parseInt(htmlSliderPrimaryNum.value)
+        const max = colors[this.value].count -1
+        htmlSliderPrimaryNum.max = max
+        if (colorIndex > max) {
+            colorIndex = max
+            htmlSliderPrimaryNum.value = max
+            primary.colorNum = max
+        }
+        const name = colors[this.value].colors[colorIndex].name
+        htmlShowPrimaryNum.innerHTML = formatColorName(name)
+        pearlVisibility()
+        alt.emit("setColors", {primary, secondary})
+    }
+
+    htmlSelectorSecondaryType.onchange = function () {
+        secondary.colorType = parseInt(this.value)
+        let colorIndex = parseInt(htmlSliderSecondaryNum.value)
+        const max = colors[this.value].count -1
+        htmlSliderSecondaryNum.max = max
+        if (colorIndex > max) {
+            colorIndex = max
+            htmlSliderSecondaryNum.value = max
+            secondary.colorNum = max
+        }
+        const name = colors[this.value].colors[colorIndex].name
+        htmlShowSecondaryNum.innerHTML = formatColorName(name)
+        alt.emit("setColors", {primary, secondary})
+    }
+
+    htmlSliderPrimaryNum.oninput = function () {
+        primary.colorNum = parseInt(this.value)
+        let name = colors[primary.colorType].colors[this.value].name
+        htmlShowPrimaryNum.innerHTML = formatColorName(name)
+        alt.emit("setColors", {primary, secondary})
+    }
+
+    htmlSliderSecondaryNum.oninput = function () {
+        secondary.colorNum = parseInt(this.value)
+        let name = colors[secondary.colorType].colors[this.value].name
+        htmlShowSecondaryNum.innerHTML = formatColorName(name)
+        alt.emit("setColors", {primary, secondary})
+    }
+    
+    htmlSliderPearl.oninput = function () {
+        primary.pearl = parseInt(this.value)
+        let name = colors[primary.colorType].colors[this.value].name
+        name = formatColorName(name)
+        htmlShowPearl.innerHTML = name
+        alt.emit("setColors", {primary, secondary})
+    }
+    
+    htmlColorPrimaryType.append(htmlNamePrimaryType, htmlSelectorPrimaryType)
+    htmlColorPrimaryNum.append(htmlSliderPrimaryNumDiv, htmlShowPrimaryNum)
+    htmlColorSecondaryType.append(htmlNameSecondaryType, htmlSelectorSecondaryType)
+    htmlColorSecondaryNum.append(htmlSliderSecondaryNumDiv, htmlShowSecondaryNum)
+    htmlColorPearlNum.append(htmlSliderPearlDiv, htmlShowPearl)
+    htmlColorPearl.append(htmlNamePearl, htmlColorPearlNum)
+
+    htmlGenerated.append(htmlColorPrimaryType, htmlColorPrimaryNum, htmlColorSecondaryType, htmlColorSecondaryNum, htmlColorPearl)
 
 }
 
@@ -320,28 +372,28 @@ function initNeons (data) {
     
     let htmlNeonTypeName = document.createElement('strong')
     htmlNeonTypeName.innerHTML = "Type"
-    let htmlSelectorType = createSlider(type, typeMax)
+    let [htmlSliderTypeDiv, htmlSliderType] = createSlider(type, typeMax)
     let htmlShowType = document.createElement('strong')
     htmlShowType.className = "show"
     htmlShowType.innerHTML = data[typeIndex].name
 
     let htmlNameNum = document.createElement('strong')
     htmlNameNum.innerHTML = "Num"
-    let htmlSelectorNum = createSlider(num, numMax)
+    let [htmlSliderNumDiv, htmlSliderNum] = createSlider(num, numMax)
     let htmlShowNum = document.createElement('strong')
     htmlShowNum.className = "show"
     htmlShowNum.innerHTML = num
 
-    htmlSelectorType.oninput = function () {
+    htmlSliderType.oninput = function () {
         alt.emit("setNeons", null)
     }
     
-    htmlSelectorNum.oninput = function () {
+    htmlSliderNum.oninput = function () {
         alt.emit("setNeons", null)
     }
 
-    htmlNeonType.append(htmlNeonTypeName, htmlSelectorType, htmlShowType)
-    htmlNeonNum.append(htmlNameNum, htmlSelectorNum, htmlShowNum)
+    htmlNeonType.append(htmlNeonTypeName, htmlSliderTypeDiv, htmlShowType)
+    htmlNeonNum.append(htmlNameNum, htmlSliderNumDiv, htmlShowNum)
     htmlGenerated.append(htmlNeonType, htmlNeonNum)
 
 }
@@ -405,6 +457,7 @@ function initNeon () {
 
 }
 */
+
 /*
 function updateColorInput (input) {
     input.value = rgbToHex(neonData)
@@ -428,6 +481,18 @@ function componentToHex(c) {
 function rgbToHex(rgb) {
     return "#" + componentToHex(rgb.r) + componentToHex(rgb.g) + componentToHex(rgb.b);
 }
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function formatColorName (name) {
+    name = name.toLowerCase()
+    name = name.replaceAll  ('_', ' ')
+    name = capitalizeFirstLetter(name)
+    return name
+}
+
 
 const modList = [
     "Spoilers",
@@ -481,168 +546,400 @@ const modList = [
     "Livery",
 ]
 
+const wheelTypeList = ["Sport", "Muscle", "Lowrider", "SUV", "Tout Terrain", "Tuner", "Moto", /*"Haut de Gamme"*/"Luxe", "Rue", /*"Rue Rouillés"*/"Rue", "Circuit", "Tunning 1", "Tunning 2"]
+//const colorTypeList = ["Normal", "Metallic", "Pearl", "Matte", "Metal", "Chrome", "Chameleon"]
 
-const colorsId = [
-    {name: "Pearl", max: 74},
-    {name: 1, max: 74},
-    {name: "Normal", max: 73},
-    {name: "Matte", max: 19},
-    {name: "Metal", max: 3},
-    {name: "Chrome", max: 1},
+const colors = [
+    {
+        index: 0,
+        name: "Normal",
+        count: 75,
+        colors: [
+            {index: 0, name: "BLACK"},
+            {index: 1, name: "BLACK_GRAPHITE"},
+            {index: 2, name: "GRAPHITE"},
+            {index: 3, name: "ANTHR_BLACK"},
+            {index: 4, name: "BLACK_STEEL"},
+            {index: 5, name: "DARK_SILVER"},
+            {index: 6, name: "SILVER"},
+            {index: 7, name: "BLUE_SILVER"},
+            {index: 8, name: "ROLLED_STEEL"},
+            {index: 9, name: "SHADOW_SILVER"},
+            {index: 10, name: "STONE_SILVER"},
+            {index: 11, name: "MIDNIGHT_SILVER"},
+            {index: 12, name: "CAST_IRON_SIL"},
+            {index: 13, name: "RED"},
+            {index: 14, name: "TORINO_RED"},
+            {index: 15, name: "FORMULA_RED"},
+            {index: 16, name: "LAVA_RED"},
+            {index: 17, name: "BLAZE_RED"},
+            {index: 18, name: "GRACE_RED"},
+            {index: 19, name: "GARNET_RED"},
+            {index: 20, name: "SUNSET_RED"},
+            {index: 21, name: "CABERNET_RED"},
+            {index: 22, name: "WINE_RED"},
+            {index: 23, name: "CANDY_RED"},
+            {index: 24, name: "HOT_PINK"},
+            {index: 25, name: "PINK"},
+            {index: 26, name: "SALMON_PINK"},
+            {index: 27, name: "SUNRISE_ORANGE"},
+            {index: 28, name: "ORANGE"},
+            {index: 29, name: "BRIGHT_ORANGE"},
+            {index: 30, name: "GOLD"},
+            {index: 31, name: "BRONZE"},
+            {index: 32, name: "YELLOW"},
+            {index: 33, name: "RACE_YELLOW"},
+            {index: 34, name: "FLUR_YELLOW"},
+            {index: 35, name: "DARK_GREEN"},
+            {index: 36, name: "RACING_GREEN"},
+            {index: 37, name: "SEA_GREEN"},
+            {index: 38, name: "OLIVE_GREEN"},
+            {index: 39, name: "BRIGHT_GREEN"},
+            {index: 40, name: "PETROL_GREEN"},
+            {index: 41, name: "LIME_GREEN"},
+            {index: 42, name: "MIDNIGHT_BLUE"},
+            {index: 43, name: "GALAXY_BLUE"},
+            {index: 44, name: "DARK_BLUE"},
+            {index: 45, name: "SAXON_BLUE"},
+            {index: 46, name: "BLUE"},
+            {index: 47, name: "MARINER_BLUE"},
+            {index: 48, name: "HARBOR_BLUE"},
+            {index: 49, name: "DIAMOND_BLUE"},
+            {index: 50, name: "SURF_BLUE"},
+            {index: 51, name: "NAUTICAL_BLUE"},
+            {index: 52, name: "RACING_BLUE"},
+            {index: 53, name: "ULTRA_BLUE"},
+            {index: 54, name: "LIGHT_BLUE"},
+            {index: 55, name: "CHOCOLATE_BROWN"},
+            {index: 56, name: "BISON_BROWN"},
+            {index: 57, name: "CREEK_BROWN"},
+            {index: 58, name: "UMBER_BROWN"},
+            {index: 59, name: "MAPLE_BROWN"},
+            {index: 60, name: "BEECHWOOD_BROWN"},
+            {index: 61, name: "SIENNA_BROWN"},
+            {index: 62, name: "SADDLE_BROWN"},
+            {index: 63, name: "MOSS_BROWN"},
+            {index: 64, name: "WOODBEECH_BROWN"},
+            {index: 65, name: "STRAW_BROWN"},
+            {index: 66, name: "SANDY_BROWN"},
+            {index: 67, name: "BLEECHED_BROWN"},
+            {index: 68, name: "PURPLE"},
+            {index: 69, name: "SPIN_PURPLE"},
+            {index: 70, name: "MIGHT_PURPLE"},
+            {index: 71, name: "BRIGHT_PURPLE"},
+            {index: 72, name: "CREAM"},
+            {index: 73, name: "WHITE"},
+            {index: 74, name: "FROST_WHITE"}
+        ]
+    },
+    
+    {
+        index: 1,
+        name: "Metallic",
+        count: 75,
+        colors: [
+            {index: 0, name: "BLACK"},
+            {index: 1, name: "BLACK_GRAPHITE"},
+            {index: 2, name: "GRAPHITE"},
+            {index: 3, name: "ANTHR_BLACK"},
+            {index: 4, name: "BLACK_STEEL"},
+            {index: 5, name: "DARK_SILVER"},
+            {index: 6, name: "SILVER"},
+            {index: 7, name: "BLUE_SILVER"},
+            {index: 8, name: "ROLLED_STEEL"},
+            {index: 9, name: "SHADOW_SILVER"},
+            {index: 10, name: "STONE_SILVER"},
+            {index: 11, name: "MIDNIGHT_SILVER"},
+            {index: 12, name: "CAST_IRON_SIL"},
+            {index: 13, name: "RED"},
+            {index: 14, name: "TORINO_RED"},
+            {index: 15, name: "FORMULA_RED"},
+            {index: 16, name: "LAVA_RED"},
+            {index: 17, name: "BLAZE_RED"},
+            {index: 18, name: "GRACE_RED"},
+            {index: 19, name: "GARNET_RED"},
+            {index: 20, name: "SUNSET_RED"},
+            {index: 21, name: "CABERNET_RED"},
+            {index: 22, name: "WINE_RED"},
+            {index: 23, name: "CANDY_RED"},
+            {index: 24, name: "HOT_PINK"},
+            {index: 25, name: "PINK"},
+            {index: 26, name: "SALMON_PINK"},
+            {index: 27, name: "SUNRISE_ORANGE"},
+            {index: 28, name: "ORANGE"},
+            {index: 29, name: "BRIGHT_ORANGE"},
+            {index: 30, name: "GOLD"},
+            {index: 31, name: "BRONZE"},
+            {index: 32, name: "YELLOW"},
+            {index: 33, name: "RACE_YELLOW"},
+            {index: 34, name: "FLUR_YELLOW"},
+            {index: 35, name: "DARK_GREEN"},
+            {index: 36, name: "RACING_GREEN"},
+            {index: 37, name: "SEA_GREEN"},
+            {index: 38, name: "OLIVE_GREEN"},
+            {index: 39, name: "BRIGHT_GREEN"},
+            {index: 40, name: "PETROL_GREEN"},
+            {index: 41, name: "LIME_GREEN"},
+            {index: 42, name: "MIDNIGHT_BLUE"},
+            {index: 43, name: "GALAXY_BLUE"},
+            {index: 44, name: "DARK_BLUE"},
+            {index: 45, name: "SAXON_BLUE"},
+            {index: 46, name: "BLUE"},
+            {index: 47, name: "MARINER_BLUE"},
+            {index: 48, name: "HARBOR_BLUE"},
+            {index: 49, name: "DIAMOND_BLUE"},
+            {index: 50, name: "SURF_BLUE"},
+            {index: 51, name: "NAUTICAL_BLUE"},
+            {index: 52, name: "RACING_BLUE"},
+            {index: 53, name: "ULTRA_BLUE"},
+            {index: 54, name: "LIGHT_BLUE"},
+            {index: 55, name: "CHOCOLATE_BROWN"},
+            {index: 56, name: "BISON_BROWN"},
+            {index: 57, name: "CREEK_BROWN"},
+            {index: 58, name: "UMBER_BROWN"},
+            {index: 59, name: "MAPLE_BROWN"},
+            {index: 60, name: "BEECHWOOD_BROWN"},
+            {index: 61, name: "SIENNA_BROWN"},
+            {index: 62, name: "SADDLE_BROWN"},
+            {index: 63, name: "MOSS_BROWN"},
+            {index: 64, name: "WOODBEECH_BROWN"},
+            {index: 65, name: "STRAW_BROWN"},
+            {index: 66, name: "SANDY_BROWN"},
+            {index: 67, name: "BLEECHED_BROWN"},
+            {index: 68, name: "PURPLE"},
+            {index: 69, name: "SPIN_PURPLE"},
+            {index: 70, name: "MIGHT_PURPLE"},
+            {index: 71, name: "BRIGHT_PURPLE"},
+            {index: 72, name: "CREAM"},
+            {index: 73, name: "WHITE"},
+            {index: 74, name: "FROST_WHITE"}
+        ]
+    },
+
+    {
+        index: 2,
+        name: "Pearl",
+        count: 74,
+        colors: [
+            //{index: 0, name: "BLACK"},
+            {index: 1, name: "BLACK_GRAPHITE"},
+            {index: 2, name: "GRAPHITE"},
+            {index: 3, name: "ANTHR_BLACK"},
+            {index: 4, name: "BLACK_STEEL"},
+            {index: 5, name: "DARK_SILVER"},
+            {index: 6, name: "SILVER"},
+            {index: 7, name: "BLUE_SILVER"},
+            {index: 8, name: "ROLLED_STEEL"},
+            {index: 9, name: "SHADOW_SILVER"},
+            {index: 10, name: "STONE_SILVER"},
+            {index: 11, name: "MIDNIGHT_SILVER"},
+            {index: 12, name: "CAST_IRON_SIL"},
+            {index: 13, name: "RED"},
+            {index: 14, name: "TORINO_RED"},
+            {index: 15, name: "FORMULA_RED"},
+            {index: 16, name: "LAVA_RED"},
+            {index: 17, name: "BLAZE_RED"},
+            {index: 18, name: "GRACE_RED"},
+            {index: 19, name: "GARNET_RED"},
+            {index: 20, name: "SUNSET_RED"},
+            {index: 21, name: "CABERNET_RED"},
+            {index: 22, name: "WINE_RED"},
+            {index: 23, name: "CANDY_RED"},
+            {index: 24, name: "HOT_PINK"},
+            {index: 25, name: "PINK"},
+            {index: 26, name: "SALMON_PINK"},
+            {index: 27, name: "SUNRISE_ORANGE"},
+            {index: 28, name: "ORANGE"},    //red
+            {index: 29, name: "BRIGHT_ORANGE"},
+            {index: 30, name: "GOLD"},
+            {index: 31, name: "BRONZE"},
+            {index: 32, name: "YELLOW"},
+            {index: 33, name: "RACE_YELLOW"},
+            {index: 34, name: "FLUR_YELLOW"},
+            {index: 35, name: "DARK_GREEN"},
+            {index: 36, name: "RACING_GREEN"},
+            {index: 37, name: "SEA_GREEN"},
+            {index: 38, name: "OLIVE_GREEN"},
+            {index: 39, name: "BRIGHT_GREEN"},
+            {index: 40, name: "PETROL_GREEN"},
+            {index: 41, name: "LIME_GREEN"},
+            {index: 42, name: "MIDNIGHT_BLUE"},
+            {index: 43, name: "GALAXY_BLUE"},
+            {index: 44, name: "DARK_BLUE"},
+            {index: 45, name: "SAXON_BLUE"},
+            {index: 46, name: "BLUE"},
+            {index: 47, name: "MARINER_BLUE"},
+            {index: 48, name: "HARBOR_BLUE"},
+            {index: 49, name: "DIAMOND_BLUE"},
+            {index: 50, name: "SURF_BLUE"}, //blue
+            {index: 51, name: "NAUTICAL_BLUE"},
+            {index: 52, name: "RACING_BLUE"},
+            {index: 53, name: "ULTRA_BLUE"}, //Bright purple
+            {index: 54, name: "LIGHT_BLUE"},
+            {index: 55, name: "CHOCOLATE_BROWN"},
+            {index: 56, name: "BISON_BROWN"},
+            {index: 57, name: "CREEK_BROWN"},
+            {index: 58, name: "UMBER_BROWN"},
+            {index: 59, name: "MAPLE_BROWN"},
+            {index: 60, name: "BEECHWOOD_BROWN"},
+            {index: 61, name: "SIENNA_BROWN"},
+            {index: 62, name: "SADDLE_BROWN"},
+            {index: 63, name: "MOSS_BROWN"},
+            {index: 64, name: "WOODBEECH_BROWN"},
+            {index: 65, name: "STRAW_BROWN"},
+            {index: 66, name: "SANDY_BROWN"},
+            {index: 67, name: "BLEECHED_BROWN"},
+            {index: 68, name: "PURPLE"},
+            {index: 69, name: "SPIN_PURPLE"},
+            {index: 70, name: "MIGHT_PURPLE"},
+            {index: 71, name: "BRIGHT_PURPLE"}, //ultra blue
+            {index: 72, name: "CREAM"},
+            {index: 73, name: "WHITE"},
+            {index: 74, name: "FROST_WHITE"}
+            /*
+            {"type":2,index: 0, name: "BLACK"},
+            {"type":2,index: 1, name: "BLACK"},
+            {"type":2,index: 2, name: "BLACK"},
+            {"type":2,index: 3, name: "BLACK"},
+            {"type":2,index: 4, name: "BLACK"},
+            {"type":2,index: 5, name: "BLACK"},
+            {"type":2,index: 6, name: "BLACK"},
+            {"type":2,index: 7, name: "BLACK"},
+            {"type":2,index: 8, name: "BLACK"},
+            {"type":2,index: 9, name: "BLACK"},
+            {"type":2,index: 10, name: "BLACK"},
+            {"type":2,index: 11, name: "BLACK"},
+            {"type":2,index: 12, name: "BLACK"},
+            {"type":2,index: 13, name: "BLACK"},
+            {"type":2,index: 14, name: "BLACK"},
+            {"type":2,index: 15, name: "BLACK"},
+            {"type":2,index: 16, name: "BLACK"},
+            {"type":2,index: 17, name: "BLACK"},
+            {"type":2,index: 18, name: "BLACK"},
+            {"type":2,index: 19, name: "BLACK"},
+            {"type":2,index: 20, name: "BLACK"},
+            {"type":2,index: 21, name: "BLACK"},
+            {"type":2,index: 22, name: "BLACK"},
+            {"type":2,index: 23, name: "BLACK"},
+            {"type":2,index: 24, name: "BLACK"},
+            {"type":2,index: 25, name: "BLACK"},
+            {"type":2,index: 26, name: "BLACK"},
+            {"type":2,index: 27, name: "BLACK"},
+            {"type":2,index: 28, name: "BLACK"},
+            {"type":2,index: 29, name: "BLACK"},
+            {"type":2,index: 30, name: "BLACK"},
+            {"type":2,index: 31, name: "BLACK"},
+            {"type":2,index: 32, name: "BLACK"},
+            {"type":2,index: 33, name: "BLACK"},
+            {"type":2,index: 34, name: "BLACK"},
+            {"type":2,index: 35, name: "BLACK"},
+            {"type":2,index: 36, name: "BLACK"},
+            {"type":2,index: 37, name: "BLACK"},
+            {"type":2,index: 38, name: "BLACK"},
+            {"type":2,index: 39, name: "BLACK"},
+            {"type":2,index: 40, name: "BLACK"},
+            {"type":2,index: 41, name: "BLACK"},
+            {"type":2,index: 42, name: "BLACK"},
+            {"type":2,index: 43, name: "BLACK"},
+            {"type":2,index: 44, name: "BLACK"},
+            {"type":2,index: 45, name: "BLACK"},
+            {"type":2,index: 46, name: "BLACK"},
+            {"type":2,index: 47, name: "BLACK"},
+            {"type":2,index: 48, name: "BLACK"},
+            {"type":2,index: 49, name: "BLACK"},
+            {"type":2,index: 50, name: "BLACK"},
+            {"type":2,index: 51, name: "BLACK"},
+            {"type":2,index: 52, name: "BLACK"},
+            {"type":2,index: 53, name: "BLACK"},
+            {"type":2,index: 54, name: "BLACK"},
+            {"type":2,index: 55, name: "BLACK"},
+            {"type":2,index: 56, name: "BLACK"},
+            {"type":2,index: 57, name: "BLACK"},
+            {"type":2,index: 58, name: "BLACK"},
+            {"type":2,index: 59, name: "BLACK"},
+            {"type":2,index: 60, name: "BLACK"},
+            {"type":2,index: 61, name: "BLACK"},
+            {"type":2,index: 62, name: "BLACK"},
+            {"type":2,index: 63, name: "BLACK"},
+            {"type":2,index: 64, name: "BLACK"},
+            {"type":2,index: 65, name: "BLACK"},
+            {"type":2,index: 66, name: "BLACK"},
+            {"type":2,index: 67, name: "BLACK"},
+            {"type":2,index: 68, name: "BLACK"},
+            {"type":2,index: 69, name: "BLACK"},
+            {"type":2,index: 70, name: "BLACK"},
+            {"type":2,index: 71, name: "BLACK"},
+            {"type":2,index: 72, name: "BLACK"},
+            {"type":2,index: 73, name: "BLACK"}
+            */
+        ]
+    },
+
+    {
+        index: 3,
+        name: "Matte",
+        count: 20,
+        colors: [
+            {index: 0, name: "BLACK"},
+            {index: 1, name: "GREY"},
+            {index: 2, name: "LIGHT_GREY"},
+            {index: 3, name: "WHITE"},
+            {index: 4, name: "BLUE"},
+            {index: 5, name: "DARK_BLUE"},
+            {index: 6, name: "MIDNIGHT_BLUE"},
+            {index: 7, name: "MIGHT_PURPLE"},
+            {index: 8, name: "Purple"},
+            {index: 9, name: "RED"},
+            {index: 10, name: "DARK_RED"},
+            {index: 11, name: "ORANGE"},
+            {index: 12, name: "YELLOW"},
+            {index: 13, name: "LIME_GREEN"},
+            {index: 14, name: "GREEN"},
+            {index: 15, name: "MATTE_FOR"},
+            {index: 16, name: "MATTE_FOIL"},
+            {index: 17, name: "MATTE_OD"},
+            {index: 18, name: "MATTE_DIRT"},
+            {index: 19, name: "MATTE_DESERT"}
+        ]
+    },
+    
+    {
+        index: 4,
+        name: "Metal",
+        count: 5,
+        colors: [
+            {index: 0, name: "BR_STEEL"},
+            {index: 1, name: "BR_BLACK_STEEL"},
+            {index: 2, name: "BR_ALUMINIUM"},
+            {index: 3, name: "GOLD_P"},
+            {index: 4, name: "GOLD_S"}
+        ]
+    },
+    
+    {
+        index: 5,
+        name: "Chrome",
+        count: 1,
+        colors: [
+            {index: 0, name: "CHROME"},
+        ]
+    },
+
+    {
+        index: 6,
+        name: "Chameleon",
+        count: 10,
+        colors: [
+            {index: 0, name: "ANOD_RED"},
+            {index: 1, name: "ANOD_BLUE"},
+            {index: 2, name: "ANOD_GOLD"},
+            {index: 3, name: "GREEN_BLUE_FLIP"},
+            {index: 4, name: "PURP_GREEN_FLIP"},
+            {index: 5, name: "ORANG_PURP_FLIP"},
+            {index: 6, name: "DARKPURPLEPEARL"},
+            {index: 7, name: "BLUE_PEARL"},
+            {index: 8, name: "RED_PRISMA"},
+            {index: 9, name: "BLACK_PRISMA"}
+        ]
+    }
 ]
-
-const colorsSwitch = {
-    0	: {type: 1, name: "Black"},
-    1	: {type: 1, name: "Graphite Black"},
-    2	: {type: 1, name: "Black Steal"},
-    3	: {type: 1, name: "Dark Silver"},
-    4	: {type: 1, name: "Silver"},
-    5	: {type: 1, name: "Blue Silver"},
-    6	: {type: 1, name: "Steel Gray"},
-    7	: {type: 1, name: "Shadow Silver"},
-    8	: {type: 1, name: "Stone Silver"},
-    9	: {type: 1, name: "Midnight Silver"},
-    10	: {type: 1, name: "Gun Metal"},
-    11	: {type: 1, name: "Anthracite Grey"},
-    27	: {type: 1, name: "Red"},
-    28	: {type: 1, name: "Torino Red"},
-    29	: {type: 1, name: "Formula Red"},
-    30	: {type: 1, name: "Blaze Red"},
-    31	: {type: 1, name: "Graceful Red"},
-    32	: {type: 1, name: "Garnet Red"},
-    33	: {type: 1, name: "Desert Red"},
-    34	: {type: 1, name: "Cabernet Red"},
-    35	: {type: 1, name: "Candy Red"},
-    36	: {type: 1, name: "Sunrise Orange"},
-    37	: {type: 1, name: "Classic Gold"},
-    38	: {type: 1, name: "Orange"},
-    49	: {type: 1, name: "Dark Green"},
-    50	: {type: 1, name: "Racing Green"},
-    51	: {type: 1, name: "Sea Green"},
-    52	: {type: 1, name: "Olive Green"},
-    53	: {type: 1, name: "Green"},
-    54	: {type: 1, name: "Gasoline Blue Green"},
-    61	: {type: 1, name: "Midnight Blue"},
-    62	: {type: 1, name: "Dark Blue"},
-    63	: {type: 1, name: "Saxony Blue"},
-    64	: {type: 1, name: "Blue"},
-    65	: {type: 1, name: "Mariner Blue"},
-    66	: {type: 1, name: "Harbor Blue"},
-    67	: {type: 1, name: "Diamond Blue"},
-    68	: {type: 1, name: "Surf Blue"},
-    69	: {type: 1, name: "Nautical Blue"},
-    70	: {type: 1, name: "Bright Blue"},
-    71	: {type: 1, name: "Purple Blue"},
-    72	: {type: 1, name: "Spinnaker Blue"},
-    73	: {type: 1, name: "Ultra Blue"},
-    74	: {type: 1, name: "Bright Blue"},
-    88	: {type: 1, name: "Taxi Yellow"},
-    89	: {type: 1, name: "Race Yellow"},
-    90	: {type: 1, name: "Bronze"},
-    91	: {type: 1, name: "Yellow Bird"},
-    92	: {type: 1, name: "Lime"},
-    93	: {type: 1, name: "Champagne"},
-    94	: {type: 1, name: "Pueblo Beige"},
-    95	: {type: 1, name: "Dark Ivory"},
-    96	: {type: 1, name: "Choco Brown"},
-    97	: {type: 1, name: "Golden Brown"},
-    98	: {type: 1, name: "Light Brown"},
-    99	: {type: 1, name: "Straw Beige"},
-    100	: {type: 1, name: "Moss Brown"},
-    101	: {type: 1, name: "Biston Brown"},
-    102	: {type: 1, name: "Beechwood"},
-    103	: {type: 1, name: "Dark Beechwood"},
-    104	: {type: 1, name: "Choco Orange"},
-    105	: {type: 1, name: "Beach Sand"},
-    106	: {type: 1, name: "Sun Bleeched Sand"},
-    107	: {type: 1, name: "Cream"},
-    111	: {type: 1, name: "White"},
-    112	: {type: 1, name: "Frost White"},
-    125	: {type: 1, name: "Securicor Green"},
-    137	: {type: 1, name: "Vermillion Pink"},
-    141	: {type: 1, name: "Black Blue"},
-    142	: {type: 1, name: "Black Purple"},
-    143	: {type: 1, name: "Black Red"},
-    145	: {type: 1, name: "Purple"},
-    146	: {type: 1, name: "V Dark Blue"},
-    150	: {type: 1, name: "Lava Red"},
-    12	: {type: "Matte", name: "Black"},
-    13	: {type: "Matte", name: "Gray"},
-    14	: {type: "Matte", name: "Light Grey"},
-    39	: {type: "Matte", name: "Red"},
-    40	: {type: "Matte", name: "Dark Red"},
-    41	: {type: "Matte", name: "Orange"},
-    42	: {type: "Matte", name: "Yellow"},
-    55	: {type: "Matte", name: "Lime Green"},
-    82	: {type: "Matte", name: "Dark Blue"},
-    83	: {type: "Matte", name: "Blue"},
-    84	: {type: "Matte", name: "Midnight Blue"},
-    128	: {type: "Matte", name: "Green"},
-    129	: {type: "Matte", name: "Brown"},
-    148	: {type: "Matte", name: "Purple"},
-    149	: {type: "Matte", name: "Dark Purple"},
-    151	: {type: "Matte", name: "Forest Green"},
-    152	: {type: "Matte", name: "Olive Drab"},
-    153	: {type: "Matte", name: "Desert Brown"},
-    154	: {type: "Matte", name: "Desert Tan"},
-    155	: {type: "Matte", name: "Foilage Green"},
-    131	: {type: "Matte", name: "White"},
-    15	: {type: "Normal", name: " Black"},
-    16	: {type: "Normal", name: " Black Poly"},
-    17	: {type: "Normal", name: " Dark silver"},
-    18	: {type: "Normal", name: " Silver"},
-    19	: {type: "Normal", name: " Gun Metal"},
-    20	: {type: "Normal", name: " Shadow Silver"},
-    21	: {type: "Normal", name: " Black"},
-    22	: {type: "Normal", name: " Graphite"},
-    23	: {type: "Normal", name: " Silver Grey"},
-    24	: {type: "Normal", name: " Silver"},
-    25	: {type: "Normal", name: " Blue Silver"},
-    26	: {type: "Normal", name: " Shadow Silver"},
-    43	: {type: "Normal", name: " Red"},
-    44	: {type: "Normal", name: " Bright Red"},
-    45	: {type: "Normal", name: " Garnet Red"},
-    46	: {type: "Normal", name: " Red"},
-    47	: {type: "Normal", name: " Golden Red"},
-    48	: {type: "Normal", name: " Dark Red"},
-    56	: {type: "Normal", name: " Dark Green"},
-    57	: {type: "Normal", name: " Green"},
-    58	: {type: "Normal", name: " Dark Green"},
-    59	: {type: "Normal", name: " Green"},
-    60	: {type: "Normal", name: " Sea Wash"},
-    75	: {type: "Normal", name: " Dark Blue"},
-    76	: {type: "Normal", name: " Midnight Blue"},
-    77	: {type: "Normal", name: " Blue"},
-    78	: {type: "Normal", name: " Sea Foam Blue"},
-    79	: {type: "Normal", name: " Lightning blue"},
-    80	: {type: "Normal", name: " Maui Blue Poly"},
-    81	: {type: "Normal", name: " Bright Blue"},
-    85	: {type: "Normal", name: " Dark blue"},
-    86	: {type: "Normal", name: " Blue"},
-    87	: {type: "Normal", name: " Light blue"},
-    108	: {type: "Normal", name: " Brown"},
-    109	: {type: "Normal", name: " Medium Brown"},
-    110	: {type: "Normal", name: " Light Brown"},
-    113	: {type: "Normal", name: " Honey Beige"},
-    114	: {type: "Normal", name: " Brown"},
-    115	: {type: "Normal", name: " Dark Brown"},
-    116	: {type: "Normal", name: " straw beige"},
-    121	: {type: "Normal", name: " Off White"},
-    122	: {type: "Normal", name: " Off White"},
-    123	: {type: "Normal", name: " Orange"},
-    124	: {type: "Normal", name: " Light Orange"},
-    126	: {type: "Normal", name: " Taxi Yellow"},
-    127	: {type: "Normal", name: " Blue"},
-    130	: {type: "Normal", name: " Orange"},
-    132	: {type: "Normal", name: " White"},
-    133	: {type: "Normal", name: " Olive Army Green"},
-    134	: {type: "Normal", name: " Pure White"},
-    135	: {type: "Normal", name: " Hot Pink"},
-    136	: {type: "Normal", name: " Salmon pink"},
-    138	: {type: "Normal", name: " Orange"},
-    139	: {type: "Normal", name: " Green"},
-    140	: {type: "Normal", name: " Blue"},
-    144	: {type: "Normal", name: " hunter green"},
-    147	: {type: "Normal", name: " MODSHOP BLACK1"},
-    157	: {type: "Normal", name: " Epsilon Blue"},
-}

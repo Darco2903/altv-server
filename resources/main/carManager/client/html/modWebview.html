@@ -32,28 +32,31 @@
     margin-top: 2vh;
   }
 
-  mod, wheel {
-    display: flex;
-    align-items: center;
-    gap: 1px;
-  }
-
-  mod {
+  mod, wheel, color, colorPearl {
+    display: flex; 
     margin-left: 0.9vw;
     margin-top: 0.5vh;
+    gap: 1px;
+  }
+  
+  mod, wheel, color {
+    align-items: center;
   }
 
   mod > strong {
     width: 7vw;
   }
-  
-  wheel {
-    margin-left: 0.9vw;
-    margin-top: 0.5vh;
-  }
 
   wheel > strong {
     width: 3vw;
+  }
+
+  color > strong {
+    width: 6vw;
+  }
+
+  colorPearl {
+    flex-direction: column;
   }
 
   optionBut {
@@ -68,7 +71,7 @@
     padding: 0.4vh 0.4vw;
   }
 
-  input {
+  .range-slider input {
     width: 9vw;
   }
 
@@ -108,9 +111,25 @@
       <button id="colors">Colors</button>
       <button id="wheels">Wheels</button>
       <button id="neons">Neons</button>
+      <!--<button id="plaque">Plaque</button>-->
   </chooseMod>
   <generated></generated>
 </modPannel>
 
+
+<!--    Checkbox Template    -->
+<label class="checkbox bounce" id="labelCheckbox" hidden>
+  <input type="checkbox" id="checkbox">
+  <svg viewBox="0 0 21 21">
+    <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+  </svg>
+</label>
+
+<!--    Slider Template    -->
+<div class="range-slider" id="divSlider" hidden>
+  <input class="range-slider__range" type="range">
+</div>
+
 <!--<script src="../preact.min.js"></script>-->
 <script src="modApp.js"></script>
+

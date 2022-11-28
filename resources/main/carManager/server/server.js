@@ -29,18 +29,19 @@ export function saveVehicles () {
     });
 }
 
-alt.onClient("sendModsToServer", (player, data) => {
+alt.onClient("sendDataToServer", (player, data) => {
     const veh = player.vehicle
-    console.log("data.wheels", data.wheels);
+    console.log("data", data);
     veh.setAllMods(data.mods)
     veh.setAllWheels(data.wheels)
-    //  veh.setAllColors(data.colors)
+    veh.setAllColors(data.colors)
     veh.saveAppearance()
 })
 
 alt.onClient('vehicle:ToRepair', (player, vehicle) => {
     if (!vehicle) {
-        return chat.send(player, '{ff8f00}No vehicle found')
+        chat.send(player, '{ff8f00}No vehicle found')
+        return
     }
     const rot = vehicle.rot
     vehicle.rot = {x: 0, y: rot.y, z: rot.z}

@@ -61,8 +61,44 @@ export default class Vehicle extends alt.Vehicle {
 
     setAllWheels (data) {
         console.log("data:", data);
-        const { typeIndex, wheelNum } = data
+        const {typeIndex, wheelNum, wheelColor} = data
         this.setWheels(typeIndex, wheelNum)
+        this.wheelColor = wheelColor
+    }
+
+    setAllColors (data) {
+        console.log("data:", data);
+        const {primary, secondary, pearl} = data
+        this.primaryColor = primary
+        this.secondaryColor = secondary
+        this.pearlColor = pearl
+
+        //  this.windowTint = data.window
+        //  this.tireSmokeColor = data.tire
+        //  this.headlightColor = data.xenon
+        //  this.dashboardColor = data.dash
+        //  this.interiorColor = data.interiorColor
+    }
+
+    setAllNeons (data) {
+        this.neon = {
+            front: true,
+            back: true,
+            left: true,
+            right: true
+        }
+
+        this.neonColor = {
+            r: 255,
+            g: 0,
+            b: 0,
+            a: 255
+        }
+    }
+
+    setPlaque (data) {
+        this.numberPlateIndex = 0
+        this.numberPlateText = ""
     }
 
     toJSON (data) {

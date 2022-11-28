@@ -47,7 +47,9 @@ function openVeh () {
     if (webview) return
     webview = new WebView("http://resource/client/html/vehWebview.html")
     webview.on('spawnVehicle', model => {
-        alt.emitServer('spawn:Vehicle', JSON.stringify(model))
+        model = model.toLowerCase()
+        model = model.replaceAll(' ', '_')
+        alt.emitServer('spawn:Vehicle', model)
         webview = webview.close()
     })
     webview.open()
@@ -59,15 +61,14 @@ alt.onServer('modVeh:load', openMod)
 function openMod () {
     if (webview) return
     webview = new WebView('http://resource/client/html/modWebview.html')
+    webview.on("startApp", startApp)
     webview.on('stock', setStock)
     webview.on('restore', () => restoreAll())
     webview.on('setMod', setMod)
     webview.on('toogleMod', toogleMod)
     webview.on('setWheels', setWheels)
-    //  webview.on('customColor', customColor)
-    //  webview.on('color', color)
+    webview.on('setColors', setColors)
     //  webview.on('neons', neons)
-    webview.on("startApp", startApp)
     startApp("mods")
     webview.open()
 }
@@ -81,14 +82,15 @@ function startApp (app) {
             restoreData.mods = data
             break;
         
-        case "colors":
-            //data = 
-            //restoreData.colors = data
-            break;
-        
         case "wheels":
             data = getWheelsData()
             restoreData.wheels = data.restore
+            break;
+
+        case "colors":
+            data = getColors()
+            restoreData.colors = data.restore
+        
             break;
         
         case "neons":
@@ -105,9 +107,10 @@ function startApp (app) {
 function sendModsToServer () {
     let data = {
         mods: getModsData(),
-        wheels: getWheelsData().restore
+        wheels: getWheelsData().restore,
+        colors: getServerColors()
     }
-    alt.emitServer("sendModsToServer", (data))
+    alt.emitServer("sendDataToServer", (data))
 }
 
 function setStock () {
@@ -129,11 +132,20 @@ function setStock () {
                 break;
         }
     }
+    const color = {
+        primary: {colorType: 0, colorNum: 0, pearl: 0},
+        secondary: {colorType: 0, colorNum: 0}
+    }
+    setColors(color)
 }
 
 function restoreAll () {
-    setAllMod(restoreData.mods)
-    setWheels(restoreData.wheels)
+    if (restoreData.mods)
+        setAllMod(restoreData.mods)
+    if (restoreData.wheels)
+        setWheels(restoreData.wheels)
+    if (restoreData.colors)
+        setColors(restoreData.colors)
 }
 
 function setMod (data) {
@@ -230,52 +242,71 @@ function getWheelsData () {
     let data = {}
     const typeIndex = native.getVehicleWheelType(veh)
     const wheelNum = native.getVehicleMod(veh, wheelsModType) +1
-    const customWheels = native.getVehicleModVariation(veh, wheelsModType)
+    //const customWheels = native.getVehicleModVariation(veh, wheelsModType)
+    const wheelColor = native.getVehicleExtraColours(veh, 1, 1)[2]  //  [void, pearl, color]
     native.preloadVehicleMod(veh, wheelsModType, 1)
-    wheelTypeList.forEach((type, typeIndex) => {
-        native.setVehicleWheelType(veh, typeIndex)
+    for (let i=0 ; i<wheelTypeList.length ; i++) {
+        native.setVehicleWheelType(veh, i)
         const wheelCount = native.getNumVehicleMods(veh, wheelsModType)
-        data[typeIndex] = {name: type, count: wheelCount}
-    })
-    native.setVehicleWheelType(veh, typeIndex)
-    native.setVehicleMod(veh, wheelsModType, wheelNum -1, customWheels)
-    data.restore = {typeIndex, wheelNum, wheelTypeCount: wheelTypeList.length}
+        data[i] = wheelCount
+    }
+    data.colorCount = 160   //getColorsCount()
+    //  native.setVehicleWheelType(veh, typeIndex)
+    //  native.setVehicleMod(veh, wheelsModType, wheelNum -1, customWheels)
+    data.restore = {typeIndex, wheelNum, wheelColor}
+    setWheels(data.restore)
     return data
 }
 
 function setWheels (data) {
     veh = alt.Player.local.vehicle
-    const {typeIndex, wheelNum} = data
+    const {typeIndex, wheelNum, wheelColor} = data
     const customWheels = native.getVehicleModVariation(veh, wheelsModType)
     native.setVehicleWheelType(veh, typeIndex)
     native.setVehicleMod(veh, wheelsModType, wheelNum -1, customWheels)
+    const pearl = native.getVehicleExtraColours(veh, 1, 1)[1]  //  [void, pearl, color]
+    console.log(pearl);
+    native.setVehicleExtraColours(veh, pearl, wheelColor)
 }
 
 function getColors () {
     veh = alt.Player.local.vehicle
-    const xenon = native.getVehicleXenonLightsColor(veh)
-    const interior = native.getVehicleInteriorColor(veh, 1)
-    const dash = native.getVehicleDashboardColor(veh, 1)
-    const count = native.getNumModColors(veh, 1)
-    const modColor1 = native.getVehicleModColor1(veh, 1, 1, 1)
-    const modColor2 = native.getVehicleModColor2(veh, 1)
-    const modColor1Name = native.getVehicleModColor1Name(veh, true)
-    const modColor2Name = native.getVehicleModColor1Name(veh)
-    const tireSmoke = native.getVehicleTyreSmokeColor(veh, 1, 1, 1)
-    const color = native.getVehicleColor(veh, 1, 1, 1)
-    
-    console.log(
-    "xenon:", xenon,
-    "interior:", interior,
-    "dash:", dash,
-    "count:", count,
-    "modColor1:", modColor1,
-    "modColor2:", modColor2,
-    "modColor1Name:", modColor1Name,
-    "modColor2Name:", modColor2Name,
-    "tireSmoke:", tireSmoke,
-    "color:", color
-    );
+    let data = {}
+    let [type1, color1, pearl] = native.getVehicleModColor1(veh, 1, 1, 1).splice(1, 3)  //  [void, paintType, color, pearl]
+    let [type2, color2] = native.getVehicleModColor2(veh, 1).splice(1, 2)               //  [void, paintType, color]
+    if (type1 == 7 || color1 == -1)
+        [type1, color1] = [0, 0]
+    if (type2 == 7 || color2 == -1)
+        [type2, color2] = [0, 0]
+
+    const primary = {colorType: type1, colorNum: color1, pearl}
+    const secondary = {colorType: type2, colorNum: color2}
+    data.restore = {primary, secondary}
+
+    data.xenon = native.getVehicleXenonLightsColor(veh)
+    data.interior = native.getVehicleInteriorColor(veh,)[1]
+    data.dash = native.getVehicleDashboardColor(veh,)[1]
+    data.tireSmoke = native.getVehicleTyreSmokeColor(veh,)    
+    return data
+}
+
+function getServerColors () {
+    veh = alt.Player.local.vehicle
+    const [primary, secondary] = native.getVehicleColours(veh,).splice(1, 2)
+    const pearl = native.getVehicleModColor1(veh,)[3]       //[void, colorType, colorNum, pearl]
+    console.log(pearl);
+    return {primary, secondary, pearl}
+}
+
+function setColors (data) {
+    veh = alt.Player.local.vehicle
+    let {primary, secondary} = data
+    native.setVehicleModColor1(veh, primary.colorType, primary.colorNum, primary.pearl)
+    native.setVehicleModColor2(veh, secondary.colorType, secondary.colorNum)
+
+    //  native.setVehicleXenonLightsColor(veh, 1) //0-12
+    //  native.setVehicleTyreSmokeColor(veh, 255, 255, 255)
+
 }
 
 
