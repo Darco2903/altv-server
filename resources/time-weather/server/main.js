@@ -1,27 +1,43 @@
 import * as alt from "alt-server"
 import * as db from "database"
 import * as chat from "chat"
-import ClockServer from "./ClockServer"
+import Clock from "./Clock"
 
-
-alt.on("initTimeWeather", initTimeWeather)
-
-if (db.isReady()) 
-    initTimeWeather()
 
 let clock
-async function initTimeWeather () {
-    let {time, weather} = await getServerData()
-    let {h, m} = time
-    clock = new ClockServer(h, m)
+
+alt.on("serverStarted", initClock)
+alt.on("ConnectionComplete", initTimeWeather)
+//alt.on("resourceStop", saveServerData)
+
+alt.on("playerConnect", (player) => {
+    alt.emitClient(player, "time:setTime", clock.getTime())
+    alt.emitClient(player, "time:setSpeed", clock.speed)
+    if (clock.started) 
+        alt.emitClient(player, "time:start")
+    else
+        alt.emitClient(player, "time:stop")
+})
+
+
+function initClock () {
+    clock = new Clock()
     clock.start()
+
+    if (db.isReady()) 
+        setTimeout(initTimeWeather, 100);
+}
+
+async function initTimeWeather () {
+    let {time: {h, m}, weather} = await getServerData()
+    clock.setTime(h, m)
 }
 
 function getServerData () {
     return new Promise((resolve, reject) => {
         db.fetchData("id", 1, "Server", server => {
-            const time = !server.time ? {h: 12, m: 0} : JSON.parse(server.time)
-            const weather = !server.weather ? 1 : server.weather
+            const time = server.time != undefined ? JSON.parse(server.time) : {h: 12, m: 0}
+            const weather = server.weather != undefined ? server.weather : 1
             if (!server)
                 db.upsertData({ id: 1, time: JSON.stringify(time), weather: weather }, 'Server', callback => {})
             resolve({time, weather})
@@ -29,40 +45,48 @@ function getServerData () {
     })
 }
 
-alt.on("playerConnect", (player) => {
-    alt.emitClient(player, "initClientClock", clock.getClockData())
-})
+function saveServerData () {
+    db.updatePartialData(1, {time: JSON.stringify(clock.getTime()), weather: 1}, "Server", callback => {
+        db.log("Time and Weather successfully saved")
+    })
+}
 
-chat.registerCmd("time", (player, arg) => {
-    let hour = isNaN(arg[0]) ? arg[0] : parseInt(arg[0])
-    console.log(hour);
-    console.log(typeof(hour));
-    console.log(hour >= 0 && hour < 24);
-    switch (true) {
-        
+function timeCommand (time) {
+    let hour
+    switch (!isNaN(time) || time) {
+
+        case time >= 0 && time < 24:
+            hour = time
+            break;
+
         case "day":
-        case "jour":
             hour = 12
             break;
 
         case "night":
-        case "nuit":
             hour = 0
             break;
     
         default:
-            if (hour >= 0 && hour < 24)
-                break;
             chat.send(player, '{ff8f00}Entier compris entre 0 et 23 attendu')
             return
     }
     clock.setTime(hour, 0)
     chat.broadcast(`{00FFFF}Changement d'heure, il est actuellement ${hour}h`)
-})
+}
 
-chat.registerCmd("clock", (player, [parameter, value]) => {
-    console.log(parameter);
+chat.registerCmd("time", (player, [parameter, value]) => {
+    if (value != undefined && isNaN(value)) {
+        chat.send(player, "{555555}/clock [parameter] [value]")
+        return
+    }
+    value = parseInt(value)
+
     switch (parameter) {
+
+        case "set":
+            timeCommand(value)
+            break;
 
         case "start":
         case "resume":
@@ -89,7 +113,7 @@ chat.registerCmd("clock", (player, [parameter, value]) => {
                 chat.send(player, "{ff8f00}Speed must be a number in between 1 and 100")
                 return
             }
-            clock.setSpeed(parseInt(2000 / value))
+            clock.setSpeed(value)
             chat.broadcast(`{00ffff}Clock speed at {ffff00}x${value}`)
             break;
         
@@ -106,4 +130,11 @@ chat.registerCmd("clock", (player, [parameter, value]) => {
             return
 
     }
+
 })
+
+
+
+//  setInterval(() => {
+//      console.log(clock.getTime());
+//  }, 2000);
