@@ -1,0 +1,13 @@
+files = [
+    "stream/assets/*"
+]
+
+[meta]
+"stream/handling.meta" = "HANDLING_FILE"
+"stream/vehiclelayouts.meta" = "VEHICLE_LAYOUTS_FILE"
+"stream/vehicles.meta" = "VEHICLE_METADATA_FILE"
+"stream/carcols.meta" = "CARCOLS_FILE"
+"stream/carvariations.meta" = "VEHICLE_VARIATION_FILE"
+
+#   [gxt]
+#   "myveh" = "My vehicle"
