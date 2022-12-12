@@ -44,7 +44,8 @@ pm_new/
 /UniServerZ/
 *.log
 *test*
-
+start-with-DB.bat
+start-server.sh
 
 #node_modules
 node_modules
