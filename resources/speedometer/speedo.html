@@ -1,0 +1,24 @@
+<!doctype html>
+
+<style>
+    #speedometer {
+        position: fixed;
+        bottom: -6px;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        background-color: transparent;
+    }
+</style>
+
+<body>
+    <div id="speedometer" hidden>
+        <div style="display: none;"><img id="sprite" src="assets/icons.svg"></div>
+        <canvas id="canvas" width="425" height="210"></canvas>
+    </div>
+    <script src="js/fraction.min.js"></script>
+    <script src="js/speedometer.js"></script>
+    <script src="js/speedoApp.js"></script>
+</body>
