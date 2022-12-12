@@ -1,0 +1,16 @@
+client-files = [
+    'client/*',
+    'tables.js'
+]
+client-main = 'client/main.js'
+deps = [
+    'chat',
+    'database',
+    'webview'
+]
+main = 'server/main.js'
+server-files = [
+    'server/*',
+    'tables.js'
+]
+type = 'js'
