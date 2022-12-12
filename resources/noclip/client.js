@@ -10,10 +10,12 @@ let FollowCamMode = true;
 // THIS CAN YOU EDIT //
 const PlayerVisible = false;
 
-const SpeedsCount = 2;
+const SpeedsCount = 4;
 const speeds = {
-    0: "Normal",
-    1: "Extremely Fast",
+    0: "Slow",
+    1: "Normal",
+    2: "Fast",
+    3: "Extremely Fast"
 }
 
 const KeyInfos = {
@@ -94,7 +96,7 @@ alt.everyTick(() => {
 
             game.beginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
             game.scaleformMovieMethodAddParamInt(5);
-            game.scaleformMovieMethodAddParamTextureNameString(game.getControlInstructionalButton(0, KeyControls.ToggleGTA, true));
+            game.scaleformMovieMethodAddParamTextureNameString(game.getControlInstructionalButtonsString(0, KeyControls.ToggleGTA, true));
             game.scaleformMovieMethodAddParamTextureNameString("Toggle NoClip");
             game.endScaleformMovieMethod();
 
@@ -164,11 +166,11 @@ alt.everyTick(() => {
         }
 
         let moveSpeed = MovingSpeed;
-        if (MovingSpeed >= SpeedsCount / 2)
-        {
-            moveSpeed *= 3;
-        }
-        moveSpeed = moveSpeed / (1 / game.getFrameTime()) * 60;
+        //if (MovingSpeed >= SpeedsCount / 2)
+        //{
+        //    moveSpeed *= 3;
+        //}
+        moveSpeed = moveSpeed / (1/ game.getFrameTime()) * 60;
         newPos = game.getOffsetFromEntityInWorldCoords(noclipEntity.scriptID, xoff * (moveSpeed + 0.3), yoff * (moveSpeed + 0.3), zoff * (moveSpeed + 0.3));
 
         let heading = game.getEntityHeading(noclipEntity.scriptID);
@@ -179,7 +181,7 @@ alt.everyTick(() => {
     }
 });
 
-function NoClip() {
+function toogleNoClip() {
     NoclipActive = !NoclipActive;
 
     let noclipEntity = alt.Player.local.vehicle ? alt.Player.local.vehicle : alt.Player.local;
@@ -198,12 +200,5 @@ function NoClip() {
     }
 }
 
-alt.on("keyup", (key) => {
-    if(key === 112) { //KeyControls.ToggleAltV
-        alt.emitServer('NoClip:Request')
-    }
-});
 
-alt.onServer("NoClip:Toggle", () => {
-    NoClip();
-});
+alt.on("NoClip:Toggle", toogleNoClip)
