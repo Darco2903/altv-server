@@ -1,0 +1,12 @@
+client-files = [
+    'client/*',
+    "garageList.js"
+]
+client-main = 'client/client.js'
+deps = ["carManager"]
+main = 'server/server.js'
+server-files = [
+    'server/*',
+    "garageList.js"
+]
+type = 'js'
