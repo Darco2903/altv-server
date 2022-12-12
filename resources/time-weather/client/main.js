@@ -34,6 +34,9 @@ alt.on("resourceStop", () => {
 
 
 
+//  native.setCurrWeatherState()
+
+
 //  setInterval(() => {
 //      console.log(native.getClockHours(), native.getClockMinutes())
 //  }, 2000);

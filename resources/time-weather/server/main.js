@@ -6,9 +6,14 @@ import Clock from "./Clock"
 
 let clock
 
-alt.on("serverStarted", initClock)
+alt.on("resourceStart", initClock)
 alt.on("ConnectionComplete", initTimeWeather)
-//alt.on("resourceStop", saveServerData)
+alt.on("save", saveServerData)
+
+alt.on("resourceStop", () => {
+    alt.setMeta("time", clock.getTime())
+    //alt.setMeta("weather", )
+})
 
 alt.on("playerConnect", (player) => {
     alt.emitClient(player, "time:setTime", clock.getTime())
@@ -19,18 +24,32 @@ alt.on("playerConnect", (player) => {
         alt.emitClient(player, "time:stop")
 })
 
+function saveLog (msg) {
+    alt.log("~g~" + msg)
+}
+
 
 function initClock () {
     clock = new Clock()
     clock.start()
-
     if (db.isReady()) 
-        setTimeout(initTimeWeather, 100);
+        initTimeWeather()
 }
 
 async function initTimeWeather () {
-    let {time: {h, m}, weather} = await getServerData()
-    clock.setTime(h, m)
+    const time = alt.getMeta("time")
+    if (time)
+        clock.setTime(time.h, time.m)
+    else
+        setDatabaseData()
+}
+
+function setDatabaseData () {
+    db.fetchData("id", 1, "Server", ({time, weather}) => {
+        const {h, m} = JSON.parse(time)
+        clock.setTime(h, m)
+        //weather
+    })
 }
 
 function getServerData () {
@@ -47,7 +66,7 @@ function getServerData () {
 
 function saveServerData () {
     db.updatePartialData(1, {time: JSON.stringify(clock.getTime()), weather: 1}, "Server", callback => {
-        db.log("Time and Weather successfully saved")
+        saveLog("Time and Weather saved")
     })
 }
 
@@ -132,9 +151,3 @@ chat.registerCmd("time", (player, [parameter, value]) => {
     }
 
 })
-
-
-
-//  setInterval(() => {
-//      console.log(clock.getTime());
-//  }, 2000);

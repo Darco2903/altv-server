@@ -1,0 +1,6 @@
+client-files = []
+client-main = 'client/main.js'
+deps = [ 'chat', 'database' ]
+main = 'server/main.js'
+server-files = [ 'server/Clock.js' ]
+type = 'js'
