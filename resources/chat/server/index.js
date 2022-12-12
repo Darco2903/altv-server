@@ -37,7 +37,7 @@ alt.onClient("chat:message", (player, msg) => {
     if (msg.length > 0) {
       alt.log("[chat:msg] " + player.name + ": " + msg);
 
-      alt.emitClient(null, "chat:message", player.name, msg.replace(/</g, "&lt;").replace(/'/g, "&#39").replace(/"/g, "&#34"));
+      alt.emitAllClients("chat:message", player.name, msg.replace(/</g, "&lt;").replace(/'/g, "&#39").replace(/"/g, "&#34"));
     }
   }
 });
@@ -53,11 +53,11 @@ export function broadcast(msg) {
 export function registerCmd(cmd, callback) {
   cmd = cmd.toLowerCase();
 
-  if (cmdHandlers[cmd] !== undefined) {
-    alt.logError(`Failed to register command /${cmd}, already registered`);
-  } else {
-    cmdHandlers[cmd] = callback;
-  }
+  if (cmdHandlers[cmd] !== undefined)
+    alt.logWarning(`Command ${cmd} already registered, replacing now`)
+  //  alt.logError(`Failed to register command /${cmd}, already registered`);
+  cmdHandlers[cmd] = callback;
+  //}
 }
 
 export function mutePlayer(player, state) {
