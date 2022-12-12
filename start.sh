@@ -1,11 +1,11 @@
-#! /bin/bash
+#!/bin/bash
 
-if [ "$USER" != "server" ]; then
-    exit 0
+name="altv-server"
+pid=$(pidof $name)
+
+if [ ! -z $pid ]
+then
+	kill "$pid"
 fi
 
-git pull
-npm update
-./update.sh
-sudo service mysql start
-./altv-server
+./"$name"
