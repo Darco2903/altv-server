@@ -8,7 +8,7 @@ let vehicle
 let engine
 let step = 20
 let kmAge = 0
-let speedo = new alt.WebView("http://resource/speedo.html", true)
+let speedo = new alt.WebView("http://resource/speedo.html", false)
 let everyTickUpdate
 let optionInterval
 
@@ -45,7 +45,6 @@ function speedoRemove () {
 }
 
 function stopRealTimeUpdate () {
-    console.log(everyTickUpdate);
     if (everyTickUpdate) {
         alt.clearEveryTick(everyTickUpdate)
         everyTickUpdate = null
@@ -163,7 +162,6 @@ function engineOn () {
 }
 
 function engineOff () {
-    console.log("engine Off");
     refreshEngine()
     stopRealTimeUpdate()
     rpm = vehicle.rpm
@@ -174,7 +172,6 @@ function engineOff () {
 let rpm
 let speed
 function rpmDown () {
-    console.log(speed);
     if (rpm < 0.01 && speed < 0.01) return
     if (rpm > 0.01)
         rpm -= 0.02
