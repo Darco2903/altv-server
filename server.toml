@@ -89,8 +89,20 @@ resources = [
     "noclip",
     "speedometer",
 
-    "moto", "carjdm", "carhyper", "cars",
-    "i8",
+    #   "moto", "carjdm", "carhyper", "cars",
+    #   "i8",
+
+    "vehicles/mazda-rx7",
+    "vehicles/toyota-supra",
+    "vehicles/nissan-370z",
+    "vehicles/toyota-gt86",
+    "vehicles/nissan-gtrr35",
+    "vehicles/nissan-skylinegtr",
+    "vehicles/lamborghini-huracanperformante",
+
+    "vehicles/bmw-s1000rr",
+    #"vehicles/kawasaki-h2r",
+    
 
     #"pointing",
     #"npcVehicleSync"
