@@ -118,6 +118,11 @@ chat.registerCmd("getpos", (player) => {
     console.log(pos);
 })
 
+chat.registerCmd("hash", (player, [string]) => {
+    if (!string) return
+    console.log(alt.hash(string));
+})
+
 
 ////////////////////////////////////////////
 
