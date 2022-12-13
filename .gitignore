@@ -1,20 +1,13 @@
 #AltV Resources
 
 #stuff on dev
-AimInfo/
-altv-animator-master/
-freeroam/
-freeroam-extended/
-gangwar/
-main-lite/
-ParkedVehicleSpawner/
-PlayerBlips/
-PlayerBlipsGlobal/
-rml-nametags/
-voice/
-weapon-addon/
+pm_others/
+pm_new/
+npcVehicleSync
+server-extended
+main_
+kawasaki-h2r
 
-main_/
 
 #models
 *.yft
@@ -22,8 +15,9 @@ main_/
 *.ydd
 *.ymt
 *.ydr
-pm_others/
-pm_new/
+#audio
+*.dat*
+*.awc
 
 
 #imgs
