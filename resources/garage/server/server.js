@@ -18,7 +18,6 @@ Object.values(garageList).forEach(({name, pos, ped, enter, exit}) => {
 
 function createPoint (pos, id, name, platerOnly, color) {
     if (!debugPoints) color.push(0)
-    console.log(new alt.RGBA(color));
     let colshape = new alt.Checkpoint(48, new alt.Vector3(pos), pos.w, 2, new alt.RGBA(color))
     colshape.id = id
     colshape.name = name
