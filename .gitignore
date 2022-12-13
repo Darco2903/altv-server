@@ -35,16 +35,12 @@ kawasaki-h2r
 /crashdumps/
 /data/
 /modules/
-/UniServerZ/
 *.log
 *test*
 AltV.Net.Host.*
-alt-server*
-clearcache.*
-getModels.*
-start-with-DB.bat
-start-server.sh
+altv-server*
+libnode.dll
+
 
 #node_modules
 node_modules
-package*.json
