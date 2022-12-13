@@ -45,23 +45,23 @@ async function initTimeWeather () {
 }
 
 function setDatabaseData () {
-    db.fetchData("id", 1, "Server", ({time, weather}) => {
+    db.fetchData("id", 1, "Server", (server) => {
+        if (!server) {
+            registerServerData()
+            return
+        }
+        const {time, weather} = server
         const {h, m} = JSON.parse(time)
         clock.setTime(h, m)
         //weather
     })
 }
 
-function getServerData () {
-    return new Promise((resolve, reject) => {
-        db.fetchData("id", 1, "Server", server => {
-            const time = server.time != undefined ? JSON.parse(server.time) : {h: 12, m: 0}
-            const weather = server.weather != undefined ? server.weather : 1
-            if (!server)
-                db.upsertData({ id: 1, time: JSON.stringify(time), weather: weather }, 'Server', callback => {})
-            resolve({time, weather})
-        })
-    })
+function registerServerData () {
+    const time = {h: 12, m: 0}
+    const weather = 1
+    db.upsertData({ id: 1, time: JSON.stringify(time), weather: weather }, 'Server', callback => {})
+    clock.setTime(time.h, time.m)
 }
 
 function saveServerData () {
