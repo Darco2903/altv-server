@@ -120,7 +120,7 @@ resources = [
 # An array of all modules that should be loaded
 modules = [
     "js-module",
-    "csharp-module"
+    #"csharp-module"
 ]
 
 # Profiling entity creation, systems like streaming etc
