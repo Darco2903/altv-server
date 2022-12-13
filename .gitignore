@@ -10,20 +10,20 @@ kawasaki-h2r
 
 
 #models
-*.yft
-*.ytd
-*.ydd
-*.ymt
-*.ydr
+#*.yft
+#*.ytd
+#*.ydd
+#*.ymt
+#*.ydr
 #audio
-*.dat*
-*.awc
+#*.dat*
+#*.awc
 
 
 #imgs
-*.png
-*.jpg
-*.jpeg
+#*.png
+#*.jpg
+#*.jpeg
 
 
 #???
@@ -38,6 +38,10 @@ kawasaki-h2r
 /UniServerZ/
 *.log
 *test*
+AltV.Net.Host.*
+alt-server*
+clearcache.*
+getModels.*
 start-with-DB.bat
 start-server.sh
 
