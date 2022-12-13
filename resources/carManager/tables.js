@@ -1,24 +1,5 @@
 
 
-export const vehicleList = {
-    huracan_spyder: 'huracans',
-    huracan_p: 'huracanp',
-    r8_2008: 'r8',
-    r8_2016: 'r8v10',
-    chiron: '2017chiron',
-    chiron_ss: '2019chiron',
-    giulia_gta: 'gtam21',
-    giulia: 'giulia',
-    skyline: 'Skyline',
-    countach: 'lpi8004',
-    r6: 'r6',
-    italia_458: 'italia458',
-    centenario: 'lp770',
-    mustang_gt: 'MGT',
-    
-}
-
-
 export const tireBrand = [
     "Aucune",
     "Atomic Blanc",

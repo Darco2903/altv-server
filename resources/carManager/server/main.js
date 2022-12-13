@@ -2,19 +2,7 @@ import * as alt from 'alt-server';
 import * as chat from 'chat';
 import * as db from "database"
 import "./Vehicle"
-//import * as carManager from "./functions"
-import { vehicleList } from "../tables"
-//import { Tables } from 'exports';
-//let { vehicleList } = Tables
 
-
-
-//  alt.on("ConnectionComplete", () => {
-//      const noVeh = alt.Vehicle.all.length == 0
-//      const carResources = ["moto", "carjdm", "carhyper", "cars", "i8"].map(name => alt.Resource.all.includes(alt.Resource.getByName(name)))
-//      const resourcesLoaded = !carResources.includes(false)
-//      if (resourcesLoaded && noVeh) carManager.serverStartVehicleSpawn()
-//  })
 
 
 alt.on("serverStarted", initSpawn)
@@ -23,8 +11,8 @@ alt.on("ConnectionComplete", spawnStored)
 alt.on("save", saveAll)
 
 alt.onClient('spawn:Vehicle', (player, model) => {
-    if (model in vehicleList)
-        model = vehicleList[model]
+    //  if (model in vehicleList)
+    //      model = vehicleList[model]
     const pos = player.pos.toFixed(2)
     let veh = new alt.Vehicle(model, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))
     veh.init(model)
@@ -52,6 +40,7 @@ function initSpawn () {
 }
 
 function spawnStored () {
+    return
     db.fetchAllData("Vehicle", (dataArray) => {
         if (!dataArray) return
         dataArray.forEach((data) => {
@@ -86,9 +75,7 @@ alt.onClient("sendDataToServer", (player, data) => {
 })
 
 chat.registerCmd("clearVeh", (player) => {
-    alt.Vehicle.all.forEach((veh) => {
-        veh.destroy()
-    })
+    alt.Vehicle.all.forEach((veh) => veh.destroy())
     chat.send(player, "cleared")
 })
 
@@ -114,6 +101,16 @@ chat.registerCmd("crash", (player) => {
 
 chat.registerCmd("vehspawn", (player, [vehName]) => {
     if (!vehName) return
+    try {
+        const pos = player.pos.toFixed(2)
+        let veh = new alt.Vehicle(vehName, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))
+        veh.init(vehName)
+    } catch (error) {
+        
+    }
+})
+
+chat.registerCmd("test", (player, [vehName]) => {
     try {
         const pos = player.pos.toFixed(2)
         let veh = new alt.Vehicle(vehName, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))

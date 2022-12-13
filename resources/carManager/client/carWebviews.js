@@ -274,6 +274,7 @@ function getModsData () {
             case 48:
                 const num = native.getVehicleMod(veh, modType) +1
                 const count = native.getNumVehicleMods(veh, modType)
+                console.log(native.getModSlotName(veh, modType))
                 data.push([modType, num, count])
                 break;
             default:
