@@ -1,36 +1,62 @@
-# altv-server
+# [EN]
 
-## [EN]
-### Installation and start
-##### Server running on Windows & Linux.
-To run, execute [**start.bat**](start.bat) on **Windows** or [**start.sh**](start.sh) on **Linux**.
+### Installation
 
-Server require a mysql database to work properly. (A database-less version will come).
-An easy way to create one is to use [**UniServerZ**](https://www.uniformserver.com/).
+- **Manual**
+    - Download [**server binaries**](https://altv.mp/#/downloads) from alt:V Multiplayer website and extract it in the main folder.
 
-This repo contain only code, to use it you must **download** models and textures for playermodels and vehicles.
+- **Command line**
+    - Install dependencies:
 
-Download from the link and extract the content into [**resources**](resources) folder.
+    ```
+    npm install
+    ```
 
-[**AltV Models - resources.rar**](https://drive.google.com/file/d/120VXC2xxUedMNKhLPvmXLlLbrj0YcJk8/view?usp=share_link)
+    - Install server binaries:
+
+    ```
+    npx altv-pkg release
+    ```
+
+- Server require a mysql database to work properly. (*A database-less version will come*).
+    - An easy way to create one on Windows is [**UniServerZ**](https://www.uniformserver.com/).
+    - Then create a table named "altv" 
+
+### Run
+
+- Execute [**start.bat**](start.bat) on **Windows** or [**start.sh**](start.sh) on **Linux**.
+
 
 ---
 
-## [FR]
-### Installation et démarrage
-##### Le serveur fonctionne sur Windows & Linux.
+# [FR]
 
-Pour le démarrer, éxécuter [**start.bat**](start.bat) sur **Windows** ou [**start.sh**](start.sh) sur **Linux**.
+### Installation
 
-Le serveur requiert une base de donnée mysql pour son bon fonctionnement. *Une version sans base de donnée est prévue*.
-Une façon facile de créer une base de donnée est d'utiliser [**UniServerZ**](https://www.uniformserver.com/).
+- **Manuelle**
+    - Télécharger les [**fichiers serveurs**](https://altv.mp/#/downloads) via le site de alt:V Multiplayer et extraire le contenu dans le dossier principal.
 
-Ce dépôt contient que du code, il est nécessaire de **télécharger** les models et textures pour les modèles de joueurs et véhicules.
+- **Ligne de commande**
+    - Installer les dépendances:
 
-Pour ceci, télécharger les modèles via le lien et extraire le contenu de l'archive dans le dossier [**resources**](resources).
+    ```
+    npm install
+    ```
+
+    - Installer les fichiers serveur:
+
+    ```
+    npx altv-pkg release
+    ```
 
 
 
-[**AltV Models - resources.rar**](https://drive.google.com/file/d/120VXC2xxUedMNKhLPvmXLlLbrj0YcJk8/view?usp=share_link)
+- Le serveur requiert une base de donnée mysql pour son bon fonctionnement. (*Une version sans est prévue*)
+    - Une façon facile de créer d'en créer une sur Windows est [**UniServerZ**](https://www.uniformserver.com/).
+    - Ensuite créer une table nommée "altv"
+
+### Exécution
+
+- Exécuter [**start.bat**](start.bat) sur **Windows** ou [**start.sh**](start.sh) sur **Linux**.
 
 ---
