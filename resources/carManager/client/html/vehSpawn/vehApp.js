@@ -1,51 +1,62 @@
 
 let htmlGenerated = document.querySelector("generated")
 let htmlSearch = document.querySelector("generatedSearch")
-console.log(htmlSearch);
+let template = document.querySelector(".template")
+let htmlVeh = template.querySelector("veh")
+let underscore
+
 
 htmlGen()
 
 function htmlGen () {
-    Object.keys(carListByType).forEach(type => {
-        let htmlVehType = document.createElement("vehType")
-        htmlVehType.id = type
-
-        let htmlTypeName = document.createElement("strong")
-        htmlTypeName.innerHTML = type
-        htmlVehType.append(htmlTypeName)
+    Object.keys(vehiclesClass).forEach(Class => {
+        let htmlVehClass = document.createElement("vehType")
+        htmlVehClass.id = Class
         
-        carListByType[type].forEach(vehName => htmlVehType.append(htmlVeh(vehName, type)));        
+        let htmlClassName = document.createElement("strong")
+        htmlClassName.innerHTML = vehiclesClass[Class]
+        htmlVehClass.append(htmlClassName)
+        
+        underscore = Class == "MOD" ? '_' : ''
+        vehiclesByClass[Class].forEach(Name => htmlVehClass.append(htmlVehClone(Name)));        
 
-        htmlGenerated.append(htmlVehType)
+        htmlGenerated.append(htmlVehClass)
 
     })
-    addListeners()
+    addImgErrorListeners()
+    addButtonListeners()
     initSearch()
 }
 
-function htmlVeh (vehName, type) {
-    let html = document.createElement("veh")
-    html.className = type
 
-    let img = document.createElement("img")
-    
-    const underscore = type == "Mod" ? '_' : ''
-    img.src = `./vehimg/${underscore}240px-${vehName}.png`
-    img.className = "button"
-    img.id = vehName
-    
-    let name = document.createElement("strong")
-    let vehShowName = type != "Mod" ? vehName[0].toUpperCase() + vehName.substring(1) : nameSwap[vehName]
+function htmlVehClone (Name) {
 
+    let html = htmlVeh.cloneNode(true)
+    let [img, name] = html.children
+    let vehShowName = vehicles[Name].DisplayName
+    
+    img.src += `${underscore}${Name}.webp`
+    img.id = vehicles[Name].Hash
+    
     name.innerHTML = vehShowName
     html.id = vehShowName.toLowerCase()
-
-    html.append(img, name)
+    
+    html.removeAttribute
     htmlSearch.append(html.cloneNode(true))
     return html
 }
 
-function addListeners () {
+function addImgErrorListeners () {
+    let imgs = document.querySelectorAll("img")
+    for (const img of imgs) {
+        img.addEventListener('error', function handleError() {
+            const defaultImage = './vehimg/__notfound.webp'
+            img.src = defaultImage;
+        })
+    }
+}
+
+function addButtonListeners () {
     let buttons = document.getElementsByClassName("button");
     for(const but of buttons) {
        but.onclick = function() {
