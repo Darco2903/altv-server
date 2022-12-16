@@ -40,7 +40,7 @@ kawasaki-h2r
 AltV.Net.Host.*
 altv-server*
 libnode.dll
-
+.vscode/
 
 #node_modules
 node_modules
