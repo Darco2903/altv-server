@@ -36,7 +36,7 @@ function htmlVehClone (Name) {
     let vehShowName = vehicles[Name].DisplayName
     
     img.src += `${underscore}${Name}.webp`
-    img.id = vehicles[Name].Hash
+    img.id = Name//vehicles[Name].Hash
     
     name.innerHTML = vehShowName
     html.id = vehShowName.toLowerCase()

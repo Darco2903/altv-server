@@ -17,9 +17,10 @@ alt.Vehicle.prototype.init = function (model) {
 }
 
 
-alt.Vehicle.prototype.create = function (model, pos, rot) {
-    rot = rot ? rot : new alt.Vector3(0, 0, 0)
-    let veh = new alt.Vehicle(model, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z)
+export function create (model, pos) {
+    const data = alt.getVehicleModelInfoByHash(alt.hash(model))
+    const rot = new alt.Vector3(0, 0, 0)
+    let veh = new alt.Vehicle(model, pos, rot)
     veh.manualEngineControl = true
     veh.modKit = +(veh.modKitsCount > 0)
     return veh

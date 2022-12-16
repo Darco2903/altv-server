@@ -46,7 +46,7 @@ mapCellAreaSize = 100 #smaller areas uses more ram and less cpu
 colShapeTickRate = 200
 
 # Defines the used logging streams (console, file, stdconsole) for the server (dev/13.0-dev32 and higher)
-logStreams = [ "console", "file" ]
+logStreams = [ "console", "file", "stdconsole " ]
 
 # Defines the amount of worker threads for entity computation, like colshapes, streaming, etc. Good value is cpu count * 2
 entityWorkerCount = 2

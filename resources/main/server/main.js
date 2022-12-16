@@ -4,33 +4,38 @@ import * as db from "database"
 import * as Functions from "./functions"
 
 
-//import {Functions, Tables} from "exports"
-//import { createVehicle } from './carManager/server/functions';
-//import { Player } from './Player';
-
-
-//import * as extended from "server-extended"
-//import { createRequire } from 'module'
-//const require = createRequire(import.meta.url)
-
-///////////////////////////////
 
 Functions.update()
 
-let autoSave = false
-let saveTime = 5            //  minutes
+
+
+//  let autoSave = false
+//  let saveTime = 5            //  minutes
 
 
 function log (msg) {
     alt.log("~y~" + msg)
 }
 
-alt.on("serverStarted", () => import("./autoReconnect"))
+alt.on("serverStarted", () => import("./autoReconnect"))    // Dev
 
-alt.on("consoleCommand", (command) => {
+alt.on("consoleCommand", (string) => {
+    if (!string) return
+    string = string.splitAll(' ')
+    const command = string[0]
+    const args = string.splice(1)
     switch (command) {
         case "reboot":
             restartServer()
+            break;
+
+        case "kick":
+            let toKick = searchPlayer(idOrName)
+            if (!toKick) {
+                log("Player not found")
+                return
+            }
+            kick(toKick, "Server")
             break;
     
         default:
@@ -43,13 +48,13 @@ chat.registerCmd("r", (player, [resourceName]) => {
     //if (!Functions.authorized(player, 4))
     //    return
 
-    if (resourceName) restartResource(resourceName)
-    else restartServer()
+    if (resourceName)
+        restartResource(resourceName)
+    else
+        restartServer()
 })
 
-chat.registerCmd("save", (player) => {
-    saveServer()
-})
+chat.registerCmd("save", saveServer)
 
 function saveServer () {
     alt.emit("save")
@@ -73,36 +78,42 @@ export function restartResource (res) {
 }
 
 chat.registerCmd("kick", (player, [idOrName]) => {
+    kickCommand(player, idOrName)
+})
+
+function kickCommand (player, idOrName) {
     if (!idOrName) {
         chat.send(player, "{55555}/kick [playerName] or [playerID]")
         return
     }
-    let toKick
-
-    if (!isNaN(idOrName)) {
-        idOrName = parseInt(idOrName)
-        toKick = alt.Player.all.find((player) => player.getSyncedMeta("id") === idOrName)
-    } else {
-        toKick = alt.Player.all.find((player) => player.name === idOrName)
-    }
-
+    let toKick = searchPlayer(idOrName)
     if (!toKick) {
         chat.send(player, "{ff8f00}Player not found")
         return
     }
-    kick(toKick, player)
-})
+    kick(idOrName, player.name)
+}
 
-function kick (kicked, kicker, message) {
-    kicked.kick(`Kicked by ${kicker.name} : ${message}`)
-    chat.broadcast(`${kicked.name} was kicked by ${kicker.name || "server"} - Reason : ${message || "Tépa bo désl"}`)
+function kick (kicked, kickerName, message) {
+    message = message || "Tépa bo désl"
+    //  chat.broadcast(`${kicked.name} was kicked by ${kickerName} - Reason : ${message}`)
+    kicked.kick(`Kicked by ${kickerName} : ${message}`)
+}
+
+function searchPlayer (idOrName) {
+    if (!isNaN(idOrName)) {
+        idOrName = parseInt(idOrName)
+        return alt.Player.all.find((player) => player.getSyncedMeta("id") === idOrName)
+    } else
+        return alt.Player.all.find((player) => player.name === idOrName)
+
 }
 
 chat.registerCmd("dim", (player, [dim]) => {
     if (!dim) {
-        console.log(player.dimension);
+        console.log("player dimension", player.dimension);
         if (player.vehicle)
-            console.log(player.vehicle.dimension);
+            console.log("vehicle dimension", player.vehicle.dimension);
         return
     }
     if (isNaN(dim)) return
@@ -216,3 +227,41 @@ alt.onClient('NoClip:Request', (player) => {
     alt.emitClient(player, 'NoClip:Toggle')
 })
 */
+
+
+
+
+
+
+
+/*
+
+const nameSwap = {
+
+    fd: "RX7",
+    toysupmk4: "Supra",
+    "370z": "370Z",
+    toy86: "GT86",
+    gtr: "GTR-R35",
+    skyline: "Skyline R34",
+    "18performante": "Huracan Performante",
+    
+    ninjah2: "Ninja H2R",
+    s1000rr: "S1000RR",
+}
+
+setTimeout(() => {
+    let parsed = {}
+    Object.keys(nameSwap).forEach((key) => parsed[key] = {Name: key, DisplayName: nameSwap[key], Hash: alt.hash(key), Class: "MOD"})
+
+    console.log(parsed);
+}, 2000);
+
+*/
+
+//  setTimeout(() => {
+//      //  console.log(alt.getServerConfig());
+//      let hash = alt.hash("toysupmk4")
+//      //console.log(alt.getPedModelInfoByHash(hash));
+//      console.log(alt.getVehicleModelInfoByHash(hash));
+//  }, 1500);

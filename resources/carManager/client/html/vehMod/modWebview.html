@@ -177,33 +177,36 @@
       <button id="stock">Stock</button>
     </optionBut>
 
-    <select hidden>
-      <option value="0">Select car:</option>
-      <option value="1">Audi</option>
-      <option value="10">Nissan</option>
-      <option value="11">Toyota</option>
-    </select>
-
   </modPannel>
   
 
 </body>
 
 
-<!--    Checkbox Template    -->
-<label class="checkbox bounce" id="labelCheckbox" hidden>
-  <input type="checkbox" id="checkbox">
-  <svg viewBox="0 0 21 21">
-    <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
-  </svg>
-</label>
+<div class="template" hidden>
 
-<!--    Slider Template    -->
-<div class="range-slider" id="divSlider" hidden>
-  <input class="range-slider__range" type="range">
+  <!--    Checkbox Template    -->
+  <label class="checkbox bounce" id="labelCheckbox" hidden>
+    <input type="checkbox" id="checkbox">
+    <svg viewBox="0 0 21 21">
+      <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+    </svg>
+  </label>
+
+  <!--    Slider Template    -->
+  <div class="range-slider" id="divSlider" hidden>
+    <input class="range-slider__range" type="range">
+  </div>
+
+  <select>
+    <option value="0">Select car:</option>
+    <option value="1">Audi</option>
+    <option value="10">Nissan</option>
+    <option value="11">Toyota</option>
+  </select>
+
 </div>
 
 <!--<script src="../preact.min.js"></script>-->
-<script src="../../../exports/clientExports.js"></script>
 <script type="module" src="modApp.js"></script>
 

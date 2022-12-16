@@ -83,3 +83,12 @@ alt.on("keydown", (key) => {
 //  }
 //  player.vehicle.setWheelTrackWidth(0, 0.95)
 //  player.vehicle.setWheelTrackWidth(1, 0.95)
+
+
+if (player.vehicle) {
+    //  const speed = 4000
+    //  native.setVehicleMaxSpeed(player.vehicle, speed)
+    //  native.setVehicleForwardSpeed(player.vehicle, speed)
+    //  native.setPlayerVehicleDamageModifier(player.vehicle, 0)
+    //  native.setVehicleDamageScale(player.vehicle, 0)
+}

@@ -54,7 +54,7 @@ alt.on("keydown", (key) => {
 function showHelpText(text) {
     native.beginTextCommandDisplayHelp("STRING");
     native.addTextComponentSubstringPlayerName(text);
-    native.endTextCommandDisplayHelp(0, false, true, 1000)
+    native.endTextCommandDisplayHelp(0, false, true, 5000)
 }
 
 function removeHelpText () {
