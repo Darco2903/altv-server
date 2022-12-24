@@ -43,23 +43,18 @@ export function pushLine(text) {
   pushMessage(null, text);
 }
 
-////////////////////////
-//MODIFIED CODE
-
 alt.onServer("chat:message", pushMessage);
 
-function keyup (key) {
+alt.on("keyup", (key) => {
   if (loaded) {
     if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
       opened = true;
       view.emit("openChat", false);
-      //alt.emit("enableWebview", false)
       alt.toggleGameControls(false);
       view.focus();
     } else if (!opened && key === 0xbf && alt.gameControlsEnabled()) {
       opened = true;
       view.emit("openChat", true);
-      //alt.emit("enableWebview", true)
       alt.toggleGameControls(false);
       view.focus();
     } else if (opened && key == 0x1b) {
@@ -69,19 +64,12 @@ function keyup (key) {
       view.unfocus();
     }
   }
-}
-
-export function enableChat (enable) {
-  if (enable) alt.on("keyup", keyup);
-  else alt.off("keyup", keyup);
-}
-
-enableChat(true)
-
-export function chatOpened () {
-  return opened
-}
+});
 
 ////////////////////////
+//MODIFIED CODE
 
-//pushLine("<b>alt:V Multiplayer has started</b>");
+alt.on("chat:enable", enableChat);
+function enableChat(enable) {
+  loaded = enable;
+}

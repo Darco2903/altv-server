@@ -1,13 +1,15 @@
 
-const nodeList = document.querySelectorAll("button")
-const buttonList = Array.prototype.slice.call(nodeList)
+const butNodeList = document.querySelectorAll("button")
+const buttonList = Array.prototype.slice.call(butNodeList)
+const checkNodeList = document.querySelectorAll("input[type=checkbox]")
+const checkboxList = Array.prototype.slice.call(checkNodeList)
 
-buttonList.forEach(button => {
-    button.onclick = function () {
-        //btnEvent(this.id)
-        alt.emit("loadWebView", this.id)
-    }
-})
+function sendEvent () {
+    alt.emit("menu:event", {id: this.id, checked: this.checked})
+}
+
+buttonList.forEach(button => button.onclick = sendEvent)
+checkboxList.forEach(checkbox => checkbox.onchange = sendEvent)
 
 alt.on("resourcesAvailable", (resources, vehicle) => {
     buttonList.forEach(button => {
@@ -19,17 +21,7 @@ alt.on("resourcesAvailable", (resources, vehicle) => {
     })
 })
 
-/*
-function btnEvent (id) {
-    console.log(id);
-    switch (id) {
-        case "spawnVeh":
-        case "modVeh":
-            alt.emit("loadWebView", id)
-            break;
-    
-        default:
-            break;
-    }
-}
-*/
+alt.on("nametag:diplay", (enabled) => {
+    const check = document.getElementById("nametag")
+    check.checked = enabled
+})
