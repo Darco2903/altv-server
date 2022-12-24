@@ -30,7 +30,7 @@ chat.registerCmd("play", (player, [id]) => {
     else if (!id) {
         if (!veh.music.isPlaying()) alt.emitClient(player, "notification", "command", "Rien à jouer\n/load [id]");
         else veh.play();
-    } else if (!veh.isPlaying()) veh.load(id);
+    } else if (!veh.music.isPlaying()) veh.load(id);
     //  else veh.cueLoad(id);
 });
 
