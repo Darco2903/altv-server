@@ -3,6 +3,7 @@ let htmlGenerated = document.querySelector("generated")
 let htmlSearch = document.querySelector("generatedSearch")
 let template = document.querySelector(".template")
 let htmlVeh = template.querySelector("veh")
+let htmlImgs
 let underscore
 
 
@@ -36,12 +37,11 @@ function htmlVehClone (Name) {
     let vehShowName = vehicles[Name].DisplayName
     
     img.src += `${underscore}${Name}.webp`
-    img.id = Name//vehicles[Name].Hash
+    img.id = vehicles[Name].Hash
     
     name.innerHTML = vehShowName
     html.id = vehShowName.toLowerCase()
     
-    html.removeAttribute
     htmlSearch.append(html.cloneNode(true))
     return html
 }
@@ -49,10 +49,10 @@ function htmlVehClone (Name) {
 function addImgErrorListeners () {
     let imgs = document.querySelectorAll("img")
     for (const img of imgs) {
-        img.addEventListener('error', function handleError() {
+        img.onerror = function () {
             const defaultImage = './vehimg/__notfound.webp'
             img.src = defaultImage;
-        })
+        }
     }
 }
 

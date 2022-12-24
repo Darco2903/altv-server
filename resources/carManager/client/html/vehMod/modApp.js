@@ -216,6 +216,8 @@ function initWheels (data) {
         emitWheels()
     }
 
+    htmlSelectorWheelType.onmousemove = updateSliderFill
+
     htmlSliderNum.oninput = function () {
         wheelNum = parseInt(this.value)
         if (wheelNum == 0)

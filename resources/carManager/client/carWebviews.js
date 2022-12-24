@@ -1,6 +1,5 @@
 import * as alt from "alt-client";
 import * as native from "natives";
-import { open, close, cantLoad } from "webview";
 import { modList, serverColors } from "../tables";
 
 
@@ -22,7 +21,7 @@ alt.on("keyup", (key) => {
 })
 
 function closeWebView () {
-    close(webview)
+    alt.emit("webview:close", webview)
     webview = undefined
 }
 
@@ -30,13 +29,16 @@ alt.on("spawnVeh:load", openVeh)
 //alt.onServer("spawnVeh:load", openVeh)
 
 function openVeh () {
-    if (webview) return
+    if (!alt.gameControlsEnabled()) return
     webview = new alt.WebView("http://resource/client/html/vehSpawn/vehWebview.html", false)
     webview.on("spawnVehicle", model => {
         alt.emitServer("spawn:Vehicle", model)
+        //  model = parseInt(model)
+        //  const pos = new alt.Vector3(player.pos)
+        //  native.createVehicle(model, pos.x+2, pos.y, pos.z, 0, false, false, false)
         closeWebView()
     })
-    open(webview)
+    alt.emit("webview:open", webview)
 }
 
 alt.on("modVeh:load", openMod)
@@ -61,7 +63,7 @@ function openMod () {
     webview.on("setNeons", setNeons)
     webview.on("setPlate", setPlate)
     startApp("mods")
-    open(webview)
+    alt.emit("webview:open", webview)
 }
 
 function startApp (app) {
@@ -418,7 +420,7 @@ function setPlate ({plateIndex, plateText}) {
 //              webview.emit("handlingData", [elem, handlingData[elem]])
 //          }
 //      }
-//      open(webview)
+//      alt.emit("webview:open", webview)
 //  }
 //  
 //  alt.onServer("personnalspawnVeh:load", (vehList) => {
@@ -459,5 +461,5 @@ function setPlate ({plateIndex, plateText}) {
 //  
 //      webview.emit("vehList", vehList)
 //  
-//      open(webview)
+//      alt.emit("webview:open", webview)
 //  }
