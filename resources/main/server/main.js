@@ -1,142 +1,142 @@
-import * as alt from 'alt-server';
-import * as chat from 'chat';
-import * as db from "database"
-import * as Functions from "./functions"
+import * as alt from "alt-server";
+import * as chat from "chat";
+import * as db from "database";
+import * as Functions from "./functions";
 
-
-
-Functions.update()
-
-
+Functions.update();
 
 //  let autoSave = false
 //  let saveTime = 5            //  minutes
 
-
-function log (msg) {
-    alt.log("~y~" + msg)
+function log(msg) {
+    alt.log("~y~" + msg);
 }
 
-alt.on("serverStarted", () => import("./autoReconnect"))    // Dev
+alt.on("serverStarted", () => import("./autoReconnect")); // Dev
 
-alt.on("consoleCommand", (string) => {
-    if (!string) return
-    string = string.splitAll(' ')
-    const command = string[0]
-    const args = string.splice(1)
+alt.on("consoleCommand", (command) => {
     switch (command) {
-        case "reboot":
-            restartServer()
+        case "r":
+            alt.stopServer();
             break;
 
-        case "kick":
-            let toKick = searchPlayer(idOrName)
-            if (!toKick) {
-                log("Player not found")
-                return
-            }
-            kick(toKick, "Server")
+        case "reboot":
+            restartServer();
             break;
-    
+
+        //  case "kick":
+        //      console.log(args[0]);
+        //      let toKick = searchPlayer(args[0])
+        //      if (!toKick) {
+        //          log("Player not found")
+        //          return
+        //      }
+        //      kick(toKick, "Server")
+        //      break;
+
         default:
+            log(`Unknow command: ${command}`);
             break;
     }
-})
-
+});
 
 chat.registerCmd("r", (player, [resourceName]) => {
     //if (!Functions.authorized(player, 4))
     //    return
 
-    if (resourceName)
-        restartResource(resourceName)
-    else
-        restartServer()
-})
+    if (resourceName) restartResource(resourceName, player);
+    else restartServer();
+});
 
-chat.registerCmd("save", saveServer)
+chat.registerCmd("save", saveServer);
 
-function saveServer () {
-    alt.emit("save")
+function saveServer() {
+    alt.emit("save");
 }
 
-export function restartServer () {
-    saveServer()
+export function restartServer() {
+    saveServer();
     //alt.emitAllClients("serverStop")
-    const msg = "Server Restarting"
+    const msg = "Server Restarting";
     //alt.Player.all.forEach(player => player.kick(msg))
-    log(msg)
+    log(msg);
     setTimeout(alt.stopServer, 200);
 }
 
-
-export function restartResource (res) {
-    //if (res == "r") alt.restartResource("chat")
-    //else alt.restartResource(res)
-    alt.restartResource(res)
-    chat.broadcast(`{00ff00}${res} restarted`)
+export function restartResource(name, player) {
+    if (alt.hasResource(name)) alt.restartResource(name);
+    else name = "ERROR";
+    alt.emitClient(player, "notification", "restartResource", name);
 }
 
 chat.registerCmd("kick", (player, [idOrName]) => {
-    kickCommand(player, idOrName)
-})
+    kickCommand(player, idOrName);
+});
 
-function kickCommand (player, idOrName) {
+function kickCommand(player, idOrName) {
     if (!idOrName) {
-        chat.send(player, "{55555}/kick [playerName] or [playerID]")
-        return
+        alt.emitClient(player, "notification", "command", "/kick [nom du joueur]\n/kick [ID du joueur]");
+        return;
     }
-    let toKick = searchPlayer(idOrName)
+    let toKick = searchPlayer(idOrName);
     if (!toKick) {
-        chat.send(player, "{ff8f00}Player not found")
-        return
+        alt.emitClient(player, "notification", "command", `Le joueur ${idOrName} n'a pas été trouvé`);
+        return;
     }
-    kick(idOrName, player.name)
+    kick(idOrName, player.name);
+    alt.emitClient(player, "notification", "success", `Le joueur ${idOrName} a été kick`);
 }
 
-function kick (kicked, kickerName, message) {
-    message = message || "Tépa bo désl"
+function kick(kicked, kickerName, message) {
+    message = message || "Tépa bo désl";
     //  chat.broadcast(`${kicked.name} was kicked by ${kickerName} - Reason : ${message}`)
-    kicked.kick(`Kicked by ${kickerName} : ${message}`)
+    kicked.kick(`Kicked by ${kickerName} : ${message}`);
 }
 
-function searchPlayer (idOrName) {
+function searchPlayer(idOrName) {
     if (!isNaN(idOrName)) {
-        idOrName = parseInt(idOrName)
-        return alt.Player.all.find((player) => player.getSyncedMeta("id") === idOrName)
-    } else
-        return alt.Player.all.find((player) => player.name === idOrName)
-
+        idOrName = parseInt(idOrName);
+        return alt.Player.all.find((player) => player.getSyncedMeta("id") === idOrName);
+    } else return alt.Player.all.find((player) => player.name === idOrName);
 }
 
 chat.registerCmd("dim", (player, [dim]) => {
     if (!dim) {
         console.log("player dimension", player.dimension);
-        if (player.vehicle)
-            console.log("vehicle dimension", player.vehicle.dimension);
-        return
+        if (player.vehicle) console.log("vehicle dimension", player.vehicle.dimension);
+        return;
     }
-    if (isNaN(dim)) return
-    if (player.vehicle)
-        player.vehicle.dimension = dim
-    player.dimension = dim
-})
+    if (isNaN(dim)) return;
+    if (player.vehicle) player.vehicle.dimension = dim;
+    player.dimension = dim;
+});
 
 chat.registerCmd("getpos", (player) => {
-    let pos = player.pos.toFixed(3)
-    pos.dim = player.dimension
-    chat.send(player, `${pos}`)
+    let pos = player.pos.toFixed(3);
+    pos.dim = player.dimension;
+    chat.send(player, `${pos}`);
     console.log(pos);
-})
+});
 
 chat.registerCmd("hash", (player, [string]) => {
-    if (!string) return
+    if (!string) return;
     console.log(alt.hash(string));
-})
+});
 
+chat.registerCmd("debug", (player, [enable]) => {
+    switch (enable) {
+        case "true":
+        case "false":
+            alt.emitAllClients("debug", enable === "true")
+            break;
+
+        default:
+            alt.emitClient(player, "notification", "command", "/debug true\n/debug false")
+            break;
+    }
+});
 
 ////////////////////////////////////////////
-
 
 /*
 alt.onClient('tpm:PlayerTPM', (player, coords, veh) => {
@@ -151,11 +151,7 @@ alt.onClient('tpm:PlayerTPM', (player, coords, veh) => {
 })
 */
 
-
-
 //////////////////////////////////////////////
-
-
 
 /*
 alt.onClient('giveWeapon:Player', (player, weap) => {
@@ -170,7 +166,6 @@ alt.onClient('giveWeapon:Player', (player, weap) => {
     }
 })
 */
-
 
 /*
 alt.onClient('setpm:SendToServer', (player, pm) => {
@@ -192,7 +187,6 @@ alt.onClient('setpm:SendToServer', (player, pm) => {
 })
 */
 
-
 /*
 alt.onClient('editClothes:Player', (player, clothes) => {
     Functions.editPlayerClothes(player, clothes)
@@ -212,12 +206,9 @@ alt.onClient('discardChange:Player', (player) => {
 })
 */
 
-
 ////////////////////////////////////////////////////////////////////
 
-
 //Misc
-
 
 /*
 alt.onClient('NoClip:Request', (player) => {
@@ -226,37 +217,6 @@ alt.onClient('NoClip:Request', (player) => {
     }
     alt.emitClient(player, 'NoClip:Toggle')
 })
-*/
-
-
-
-
-
-
-
-/*
-
-const nameSwap = {
-
-    fd: "RX7",
-    toysupmk4: "Supra",
-    "370z": "370Z",
-    toy86: "GT86",
-    gtr: "GTR-R35",
-    skyline: "Skyline R34",
-    "18performante": "Huracan Performante",
-    
-    ninjah2: "Ninja H2R",
-    s1000rr: "S1000RR",
-}
-
-setTimeout(() => {
-    let parsed = {}
-    Object.keys(nameSwap).forEach((key) => parsed[key] = {Name: key, DisplayName: nameSwap[key], Hash: alt.hash(key), Class: "MOD"})
-
-    console.log(parsed);
-}, 2000);
-
 */
 
 //  setTimeout(() => {

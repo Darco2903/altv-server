@@ -10,7 +10,8 @@ function invokeCmd(player, cmd, args) {
   if (callback) {
     callback(player, args);
   } else {
-    send(player, `{FF0000} Unknown command /${cmd}`);
+    //  send(player, `{FF0000} Unknown command /${cmd}`);
+    alt.emitClient(player, "notification", "command", `/${cmd} inconnu`)
   }
 }
 
