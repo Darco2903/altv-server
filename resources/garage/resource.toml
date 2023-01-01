@@ -1,12 +1,14 @@
-client-files = [
-    'client/*',
-    "garageList.js"
-]
-client-main = 'client/client.js'
-deps = ["carManager"]
-main = 'server/server.js'
+type = "js"
+main = "server/server.js"
 server-files = [
-    'server/*',
+    "server/*",
     "garageList.js"
 ]
-type = 'js'
+client-main = "client/client.js"
+client-files = [
+    "client/*",
+    "garageList.js"
+]
+deps = [
+    "carManager"
+]

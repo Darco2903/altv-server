@@ -1,6 +1,11 @@
+type = "js"
+main = "server/main.js"
+server-files = [
+    "server/Clock.js"
+]
 client-files = []
-client-main = 'client/main.js'
-deps = [ 'chat', 'database' ]
-main = 'server/main.js'
-server-files = [ 'server/Clock.js' ]
-type = 'js'
+client-main = "client/main.js"
+deps = [
+    "chat",
+    "database"
+]

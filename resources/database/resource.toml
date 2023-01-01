@@ -1,6 +1,8 @@
+type = "js"
+main = "startup.js"
+server-files = [
+    "*"
+]
+client-main = ""
 client-files = []
-client-main = ''
 deps = []
-main = 'startup.js'
-server-files = [ '/*' ]
-type = 'js'
