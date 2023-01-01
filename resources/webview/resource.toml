@@ -1,6 +1,0 @@
-client-files = []
-client-main = 'WebView.js'
-deps = [ 'chat' ]
-main = ''
-server-files = []
-type = 'js'
