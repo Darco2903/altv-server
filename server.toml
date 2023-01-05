@@ -46,7 +46,11 @@ mapCellAreaSize = 100 #smaller areas uses more ram and less cpu
 colShapeTickRate = 200
 
 # Defines the used logging streams (console, file, stdconsole) for the server (dev/13.0-dev32 and higher)
-logStreams = [ "console", "file", "stdconsole " ]
+logStreams = [
+    "console",
+    "file",
+    "stdconsole "
+]
 
 # Defines the amount of worker threads for entity computation, like colshapes, streaming, etc. Good value is cpu count * 2
 entityWorkerCount = 2
@@ -74,9 +78,9 @@ sendPlayerNames = false
 
 # An array of all resources that should be loaded
 resources = [
-    # clothesmenu,
-    # pm_games, pm_movies, pm_mcu, pm_dcu, pm,
-    # ghostface, lara, myers,
+    #   clothesmenu,
+    #   pm_games, pm_movies, pm_mcu, pm_dcu, pm,
+    #   ghostface, lara, myers,
     #   pm_new, pm_others
 
     "main",
@@ -85,24 +89,27 @@ resources = [
     "carManager",
     "menu",
     "garage",
-    
     "noclip",
-    "speedometer",
 
-    #   "moto", "carjdm", "carhyper", "cars",
-    #   "i8",
-
-    "vehicles/mazda-rx7",
-    "vehicles/toyota-supra",
-    "vehicles/nissan-370z",
-    "vehicles/toyota-gt86",
-    "vehicles/nissan-gtrr35",
-    "vehicles/nissan-skylinegtr",
-    "vehicles/lamborghini-huracanperformante",
-
-    "vehicles/bmw-s1000rr",
-    #"vehicles/kawasaki-h2r",
+    "nametag"
     
+    #   "musicPlayer",
+    #   "audioPlayer",
+
+    #   "speedometer",
+    #   "vehicles/mazda-rx7",
+    #   "vehicles/toyota-supra",
+    #   "vehicles/nissan-370z",
+    #   "vehicles/toyota-gt86",
+    #   "vehicles/nissan-gtrr35",
+    #   "vehicles/nissan-skylinegtr",
+    #   "vehicles/lamborghini-huracanperformante",
+    #   "vehicles/bmw-s1000rr",
+
+    #   "i8",
+    #   "moto"
+
+    #"vehicles/kawasaki-h2r",
 
     #"pointing",
     #"npcVehicleSync"
@@ -119,7 +126,7 @@ resources = [
 
 # An array of all modules that should be loaded
 modules = [
-    "js-module",
+    "js-module"
     #"csharp-module"
 ]
 
@@ -130,42 +137,42 @@ modules = [
 
 # Settings related to js-module
 [js-module]
-# "https://nodejs.org/api/cli.html#--enable-source-maps"
-source-maps = true
-# "https://nodejs.org/api/cli.html#--heap-prof"
-#heap-profiler = true
-# Enable profiler
-profiler = true
-# "https://nodejs.org/api/cli.html#--experimental-fetch"
-#global-fetch = true
-# "https://nodejs.org/api/cli.html#--experimental-global-webcrypto"
-#global-webcrypto = true
-# "https://nodejs.org/api/cli.html#--experimental-network-imports"
-#network-imports = true
-# Add extra cli arguments to the node environment "https://nodejs.org/api/cli.html"
-#extra-cli-args = ["--inspect=127.0.0.1:9229", "--max-old-space-size=8192"]
-# Enable node.js inspector
-#[js-module.inspector]
-#host = "127.0.0.1"
-#port = 9229
+    # "https://nodejs.org/api/cli.html#--enable-source-maps"
+    source-maps = true
+    # "https://nodejs.org/api/cli.html#--heap-prof"
+    #heap-profiler = true
+    # Enable profiler
+    profiler = true
+    # "https://nodejs.org/api/cli.html#--experimental-fetch"
+    #global-fetch = true
+    # "https://nodejs.org/api/cli.html#--experimental-global-webcrypto"
+    #global-webcrypto = true
+    # "https://nodejs.org/api/cli.html#--experimental-network-imports"
+    #network-imports = true
+    # Add extra cli arguments to the node environment "https://nodejs.org/api/cli.html"
+    #extra-cli-args = ["--inspect=127.0.0.1:9229", "--max-old-space-size=8192"]
+    # Enable node.js inspector
+    #[js-module.inspector]
+    #host = "127.0.0.1"
+    #port = 9229
 
 # Settings related to c#-module
 [csharp-module]
-# Disable dependency (NuGet) check and download at server startup, this is recommended if you have a bad connection to the NuGet server (e.g china)
-disableDependencyDownload= true
+    # Disable dependency (NuGet) check and download at server startup, this is recommended if you have a bad connection to the NuGet server (e.g china)
+    disableDependencyDownload = true
 
 # Voice configuration (needs to be set to enable voice chat)
 [voice]
-# The bitrate of the voice server
-bitrate = 64000
-# The secret for the external server (only needed when using externalHost)
-# The secret must consist of numeric values only
-externalSecret = "1234567890"
-# The external host address (leave 127.0.0.1, if voice-server is on same machine)
-externalHost = "127.0.0.1"
-# The external host port
-externalPort = 7798
-# The external host public address (should be the ip address of your server, not localhost!)
-externalPublicHost = "xx.xx.xx.xx"
-# The external host public port
-externalPublicPort = 7799
+    # The bitrate of the voice server
+    bitrate = 64000
+    # The secret for the external server (only needed when using externalHost)
+    # The secret must consist of numeric values only
+    externalSecret = "1234567890"
+    # The external host address (leave 127.0.0.1, if voice-server is on same machine)
+    externalHost = "127.0.0.1"
+    # The external host port
+    externalPort = 7798
+    # The external host public address (should be the ip address of your server, not localhost!)
+    externalPublicHost = "xx.xx.xx.xx"
+    # The external host public port
+    externalPublicPort = 7799

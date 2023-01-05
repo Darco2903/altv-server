@@ -1,6 +1,8 @@
-client-files = [ '*' ]
-client-main = 'main.js'
-deps = []
-main = ''
+type = "js"
+main = ""
 server-files = []
-type = 'js'
+client-main = "main.js"
+client-files = [
+    "*"
+]
+deps = []

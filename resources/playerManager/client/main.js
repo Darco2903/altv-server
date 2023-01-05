@@ -17,9 +17,11 @@ alt.once("spawned", () => {
 alt.on("resourceStop", () => native.doScreenFadeOut(1000))
 
 
-alt.onServer('playerDeath', (killer, weapon) => {
-    console.log(player, killer, weapon);
+alt.onServer('player:death', () => {
+    console.log("dead");
+    //native.setPlayerControl(player, true, 1)
 });
+//native.setPlayerControl(player, true, 1000000)
 
 alt.on("keyup", (key) => {
     if(key === 112) {

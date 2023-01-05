@@ -1,64 +1,62 @@
-import * as alt from 'alt-server';
-import * as chat from 'chat';
-import * as db from "database"
-import { locationsList } from './locationPos';
-import "./Player"
+import * as alt from "alt-server";
+import * as chat from "chat";
+import * as db from "database";
+import { locationsList } from "./locationPos";
+import "./Player";
 
-
-function log (msg) {
-    alt.log("~y~" + msg)
+function log(msg) {
+    alt.log("~y~" + msg);
 }
 
-function saveLog (msg) {
-    alt.log("~g~" + msg)
+function saveLog(msg) {
+    alt.log("~g~" + msg);
 }
 
 alt.on("beforePlayerConnect", (connectionInfo) => {
-    return db.isReady()
-})
+    return db.isReady();
+});
 
-alt.on("save", saveAll)
+alt.on("save", saveAll);
 
-alt.on('playerConnect', (player) => {
-    player.auth()
-    log(`${player.name} connected to the server`)
+alt.on("playerConnect", (player) => {
+    player.auth();
+    log(`${player.name} connected to the server`);
     //  alt.emitClient(player, 'load:Locations')
 });
 
-
-alt.on('playerDisconnect', (player, reason) => {
-    player.save()
-    log(`${player.name} disconnected from the server : ${reason}`)
-    chat.broadcast(`{00FFFF}${player.name} {000000}allez hop ça dégage`)
+alt.on("playerDisconnect", (player, reason) => {
+    player.save();
+    log(`${player.name} disconnected from the server : ${reason}`);
+    chat.broadcast(`{00FFFF}${player.name} {000000}allez hop ça dégage`);
 });
 
-function saveAll () {
-    alt.Player.all.forEach((player) => player.save())
-    saveLog("All players saved")
+function saveAll() {
+    alt.Player.all.forEach((player) => player.save());
+    saveLog("All players saved");
 }
 
 chat.registerCmd("kill", (player) => {
-    player.health = 0
-})
+    player.health = 0;
+});
 
-let autoRespawn = true
-
-alt.on('playerDeath', (victim, killer, weaponHash) => {
-    alt.emitClient(victim, "playerDeath", ([killer, weaponHash]))
+let autoRespawn = true;
+alt.on("playerDeath", (victim, killer, weaponHash) => {
+    return;
+    alt.emitClient(victim, "player:death");
     //const deathCause = CauseOfDeath[weaponHash]
-    const veh = victim.vehicle
-    
+    const veh = victim.vehicle;
+
     switch (true) {
         case !autoRespawn:
-            return
-            
+            return;
+
         case !!veh:
-            alt.emitClient(victim, 'vehicle:SetPlayerIn', veh)
+            alt.emitClient(victim, "vehicle:SetPlayerIn", veh);
             break;
 
         default:
-            victim.clearBloodDamage()
-            victim.spawn(victim.pos)
+            victim.clearBloodDamage();
+            victim.spawn(victim.pos);
             break;
     }
     /*
@@ -92,29 +90,25 @@ alt.on('playerDeath', (victim, killer, weaponHash) => {
 });
 
 chat.registerCmd("respawn", (player) => {
-    const veh = player.vehicle
-    player.respawn()
-    if (veh)
-        alt.emitClient(player, "vehicle:setInto")
-})
+    const veh = player.vehicle;
+    player.respawn();
+    if (veh) player.setIntoVehicle(veh, 1);
+});
 
-
-chat.registerCmd("goto", (player, [nameOrX, y=0, z=0]) => {
+chat.registerCmd("goto", (player, [nameOrX, y = 0, z = 0]) => {
     if (!nameOrX || (y && isNaN(y)) || (z && isNaN(z))) {
-        chat.send(player, "{555555}/goto [nomDuLieu] ou [x, y, z]")
-        return
+        chat.send(player, "{555555}/goto [nomDuLieu] ou [x, y, z]");
+        return;
     }
-    let pos
+    let pos;
     if (isNaN(nameOrX)) {
-        pos = locationsList[nameOrX]
+        pos = locationsList[nameOrX];
         if (!pos) {
-            chat.send(player, `${nameOrX} inconnu`)
-            return
+            chat.send(player, `${nameOrX} inconnu`);
+            return;
         }
-    } else
-        pos = [nameOrX, y, z].map(value => parseFloat(value))
-    
-    alt.emitClient(player, "player:TP", new alt.Vector3(pos))
-    //player.spawn(new alt.Vector3(pos))
-})  
+    } else pos = [nameOrX, y, z].map((value) => parseFloat(value));
 
+    alt.emitClient(player, "player:TP", new alt.Vector3(pos));
+    //player.spawn(new alt.Vector3(pos))
+});
