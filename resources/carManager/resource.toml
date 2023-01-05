@@ -1,16 +1,13 @@
-client-files = [
-    'client/*',
-    'tables.js'
-]
-client-main = 'client/main.js'
-deps = [
-    'chat',
-    'database',
-    'webview'
-]
-main = 'server/main.js'
+type = "js"
+main = "server/main.js"
 server-files = [
-    'server/*',
-    'tables.js'
+    "server/*"
 ]
-type = 'js'
+client-main = "client/main.js"
+client-files = [
+    "client/*"
+]
+deps = [
+    "chat",
+    "database"
+]

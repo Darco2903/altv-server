@@ -1,124 +1,39 @@
-import * as alt from 'alt-server';
-import * as chat from 'chat';
-import * as db from "database"
-import "./Vehicle"
+import * as alt from "alt-server";
+import "./Vehicle";
+import "./events";
+import "./commands";
 
-
-
-alt.on("serverStarted", initSpawn)
-alt.on("resourceStart", initSpawn)
-alt.on("ConnectionComplete", spawnStored)
-alt.on("save", saveAll)
-
-alt.onClient('spawn:Vehicle', (player, model) => {
-    //  if (model in vehicleList)
-    //      model = vehicleList[model]
-    const pos = player.pos.toFixed(2)
-    let veh = new alt.Vehicle(model, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))
-    veh.init(model)
-})
-
-function log (msg) {
-    alt.log("~c~" + msg)
+function log(msg) {
+    alt.log("~c~" + msg);
 }
 
-function saveLog (msg) {
-    alt.log("~g~" + msg)
+function saveLog(msg) {
+    alt.log("~g~" + msg);
 }
 
-chat.registerCmd("saveTest", (player) => {
-    player.vehicle.register(player)
-})
+//  function initSpawn () {
+//      if (db.isReady() && !alt.Vehicle.all.length)
+//          spawnStored()
+//  }
 
-export function saveVehicles () {
-    Vehicle.all.forEach(veh => veh.save())
-}
-
-function initSpawn () {
-    if (db.isReady() && !alt.Vehicle.all.length)
-        spawnStored()
-}
-
-function spawnStored () {
-    return
-    db.fetchAllData("Vehicle", (dataArray) => {
-        if (!dataArray) return
-        dataArray.forEach((data) => {
-            data.pos = new alt.Vector3(JSON.parse(data.pos))
-            data.rot = new alt.Vector3(JSON.parse(data.rot))
-            if (data.garage) {
-                alt.emit("vehicle:spawnInGarage", data)
-                return
-            }
-            let veh = new alt.Vehicle(data.model, data.pos, data.rot)
-            veh.init(data.model)
-            veh.initWithData(data.id, data.appearance)
-        })
-        log("All Vehicles spawned")
-    })
-}
-
-function saveAll () {
-    alt.Vehicle.all.forEach((veh) => veh.save())
-    saveLog("All vehicles saved")
-}
-
-alt.onClient("sendDataToServer", (player, data) => {
-    const veh = player.vehicle
-    veh.setAllMods(data.mods)
-    veh.setAllWheels(data.wheels)
-    veh.setAllColors(data.colors)
-    veh.setAllExtraColors(data.extraColors)
-    veh.setAllNeons(data.neons)
-    veh.setPlate(data.plate)
-    veh.saveAppearance()
-})
-
-chat.registerCmd("clearVeh", (player) => {
-    alt.Vehicle.all.forEach((veh) => veh.destroy())
-    chat.send(player, "cleared")
-})
-
-
-chat.registerCmd("repair", (player) => {
-    if (player.vehicle)
-        player.vehicle.repair()
-    else {
-        alt.emitClient(player, "vehicle:nearest")
-        //  alt.onClient("vehicle:nearest", (player, veh) => {
-        //      console.log("repaired", i);
-        //      i++
-        //      veh.repair()
-        //  })
-    }
-})
-
-chat.registerCmd("crash", (player) => {
-    const pos = player.pos.toFixed(2)
-    let veh = new alt.Vehicle("crash", pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))
-    veh.init("crash")
-})
-
-chat.registerCmd("vehspawn", (player, [vehName]) => {
-    if (!vehName) return
-    try {
-        const pos = player.pos.toFixed(2)
-        let veh = new alt.Vehicle(vehName, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))
-        veh.init(vehName)
-    } catch (error) {
-        
-    }
-})
-
-chat.registerCmd("test", (player, [vehName]) => {
-    try {
-        const pos = player.pos.toFixed(2)
-        let veh = new alt.Vehicle(vehName, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0))
-        veh.init(vehName)
-    } catch (error) {
-        
-    }
-})
+//  function spawnStored () {
+//      return
+//      db.fetchAllData("Vehicle", (dataArray) => {
+//          if (!dataArray) return
+//          dataArray.forEach((data) => {
+//              data.pos = new alt.Vector3(JSON.parse(data.pos))
+//              data.rot = new alt.Vector3(JSON.parse(data.rot))
+//              if (data.garage) {
+//                  alt.emit("vehicle:spawnInGarage", data)
+//                  return
+//              }
+//              let veh = new alt.Vehicle(data.model, data.pos, data.rot)
+//              veh.init(data.model)
+//              veh.initWithData(data.id, data.appearance)
+//          })
+//          log("All Vehicles spawned")
+//      })
+//  }
 
 //  let i=0
 //  alt.on("playerEnteredVehicle", (player, vehicle, seat) => {
@@ -146,8 +61,6 @@ alt.onClient('vehicle:Neons', (player, color) => {
     Exports.neons(player, parsedNeons)
 })
 */
-
-
 
 /*
 chat.registerCmd("veh", (player, arg) => {
