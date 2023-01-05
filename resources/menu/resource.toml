@@ -1,6 +1,10 @@
-client-files = [ 'client/*' ]
-client-main = 'client/main.js'
-deps = [ 'webview' ]
-main = 'server/main.js'
-server-files = [ 'server/*' ]
-type = 'js'
+type = "js"
+main = "server/main.js"
+server-files = [
+    "server/*"
+]
+client-main = "client/main.js"
+client-files = [
+    "client/*"
+]
+deps = []

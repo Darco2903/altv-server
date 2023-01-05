@@ -1,91 +1,55 @@
-import * as alt from 'alt-client';
-import * as native from "natives"
+import * as alt from "alt-client";
+import * as native from "natives";
 
+import "./WebView";
+import "./eventHandler";
 
+let player = alt.Player.local;
 
-let webview
-let resouces = ["carManager"]
-let player = alt.Player.local
-const menuURL = "http://resource/client/html/menu.html"
+let webview = new alt.WebView("http://resource/client/app/menu.html");
+webview.isVisible = false;
+webview.on("event", (event) => alt.emit("menu:eventHandler", event));
 
-
-function openMenu () {
-    webview = new alt.WebView(menuURL)
-    webview.on("menu:event", eventHandler)
-    webview.emit("resourcesAvailable", resourcesAvailable(), !!alt.Player.local.vehicle)
-    webview.emit("nametag:diplay", alt.getMeta("displayNametag"))
-    //open(webview)
-    alt.emit("webview:open", webview)
-    const cursosPos = alt.getScreenResolution().div(2, 2)
-    alt.setCursorPos(cursosPos)
-}
-
-function eventHandler (event) {
-    const id = event.id
-    switch (id) {
-        case "spawnVeh":
-        case "modVeh":
-            loadWbVw(id)
-            break;
-        
-        case "nametag":
-            alt.emit("nametag:toogle", event.checked)
-            break;
-    
-        default:
-            break;
-    }
-}
-
-alt.on('keyup', (key) => {
+alt.on("menu:toogle", toogleMenu);
+alt.on("keyup", (key) => {
     switch (key) {
-        case 75:    //  K
-            switchMenu()
-            break;
-
-        case 27:    //  ESC
-            if (webview)
-                closeWebView()
-            break;
-
-        default:
-            break;
-    }
-})
-
-function switchMenu () {
-
-    switch (true) {
-
-        case !!webview:
-            closeWebView()
-            // fall through
-        case !alt.gameControlsEnabled():
-            return
-
-        case !webview && !player.vehicle:
-        case !webview && player.vehicle.speed < 10:
-            openMenu()
+        case 27: // ESC
+            if (!webview.isVisible) return;
+        //fall through
+        case 75: // K
+            toogleMenu();
             break;
 
         default:
             break;
     }
+});
+
+function toogleMenu() {
+    const state = !webview.isVisible;
+    if (state) open();
+    webview.toogle(state);
+    toogleControls(!state);
 }
 
-function resourcesAvailable () {
-    let available = {}
-    resouces.forEach(resourceName => available[resourceName] = alt.Resource.all.includes(alt.Resource.getByName(resourceName)))
-    return available
+function open() {
+    alt.emit("menuOpen");
+    webview.centerPointer();
+    webview.emit("resources", getResourceNames());
+    webview.emit("vehicle", !!player.vehicle);
+    webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 
-function loadWbVw (toLoad) {
-    closeWebView()
-    alt.emit(`${toLoad}:load`)
+function toogleControls(state) {
+    if (!player.vehicle) alt.toggleGameControls(state);
+    else {
+        webview.toogleChat(state);
+        webview.toogleCamControl(state);
+        webview.toogleVehicleExitControl(state);
+        webview.toogleFrontEndControl(state);
+    }
 }
 
-function closeWebView () {
-    //  close(webview)
-    alt.emit("webview:close", webview)
-    webview = undefined
+function getResourceNames() {
+    return alt.Resource.all.map((res) => res.name);
 }
