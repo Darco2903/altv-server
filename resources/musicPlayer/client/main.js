@@ -1,6 +1,7 @@
 import * as alt from "alt-client";
 
 let musicPlayer = new alt.WebView("http://resource/client/html/player.html", true);
+
 let ready = false;
 let player = alt.Player.local;
 

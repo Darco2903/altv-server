@@ -10,7 +10,7 @@ function setDebug(enable) {
 }
 
 function onYouTubeIframeAPIReady() {
-    setDebug(true);
+    setDebug(false);
     player = new YT.Player("player", {
         height: 90,
         width: 160,
@@ -26,6 +26,7 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
     if ("alt" in window) alt.emit("musicPlayer:ready");
+    else load({ id: "aYcOg6hk3Zs", time: 0, volume: 40 });
     //  console.log(event.target);
     //  event.target.playVideo();
 }

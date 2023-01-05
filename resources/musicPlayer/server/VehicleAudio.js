@@ -70,8 +70,8 @@ alt.Vehicle.prototype.seek = function (time) {
     this.interaction("seek", time);
 };
 
-alt.Vehicle.prototype.volume = function (volume) {
-    this.setVolume(volume);
+alt.Vehicle.prototype.setVolume = function (volume) {
+    this.music.setVolume(volume);
     this.updateMeta();
     this.interaction("volume", volume);
 };

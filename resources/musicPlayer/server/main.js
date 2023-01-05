@@ -1,6 +1,6 @@
 import * as alt from "alt-server";
 import * as chat from "chat";
-import "./VehicleMusic";
+import "./VehicleAudio";
 
 alt.on("playerEnteredVehicle", (player, vehicle, seat) => vehicle.playerEnter(player));
 alt.on("playerLeftVehicle", (player, vehicle, seat) => vehicle.playerLeft(player));
@@ -34,12 +34,6 @@ chat.registerCmd("play", (player, [id]) => {
     //  else veh.cueLoad(id);
 });
 
-//  chat.registerCmd("resume", (player) => {
-//      if (!inVeh()) return;
-//      let veh = player.vehicle;
-//      if (veh.isMusic() && veh.music.state == 2) veh.resume();
-//  });
-
 chat.registerCmd("stop", (player) => player.vehicle.stop());
 chat.registerCmd("pause", (player) => player.vehicle.pause());
 
@@ -63,5 +57,5 @@ chat.registerCmd("volume", (player, [volume]) => {
         alt.emitClient(player, "notification", "command", "Entrez dans un véhicule");
         return;
     }
-    veh.volume(volume);
+    veh.setVolume(volume);
 });
