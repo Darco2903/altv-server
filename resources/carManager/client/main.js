@@ -1,19 +1,18 @@
 import * as alt from "alt-client";
 import * as native from "natives";
 
-import "./carWebviews"
+import "./events";
+import "./webview/webviewMain"
+//  const player = alt.Player.local;
 
-const player = alt.Player.local
-
-alt.onServer("vehicle:setInto", () => native.setPedIntoVehicle(player, player.vehicle, -1))
-
-alt.onServer("vehicle:nearest", () => {
-    let pos = player.pos
-    let vehId = native.getClosestVehicle(pos.x, pos.y, pos.z, 50, 0, 70)
-    let veh = alt.Vehicle.getByScriptID(vehId)
-    //alt.emitServer("vehicle:nearest", veh)
-})
-
+//  if (player.vehicle) {
+//      const speed = 4000;
+//      native.setVehicleMaxSpeed(player.vehicle, speed);
+//      native.setVehicleForwardSpeed(player.vehicle, speed);
+//      native.setPlayerVehicleDamageModifier(player.vehicle, 0);
+//      native.setVehicleDamageScale(player.vehicle, 0);
+//      native.isVehicleStopped(player.vehicle);
+//  }
 
 //  native.isVehicleInGarageArea(garageName, veh)
 //  native.setVehicleStrong(veh, bool)
@@ -39,38 +38,19 @@ alt.onServer("vehicle:nearest", () => {
 
 //  native.setVehicleIndicatorLights()
 
-alt.on("enteredVehicle", (vehicle, seat) => {
-    native.setVehicleKeepEngineOnWhenAbandoned(vehicle, true)
-    //checkDoors(vehicle)
-})
 //native.setVehicleKeepEngineOnWhenAbandoned(player.vehicle, false)
 //  native.setVehicleStartupRevSound()
 //  native.resetVehicleStartupRevSound()
 
-function checkDoors (vehicle) {
-    let nbDoor = native.getNumberOfVehicleDoors(vehicle)
-    for (let doorId=0 ; doorId< nbDoor ; doorId++) {
-        if (native.getVehicleDoorAngleRatio(vehicle, doorId) != 0) {
-            console.log(doorId, true);
-            native.setVehicleDoorShut(vehicle, doorId, false)
-        }
-        
-    }
-    
-}
-
-alt.on("keydown", (key) => {
-    switch (true) {
-        case key == 49 && !!player.vehicle:   //  key: & = 49
-            const running = native.getIsVehicleEngineRunning(player.vehicle)
-            native.setVehicleEngineOn(player.vehicle, !running, false, true)
-            break;
-    
-        default:
-            break;
-    }
-})
-
+//  function checkDoors(vehicle) {
+//      let nbDoor = native.getNumberOfVehicleDoors(vehicle);
+//      for (let doorId = 0; doorId < nbDoor; doorId++) {
+//          if (native.getVehicleDoorAngleRatio(vehicle, doorId) != 0) {
+//              console.log(doorId, true);
+//              native.setVehicleDoorShut(vehicle, doorId, false);
+//          }
+//      }
+//  }
 
 //  native.playVehicleDoorOpenSound(player.vehicle, 0)
 //  setTimeout(() => {
@@ -83,12 +63,3 @@ alt.on("keydown", (key) => {
 //  }
 //  player.vehicle.setWheelTrackWidth(0, 0.95)
 //  player.vehicle.setWheelTrackWidth(1, 0.95)
-
-
-if (player.vehicle) {
-    //  const speed = 4000
-    //  native.setVehicleMaxSpeed(player.vehicle, speed)
-    //  native.setVehicleForwardSpeed(player.vehicle, speed)
-    //  native.setPlayerVehicleDamageModifier(player.vehicle, 0)
-    //  native.setVehicleDamageScale(player.vehicle, 0)
-}
