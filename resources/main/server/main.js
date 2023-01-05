@@ -12,7 +12,12 @@ function log(msg) {
     alt.log("~y~" + msg);
 }
 
-alt.on("serverStarted", () => import("./autoReconnect")); // Dev
+alt.on("saveLog", saveLog);
+function saveLog(msg) {
+    alt.log(`~g~${msg}`);
+}
+
+alt.on("serverStarted", () => setTimeout(() => import("./autoReconnect"), 100)); // Dev
 
 alt.on("consoleCommand", (command) => {
     switch (command) {
@@ -127,11 +132,11 @@ chat.registerCmd("debug", (player, [enable]) => {
     switch (enable) {
         case "true":
         case "false":
-            alt.emitAllClients("debug", enable === "true")
+            alt.emitAllClients("debug", enable === "true");
             break;
 
         default:
-            alt.emitClient(player, "notification", "command", "/debug true\n/debug false")
+            alt.emitClient(player, "notification", "command", "/debug true\n/debug false");
             break;
     }
 });
