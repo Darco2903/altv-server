@@ -16,6 +16,11 @@ resources/musicPlayer/client/html/manager/
 resources/musicPlayer/client/html/player/
 
 
+#dev ignore
+old/
+*-old.*
+_*/
+
 #models
 #*.yft
 #*.ytd
