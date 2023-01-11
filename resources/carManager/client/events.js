@@ -8,6 +8,18 @@ alt.on("enteredVehicle", (vehicle, seat) => {
     //checkDoors(vehicle)
 });
 
+alt.onServer("replacePlayerVehicle", async (vehicle) => {
+    const oldVeh = player.vehicle;
+    native.networkFadeOutEntity(oldVeh, true, 0);
+    await alt.Utils.waitFor(() => vehicle.isSpawned, 1000);
+    await alt.Utils.wait(50);
+    const speed = native.getEntitySpeed(oldVeh);
+    native.setVehicleForwardSpeed(vehicle, speed);
+    native.setPedIntoVehicle(player, vehicle, -1);
+    native.setEntityVisible(oldVeh, false, 0);
+    native.networkFadeInEntity(vehicle, true, 0);
+});
+
 alt.on("keydown", (key) => {
     switch (true) {
         case key == 49 && !!player.vehicle && alt.gameControlsEnabled(): //  key: & = 49

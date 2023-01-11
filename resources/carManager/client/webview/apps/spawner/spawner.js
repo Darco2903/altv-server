@@ -7,7 +7,7 @@ let webview = new alt.WebView("http://resource/client/webview/apps/spawner/index
 webview.isVisible = false;
 webview.on("spawnVehicle", (hash) => {
     if (!player.vehicle) alt.emitServer("vehicle:create", hash);
-    else alt.emitServer("vehicle:replace", hash, player.vehicle.speed);
+    else alt.emitServer("vehicle:replace", hash);
     close();
 });
 
@@ -33,11 +33,9 @@ function close() {
 }
 
 function toogleControls(state) {
-    if (!player.vehicle) setTimeout(() => alt.toggleGameControls(state), 100);
+    if (!player.vehicle) alt.toggleGameControls(state);
     else {
         webview.toogleChat(state);
-        webview.toogleCamControl(state);
-        webview.toogleVehicleExitControl(state);
-        webview.toogleFrontEndControl(state);
+        webview.toogleOnlyVehMove(state);
     }
 }

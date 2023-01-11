@@ -6,30 +6,31 @@ alt.on("save", () => {
 });
 
 function createVehicle(hash, pos, rot) {
-    let veh;
     try {
-        veh = new alt.Vehicle(parseInt(hash), pos, rot);
+        const veh = new alt.Vehicle(parseInt(hash), pos, rot);
         veh.init();
         return veh;
-    } catch (error) {}
+    } catch (error) {
+        alt.logError(`Vehicle hash: ${hash} not exist`);
+    }
 }
 
-alt.onClient("vehicle:create", (player, hash) => {
+alt.on("createVehicle", createPlayerVehicle);
+alt.onClient("vehicle:create", createPlayerVehicle);
+
+function createPlayerVehicle(player, hash) {
     const newVeh = createVehicle(hash, player.pos, player.rot);
     if (!newVeh) return;
     player.setIntoVehicle(newVeh, 1);
-});
+}
 
-alt.onClient("vehicle:replace", async (player, hash, speed) => {
+alt.onClient("vehicle:replace", async (player, hash) => {
     const newVeh = createVehicle(hash, player.vehicle.pos, player.vehicle.rot);
     if (!newVeh) return;
     const oldVeh = player.vehicle;
-    player.setIntoVehicle(newVeh, 1);
-    oldVeh.collision = false;
-    //  await alt.Utils.waitFor(() => !oldVeh.driver, 1000);
-    alt.emitClient(player, "vehicle:setSpeed", newVeh, speed);
     newVeh.engineOn = oldVeh.engineOn;
-    oldVeh.destroy();
+    alt.emitClient(player, "replacePlayerVehicle", newVeh);
+    await alt.Utils.waitFor(() => newVeh.driver, 1000).then(() => oldVeh.destroy());
 });
 
 alt.onClient("sendDataToServer", (player, data) => {
