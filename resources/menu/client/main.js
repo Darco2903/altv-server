@@ -1,5 +1,5 @@
 import * as alt from "alt-client";
-import * as native from "natives";
+//import * as native from "natives";
 
 import "./WebView";
 import "./eventHandler";
@@ -27,12 +27,12 @@ alt.on("keyup", (key) => {
 
 function toogleMenu() {
     const state = !webview.isVisible;
-    if (state) open();
+    if (state) update();
     webview.toogle(state);
     toogleControls(!state);
 }
 
-function open() {
+function update() {
     alt.emit("menuOpen");
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
@@ -40,13 +40,11 @@ function open() {
     webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 
-function toogleControls(state) {
+async function toogleControls(state) {
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
         webview.toogleChat(state);
-        webview.toogleCamControl(state);
-        webview.toogleVehicleExitControl(state);
-        webview.toogleFrontEndControl(state);
+        webview.toogleOnlyVehMove(state);
     }
 }
 

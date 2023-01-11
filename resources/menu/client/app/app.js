@@ -17,15 +17,12 @@ function selectMultiple(selectors) {
 }
 
 function sendEvent() {
-    console.log("event");
     alt.emit("event", { id: this.id, checked: this.checked });
+    this.blur();
 }
 
+buttons.forEach((button) => (button.onclick = sendEvent));
 checkboxs.forEach((checkbox) => (checkbox.onchange = sendEvent));
-buttons.forEach((button) => {
-    //  button.disabled = true;
-    button.onclick = sendEvent;
-});
 
 alt.on("resources", (resources) => {
     disabled.forEach((div) => {
@@ -40,7 +37,7 @@ alt.on("vehicle", (playerInVehicle) => {
     });
 });
 
-alt.on("nametag", (enabled) => {
+alt.on("nametag", (state) => {
     const check = document.getElementById("nametag");
-    check.checked = enabled;
+    check.checked = state;
 });
