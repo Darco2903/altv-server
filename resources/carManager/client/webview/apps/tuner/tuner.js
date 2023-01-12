@@ -1,27 +1,24 @@
 import * as alt from "alt-client";
 import * as native from "natives";
-import { modList, serverColors } from "./data/tables";
+
 import "./Vehicle";
 
 const player = alt.Player.local;
-let restoreData = {};
-//  let veh;
+let app;
 
 let webview = new alt.WebView("http://resource/client/webview/apps/tuner/index.html", false);
 webview.isVisible = false;
+webview.on("look", setCamPos);
 webview.on("startApp", startApp);
-//  webview.on("stock", setStock);
-//  webview.on("restore", restoreAll);
+//  webview.on("camPos", camByMod);
+webview.on("stock", setStock);
+webview.on("restore", restoreAll);
 webview.on("setMod", (modType, modId) => player.vehicle.setMod(modType, modId));
 webview.on("toogleMod", (modType, state) => player.vehicle.toogleMod(modType, state));
-//  webview.on("setWheels", setWheels);
-//  webview.on("setWheelsExtra", setWheelsExtra);
-//  webview.on("setColors", setColors);
-//  webview.on("setExtraColors", setExtraColors);
-//  webview.on("setNeons", setNeons);
-//  webview.on("setPlate", setPlate);
-
-//  open()
+webview.on("setWheels", (wheelsData) => player.vehicle.setWheels(wheelsData));
+webview.on("setColors", (colorsData) => player.vehicle.setColors(colorsData));
+webview.on("setNeons", (neonsData) => player.vehicle.setNeons(neonsData));
+webview.on("setPlate", (plateData) => player.vehicle.setPlate(plateData));
 
 alt.on("carManager:tuner", open);
 alt.on("menuOpen", close);
@@ -30,18 +27,52 @@ function keyHandler(key) {
     if (webview.isVisible && key == 27) close(); // ESC
 }
 
-function setCamPos(roll, pitch) {
-    //  setGameplayCamRelativeHeading
-    //  setGameplayCamRelativePitch
-    native.forceCameraRelativeHeadingAndPitch(roll, pitch, 0);
+function setCamPos(heading, pitch, scalingFactor = 0.5) {
+    console.log(heading, pitch);
+    native.setGameplayCamRelativeHeading(heading);
+    native.setGameplayCamRelativePitch(pitch, scalingFactor);
+    webview.emit("lookUpdate", heading, -pitch);
 }
+
+function camByApp(app) {
+    switch (app) {
+        case "mods":
+            setCamPos(200, 0, 0.02);
+            break;
+
+        case "wheels":
+            setCamPos(245, 10, 0.02);
+            break;
+
+        case "plate":
+            setCamPos(0, 30, 0.02);
+            break;
+
+        default:
+            break;
+    }
+}
+
+/*
+function camByMod(name) {
+    console.log(name);
+    switch (name) {
+        case "spoiler":
+            setCamPos(240, 40);
+            break;
+
+        default:
+            break;
+    }
+}
+*/
 
 function open() {
     if (webview.isVisible) return;
-    alt.toggleGameControls(false);
     webview.toogle(true);
+    toogleControls(false);
     alt.on("keydown", keyHandler);
-    setCamPos(-160, 1);
+    //  native.setGameplayCamRelativePitch(5, 0.01); //  Slow effect
     //  veh = player.vehicle;
     //  const lightState = native.getVehicleLightsState(veh)[1];
     //  if (lightState) native.setVehicleLights(veh, 1);
@@ -51,84 +82,54 @@ function open() {
 
 function close() {
     if (!webview.isVisible) return;
-    alt.toggleGameControls(true);
     webview.toogle(false);
+    toogleControls(true);
     alt.off("keydown", keyHandler);
+    const pitch = native.getGameplayCamRelativePitch();
+    native.setGameplayCamRelativePitch(pitch + 2, 1); //  Remove slow effect
     //  sendModsToServer();
-    restoreData = null;
+}
+
+async function toogleControls(state) {
+    if (state) await alt.Utils.wait(100);
+    alt.toggleGameControls(state);
+}
+
+function dataByApp(app) {
+    switch (app) {
+        case "mods":
+            return player.vehicle.getModsData();
+
+        case "wheels":
+            return player.vehicle.getWheelsData();
+
+        case "colors":
+            return player.vehicle.getColors();
+
+        case "neons":
+            return player.vehicle.getNeons();
+
+        case "plate":
+            return player.vehicle.getPlate();
+
+        default:
+            alt.log(`cant load: ${app}`);
+            return;
+    }
 }
 
 function startApp(app) {
     alt.log("startApp: ", app);
-    let data = {};
-    switch (app) {
-        case "mods":
-            data = player.vehicle.getModsData();
-            console.log(data);
-            //  restoreData.mods = data;
-            break;
-        /*
-        case "wheels":
-            const wheels = getWheelsData();
-            restoreData.wheels = wheels;
-            const extraWheels = getWheelsExtra();
-            restoreData.extraWheels = extraWheels;
-            Object.assign(data, wheels, extraWheels);
-            break;
-
-        case "colors":
-            const colors = getColors();
-            restoreData.colors = colors;
-            const extraColors = getExtraColors();
-            restoreData.extraColors = extraColors;
-            Object.assign(data, colors, extraColors);
-            break;
-
-        case "neons":
-            data = getNeons();
-            restoreData.neons = data;
-            break;
-
-        case "plate":
-            data = getPlate();
-            restoreData.plate = data;
-            break;
-*/
-        default:
-            break;
-    }
+    const data = dataByApp(app);
+    if (!data) return;
+    player.vehicle.restoreData[app] = data;
     webview.emit("app", app, data);
+    camByApp(app);
 }
 
-function refreshApp(app) {
-    let data = {};
-    switch (app) {
-        case "mods":
-            data = getModsData();
-            break;
-        /*
-        case "wheels":
-            data = getWheelsData();
-            break;
-
-        case "colors":
-            const color = getColors();
-            const extraColor = getExtraColors();
-            Object.assign(data, color, extraColor);
-            break;
-
-        case "neons":
-            data = getNeons();
-            break;
-
-        case "plate":
-            data = getPlate();
-            break;
-*/
-        default:
-            log(`cant load: ${app}`);
-            return;
-    }
+function refreshApp() {
+    const data = dataByApp(app);
+    if (!data) return;
     webview.emit("app", [app, data]);
 }
 
@@ -139,52 +140,22 @@ function sendModsToServer() {
 function getAllMods(side) {
     return {
         mods: this.getModsData(),
-        wheels: getWheelsData(),
-        colors: side == "server" ? getServerColors() : getColors(),
-        extraColors: getExtraColors(),
-        neons: getNeons(),
-        plate: getPlate(),
+        wheels: this.getWheelsData(),
+        colors: side == "server" ? this.getServerColors() : this.getColors(),
+        extraColors: this.getExtraColors(),
+        neons: this.getNeons(),
+        plate: this.getPlate(),
     };
 }
 
-function setStock(app) {
-    restoreData = getAllMods();
-    const n = modList.length;
-    for (let modType = 0; modType < n; modType++) {
-        switch (modType) {
-            //  case 17: ??
-            case 18:
-            //  case 19: ??
-            case 20:
-            //  case 21: ??
-            case 22:
-                toogleMod([modType, false]);
-                break;
-
-            default:
-                native.removeVehicleMod(veh, modType);
-                break;
-        }
-    }
-    const color = {
-        primary: { colorType: 0, colorNum: 0, pearl: 0 },
-        secondary: { colorType: 0, colorNum: 0 },
-    };
-    setColors(color);
-    setExtraColors({ xenon: 0, window: 0 });
-    native.suppressNeonsOnVehicle(veh, true);
-    setPlate({ plateIndex: 0, plateText: "ALTV" });
-    refreshApp(app);
+function setStock() {
+    player.vehicle.setStock();
+    refreshApp();
 }
 
-function restoreAll(app) {
-    if (restoreData.mods) setAllMod(restoreData.mods);
-    if (restoreData.wheels) setWheels(restoreData.wheels);
-    if (restoreData.colors) setColors(restoreData.colors);
-    if (restoreData.extraColors) setExtraColors(restoreData.extraColors);
-    if (restoreData.neons) setNeons(restoreData.neons);
-    if (restoreData.plate) setPlate(restoreData.plate);
-    refreshApp(app);
+function restoreAll() {
+    player.vehicle.restore();
+    refreshApp();
 }
 /*
 function setMod([modType, modId]) {
@@ -294,8 +265,8 @@ function getModsData() {
     return data;
 }
 */
-const wheelsFront = 23; // Front Wheels
-const wheelsRear = 24; // Rear Wheels (Motorcycles)
+//  const wheelsFront = 23; // Front Wheels
+//  const wheelsRear = 24; // Rear Wheels (Motorcycles)
 /*
 function getWheelsData() {
     const wheelType = native.getVehicleWheelType(veh);
@@ -306,6 +277,7 @@ function getWheelsData() {
     return { wheelType, wheelNum, wheelColor, drift };
 }
 */
+/*
 function setWheels({ wheelType, wheelNum, wheelColor, drift }) {
     const customWheels = native.getVehicleModVariation(veh, wheelsFront);
     native.setVehicleWheelType(veh, wheelType);
@@ -314,13 +286,15 @@ function setWheels({ wheelType, wheelNum, wheelColor, drift }) {
     native.setVehicleExtraColours(veh, pearl, wheelColor);
     native.setDriftTyres(veh, drift);
 }
-
+*/
+/*
 function getWheelsExtra() {
     const camber = parseFloat(veh.getWheelCamber(0).toFixed(2));
     const track = [veh.getWheelTrackWidth(0), veh.getWheelTrackWidth(2)].map((value) => parseFloat(value.toFixed(2))); //  [Front, Rear]
     return { camber, track };
 }
-
+*/
+/*
 function setWheelsExtra({ camber, track }) {
     console.log(camber);
     console.log(veh.wheelsCount);
@@ -332,7 +306,8 @@ function setWheelsExtra({ camber, track }) {
         veh.setWheelTrackWidth(wheelId, width);
     }
 }
-
+*/
+/*
 function getColors() {
     let [serverPrimary, serverSecondary] = native.getVehicleColours(veh).splice(1, 2);
     let [type1, color1] = native.getVehicleModColor1(veh).splice(1, 2); //  [void, paintType, color, pearl(client-side)]
@@ -346,20 +321,23 @@ function getColors() {
     const secondary = { colorType: type2, colorNum: color2 };
     return { primary, secondary };
 }
-
+*/
+/*
 function getServerColors() {
     const [primary, secondary] = native.getVehicleColours(veh).splice(1, 2);
     const pearl = native.getVehicleExtraColours(veh)[1]; //  [void, pearl(server-side), color(wheels)]
     return { primary, secondary, pearl };
 }
-
+*/
+/*
 function setColors({ primary, secondary }) {
     native.setVehicleModColor1(veh, primary.colorType, primary.colorNum, primary.pearl);
     native.setVehicleModColor2(veh, secondary.colorType, secondary.colorNum);
     const wheelColor = native.getVehicleExtraColours(veh, 1, 1)[2]; //  [void, pearl, wheelColor]
     native.setVehicleExtraColours(veh, primary.pearl, wheelColor);
 }
-
+*/
+/*
 function getExtraColors() {
     let xenon = native.getVehicleXenonLightColorIndex(veh) + 2;
     xenon = xenon < 15 ? xenon : 0;
@@ -374,37 +352,43 @@ function getExtraColors() {
 
     return { xenon, window, tireSmoke };
 }
-
+*/
+/*
 function setExtraColors({ xenon, window }) {
     native.toggleVehicleMod(veh, 22, xenon != 0);
     native.setVehicleXenonLightColorIndex(veh, xenon - 2);
     native.setVehicleWindowTint(veh, window);
     //  native.setVehicleTyreSmokeColor(veh, 255, 255, 255)
 }
-
+*/
+/*
 function getNeons() {
     let enabled = native.getVehicleNeonEnabled(veh, 0);
     let color = native.getVehicleNeonColour(veh).splice(1, 3); //[void, int, int, int]
     color = new alt.RGBA(color);
     return { color, enabled };
 }
-
+*/
+/*
 function setNeons({ enabled, color }) {
     native.suppressNeonsOnVehicle(veh, false);
     for (let i = 0; i < 4; i++) native.setVehicleNeonEnabled(veh, i, enabled);
     native.setVehicleNeonColour(veh, color.r, color.g, color.b);
 }
-
+*/
+/*
 function getPlate() {
     let plateIndex = native.getVehicleNumberPlateTextIndex(veh);
     let plateText = native.getVehicleNumberPlateText(veh);
     return { plateIndex, plateText };
 }
-
+*/
+/*
 function setPlate({ plateIndex, plateText }) {
     native.setVehicleNumberPlateTextIndex(veh, plateIndex);
     native.setVehicleNumberPlateText(veh, plateText);
 }
+*/
 
 //  alt.onServer("handlingWebview:load", () => {
 //      handlingWebview()

@@ -1,8 +1,22 @@
+//  const color = alt.File.read("./data/colors.json", "utf-8");
+
+import colors from "./data/colors.json" assert { type: "json" };
+import modList from "./data/modList.json" assert { type: "json" };
+import plateList from "./data/plateList.json" assert { type: "json" };
+import serverColors from "./data/serverColors.json" assert { type: "json" };
+import tireBrand from "./data/tireBrand.json" assert { type: "json" };
+import tireColor from "./data/tireColor.json" assert { type: "json" };
+import wheelTypeList from "./data/wheelTypeList.json" assert { type: "json" };
+import windowTints from "./data/windowTints.json" assert { type: "json" };
+import xenonColors from "./data/xenonColors.json" assert { type: "json" };
+
 let appLoaded;
 
 let htmlGenerated = document.querySelector("generated");
 const nodeList = document.querySelectorAll("button");
 const buttonList = Array.prototype.slice.call(nodeList);
+const lookSide = document.getElementById("lookSide");
+const lookHeight = document.getElementById("lookHeight");
 
 if (window.alt === undefined) {
     window.alt = {
@@ -26,6 +40,17 @@ for (const button of buttonList) {
         }
     };
 }
+
+[lookSide, lookHeight].forEach((look) => {
+    look.oninput = function () {
+        alt.emit("look", parseFloat(lookSide.value), -parseFloat(lookHeight.value));
+    };
+});
+
+alt.on("lookUpdate", (side, height) => {
+    lookSide.value = side;
+    lookHeight.value = height;
+});
 
 alt.on("app", appManager);
 
@@ -67,7 +92,7 @@ let labelCheckbox = document.getElementById("labelCheckbox");
 
 function createSlider(value, max, min, step) {
     let div = divSlider.cloneNode(true);
-    div.removeAttribute("hidden");
+    //  div.removeAttribute("hidden");
     let slider = div.childNodes[1];
     slider.min = min || 0;
     slider.max = max;
@@ -75,9 +100,8 @@ function createSlider(value, max, min, step) {
     slider.step = step || 1;
     if (slider.min == 0) {
         updateSliderFill(slider);
-        slider.addEventListener("change", function () {
-            updateSliderFill(slider);
-        });
+        slider.addEventListener("change", () => updateSliderFill(slider));
+        slider.addEventListener("mousemove", () => updateSliderFill(slider));
     } else slider.style.background = "rgba(0, 0, 0, 0.25)";
     return [div, slider];
 }
@@ -97,7 +121,7 @@ function updateSliderFill(slider) {
 
 function createCheckbox(value) {
     let label = labelCheckbox.cloneNode(true);
-    label.removeAttribute("hidden");
+    //  label.removeAttribute("hidden");
     let checkbox = label.childNodes[1];
     checkbox.checked = value;
     return [label, checkbox];
@@ -148,6 +172,7 @@ function initMods(modsData) {
                 htmlSlider.oninput = function () {
                     htmlShow.innerHTML = this.value;
                     alt.emit("setMod", modType, parseInt(this.value));
+                    //  alt.emit("camPos", name.toLowerCase());
                 };
                 htmlMod.append(htmlSliderDiv, htmlShow);
                 break;
@@ -158,7 +183,7 @@ function initMods(modsData) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-function initWheels(data) {
+function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [trackFront, trackRear] }) {
     appLoaded = "wheels";
 
     function emitWheels() {
@@ -166,7 +191,6 @@ function initWheels(data) {
         alt.emit("setWheels", { wheelType, wheelNum: num, wheelColor, drift });
     }
 
-    let { wheelType, wheelNum, wheelColor, drift } = data;
     let range = wheelTypeList[wheelType].range;
     let brand = Math.floor(wheelNum / wheelTypeList[wheelType].range);
     let extra = range * brand;
@@ -303,11 +327,6 @@ function initWheels(data) {
     };
     htmlWheelDrift.append(htmlNameDrift, htmlDriftLabel);
     htmlGenerated.append(htmlWheelDrift);
-
-    let {
-        camber,
-        track: [trackFront, trackRear],
-    } = data;
 
     //  console.log(camber, trackFront, trackRear);
 
@@ -500,6 +519,7 @@ function initColors(data) {
     createSeparator();
 
     function emitExtra() {
+        console.log(typeof window);
         alt.emit("setExtraColors", { xenon, window, tireSmoke });
     }
 
