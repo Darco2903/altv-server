@@ -40,7 +40,7 @@ function open() {
     if (webview.isVisible) return;
     alt.toggleGameControls(false);
     webview.toogle(true);
-    alt.on("keydown", keyHandler);
+    alt.on("keyup", keyHandler);
     setCamPos(-160, 1);
     //  veh = player.vehicle;
     //  const lightState = native.getVehicleLightsState(veh)[1];
@@ -53,7 +53,7 @@ function close() {
     if (!webview.isVisible) return;
     alt.toggleGameControls(true);
     webview.toogle(false);
-    alt.off("keydown", keyHandler);
+    alt.off("keyup", keyHandler);
     //  sendModsToServer();
     restoreData = null;
 }
