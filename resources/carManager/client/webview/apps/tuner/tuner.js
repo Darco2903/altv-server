@@ -71,12 +71,13 @@ function open() {
     if (webview.isVisible) return;
     webview.toogle(true);
     toogleControls(false);
-    alt.on("keydown", keyHandler);
+    alt.on("keyup", keyHandler);
     //  native.setGameplayCamRelativePitch(5, 0.01); //  Slow effect
     //  veh = player.vehicle;
     //  const lightState = native.getVehicleLightsState(veh)[1];
     //  if (lightState) native.setVehicleLights(veh, 1);
     //  restoreData.lightState = lightState;
+    player.vehicle.storeData();
     startApp("mods");
 }
 
@@ -84,10 +85,11 @@ function close() {
     if (!webview.isVisible) return;
     webview.toogle(false);
     toogleControls(true);
-    alt.off("keydown", keyHandler);
+    alt.off("keyup", keyHandler);
     const pitch = native.getGameplayCamRelativePitch();
     native.setGameplayCamRelativePitch(pitch + 2, 1); //  Remove slow effect
-    //  sendModsToServer();
+    player.vehicle.storedData = null;
+    sendModsToServer();
 }
 
 async function toogleControls(state) {
