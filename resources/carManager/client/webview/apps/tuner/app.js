@@ -136,9 +136,7 @@ function initMods(modsData) {
     appLoaded = "mods";
     Object.entries(modsData).forEach(([modType, { count, name, num }]) => {
         modType = parseInt(modType);
-        console.log(name, modList[modType], modType);
         name = name ? name : modList[modType];
-        console.log(modType, count, name, num);
 
         const htmlMod = document.createElement("mod");
         const htmlName = document.createElement("strong");
@@ -236,7 +234,6 @@ function initWheels({ type, num, color, drift, camber, track: [trackFront, track
     };
 
     htmlSliderNum.oninput = function () {
-        console.log(this.value);
         num = parseInt(this.value);
         if (num === 0) setOrigine();
         htmlShowNum.innerHTML = origine();
@@ -518,7 +515,6 @@ function initColors(data) {
     createSeparator();
 
     function emitExtra() {
-        console.log(typeof window);
         alt.emit("setExtraColors", { xenon, window, tireSmoke });
     }
 

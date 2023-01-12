@@ -58,6 +58,7 @@ function open() {
     alt.toggleGameControls(false);
     alt.on("keyup", keyHandler);
     player.vehicle.storeData();
+    native.freezeEntityPosition(player.vehicle, true);
     native.setVehicleLights(player.vehicle, 2); //  Enable lights
     startApp("mods");
 }
@@ -67,9 +68,13 @@ function close() {
     webview.toogle(false);
     alt.toggleGameControls(true);
     alt.off("keyup", keyHandler);
-    const pitch = native.getGameplayCamRelativePitch();
-    native.setGameplayCamRelativePitch(pitch + 2, 1); //  Remove slow effect
+    native.freezeEntityPosition(player.vehicle, false);
+    const speed = player.vehicle.storedData.speed;
+    native.setVehicleForwardSpeed(player.vehicle, speed);
     native.setVehicleLights(player.vehicle, 0); //  Release lights
+    const pitch = native.getGameplayCamRelativePitch();
+    const heading = speed > 1 ? 0 : native.getGameplayCamRelativeHeading();
+    setCamPos(heading, pitch + 2, 1); //  Remove slow effect
     player.vehicle.storedData = null;
     sendModsToServer();
 }

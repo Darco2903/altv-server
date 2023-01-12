@@ -16,7 +16,7 @@ const REARWHEELS = 24; // Rear Wheels (Motorcycles)
 
 alt.Vehicle.prototype.storeData = function () {
     this.storedData = this.getAllMods("client");
-    this.storeData.lightsState = native.getVehicleLightsState(this)[1];
+    this.storedData.speed = native.getEntitySpeed(this);
 };
 
 alt.Vehicle.prototype.restore = function () {
