@@ -5,6 +5,7 @@ const player = alt.Player.local;
 
 let webview = new alt.WebView("http://resource/client/webview/apps/spawner/index.html", false);
 webview.isVisible = false;
+
 webview.on("spawnVehicle", (hash) => {
     if (!player.vehicle) alt.emitServer("vehicle:create", hash);
     else alt.emitServer("vehicle:replace", hash);
@@ -20,19 +21,20 @@ function keyHandler(key) {
 
 function open() {
     if (webview.isVisible) return;
+    alt.on("keydown", keyHandler);
     webview.toogle(true);
     toogleControls(false);
-    alt.on("keydown", keyHandler);
 }
 
 function close() {
     if (!webview.isVisible) return;
+    alt.off("keydown", keyHandler);
     webview.toogle(false);
     toogleControls(true);
-    alt.off("keydown", keyHandler);
 }
 
-function toogleControls(state) {
+async function toogleControls(state) {
+    if (state) await alt.Utils.wait(100);
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
         webview.toogleChat(state);
