@@ -36,11 +36,11 @@ function update() {
     alt.emit("menuOpen");
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
-    webview.emit("vehicle", !!player.vehicle);
+    webview.emit("vehicle", player.vehicle && player.vehicle.valid);
     webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 
-async function toogleControls(state) {
+function toogleControls(state) {
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
         webview.toogleChat(state);
