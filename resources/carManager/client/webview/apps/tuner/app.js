@@ -1,11 +1,9 @@
-//  const color = alt.File.read("./data/colors.json", "utf-8");
-
 import colors from "./data/colors.json" assert { type: "json" };
 import modList from "./data/modList.json" assert { type: "json" };
 import plateList from "./data/plateList.json" assert { type: "json" };
-import serverColors from "./data/serverColors.json" assert { type: "json" };
-import tireBrand from "./data/tireBrand.json" assert { type: "json" };
-import tireColor from "./data/tireColor.json" assert { type: "json" };
+// import serverColors from "./data/serverColors.json" assert { type: "json" };
+// import tireBrand from "./data/tireBrand.json" assert { type: "json" };
+// import tireColor from "./data/tireColor.json" assert { type: "json" };
 import wheelTypeList from "./data/wheelTypeList.json" assert { type: "json" };
 import windowTints from "./data/windowTints.json" assert { type: "json" };
 import xenonColors from "./data/xenonColors.json" assert { type: "json" };
@@ -164,6 +162,7 @@ function initMods(modsData) {
                 break;
 
             default:
+                num++;
                 const [htmlSliderDiv, htmlSlider] = createSlider(num, count);
                 const htmlShow = document.createElement("strong");
                 htmlShow.className = "show";
@@ -171,7 +170,7 @@ function initMods(modsData) {
 
                 htmlSlider.oninput = function () {
                     htmlShow.innerHTML = this.value;
-                    alt.emit("setMod", modType, parseInt(this.value));
+                    alt.emit("setMod", modType, parseInt(this.value) - 1);
                     //  alt.emit("camPos", name.toLowerCase());
                 };
                 htmlMod.append(htmlSliderDiv, htmlShow);
@@ -183,18 +182,18 @@ function initMods(modsData) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [trackFront, trackRear] }) {
+function initWheels({ type, num, color, drift, camber, track: [trackFront, trackRear] }) {
     appLoaded = "wheels";
+    num++;
 
     function emitWheels() {
-        const num = wheelNum == 0 ? 0 : wheelNum + extra;
-        alt.emit("setWheels", { wheelType, wheelNum: num, wheelColor, drift });
+        alt.emit("setWheels", { type, num: (num === 0 ? num : num + extra) - 1, color, drift, camber, track: [trackFront, trackRear] });
     }
 
-    let range = wheelTypeList[wheelType].range;
-    let brand = Math.floor(wheelNum / wheelTypeList[wheelType].range);
+    let range = wheelTypeList[type].range;
+    let brand = Math.floor(num / wheelTypeList[type].range);
     let extra = range * brand;
-    wheelNum = wheelNum % range;
+    num = num % range;
 
     let htmlWheelType = document.createElement("wheel");
     let htmlNameType = document.createElement("strong");
@@ -202,14 +201,14 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
     let htmlSelectorWheelType = document.createElement("select");
 
     wheelTypeList.forEach((type, index) => {
-        const option = new Option(type.name, index, false, index == wheelType);
+        const option = new Option(type.name, index, false, index == type);
         htmlSelectorWheelType.options.add(option);
     });
 
     let htmlWheelNum = document.createElement("wheel");
     let htmlNameNum = document.createElement("strong");
     htmlNameNum.innerHTML = "Num";
-    let [htmlSliderNumDiv, htmlSliderNum] = createSlider(wheelNum, wheelTypeList[wheelType].range);
+    let [htmlSliderNumDiv, htmlSliderNum] = createSlider(num, wheelTypeList[type].range);
     let htmlShowNum = document.createElement("strong");
     htmlShowNum.className = "show";
     htmlShowNum.innerHTML = origine();
@@ -217,17 +216,18 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
     let htmlWheelColor = document.createElement("wheel");
     let htmlNameColor = document.createElement("strong");
     htmlNameColor.innerHTML = "Couleur";
-    let [htmlSliderColorDiv, htmlSliderColor] = createSlider(wheelColor, 160);
+    let [htmlSliderColorDiv, htmlSliderColor] = createSlider(color, 160);
     let htmlShowColor = document.createElement("strong");
     htmlShowColor.className = "show";
-    htmlShowColor.innerHTML = wheelColor;
+    htmlShowColor.innerHTML = color;
 
     htmlSelectorWheelType.onchange = function () {
-        wheelType = parseInt(this.value);
-        const max = wheelTypeList[wheelType].range;
+        type = parseInt(this.value);
+        const max = wheelTypeList[type].range;
         if (htmlSliderNum.value > max) {
             htmlSliderNum.value = max;
             htmlShowNum.innerHTML = max;
+            num = max;
         }
         htmlSliderNum.max = max;
         updateSliderFill(htmlSliderNum);
@@ -235,18 +235,17 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
         emitWheels();
     };
 
-    htmlSelectorWheelType.onmousemove = updateSliderFill;
-
     htmlSliderNum.oninput = function () {
-        wheelNum = parseInt(this.value);
-        if (wheelNum == 0) setOrigine();
+        console.log(this.value);
+        num = parseInt(this.value);
+        if (num === 0) setOrigine();
         htmlShowNum.innerHTML = origine();
         emitWheels();
     };
 
     htmlSliderColor.oninput = function () {
-        wheelColor = parseInt(this.value);
-        htmlShowColor.innerHTML = wheelColor;
+        color = parseInt(this.value);
+        htmlShowColor.innerHTML = color;
         emitWheels();
     };
 
@@ -268,7 +267,7 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
 
     htmlTireExtraSelector.onchange = function () {
         brand = parseInt(this.value);
-        extra = brand * wheelTypeList[wheelType].range;
+        extra = brand * wheelTypeList[type].range;
         updateSliderFill(htmlSliderNum);
         emitWheels();
     };
@@ -288,27 +287,25 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
     htmlGenerated.append(htmlWheelType, htmlWheelNum, htmlWheelColor, htmlWheelTireExtra, htmlWheelBut);
 
     function setOrigine() {
-        wheelNum = 0;
-        htmlSliderNum.value = wheelNum;
-        updateSliderFill(htmlSliderNum);
+        //  alt.emit("setStockWheels")
+        num = 0;
+        color = 0;
+        htmlSliderNum.value = num;
+        htmlSliderColor.value = color;
         htmlShowNum.innerHTML = "Origine";
-        wheelColor = data.wheelColor;
-        htmlSliderColor.value = wheelColor;
+        htmlShowColor.innerHTML = color;
+        updateSliderFill(htmlSliderNum);
         updateSliderFill(htmlSliderColor);
-        htmlShowColor.innerHTML = wheelColor;
         emitWheels();
     }
 
     function origine() {
-        return wheelNum == 0 ? "Origine" : wheelNum;
-        //  if (wheelNum == 0)
-        //      return "Origine"
-        //  return wheelNum
+        return num == 0 ? "Origine" : num;
     }
 
     function setExtra() {
         htmlTireExtraSelector.clearOptions();
-        const extra = wheelTypeList[wheelType].extra;
+        const extra = wheelTypeList[type].extra;
         if (extra) {
             htmlTireExtraSelector.setOptions(extra);
             htmlWheelTireExtra.style.visibility = "visible";
@@ -341,7 +338,8 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
     htmlSliderCamber.oninput = function () {
         htmlShowCamber.innerHTML = parseInt(this.value * 100);
         camber = parseFloat(this.value);
-        alt.emit("setWheelsExtra", { camber, track: [trackFront, trackRear] });
+        emitWheels();
+        //  alt.emit("setWheelsExtra", { camber, track: [trackFront, trackRear] });
     };
 
     htmlWheelCamber.append(htmlNameCamber, htmlSliderCamberDiv, htmlShowCamber);
@@ -375,7 +373,8 @@ function initWheels({ wheelType, wheelNum, wheelColor, drift, camber, track: [tr
     htmlSliderTrackRear.oninput = function () {
         htmlShowTrackRear.innerHTML = parseInt(this.value * 100);
         trackRear = parseFloat(this.value);
-        alt.emit("setWheelsExtra", { camber, track: [trackFront, trackRear] });
+        emitWheels();
+        //  alt.emit("setWheelsExtra", { camber, track: [trackFront, trackRear] });
     };
 
     htmlWheelTrackRear.append(htmlNameTrackRear, htmlSliderTrackRearDiv, htmlShowTrackRear);
@@ -390,7 +389,7 @@ function initColors(data) {
     let { primary, secondary } = data;
 
     function emitColors() {
-        alt.emit("setColors", { primary, secondary });
+        alt.emit("setColors", { primary, secondary, xenon, window, tireSmoke });
     }
 
     let htmlColorPrimaryType = document.createElement("color");
@@ -537,7 +536,8 @@ function initColors(data) {
         xenon = parseInt(this.value);
         htmlXenonShow.innerHTML = xenonColors[xenon];
         updateSliderFill(this);
-        emitExtra();
+        emitColors();
+        //  emitExtra();
     };
 
     htmlXenon.append(htmlXenonName, htmlXenonSliderDiv, htmlXenonShow);
@@ -558,7 +558,8 @@ function initColors(data) {
         window = parseInt(this.value);
         htmlWindowShow.innerHTML = windowTints[window];
         updateSliderFill(this);
-        emitExtra();
+        emitColors();
+        //  emitExtra();
     };
 
     htmlWindow.append(htmlWindowName, htmlWindowSliderDiv, htmlWindowShow);
