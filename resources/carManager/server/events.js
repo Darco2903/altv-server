@@ -33,14 +33,14 @@ alt.onClient("vehicle:replace", async (player, hash) => {
     await alt.Utils.waitFor(() => newVeh.driver, 1000).then(() => oldVeh.destroy());
 });
 
-alt.onClient("sendDataToServer", (player, data) => {
+alt.onClient("sendDataToServer", (player, { mods, wheels, colors, neons, plate }) => {
     const veh = player.vehicle;
-    veh.setAllMods(data.mods);
-    veh.setAllWheels(data.wheels);
-    veh.setAllColors(data.colors);
-    veh.setAllExtraColors(data.extraColors);
-    veh.setAllNeons(data.neons);
-    veh.setPlate(data.plate);
+    veh.setAllMods(mods);
+    veh.setAllWheels(wheels);
+    veh.setAllColors(colors);
+    //  veh.setAllExtraColors(data.extraColors);
+    veh.setAllNeons(neons);
+    veh.setPlate(plate);
     veh.saveAppearance();
 });
 

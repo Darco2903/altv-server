@@ -2,6 +2,25 @@ body {
     overflow: hidden;
 }
 
+#lookDiv {
+    position: fixed;
+    bottom: 1vh;
+    right: 1vh;
+}
+
+input#lookSide {
+    width: 10vw;
+    height: 1vh;
+}
+
+input#lookHeight {
+    appearance: slider-vertical;
+    height: 15vh;
+    width: 1vw;
+    margin-left: 1vw;
+    margin-bottom: 1vh;
+}
+
 modPannel {
     background-color: var(--bg-color);
     width: 20.5vw;
@@ -121,6 +140,17 @@ strong {
 
 strong.show {
     justify-content: center;
+}
+
+modPannel > * > button {
+    border: none;
+    border-radius: 10px;
+    font-size: 0.8vw;
+    height: 3.7vh;
+    color: white;
+    cursor: pointer;
+    background-color: var(--color1);
+    user-select: none;
 }
 
 button#true {

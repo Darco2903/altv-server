@@ -42,17 +42,6 @@ button:active {
     padding-top: 0.2vh;
 }
 
-button {
-    border: none;
-    border-radius: 10px;
-    font-size: 0.8vw;
-    height: 3.7vh;
-    color: white;
-    cursor: pointer;
-    background-color: var(--color1);
-    user-select: none;
-}
-
 strong {
     color: white;
     display: inline;

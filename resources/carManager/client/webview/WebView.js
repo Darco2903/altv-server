@@ -20,12 +20,14 @@ alt.WebView.prototype.toogleChat = function (state) {
 };
 
 alt.WebView.prototype.toogleOnlyVehMove = function (state) {
+    console.log(!!this.onlyVehMoveTick, state);
     switch (true) {
         case this.onlyVehMoveTick && !state:
         case !this.onlyVehMoveTick && state:
             break;
 
         case !!this.onlyVehMoveTick:
+            console.log("clear");
             alt.clearEveryTick(this.onlyVehMoveTick);
             this.onlyVehMoveTick = null;
             break;
