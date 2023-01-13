@@ -78,7 +78,6 @@ alt.Vehicle.prototype.getAllMods = function (side) {
 };
 
 alt.Vehicle.prototype.setMod = function (modType, modId) {
-    console.log(modType, modId);
     native.setVehicleMod(this, modType, modId, false);
 };
 

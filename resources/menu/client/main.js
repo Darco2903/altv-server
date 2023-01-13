@@ -27,7 +27,21 @@ alt.on("keyup", (key) => {
 
 function toogleMenu() {
     const state = !webview.isVisible;
-    if (state) update();
+    if (state) {
+        update();
+        const inVeh = !!player.vehicle;
+        alt.Utils.waitFor(() => !!player.vehicle != inVeh, 3000)
+            .then(() => {
+                if (!webview.isVisible) return;
+                if (!player.vehicle) {
+                    webview.toogleChat(true);
+                    webview.toogleOnlyVehMove(true);
+                } else alt.toggleGameControls(true);
+                toogleControls(false);
+                update();
+            })
+            .catch(() => {});
+    }
     webview.toogle(state);
     toogleControls(!state);
 }

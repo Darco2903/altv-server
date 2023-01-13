@@ -5,6 +5,13 @@ let htmlVeh = template.querySelector("veh");
 let htmlImgs;
 let underscore;
 
+window.addEventListener("keydown", function (key) {
+    console.log(key.code);
+    if (key.code == 32 && key.target == document.body) {
+        key.preventDefault();
+    }
+});
+
 Object.keys(vehiclesClass).forEach((Class) => {
     let htmlVehClass = document.createElement("vehType");
     htmlVehClass.id = Class;

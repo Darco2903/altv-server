@@ -26,7 +26,7 @@ function keyHandler(key) {
 }
 
 function setCamPos(heading, pitch, scalingFactor = 0.5) {
-    console.log(heading, pitch);
+    //  console.log(heading, pitch);
     native.setGameplayCamRelativeHeading(heading);
     native.setGameplayCamRelativePitch(pitch, scalingFactor);
     webview.emit("lookUpdate", heading, -pitch);
