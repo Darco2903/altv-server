@@ -34,7 +34,6 @@ function close() {
 }
 
 async function toogleControls(state) {
-    //  if (state) await alt.Utils.wait(100);
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
         webview.toogleChat(state);
