@@ -119,7 +119,8 @@ resources = [
     "mapping/justmink_eventstage-davis",
     "mapping/la_trees",
     "mapping/gtav-remasterd-enhanced",
-    "mapping/forest-sa-revised"
+    "mapping/forest-sa-revised",
+    "mapping/nexgen_advancedstreetlights"
     # "mapping/13-pillbox-street_sl"
 
     #"pointing",
