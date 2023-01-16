@@ -180,12 +180,12 @@ function initMods(modsData) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-function initWheels({ type, num, color, drift, camber, track: [trackFront, trackRear] }) {
+function initWheels({ type, num, color, drift /* TEST , camber, track: [trackFront, trackRear] */ }) {
     appLoaded = "wheels";
     num++;
 
     function emitWheels() {
-        alt.emit("setWheels", { type, num: (num === 0 ? num : num + extra) - 1, color, drift, camber, track: [trackFront, trackRear] });
+        alt.emit("setWheels", { type, num: (num === 0 ? num : num + extra) - 1, color, drift /* TEST , camber, track: [trackFront, trackRear] */ });
     }
 
     let range = wheelTypeList[type].range;
@@ -324,6 +324,8 @@ function initWheels({ type, num, color, drift, camber, track: [trackFront, track
 
     //  console.log(camber, trackFront, trackRear);
 
+    ////    TEST
+    /*
     let htmlWheelCamber = document.createElement("wheel");
     let htmlNameCamber = document.createElement("strong");
     htmlNameCamber.innerHTML = "Camber";
@@ -376,6 +378,8 @@ function initWheels({ type, num, color, drift, camber, track: [trackFront, track
 
     htmlWheelTrackRear.append(htmlNameTrackRear, htmlSliderTrackRearDiv, htmlShowTrackRear);
     htmlGenerated.append(htmlWheelTrackRear);
+    ////
+    */
 }
 
 ///////////////////////////////////////////////////////////////////////////

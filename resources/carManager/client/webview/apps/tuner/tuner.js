@@ -85,6 +85,8 @@ function dataByApp(app) {
             return player.vehicle.getModsData();
 
         case "wheels":
+            const vehClass = native.getVehicleClass(player.vehicle);
+            if ([13, 14, 15, 16, 21].includes(vehClass)) return; // Cycles Boats Helicopters Planes Trains
             return player.vehicle.getWheelsData();
 
         case "colors":

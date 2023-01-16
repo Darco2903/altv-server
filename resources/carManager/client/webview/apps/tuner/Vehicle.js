@@ -152,21 +152,23 @@ alt.Vehicle.prototype.getWheelsData = function () {
     const drift = native.getDriftTyresSet(this);
 
     ////  TEST
-    const camber = parseFloat(this.getWheelCamber(0).toFixed(2));
-    const track = [this.getWheelTrackWidth(0), this.getWheelTrackWidth(2)].map((value) => parseFloat(value.toFixed(2))); //  [Front, Rear]
+    // const camber = parseFloat(this.getWheelCamber(0).toFixed(2));
+    // const track = [this.getWheelTrackWidth(0), this.getWheelTrackWidth(2)].map((value) => parseFloat(value.toFixed(2))); //  [Front, Rear]
     ////
 
-    return { type, num, color, drift /* TEST */, camber, track };
+    return { type, num, color, drift /* TEST , camber, track */ };
 };
 
-alt.Vehicle.prototype.setWheels = function ({ type, num, color, drift /* TEST */, camber, track }) {
+alt.Vehicle.prototype.setWheels = function ({ type, num, color, drift /* TEST , camber, track */ }) {
+    const vehClass = native.getVehicleClass(this);
     const customWheels = native.getVehicleModVariation(this, FRONTWHEELS);
     native.setVehicleWheelType(this, type);
     native.setVehicleMod(this, FRONTWHEELS, num, customWheels);
+    if (vehClass === 8) native.setVehicleMod(this, REARWHEELS, num, customWheels);
     const pearl = native.getVehicleExtraColours(this, 1, 1)[1]; //  [void, pearl, color]
     native.setVehicleExtraColours(this, pearl, color);
     native.setDriftTyres(this, drift);
-
+    /*
     ////    TEST
     if (!camber || !track) return;
     //  console.log("camber", camber);
@@ -179,6 +181,7 @@ alt.Vehicle.prototype.setWheels = function ({ type, num, color, drift /* TEST */
         this.setWheelTrackWidth(wheelId, width);
     }
     ////
+    */
 };
 
 alt.Vehicle.prototype.getColors = function () {
@@ -230,12 +233,12 @@ alt.Vehicle.prototype.setColors = function ({ primary, secondary /* Extra */, xe
     native.setVehicleModColor2(this, secondary.colorType, secondary.colorNum);
     const wheelColor = native.getVehicleExtraColours(this, 1, 1)[2]; //  [void, pearl, wheelColor]
     native.setVehicleExtraColours(this, primary.pearl, wheelColor);
-    //  console.log(typeof window);
     ////    Extra
-    native.toggleVehicleMod(this, 22, xenon != 0);
-    native.setVehicleXenonLightColorIndex(this, xenon - 2);
+    native.toggleVehicleMod(this, 22, true);
+    if (xenon >= 2) native.setVehicleXenonLightColorIndex(this, 5);
+
     native.setVehicleWindowTint(this, window);
-    //  native.setVehicleTyreSmokeColor(this, 255, 255, 255)
+    // native.setVehicleTyreSmokeColor(this, ...tireSmoke.toArray());
     ////
 };
 
