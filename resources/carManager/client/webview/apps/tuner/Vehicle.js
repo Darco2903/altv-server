@@ -111,7 +111,7 @@ alt.Vehicle.prototype.getMod = function (modType) {
 
 alt.Vehicle.prototype.getModsData = function () {
     let modsData = {};
-    for (let modType = 0; modType < 50; modType++) {
+    for (let modType = 0; modType < 49; modType++) {
         //native.preloadVehicleMod(this, modType, 1)
         const modData = this.getMod(modType);
         if (!modData) continue;
