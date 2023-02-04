@@ -6,11 +6,11 @@ chat.registerCmd("t", (player) => {
     console.table(alt.Vehicle.all);
 });
 
-chat.registerCmd("saveTest", (player) => {
+chat.registerCmd("savetest", (player) => {
     player.vehicle.register(player);
 });
 
-chat.registerCmd("clearVeh", (player) => {
+chat.registerCmd("clearveh", (player) => {
     alt.Vehicle.all.forEach((veh) => veh.destroy());
     chat.send(player, "cleared");
 });
@@ -27,18 +27,18 @@ chat.registerCmd("repair", (player) => {
     }
 });
 
-chat.registerCmd("vehspawn", (player, [vehName]) => {
-    if (!vehName) return;
-    try {
-        const pos = player.pos.toFixed(2);
-        let veh = new alt.Vehicle(vehName, pos.add(2, 0, 0), new alt.Vector3(0, 0, 0));
-        veh.init(vehName);
-        if (!newVeh) return;
-        player.setIntoVehicle(newVeh, 1);
-    } catch (error) {}
+chat.registerCmd("vehspawn", (player, [model]) => {
+    if (!model) return;
+    const hash = alt.hash(model);
+    alt.emit("createVehicle", player, hash);
 });
 
 chat.registerCmd("appearance", (player, [hash]) => {
     if (!player.vehicle) return;
     player.vehicle.setAppearanceDataBase64(hash);
+});
+
+chat.registerCmd("drift", (player, [state]) => {
+    if (!player.vehicle || state || !["true", "false"].includes(state)) return;
+    player.vehicle.driftModeEnabled = state == "true";
 });
