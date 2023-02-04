@@ -5,7 +5,7 @@ import "./Vehicle";
 
 const player = alt.Player.local;
 
-let webview = new alt.WebView("http://resource/client/webview/apps/tuner/index.html", false);
+let webview = new alt.WebView("http://resource/apps/tuner/index.html", false);
 webview.isVisible = false;
 webview.on("look", setCamPos);
 webview.on("startApp", startApp);

@@ -3,7 +3,7 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
-let webview = new alt.WebView("http://resource/client/webview/apps/spawner/index.html", false);
+let webview = new alt.WebView("http://resource/apps/spawner/index.html", false);
 webview.isVisible = false;
 
 webview.on("spawnVehicle", (hash) => {
