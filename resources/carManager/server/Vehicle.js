@@ -53,32 +53,29 @@ alt.Vehicle.prototype.setAllMods = function (data) {
     data.forEach(([modType, modNum]) => this.setMod(modType, modNum));
 };
 
-alt.Vehicle.prototype.setAllWheels = function (data) {
-    console.log("data:", data);
-    const { wheelType, wheelNum, wheelColor } = data;
-    this.setWheels(wheelType, wheelNum);
-    this.wheelColor = wheelColor;
+alt.Vehicle.prototype.setAllWheels = function ({ type, num, color }) {
+    this.setWheels(type, num + 1);
+    this.wheelColor = color;
 };
 
 alt.Vehicle.prototype.setAllColors = function (data) {
-    console.log("data:", data);
     const { primary, secondary, pearl } = data;
     this.primaryColor = primary;
     this.secondaryColor = secondary;
     this.pearlColor = pearl;
 
-    //  this.dashboardColor = data.dash
-    //  this.interiorColor = data.interiorColor
-};
-
-alt.Vehicle.prototype.setAllExtraColors = function (data) {
+    ////  Extra
     const { xenon, window, tireSmoke } = data;
-    console.log(+(xenon != 0));
-    console.log(xenon - 2);
+    //  console.log(+(xenon != 0));
+    //  console.log(xenon - 2);
     this.setMod(22, +(xenon != 0));
     this.headlightColor = xenon - 2;
     this.windowTint = window;
     //  this.tireSmokeColor = tireSmoke
+    ////
+
+    //  this.dashboardColor = data.dash
+    //  this.interiorColor = data.interiorColor
 };
 
 alt.Vehicle.prototype.setAllNeons = function ({ color, enabled }) {
@@ -105,8 +102,8 @@ alt.Vehicle.prototype.toJSON = function (data) {
 };
 
 alt.Vehicle.prototype.parseJSON = function (data) {
-    Object.keys(data).forEach(function (key) {
-        data[key] = JSON.parse(data[key]);
+    Object.entires(data).forEach(function ([key, value]) {
+        data[key] = JSON.parse(value);
     });
     return data;
 };

@@ -1,31 +1,30 @@
-import * as alt from "alt-client"
+import * as alt from "alt-client";
 import * as native from "natives";
 
-const player = alt.Player.local
+const player = alt.Player.local;
 
-if (!player.hasSyncedMeta("id"))
-    native.doScreenFadeOut(0)
-else
-    native.doScreenFadeIn(1500)
+/*
+if (!player.hasSyncedMeta("id")) native.doScreenFadeOut(0);
+else native.doScreenFadeIn(1500);
 
 alt.once("spawned", () => {
     setTimeout(() => {
-        native.doScreenFadeIn(1500)
-    }, 2000)
-})
+        native.doScreenFadeIn(1500);
+    }, 2000);
+});
 
-alt.on("resourceStop", () => native.doScreenFadeOut(1000))
+alt.on("resourceStop", () => native.doScreenFadeOut(1000));
+*/
 
-
-alt.onServer('player:death', () => {
+alt.onServer("player:death", () => {
     console.log("dead");
     //native.setPlayerControl(player, true, 1)
 });
 //native.setPlayerControl(player, true, 1000000)
 
 alt.on("keyup", (key) => {
-    if(key === 112) {
-        alt.emit("NoClip:Toggle")
+    if (key === 112) {
+        alt.emit("NoClip:Toggle");
         //alt.emitServer('NoClip:Request')
     }
 });
@@ -33,12 +32,12 @@ alt.on("keyup", (key) => {
 //  native.setPlayerMaxArmour(player, 100)
 
 alt.onServer("player:TP", (pos) => {
-    const heading = native.getEntityHeading(player)
-    const floor = pos.z || native.getApproxFloorForPoint(pos.x, pos.y) +15
+    const heading = native.getEntityHeading(player);
+    const floor = pos.z || native.getApproxFloorForPoint(pos.x, pos.y) + 15;
     //const floor = pos.z || native.getApproxFloorForArea(pos.x-2, pos.y-2, pos.z+2, pos.y+2)
     console.log(floor);
-    native.startPlayerTeleport(player, pos.x, pos.y, floor, heading, null, true, null)
-})
+    native.startPlayerTeleport(player, pos.x, pos.y, floor, heading, null, true, null);
+});
 
 //  native.taskJump(player, false, true, false)
 //  native.taskHandsUp(player, 5000, -1, -1, -1)

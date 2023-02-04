@@ -1,19 +1,9 @@
 #AltV Resources
 
-#TEMP
-moto/
-i8/
-
 #stuff on dev
 pm_others/
 pm_new/
-npcVehicleSync
-server-extended
-main_
-kawasaki-h2r
-audioPlayer
-resources/musicPlayer/client/html/manager/
-resources/musicPlayer/client/html/player/
+server.toml
 
 
 #dev ignore

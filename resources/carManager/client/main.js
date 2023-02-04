@@ -2,7 +2,7 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 import "./events";
-import "./webview/webviewMain"
+
 //  const player = alt.Player.local;
 
 //  if (player.vehicle) {

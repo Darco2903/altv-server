@@ -3,7 +3,7 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
-let webview = new alt.WebView("http://resource/client/webview/apps/spawner/index.html", false);
+let webview = new alt.WebView("http://resource/apps/spawner/index.html", false);
 webview.isVisible = false;
 
 webview.on("spawnVehicle", (hash) => {
@@ -21,20 +21,19 @@ function keyHandler(key) {
 
 function open() {
     if (webview.isVisible) return;
-    alt.on("keydown", keyHandler);
+    alt.on("keyup", keyHandler);
     webview.toogle(true);
     toogleControls(false);
 }
 
 function close() {
     if (!webview.isVisible) return;
-    alt.off("keydown", keyHandler);
+    alt.off("keyup", keyHandler);
     webview.toogle(false);
     toogleControls(true);
 }
 
 async function toogleControls(state) {
-    if (state) await alt.Utils.wait(100);
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
         webview.toogleChat(state);
