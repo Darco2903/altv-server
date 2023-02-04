@@ -19,7 +19,7 @@ function saveLog(msg) {
 
 alt.on("serverStarted", () => setTimeout(() => import("./autoReconnect"), 100)); // Dev
 
-alt.on("consoleCommand", (command) => {
+alt.on("consoleCommand", (command, args) => {
     switch (command) {
         case "r":
             alt.stopServer();
@@ -27,6 +27,11 @@ alt.on("consoleCommand", (command) => {
 
         case "reboot":
             restartServer();
+            break;
+
+        case "hash":
+            if (!args) return;
+            alt.log(`hash: ${alt.hash(args)}`);
             break;
 
         //  case "kick":
