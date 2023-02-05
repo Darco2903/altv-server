@@ -1,8 +1,7 @@
 import * as alt from "alt-client";
 import * as native from "natives";
-import "./notifManager";
-import "./controlsDisabler";
 import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations";
+import "./notifManager";
 
 let player = alt.Player.local;
 
