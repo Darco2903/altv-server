@@ -19,8 +19,12 @@ alt.WebView.prototype.tunerControlsDisabled = function (state) {
                 native.enableControlAction(0, 74, true); //  INPUT_VEH_HEADLIGHT
                 native.enableControlAction(0, 86, true); //  INPUT_VEH_HORN
                 if (alt.isKeyDown(2)) {
+                    alt.showCursor(false);
                     native.enableControlAction(0, 1, true); //  INPUT_LOOK_LR
                     native.enableControlAction(0, 2, true); //  INPUT_LOOK_UD
+                } else {
+                    if (!alt.isCursorVisible()) alt.setCursorPos(alt.Vector2(0), false);
+                    alt.showCursor(true);
                 }
             });
             break;

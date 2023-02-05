@@ -3,20 +3,11 @@ const weaponDivTemplate = document.getElementById("template").querySelector(".we
 const defaultImage = "./imgs/_notfound.webp";
 
 function imgNameParser(weapon) {
-    return (weapon.TranslatedLabel && weapon.TranslatedLabel.English ? weapon.TranslatedLabel.English : weapon.Name)
-        .replaceAll("-", "")
-        .replaceAll("_", "")
-        .replaceAll(".", "")
-        .replaceAll(" ", "")
-        .toLowerCase();
+    return weapon.English.replaceAll("-", "").replaceAll("_", "").replaceAll(".", "").replaceAll(" ", "").toLowerCase();
 }
 
 function htmlNameParser(weapon) {
-    return (weapon.TranslatedLabel && weapon.TranslatedLabel.French ? weapon.TranslatedLabel.French : weapon.Name)
-        .replaceAll("é", "&eacute")
-        .replaceAll("è", "&egrave")
-        .replaceAll("ê", "&ecirc")
-        .replaceAll("à", "&agrave");
+    return weapon.French.replaceAll("é", "&eacute").replaceAll("è", "&egrave").replaceAll("ê", "&ecirc").replaceAll("à", "&agrave");
 }
 
 function weaponDiv(weapon) {
@@ -34,7 +25,7 @@ function weaponDiv(weapon) {
 
 //  createAll vehicle div
 Object.entries(weapons).forEach(([key, weapon]) => {
-    if (weapon.Category === null || (weapon.TranslatedLabel && weapon.TranslatedLabel.English === "Invalid")) return;
+    if (weapon.Category === null || weapon.English === "Invalid") return;
     document.getElementById(weapon.Category).appendChild(weaponDiv(weapon));
 });
 
