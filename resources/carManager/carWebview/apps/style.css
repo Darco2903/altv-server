@@ -37,9 +37,9 @@
 button:hover {
     background-color: var(--color1-hover);
 }
+
 button:active {
     background-color: var(--color1-active);
-    padding-top: 0.2vh;
 }
 
 strong {
@@ -96,6 +96,7 @@ strong {
     --border-active: var(--color2);
     --tick: #fff;
     position: relative;
+    cursor: pointer;
 }
 .checkbox input,
 .checkbox svg {

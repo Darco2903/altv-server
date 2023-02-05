@@ -13,8 +13,6 @@ let appLoaded;
 let htmlGenerated = document.querySelector("generated");
 const nodeList = document.querySelectorAll("button");
 const buttonList = Array.prototype.slice.call(nodeList);
-const lookSide = document.getElementById("lookSide");
-const lookHeight = document.getElementById("lookHeight");
 
 if (window.alt === undefined) {
     window.alt = {
@@ -38,17 +36,6 @@ for (const button of buttonList) {
         }
     };
 }
-
-[lookSide, lookHeight].forEach((look) => {
-    look.oninput = function () {
-        alt.emit("look", parseFloat(lookSide.value), -parseFloat(lookHeight.value));
-    };
-});
-
-alt.on("lookUpdate", (side, height) => {
-    lookSide.value = side;
-    lookHeight.value = height;
-});
 
 alt.on("app", appManager);
 
@@ -581,17 +568,19 @@ function initColors(data) {
 function initNeons(data) {
     appLoaded = "neons";
     let { color, enabled } = data;
-    let htmlColorInput = document.createElement("input");
-    htmlColorInput.type = "color";
-    htmlColorInput.value = rgbToHex(color);
-    htmlColorInput.oninput = function () {
-        color = hexToRgb(this.value);
-        alt.emit("setNeons", { enabled, color });
-    };
 
     let [label, checkbox] = createCheckbox(enabled);
     checkbox.onchange = function () {
         enabled = this.checked;
+        alt.emit("setNeons", { enabled, color });
+    };
+
+    let htmlColorInput = document.createElement("input");
+    htmlColorInput.id = "neonsColorInput";
+    htmlColorInput.type = "color";
+    htmlColorInput.value = rgbToHex(color);
+    htmlColorInput.oninput = function () {
+        color = hexToRgb(this.value);
         alt.emit("setNeons", { enabled, color });
     };
 

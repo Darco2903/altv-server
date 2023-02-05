@@ -45,7 +45,7 @@ function camByApp(app) {
             break;
 
         case "plate":
-            setCamPos(0, 30, 0.02);
+            setCamPos(0, 20, 0.02);
             break;
 
         default:

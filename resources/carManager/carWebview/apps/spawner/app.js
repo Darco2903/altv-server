@@ -1,7 +1,8 @@
 let htmlClassList = document.getElementById("classList");
 const vehDivTemplate = document.getElementById("template").querySelector(".vehicle");
+const defaultImage = "./imgs/_notfound.webp";
 
-function vehDiv(veh) {
+function weaponDiv(veh) {
     const div = vehDivTemplate.cloneNode(true);
     const img = div.querySelector("img");
     const path = veh.Class === "MOD" ? "mod/" : "";
@@ -14,16 +15,13 @@ function vehDiv(veh) {
 
 //  createAll vehicle div
 Object.entries(vehicles).forEach(([key, veh]) => {
-    document.getElementById(veh.Class).appendChild(vehDiv(veh));
+    document.getElementById(veh.Class).appendChild(weaponDiv(veh));
 });
 
 //  addImgErrorListeners
 let imgs = document.querySelectorAll("img");
 for (const img of imgs) {
-    img.onerror = function () {
-        const defaultImage = "./vehimg/_notfound.webp";
-        img.src = defaultImage;
-    };
+    img.onerror = () => (img.src = defaultImage);
 }
 
 const searchInput = document.querySelector("input");

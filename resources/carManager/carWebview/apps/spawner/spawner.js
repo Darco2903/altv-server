@@ -20,6 +20,7 @@ function keyHandler(key) {
 }
 
 function open() {
+    console.log("open");
     if (webview.isVisible) return;
     alt.on("keyup", keyHandler);
     webview.toogle(true);

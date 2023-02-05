@@ -2,25 +2,6 @@ body {
     overflow: hidden;
 }
 
-#lookDiv {
-    position: fixed;
-    bottom: 1vh;
-    right: 1vh;
-}
-
-input#lookSide {
-    width: 10vw;
-    height: 1vh;
-}
-
-input#lookHeight {
-    appearance: slider-vertical;
-    height: 15vh;
-    width: 1vw;
-    margin-left: 1vw;
-    margin-bottom: 1vh;
-}
-
 modPannel {
     background-color: var(--bg-color);
     width: 20.5vw;
@@ -153,24 +134,8 @@ modPannel > * > button {
     user-select: none;
 }
 
-button#true {
-    background-color: #00c000;
-}
-button#true:hover {
-    background-color: #00a000;
-}
-button#true:active {
-    background-color: #008000;
-}
-
-button#false {
-    background-color: #af0000;
-}
-button#false:hover {
-    background-color: #900000;
-}
-button#false:active {
-    background-color: #700000;
+button:active {
+    padding-top: 0.2vh;
 }
 
 button.selected {
@@ -191,4 +156,8 @@ select {
 
 select option {
     background-color: var(--bg-color);
+}
+
+#neonsColorInput {
+    cursor: pointer;
 }
