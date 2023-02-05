@@ -8,15 +8,19 @@
 
     <body>
         <div class="resource" id="carManager">
-            <strong>Véhicules</strong>
             <button id="spawner">Spawner</button>
             <button id="tuner" class="requireVehicle">Tuner</button>
-            <button id="despawner" class="requireVehicle">Despawn</button>
+            <button id="despawn" class="requireVehicle">Despawn</button>
             <button id="deleter" class="requireVehicle" disabled>Delete</button>
             <button id="repair" class="requireVehicle">Réparer</button>
         </div>
-        <strong>Display nametag</strong>
-        <input type="checkbox" class="nametag" , id="nametag" />
+
+        <div class="resource" id="playerManager">
+            <button id="armory"">Armes</button>
+        </div>
+        
+        <strong>Afficher noms des joueurs</strong>
+        <input type="checkbox" class="nametag" id="nametag" />
     </body>
     <script src="app.js"></script>
 </html>

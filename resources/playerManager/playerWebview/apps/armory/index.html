@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Player Armory</title>
+    </head>
+
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <body>
+        <div id="pannel">
+            <div id="options">
+                <button id="all">Toutes</button>
+                <button id="remove">Vider</button>
+                <strong>Munitions</strong>
+                <input id="amoAmount" type="number" max="9999" min="-1" value="0">
+                <label class="checkbox bounce">
+                    <input type="checkbox" id="equipNow" />
+                    <svg viewBox="0 0 21 21">
+                        <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                    </svg>
+                </label>
+                <strong>Equiper Automatiquement</strong>
+            </div>
+
+            <div id="classList">
+                <div class="weaponClass" id="GROUP_UNARMED">
+                    <strong>UNARMED</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_MELEE">
+                    <strong>MELEE</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_PISTOL">
+                    <strong>PISTOL</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_SMG">
+                    <strong>SMG</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_RIFLE">
+                    <strong>RIFLE</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_MG">
+                    <strong>MG</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_SHOTGUN">
+                    <strong>SHOTGUN</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_STUNGUN">
+                    <strong>STUNGUN</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_SNIPER">
+                    <strong>SNIPER</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_HEAVY">
+                    <strong>HEAVY</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_THROWN">
+                    <strong>THROWN</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_FIREEXTINGUISHER">
+                    <strong>FIREEXTINGUISHER</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_PETROLCAN">
+                    <strong>PETROLCAN</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_DIGISCANNER">
+                    <strong>DIGISCANNER</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_NIGHTVISION">
+                    <strong>NIGHTVISION</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_PARACHUTE">
+                    <strong>PARACHUTE</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_TRANQILIZER">
+                    <strong>TRANQILIZER</strong>
+                </div>
+                <div class="weaponClass" id="GROUP_METALDETECTOR">
+                    <strong>METALDETECTOR</strong>
+                </div>
+            </div>
+        </div>
+
+        <div id="template" hidden>
+            <div class="weapon">
+                <img src="imgs/" alt="weaponImg" class="button" loading="lazy" />
+                <strong></strong>
+            </div>
+        </div>
+
+        <script src="data/weapons.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
