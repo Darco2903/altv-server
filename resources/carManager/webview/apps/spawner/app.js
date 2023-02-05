@@ -1,77 +1,60 @@
-let htmlGenerated = document.querySelector("generated");
-let htmlSearch = document.querySelector("generatedSearch");
-let template = document.getElementById("template");
-let htmlVeh = template.querySelector("veh");
-let htmlImgs;
-let underscore;
+let htmlClassList = document.getElementById("classList");
+const vehDivTemplate = document.getElementById("template").querySelector(".vehicle");
 
-window.addEventListener("keydown", function (key) {
-    console.log(key.code);
-    if (key.code == 32 && key.target == document.body) {
-        key.preventDefault();
-    }
-});
-
-Object.keys(vehiclesClass).forEach((Class) => {
-    let htmlVehClass = document.createElement("vehType");
-    htmlVehClass.id = Class;
-
-    let htmlClassName = document.createElement("strong");
-    htmlClassName.innerHTML = vehiclesClass[Class];
-    htmlVehClass.append(htmlClassName);
-
-    underscore = Class == "MOD" ? "_" : "";
-    vehiclesByClass[Class].forEach((Name) => htmlVehClass.append(htmlVehClone(Name)));
-
-    htmlGenerated.append(htmlVehClass);
-});
-addImgErrorListeners();
-addButtonListeners();
-initSearch();
-
-function htmlVehClone(Name) {
-    let html = htmlVeh.cloneNode(true);
-    let [img, name] = html.children;
-    let vehShowName = vehicles[Name].DisplayName;
-
-    img.src += `${underscore}${Name}.webp`;
-    img.id = vehicles[Name].Hash;
-
-    name.innerHTML = vehShowName;
-    html.id = vehShowName.toLowerCase();
-
-    htmlSearch.append(html.cloneNode(true));
-    return html;
+function vehDiv(veh) {
+    const div = vehDivTemplate.cloneNode(true);
+    const img = div.querySelector("img");
+    const path = veh.Class === "MOD" ? "mod/" : "";
+    img.src += `${path}${veh.Name}.webp`;
+    img.id = veh.Hash;
+    div.querySelector("strong").innerHTML = veh.DisplayName;
+    div.id = veh.DisplayName.toLowerCase();
+    return div;
 }
 
-function addImgErrorListeners() {
-    let imgs = document.querySelectorAll("img");
-    for (const img of imgs) {
-        img.onerror = function () {
-            const defaultImage = "./vehimg/__notfound.webp";
-            img.src = defaultImage;
-        };
-    }
+//  createAll vehicle div
+Object.entries(vehicles).forEach(([key, veh]) => {
+    document.getElementById(veh.Class).appendChild(vehDiv(veh));
+});
+
+//  addImgErrorListeners
+let imgs = document.querySelectorAll("img");
+for (const img of imgs) {
+    img.onerror = function () {
+        const defaultImage = "./vehimg/_notfound.webp";
+        img.src = defaultImage;
+    };
 }
 
-function addButtonListeners() {
+const searchInput = document.querySelector("input");
+const htmlSearch = document.getElementById("searchList");
+let searchVehDiv;
+
+//  SearchInputEvent
+searchInput.oninput = function () {
+    htmlClassList.setAttribute("notInSelection", !!this.value);
+    htmlSearch.setAttribute("notInSelection", !this.value);
+    const searchValue = this.value.toLowerCase();
+    searchVehDiv.forEach((htmlVeh) => htmlVeh.setAttribute("notInSelection", !htmlVeh.id.includes(searchValue)));
+};
+
+//  blockSpaceScrollEvent
+window.addEventListener("keydown", (key) => {
+    if (key.code == 32 && key.target == document.body) key.preventDefault();
+});
+
+//  initSearchList
+setTimeout(() => {
+    for (const vehDiv of document.querySelectorAll(".vehicle")) htmlSearch.append(vehDiv.cloneNode(true));
+    searchVehDiv = Array.from(htmlSearch.children);
+}, 500);
+
+//  addButtonListeners
+setTimeout(() => {
     let buttons = document.getElementsByClassName("button");
     for (const but of buttons) {
         but.onclick = function () {
             if ("alt" in window) alt.emit("spawnVehicle", this.id);
         };
     }
-}
-
-function initSearch() {
-    const searchInput = document.querySelector("input");
-    const vehNodeList = htmlSearch.querySelectorAll("veh");
-    const htmlVehList = Array.prototype.slice.call(vehNodeList);
-
-    searchInput.oninput = function () {
-        htmlGenerated.setAttribute("notInSelection", !!this.value);
-        htmlSearch.setAttribute("notInSelection", !this.value);
-        const searchValue = this.value.toLowerCase();
-        htmlVehList.forEach((htmlVeh) => htmlVeh.setAttribute("notInSelection", !htmlVeh.id.includes(searchValue)));
-    };
-}
+}, 1000);

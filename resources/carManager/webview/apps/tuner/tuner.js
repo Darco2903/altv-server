@@ -1,6 +1,7 @@
 import * as alt from "alt-client";
 import * as native from "natives";
 
+import "./controlsDisabler";
 import "./Vehicle";
 
 const player = alt.Player.local;
@@ -55,7 +56,7 @@ function camByApp(app) {
 function open() {
     if (webview.isVisible) return;
     webview.toogle(true);
-    alt.toggleGameControls(false);
+    webview.tunerControlsDisabled(false);
     alt.on("keyup", keyHandler);
     player.vehicle.storeData();
     native.freezeEntityPosition(player.vehicle, true);
@@ -66,7 +67,7 @@ function open() {
 function close() {
     if (!webview.isVisible) return;
     webview.toogle(false);
-    alt.toggleGameControls(true);
+    webview.tunerControlsDisabled(true);
     alt.off("keyup", keyHandler);
     native.freezeEntityPosition(player.vehicle, false);
     const speed = player.vehicle.storedData.speed;

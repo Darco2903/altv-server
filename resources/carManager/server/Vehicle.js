@@ -50,7 +50,14 @@ alt.Vehicle.prototype.getVehMods = function () {
 
 alt.Vehicle.prototype.setAllMods = function (data) {
     // data = [[modType, modNum]]
-    data.forEach(([modType, modNum]) => this.setMod(modType, modNum));
+    data.forEach(([modType, modNum]) => {
+        try {
+            this.setMod(modType, modNum)
+        } catch (error) {
+            console.log("type", modType, "num", modNum);
+            console.log(error);
+        }
+    });
 };
 
 alt.Vehicle.prototype.setAllWheels = function ({ type, num, color }) {

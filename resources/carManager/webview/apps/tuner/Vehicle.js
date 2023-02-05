@@ -112,6 +112,14 @@ alt.Vehicle.prototype.getMod = function (modType) {
 alt.Vehicle.prototype.getModsData = function () {
     let modsData = {};
     for (let modType = 0; modType < 49; modType++) {
+        switch (modType) {
+            case 17:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+                continue;
+        }
         //native.preloadVehicleMod(this, modType, 1)
         const modData = this.getMod(modType);
         if (!modData) continue;
@@ -124,8 +132,8 @@ alt.Vehicle.prototype.setAllMod = function (modsData) {
     Object.entries(modsData).forEach(([modType, { num }]) => {
         modType = parseInt(modType);
         switch (modType) {
-            //  case 17: ??
             case 18: //Turbo
+                // case 17: ??
                 //  case 19: ??
                 //  case 20: //Custom Tires Smoke
                 //  case 21: ??

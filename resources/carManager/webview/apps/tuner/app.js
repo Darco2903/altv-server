@@ -145,12 +145,7 @@ function initMods(modsData) {
         htmlMod.append(htmlName);
 
         switch (modType) {
-            //  case 17:
             case 18: //  Turbo
-                //  case 19:
-                //  case 20:
-                //  case 21:
-                //  case 22:
                 const [label, checkbox] = createCheckbox(!!num);
                 checkbox.onchange = function () {
                     const modId = checkbox.checked;
@@ -167,6 +162,7 @@ function initMods(modsData) {
                 htmlShow.innerHTML = num;
 
                 htmlSlider.oninput = function () {
+                    // console.log(modType);
                     htmlShow.innerHTML = this.value;
                     alt.emit("setMod", modType, parseInt(this.value) - 1);
                     //  alt.emit("camPos", name.toLowerCase());

@@ -1,13 +1,18 @@
 body {
     overflow-y: hidden;
 }
-/*
-.inactive {
-    visibility: hidden;
-}
-*/
+
 strong {
     cursor: none;
+}
+
+[notInSelection="true"] {
+    display: none !important;
+}
+
+::selection {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
 #pannel {
@@ -20,56 +25,52 @@ strong {
     overflow-y: scroll;
 }
 
-::selection {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.25);
-}
-
-generated {
+div#classList {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     gap: 5vh;
 }
 
-generatedSearch {
+#searchList {
     margin-left: 1.5vw;
-    margin-right: 1.5vw;
+    /* margin-right: 1.5vw; */
     margin-top: 8vh;
     margin-bottom: 1.5vh;
+    background-color: aqua;
 }
 
-vehType,
-generatedSearch {
+.vehClass {
+    margin: 1.5vw;
+    justify-content: space-between;
+}
+
+.vehClass > strong {
+    flex-basis: 100%;
+    font-size: 1.5vw;
+    user-select: none;
+}
+
+.vehClass,
+#searchList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1.5vw;
 }
 
-vehType {
-    margin: 1.5vw;
-    justify-content: space-between;
-}
-
-vehType > strong {
-    flex-basis: 100%;
-    font-size: 1.5vw;
-    user-select: none;
-}
-
-veh {
+.vehicle {
     display: flex;
     flex-direction: column;
     gap: 1vh;
     align-items: center;
 }
 
-veh > strong {
+.vehicle > strong {
     font-size: 1vw;
 }
 
-veh > img {
+.vehicle > img {
     aspect-ratio: initial;
     width: 10.25vw;
     cursor: pointer;
@@ -81,10 +82,6 @@ div.search {
     position: absolute;
     right: 1.5vw;
     top: 0;
-}
-
-[notInSelection="true"] {
-    display: none;
 }
 
 .form__group {
