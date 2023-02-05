@@ -1,0 +1,70 @@
+body {
+    overflow-y: hidden;
+}
+
+strong {
+    cursor: default;
+}
+
+::selection {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+#pannel {
+    position: relative;
+    background-color: var(--bg-color);
+    width: auto;
+    height: 90vh;
+    margin: 2vw;
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+#options {
+    display: flex;
+    gap: 0.5vw;
+    margin: 1vw;
+    align-items: center;
+}
+
+#classList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 5vh;
+}
+
+.weaponClass {
+    margin: 1.5vw;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5vw;
+}
+
+.weaponClass > strong {
+    flex-basis: 100%;
+    font-size: 1.5vw;
+    user-select: none;
+}
+
+.weapon {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+}
+
+.weapon > strong {
+    font-size: 1vw;
+}
+
+.weapon > img {
+    aspect-ratio: initial;
+    width: 10.25vw;
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+}
