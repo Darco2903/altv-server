@@ -8,6 +8,8 @@ let player = alt.Player.local;
 
 let webview = new alt.WebView("http://resource/client/app/menu.html");
 webview.isVisible = false;
+alt.setMeta("controlsEnabled", true);
+
 webview.on("event", (event) => alt.emit("menu:eventHandler", event));
 
 alt.on("menu:toogle", toogleMenu);
@@ -17,6 +19,7 @@ alt.on("keyup", (key) => {
             if (!webview.isVisible) return;
         //fall through
         case 75: // K
+            if (!alt.getMeta("controlsEnabled") && !webview.isVisible) return;
             toogleMenu();
             break;
 
