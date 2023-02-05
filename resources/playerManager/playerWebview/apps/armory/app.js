@@ -2,13 +2,33 @@ let htmlClassList = document.getElementById("classList");
 const weaponDivTemplate = document.getElementById("template").querySelector(".weapon");
 const defaultImage = "./imgs/_notfound.webp";
 
+function imgNameParser(weapon) {
+    return (weapon.TranslatedLabel && weapon.TranslatedLabel.English ? weapon.TranslatedLabel.English : weapon.Name)
+        .replaceAll("-", "")
+        .replaceAll("_", "")
+        .replaceAll(".", "")
+        .replaceAll(" ", "")
+        .toLowerCase();
+}
+
+function htmlNameParser(weapon) {
+    return (weapon.TranslatedLabel && weapon.TranslatedLabel.French ? weapon.TranslatedLabel.French : weapon.Name)
+        .replaceAll("é", "&eacute")
+        .replaceAll("è", "&egrave")
+        .replaceAll("ê", "&ecirc")
+        .replaceAll("à", "&agrave");
+}
+
 function weaponDiv(weapon) {
     const div = weaponDivTemplate.cloneNode(true);
     const img = div.querySelector("img");
-    img.src += `${weapon.Name}.webp`;
     img.id = weapon.Hash;
-    img.onerror = () => (img.src = defaultImage);
-    div.querySelector("strong").innerHTML = weapon.TranslatedLabel ? weapon.TranslatedLabel.French : weapon.Name;
+    img.src += `${imgNameParser(weapon)}.webp`;
+    img.onerror = () => {
+        console.log(`${imgNameParser(weapon)}.webp`);
+        img.src = defaultImage;
+    };
+    div.querySelector("strong").innerHTML = htmlNameParser(weapon);
     return div;
 }
 
@@ -29,7 +49,6 @@ document.getElementById("remove").onclick = () => alt.emit("removeAll");
 //  addButtonListeners
 const amount = document.getElementById("amoAmount");
 const equipNow = document.getElementById("equipNow");
-console.log(equipNow);
 let buttons = document.getElementsByClassName("button");
 for (const but of buttons) {
     but.onclick = function () {

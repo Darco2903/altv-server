@@ -36,15 +36,16 @@
 
 button {
     cursor: pointer;
-    padding-right: 1vw;
+    padding: 1vh 1vw;
+    /* padding-right: 1vw;
     padding-left: 1vw;
     padding-top: 1vh;
-    padding-bottom: 1vh;
+    padding-bottom: 1vh; */
     border: none;
     border-radius: 15px;
     background-color: var(--color2);
     color: white;
-    font-size: 0.65vw;
+    font-size: 1vw;
 }
 
 button:hover {

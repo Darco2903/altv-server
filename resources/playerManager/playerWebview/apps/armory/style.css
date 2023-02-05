@@ -23,16 +23,20 @@ strong {
 
 #options {
     display: flex;
-    gap: 0.5vw;
+    gap: 0.75vw;
     margin: 1vw;
     align-items: center;
+}
+
+#options strong {
+    font-size: 1.2vw;
 }
 
 #classList {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 5vh;
+    gap: 2vh;
 }
 
 .weaponClass {
@@ -41,7 +45,7 @@ strong {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1.5vw;
+    gap: 4vh;
 }
 
 .weaponClass > strong {
@@ -58,12 +62,12 @@ strong {
 }
 
 .weapon > strong {
-    font-size: 1vw;
+    font-size: 1.2vw;
 }
 
 .weapon > img {
     aspect-ratio: initial;
-    width: 10.25vw;
+    width: 7.5vw;
     cursor: pointer;
     border-radius: 5px;
     user-select: none;
