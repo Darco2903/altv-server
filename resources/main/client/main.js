@@ -5,6 +5,9 @@ import "./notifManager";
 
 let player = alt.Player.local;
 
+alt.loadDefaultIpls();
+alt.setWatermarkPosition(0);
+
 alt.once("spawned", () => {
     loadInteriors();
     loadCayoPericoIsland();
