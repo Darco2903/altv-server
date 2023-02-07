@@ -3,6 +3,7 @@ import * as chat from "chat";
 import * as db from "database";
 import { locationsList } from "./locationPos";
 import "./Player";
+import "./events"
 
 function log(msg) {
     alt.log("~y~" + msg);

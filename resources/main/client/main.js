@@ -1,10 +1,12 @@
 import * as alt from "alt-client";
 import * as native from "natives";
-import "./notifManager";
-import "./controlsDisabler";
 import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations";
+import "./notifManager";
 
 let player = alt.Player.local;
+
+alt.loadDefaultIpls();
+alt.setWatermarkPosition(0);
 
 alt.once("spawned", () => {
     loadInteriors();

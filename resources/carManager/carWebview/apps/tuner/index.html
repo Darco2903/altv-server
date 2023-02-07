@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Vehicles Tuner</title>
+    </head>
+
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <body>
+        <modPannel>
+            <chooseMod>
+                <button id="mods">Mods</button>
+                <button id="colors">Colors</button>
+                <button id="wheels">Wheels</button>
+                <button id="neons">Neons</button>
+                <button id="plate">Plate</button>
+                <button id="interior">Interior</button>
+                <button id="spare"></button>
+                <button id="spare"></button>
+            </chooseMod>
+
+            <generated></generated>
+
+            <optionBut>
+                <button id="restore">Restore</button>
+                <button id="stock">Stock</button>
+            </optionBut>
+        </modPannel>
+
+        <div class="template" hidden>
+            <!--    Checkbox Template    -->
+            <label class="checkbox bounce" id="labelCheckbox">
+                <input type="checkbox" id="checkbox" />
+                <svg viewBox="0 0 21 21">
+                    <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                </svg>
+            </label>
+
+            <!--    Slider Template    -->
+            <div class="range-slider" id="divSlider">
+                <input class="range-slider__range" type="range" />
+            </div>
+
+            <select>
+                <option value="0">Select car:</option>
+                <option value="1">Audi</option>
+                <option value="10">Nissan</option>
+                <option value="11">Toyota</option>
+            </select>
+        </div>
+
+        <!--<script src="data/appTables.js"></script>-->
+        <script type="module" src="app.js"></script>
+    </body>
+</html>

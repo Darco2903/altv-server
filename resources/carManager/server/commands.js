@@ -33,9 +33,14 @@ chat.registerCmd("vehspawn", (player, [model]) => {
     alt.emit("createVehicle", player, hash);
 });
 
-chat.registerCmd("appearance", (player, [hash]) => {
+chat.registerCmd("setappearance", (player, [hash]) => {
     if (!player.vehicle) return;
     player.vehicle.setAppearanceDataBase64(hash);
+});
+
+chat.registerCmd("getappearance", (player, [hash]) => {
+    if (!player.vehicle) return;
+    console.log(player.vehicle.getAppearanceDataBase64(hash));;
 });
 
 chat.registerCmd("drift", (player, [state]) => {
