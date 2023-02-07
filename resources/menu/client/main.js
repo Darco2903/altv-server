@@ -19,7 +19,7 @@ alt.on("keyup", (key) => {
             if (!webview.isVisible) return;
         //fall through
         case 75: // K
-            if (!alt.getMeta("controlsEnabled") && !webview.isVisible) return;
+            if (alt.isConsoleOpen() || !alt.getMeta("controlsEnabled") && !webview.isVisible) return;
             toogleMenu();
             break;
 
