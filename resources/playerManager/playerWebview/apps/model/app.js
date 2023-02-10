@@ -2,31 +2,28 @@ let htmlClassList = document.getElementById("classList");
 const modelDivTemplate = document.getElementById("template").querySelector(".model");
 const defaultImage = "./imgs/_notfound.webp";
 
-// function imgNameParser(model) {
-//     return model.English.replaceAll("-", "").replaceAll("_", "").replaceAll(".", "").replaceAll(" ", "").toLowerCase();
-// }
+function imgNameParser(name) {
+    return name.replaceAll("-", "").replaceAll("_", "").replaceAll(".", "").replaceAll(" ", "").toLowerCase();
+}
 
-// function htmlNameParser(model) {
-//     return model.French.replaceAll("é", "&eacute").replaceAll("è", "&egrave").replaceAll("ê", "&ecirc").replaceAll("à", "&agrave");
-// }
+function htmlNameParser(name) {
+    return name.replaceAll("é", "&eacute").replaceAll("è", "&egrave").replaceAll("ê", "&ecirc").replaceAll("à", "&agrave");
+}
 
 function modelDiv(model) {
     const div = modelDivTemplate.cloneNode(true);
     const img = div.querySelector("img");
+    const path = model.Class === "MOD" ? "mod/" : "";
+    img.src += `${path}${model.Name}.webp`;
     img.id = model.Hash;
-    // img.src += `${imgNameParser(model)}.webp`;
-    img.onerror = () => {
-        console.log(`${imgNameParser(model)}.webp`);
-        img.src = defaultImage;
-    };
-    // div.querySelector("strong").innerHTML = htmlNameParser(model);
+    div.querySelector("strong").innerHTML = htmlNameParser(model.French);
+    div.id = model.French.toLowerCase();
     return div;
 }
 
-//  createAll vehicle div
-Object.entries(models).forEach(([key, model]) => {
-    // if (model.Category === null || model.English === "Invalid") return;
-    // document.getElementById(model.Category).appendChild(modelDiv(model));
+//  createAll model div
+peds.concat(freemod).concat(mods).forEach((model) => {
+    document.getElementById(model.Pedtype).appendChild(modelDiv(model));
 });
 
 //  blockSpaceScrollEvent
@@ -34,5 +31,28 @@ window.addEventListener("keydown", (key) => {
     if (key.code == 32 && key.target == document.body) key.preventDefault();
 });
 
-document.getElementById("all").onclick = () => alt.emit("giveAll");
-document.getElementById("remove").onclick = () => alt.emit("removeAll");
+const searchInput = document.querySelector("input");
+const htmlSearch = document.getElementById("searchList");
+let searchVehDiv;
+
+//  SearchInputEvent
+searchInput.oninput = function () {
+    htmlClassList.setAttribute("notInSelection", !!this.value);
+    htmlSearch.setAttribute("notInSelection", !this.value);
+    if (!this.value) return;
+    const searchValue = this.value.toLowerCase();
+    searchVehDiv.forEach((modelDiv) => modelDiv.setAttribute("notInSelection", !modelDiv.id.includes(searchValue)));
+};
+
+//  initSearchList
+for (const modelDiv of document.querySelectorAll(".model")) htmlSearch.append(modelDiv.cloneNode(true));
+searchVehDiv = Array.from(htmlSearch.children);
+
+//  addButtonListeners
+let buttons = document.getElementsByClassName("button");
+for (const but of buttons) {
+    but.onerror = () => (but.src = defaultImage);
+    but.onclick = () => {
+        if ("alt" in window) alt.emit("setPlayerModel", but.id);
+    };
+}

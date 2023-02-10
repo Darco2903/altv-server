@@ -10,7 +10,7 @@ function htmlNameParser(weapon) {
     return weapon.French.replaceAll("é", "&eacute").replaceAll("è", "&egrave").replaceAll("ê", "&ecirc").replaceAll("à", "&agrave");
 }
 
-function weaponDiv(weapon) {
+function vehicleDiv(weapon) {
     const div = weaponDivTemplate.cloneNode(true);
     const img = div.querySelector("img");
     img.id = weapon.Hash;
@@ -26,7 +26,7 @@ function weaponDiv(weapon) {
 //  createAll vehicle div
 Object.entries(weapons).forEach(([key, weapon]) => {
     if (weapon.Category === null || weapon.English === "Invalid") return;
-    document.getElementById(weapon.Category).appendChild(weaponDiv(weapon));
+    document.getElementById(weapon.Category).appendChild(vehicleDiv(weapon));
 });
 
 //  blockSpaceScrollEvent
