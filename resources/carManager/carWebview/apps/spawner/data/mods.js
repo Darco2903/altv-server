@@ -42,6 +42,18 @@ const mods = [
         Class: "MOD",
     },
     {
+        Name: "hoonicornv2",
+        DisplayName: "Hoonicorn V2",
+        Hash: 3714528607,
+        Class: "MOD",
+    },
+    {
+        Name: "aventador",
+        DisplayName: "Aventador",
+        Hash: 1890188937,
+        Class: "MOD",
+    },
+    {
         Name: "18performante",
         DisplayName: "Huracan Performante",
         Hash: 836213613,
@@ -87,6 +99,12 @@ const mods = [
         Name: "2019chiron",
         DisplayName: "Chiron SS",
         Hash: 1469041587,
+        Class: "MOD",
+    },
+    {
+        Name: "agerars",
+        DisplayName: "Agera RS",
+        Hash: 3640727577,
         Class: "MOD",
     },
 ];
