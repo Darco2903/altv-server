@@ -913,7 +913,7 @@ BraceletsMenu.ItemSelect.on((selectedItem, selectedItemIndex) => {
 ///////////////////////PROPS Bracelets////////////////////////////////////////
 
 
-/*
+
 alt.on('keyup', (key) => {
     if (key === 0x71) { //F2 KEY
         if (menu.Visible)
@@ -922,57 +922,57 @@ alt.on('keyup', (key) => {
             menu.Open();
     }
 });
-*/
 
 
 
-var disablePauseMenu = null
 
-alt.on('keyup', (key) => {
-    if (key == 27) { //Escape
-        if (menu.Visible) {
-            menu.Close();
-			alt.showCursor(false);
+// var disablePauseMenu = null
 
-			setTimeout(() => {
-				//game.setPlayerControl(alt.Player.local.scriptID, true, 1)
-				alt.clearEveryTick(disablePauseMenu)
-			}, 100);
-		}
-    }
-});
+// alt.on('keyup', (key) => {
+//     if (key == 27) { //Escape
+//         if (menu.Visible) {
+//             menu.Close();
+// 			alt.showCursor(false);
 
-
-alt.onServer('clothesMenu', () => {
-	console.log('sahg')
-	if (!menu.Visible) {
-		setTimeout(() => {
-			menu.Open();
-		}, 100);
-		alt.showCursor(true);
-		//game.setPlayerControl(alt.Player.local.scriptID, false, 1)
-
-		disablePauseMenu = alt.everyTick(() => {
-			game.disableControlAction(0, 200, true) //Esc
-			game.disableControlAction(0, 32, true)
-			game.disableControlAction(0, 33, true)
-			game.disableControlAction(0, 34, true)
-			game.disableControlAction(0, 35, true)
-		})
+// 			setTimeout(() => {
+// 				//game.setPlayerControl(alt.Player.local.scriptID, true, 1)
+// 				alt.clearEveryTick(disablePauseMenu)
+// 			}, 100);
+// 		}
+//     }
+// });
 
 
-		/*
-		//RClick
-		alt.on('keydown', (key) => {
-			if (key == 2) {
-				game.setPlayerControl(alt.Player.local.scriptID, false, 256)
-			}
-		});
-		alt.on('keyup', (key) => {
-			if (key == 2) {
-				game.setPlayerControl(alt.Player.local.scriptID, false, 1)            
-			}
-		});
-		*/
-    }
-})
+// alt.onServer('clothesMenu', () => {
+// 	console.log('sahg')
+// 	if (!menu.Visible) {
+// 		setTimeout(() => {
+// 			menu.Open();
+// 		}, 100);
+// 		alt.showCursor(true);
+// 		//game.setPlayerControl(alt.Player.local.scriptID, false, 1)
+
+// 		disablePauseMenu = alt.everyTick(() => {
+// 			game.disableControlAction(0, 200, true) //Esc
+// 			game.disableControlAction(0, 32, true)
+// 			game.disableControlAction(0, 33, true)
+// 			game.disableControlAction(0, 34, true)
+// 			game.disableControlAction(0, 35, true)
+// 		})
+
+
+// 		/*
+// 		//RClick
+// 		alt.on('keydown', (key) => {
+// 			if (key == 2) {
+// 				game.setPlayerControl(alt.Player.local.scriptID, false, 256)
+// 			}
+// 		});
+// 		alt.on('keyup', (key) => {
+// 			if (key == 2) {
+// 				game.setPlayerControl(alt.Player.local.scriptID, false, 1)            
+// 			}
+// 		});
+// 		*/
+//     }
+// })
