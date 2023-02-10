@@ -35,6 +35,12 @@ const vehicles = {
         Hash: 2351389067,
         Class: "MOD",
     },
+    "787b": {
+        Name: "787b",
+        DisplayName: "787B",
+        Hash: 2123398782,
+        Class: "MOD",
+    },
     "18performante": {
         Name: "18performante",
         DisplayName: "Huracan Performante",
