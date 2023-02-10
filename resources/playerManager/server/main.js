@@ -119,3 +119,11 @@ chat.registerCmd("pm", (player, args) => {
     console.log(args[0]);
     player.model = args[0];
 });
+
+chat.registerCmd("cl", (player, args) => {
+    if (!args) return;
+    let a = args[0] ? args[0] : 0;
+    let b = args[1] ? args[1] : 0;
+    let c = args[2] ? args[2] : 0;
+    player.setClothes(a, b, c);
+});
