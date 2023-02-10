@@ -36,6 +36,12 @@ const mods = [
         Class: "MOD",
     },
     {
+        Name: "787b",
+        DisplayName: "787B",
+        Hash: 2123398782,
+        Class: "MOD",
+    },
+    {
         Name: "18performante",
         DisplayName: "Huracan Performante",
         Hash: 836213613,
