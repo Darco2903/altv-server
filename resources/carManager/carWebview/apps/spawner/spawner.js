@@ -8,6 +8,7 @@ webview.isVisible = false;
 
 webview.on("spawnVehicle", (hash) => {
     if (!player.vehicle) alt.emitServer("vehicle:create", hash);
+    else if (player.vehicle.model == hash) return;
     else alt.emitServer("vehicle:replace", hash);
     close();
 });

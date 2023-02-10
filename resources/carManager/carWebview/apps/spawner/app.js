@@ -2,7 +2,7 @@ let htmlClassList = document.getElementById("classList");
 const vehDivTemplate = document.getElementById("template").querySelector(".vehicle");
 const defaultImage = "./imgs/_notfound.webp";
 
-function weaponDiv(veh) {
+function vehicleDiv(veh) {
     const div = vehDivTemplate.cloneNode(true);
     const img = div.querySelector("img");
     const path = veh.Class === "MOD" ? "mod/" : "";
@@ -14,15 +14,14 @@ function weaponDiv(veh) {
 }
 
 //  createAll vehicle div
-Object.entries(vehicles).forEach(([key, veh]) => {
-    document.getElementById(veh.Class).appendChild(weaponDiv(veh));
+vehicles.concat(mods).forEach((veh) => {
+    document.getElementById(veh.Class).appendChild(vehicleDiv(veh));
 });
 
-//  addImgErrorListeners
-let imgs = document.querySelectorAll("img");
-for (const img of imgs) {
-    img.onerror = () => (img.src = defaultImage);
-}
+//  blockSpaceScrollEvent
+window.addEventListener("keydown", (key) => {
+    if (key.code == 32 && key.target == document.body) key.preventDefault();
+});
 
 const searchInput = document.querySelector("input");
 const htmlSearch = document.getElementById("searchList");
@@ -32,27 +31,20 @@ let searchVehDiv;
 searchInput.oninput = function () {
     htmlClassList.setAttribute("notInSelection", !!this.value);
     htmlSearch.setAttribute("notInSelection", !this.value);
+    if (!this.value) return;
     const searchValue = this.value.toLowerCase();
     searchVehDiv.forEach((htmlVeh) => htmlVeh.setAttribute("notInSelection", !htmlVeh.id.includes(searchValue)));
 };
 
-//  blockSpaceScrollEvent
-window.addEventListener("keydown", (key) => {
-    if (key.code == 32 && key.target == document.body) key.preventDefault();
-});
-
 //  initSearchList
-setTimeout(() => {
-    for (const vehDiv of document.querySelectorAll(".vehicle")) htmlSearch.append(vehDiv.cloneNode(true));
-    searchVehDiv = Array.from(htmlSearch.children);
-}, 500);
+for (const vehDiv of document.querySelectorAll(".vehicle")) htmlSearch.append(vehDiv.cloneNode(true));
+searchVehDiv = Array.from(htmlSearch.children);
 
 //  addButtonListeners
-setTimeout(() => {
-    let buttons = document.getElementsByClassName("button");
-    for (const but of buttons) {
-        but.onclick = function () {
-            if ("alt" in window) alt.emit("spawnVehicle", this.id);
-        };
-    }
-}, 1000);
+let buttons = document.getElementsByClassName("button");
+for (const but of buttons) {
+    but.onerror = () => (but.src = defaultImage);
+    but.onclick = () => {
+        if ("alt" in window) alt.emit("spawnVehicle", but.id);
+    };
+}

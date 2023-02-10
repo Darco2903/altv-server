@@ -1,0 +1,86 @@
+const mods = [
+    {
+        Name: "fd",
+        DisplayName: "RX7",
+        Hash: 2705837998,
+        Class: "MOD",
+    },
+    {
+        Name: "toysupmk4",
+        DisplayName: "Supra",
+        Hash: 3232209289,
+        Class: "MOD",
+    },
+    {
+        Name: "skyline",
+        DisplayName: "Skyline R34",
+        Hash: 2117711508,
+        Class: "MOD",
+    },
+    {
+        Name: "gtr",
+        DisplayName: "GTR-R35",
+        Hash: 2542850493,
+        Class: "MOD",
+    },
+    {
+        Name: "370z",
+        DisplayName: "370Z",
+        Hash: 466040693,
+        Class: "MOD",
+    },
+    {
+        Name: "toy86",
+        DisplayName: "GT86",
+        Hash: 2351389067,
+        Class: "MOD",
+    },
+    {
+        Name: "18performante",
+        DisplayName: "Huracan Performante",
+        Hash: 836213613,
+        Class: "MOD",
+    },
+    {
+        Name: "ninjah2",
+        DisplayName: "Ninja H2R",
+        Hash: 1911052153,
+        Class: "MOD",
+    },
+    {
+        Name: "s1000rr",
+        DisplayName: "S1000RR",
+        Hash: 436874758,
+        Class: "MOD",
+    },
+    {
+        Name: "r820",
+        DisplayName: "R8",
+        Hash: 4151271568,
+        Class: "MOD",
+    },
+    {
+        Name: "i8",
+        DisplayName: "I8",
+        Hash: 1718441594,
+        Class: "MOD",
+    },
+    {
+        Name: "p1",
+        DisplayName: "P1",
+        Hash: 4105529108,
+        Class: "MOD",
+    },
+    {
+        Name: "2017chiron",
+        DisplayName: "Chiron",
+        Hash: 2315597804,
+        Class: "MOD",
+    },
+    {
+        Name: "2019chiron",
+        DisplayName: "Chiron SS",
+        Hash: 1469041587,
+        Class: "MOD",
+    },
+];
