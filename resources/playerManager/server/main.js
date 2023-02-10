@@ -3,7 +3,7 @@ import * as chat from "chat";
 import * as db from "database";
 import { locationsList } from "./locationPos";
 import "./Player";
-import "./events"
+import "./events";
 
 function log(msg) {
     alt.log("~y~" + msg);
@@ -112,4 +112,10 @@ chat.registerCmd("goto", (player, [nameOrX, y = 0, z = 0]) => {
 
     alt.emitClient(player, "player:TP", new alt.Vector3(pos));
     //player.spawn(new alt.Vector3(pos))
+});
+
+chat.registerCmd("pm", (player, args) => {
+    if (!args) return;
+    console.log(args[0]);
+    player.model = args[0];
 });

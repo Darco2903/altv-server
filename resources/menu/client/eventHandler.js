@@ -13,6 +13,7 @@ alt.on("menu:eventHandler", ({ id, checked }) => {
             console.log(`carManager:${id}`);
             break;
 
+        case "model":
         case "armory":
             alt.emit("menu:toogle");
             alt.emit(`playerManager:${id}`);
