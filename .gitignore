@@ -10,6 +10,7 @@ server.toml
 old/
 *-old.*
 _*/
+*template*
 
 #models
 #*.yft
