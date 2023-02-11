@@ -54,9 +54,21 @@ const mods = [
         Class: "MOD",
     },
     {
+        Name: "lp770",
+        DisplayName: "Centenario",
+        Hash: 4090655878,
+        Class: "MOD",
+    },
+    {
         Name: "18performante",
         DisplayName: "Huracan Performante",
         Hash: 836213613,
+        Class: "MOD",
+    },
+    {
+        Name: "laferrari",
+        DisplayName: "LaFerrari",
+        Hash: 3746687124,
         Class: "MOD",
     },
     {
