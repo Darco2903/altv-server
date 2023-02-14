@@ -45,6 +45,18 @@ alt.onServer("vehicle:nearest", () => {
     //alt.emitServer("vehicle:nearest", veh)
 });
 
-alt.on("carManager:repair", () => {
-    alt.emitServer("vehicle:repair", player.vehicle);
-});
+// alt.on("carManager:repair", () => {
+//     alt.emitServer("vehicle:repair", player.vehicle);
+// });
+
+// alt.on("carManager:despawn", () => {
+//     alt.emitServer("vehicle:", player.vehicle);
+// });
+
+// alt.on("carManager:save", () => {
+//     alt.emitServer("vehicle:", player.vehicle);
+// });
+
+// alt.on("carManager:delete", () => {
+//     alt.emitServer("vehicle:", player.vehicle);
+// });

@@ -19,7 +19,7 @@ alt.on("keyup", (key) => {
             if (!webview.isVisible) return;
         //fall through
         case 75: // K
-            if (alt.isConsoleOpen() || !alt.getMeta("controlsEnabled") && !webview.isVisible) return;
+            if (alt.isConsoleOpen() || (!alt.getMeta("controlsEnabled") && !webview.isVisible)) return;
             toogleMenu();
             break;
 
@@ -53,7 +53,10 @@ function update() {
     alt.emit("menuOpen");
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
-    webview.emit("vehicle", player.vehicle && player.vehicle.valid);
+    if (player.vehicle) {
+        webview.emit("vehicle", player.vehicle.valid);
+        webview.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
+    }
     webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 

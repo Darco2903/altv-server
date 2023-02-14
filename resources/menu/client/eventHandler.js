@@ -1,21 +1,26 @@
 import * as alt from "alt-client";
 
+// const player = alt.Player.local;
+
 alt.on("menu:eventHandler", ({ id, checked }) => {
     switch (id) {
         case "spawner":
         case "tuner":
+            closeMenu();
+            alt.emit(`carManager:${id}`);
+            break;
+
         case "repair":
         case "despawn":
-            alt.emit("menu:toogle");
-        //fall through
-        case "deleter":
-            alt.emit(`carManager:${id}`);
-            console.log(`carManager:${id}`);
+        case "save":
+        case "delete":
+            closeMenu();
+            alt.emitServer(`vehicle:${id}`);
             break;
 
         case "model":
         case "armory":
-            alt.emit("menu:toogle");
+            closeMenu();
             alt.emit(`playerManager:${id}`);
             break;
 
@@ -27,3 +32,7 @@ alt.on("menu:eventHandler", ({ id, checked }) => {
             break;
     }
 });
+
+function closeMenu() {
+    alt.emit("menu:toogle");
+}
