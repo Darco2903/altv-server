@@ -20,6 +20,11 @@ const mods = [
         Class: "MOD",
     },
     {
+        Name: "FK8",
+        DisplayName: "Civic Type-R",
+        Class: "MOD",
+    },
+    {
         Name: "gtr",
         DisplayName: "GTR-R35",
         Class: "MOD",
@@ -27,11 +32,6 @@ const mods = [
     {
         Name: "370z",
         DisplayName: "370Z",
-        Class: "MOD",
-    },
-    {
-        Name: "FK8",
-        DisplayName: "Civic Type-R",
         Class: "MOD",
     },
     {
