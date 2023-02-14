@@ -6,7 +6,8 @@ const player = alt.Player.local;
 let webview = new alt.WebView("http://resource/apps/spawner/index.html", false);
 webview.isVisible = false;
 
-webview.on("spawnVehicle", (hash) => {
+webview.on("spawnVehicle", (model) => {
+    const hash = alt.hash(model);
     if (!player.vehicle) alt.emitServer("vehicle:create", hash);
     else if (player.vehicle.model == hash) return;
     else alt.emitServer("vehicle:replace", hash);

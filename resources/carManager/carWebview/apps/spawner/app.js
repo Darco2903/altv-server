@@ -7,7 +7,7 @@ function vehicleDiv(veh) {
     const img = div.querySelector("img");
     const path = veh.Class === "MOD" ? "mod/" : "";
     img.src += `${path}${veh.Name}.webp`;
-    img.id = veh.Hash;
+    img.id = veh.Name;
     div.querySelector("strong").innerHTML = veh.DisplayName;
     div.id = veh.DisplayName.toLowerCase();
     return div;
