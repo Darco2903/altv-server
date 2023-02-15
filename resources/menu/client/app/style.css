@@ -38,10 +38,10 @@ div#nametag {
 
 .resource button {
     background-color: var(--color2);
-    padding: 1.5vh 1vw;
+    padding: 0.8vh 0.4vw;
     border-radius: 15px;
     border: none;
-    font-size: 1vw;
+    font-size: 0.75vw;
     color: white;
     cursor: pointer;
     user-select: none;

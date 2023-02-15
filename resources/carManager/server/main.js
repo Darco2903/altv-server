@@ -11,20 +11,6 @@ function saveLog(msg) {
     alt.log("~g~" + msg);
 }
 
-alt.on("ConnectionComplete", () => {
-    const veh = new alt.Vehicle("adder", new alt.Vector3(0), new alt.Vector3(0));
-    veh.register()
-        .then((id) => {
-            const model = alt.getVehicleModelInfoByHash(veh.model).title;
-            // alt.emitClient(player, `${model} enregistré`);
-        })
-        .catch((id) => {
-            if (id === -1) {
-                // alt.emitClient(player, )
-            }
-        });
-});
-
 //  function initSpawn () {
 //      if (db.isReady() && !alt.Vehicle.all.length)
 //          spawnStored()

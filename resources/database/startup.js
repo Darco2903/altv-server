@@ -128,7 +128,6 @@ export async function fetchLastIdAsync(repoName) {
  */
 export function fetchAllByField(fieldName, fieldValue, repoName, callback) {
     const repo = connection.getRepository(repoName);
-
     repo.find({ where: { [fieldName]: fieldValue } })
         .then((res) => {
             return callback(res);
@@ -168,7 +167,6 @@ export async function fetchAllByFieldAsync(fieldName, fieldValue, repoName) {
  */
 export function upsertData(document, repoName, callback) {
     const repo = connection.getRepository(repoName);
-
     repo.save(document)
         .then((res) => {
             return callback(res);
@@ -208,7 +206,6 @@ export async function upsertDataAsync(document, repoName) {
  */
 export function insertData(document, repoName, callback) {
     const repo = connection.getRepository(repoName);
-
     repo.insert(document)
         .then((res) => {
             return callback(res);
@@ -248,7 +245,6 @@ export async function insertDataAsync(document, repoName) {
  */
 export function updatePartialData(id, partialObjectData, repoName, callback) {
     const repo = connection.getRepository(repoName);
-
     repo.findByIds([id])
         .then((res) => {
             if (res.length <= 0) return callback(undefined);
@@ -314,7 +310,6 @@ export function fetchByIds(ids, repoName, callback) {
     if (!Array.isArray(ids)) {
         idRef = [ids];
     }
-
     repo.findByIds(idRef)
         .then((res) => {
             if (res.length <= 0) return callback(undefined);
@@ -367,7 +362,6 @@ export function deleteByIds(ids, repoName, callback) {
     if (!Array.isArray(ids)) {
         idRef = [ids];
     }
-
     repo.delete(idRef)
         .then((res) => {
             return callback(res);
@@ -412,7 +406,6 @@ export async function deleteByIdsAsync(ids, repoName) {
  */
 export function fetchAllData(repoName, callback) {
     const repo = connection.getRepository(repoName);
-
     repo.find()
         .then((res) => {
             if (res.length <= 0) return callback(undefined);
@@ -458,7 +451,6 @@ export function selectData(repoName, fieldNamesArray, callback) {
     if (!Array.isArray(fieldNamesArray)) {
         selectionRef = [selectionRef];
     }
-
     repo.find({ select: selectionRef })
         .then((res) => {
             if (res.length <= 0) return callback(undefined);

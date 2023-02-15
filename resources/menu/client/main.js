@@ -53,10 +53,8 @@ function update() {
     alt.emit("menuOpen");
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
-    if (player.vehicle) {
-        webview.emit("vehicle", player.vehicle.valid);
-        webview.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
-    }
+    webview.emit("vehicle", !!player.vehicle);
+    if (player.vehicle) webview.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
     webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 

@@ -48,30 +48,41 @@ alt.onClient("vehicle:repair", (player, vehicle) => {
     const veh = vehicle ? vehicle : player.vehicle;
     if (!veh) return;
     veh.repair();
+    // player.notif(vehicle, "~g~Comme neuve");
 });
 
 alt.onClient("vehicle:despawn", (player, vehicle) => {
     const veh = vehicle || player.vehicle;
     if (!veh) return;
+    veh.save();
     veh.destroy();
+    // player.notif(vehicle, "~g~Disparition");
 });
 alt.onClient("vehicle:register", (player, vehicle) => {
     const veh = vehicle || player.vehicle;
     if (!veh) return;
     veh.register(player)
-        .then((id) => {
-            console.log(veh.model);
-            console.log(alt.getVehicleModelInfoByHash(veh.model));
-            // alt.emitClient(player, `${model} enregistré`);
-        })
+        .then((id) => player.notif(veh, `~g~Enregistré avec succès\navec l'id [${id}]`))
         .catch((id) => {
-            if (id === -1) {
-                alt.emitClient(player, "notification", )
-            }
+            if (id === -1) player.notif(veh, "~r~Erreur lors de l'enregistrement\nVeuillez réessayer");
+            else player.notif(veh, `~r~Déjà enregistré\n ID [${id}]res`);
         });
 });
+
 alt.onClient("vehicle:delete", (player, vehicle) => {
     const veh = vehicle || player.vehicle;
-    if (!veh) return;
-    veh.delete();
+    if (!veh || !veh.hasSyncedMeta("id")) return;
+    const id = veh.getSyncedMeta("id");
+    veh.delete()
+        .then((res) => player.notif(veh, `~g~[${id}] Supprimé avec succès`))
+        .catch((res) => player.notif(veh, "~r~Erreur lors de la suppression\nVeuillez réessayer"));
 });
+
+alt.Player.prototype.notif = function (vehicle, message) {
+    const modelName = vehicle.getNameByHash().capitalizeFirstLetter();
+    alt.emitClient(this, "notificationRaw", "CHAR_CARSITE", "Garage", modelName, message);
+};
+
+String.prototype.capitalizeFirstLetter = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};

@@ -12,7 +12,7 @@ alt.on("menu:eventHandler", ({ id, checked }) => {
 
         case "repair":
         case "despawn":
-        case "save":
+        case "register":
         case "delete":
             closeMenu();
             alt.emitServer(`vehicle:${id}`);

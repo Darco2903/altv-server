@@ -3,7 +3,7 @@ import * as native from "natives";
 
 alt.WebView.prototype.toogle = function (state) {
     // console.log(state);
-    this.isVisible = state;
+    setTimeout(() => (this.isVisible = state), 100);
     alt.showCursor(state);
     if (state) this.focus();
     else this.unfocus();
