@@ -11,8 +11,9 @@ alt.setWatermarkPosition(0);
 alt.once("spawned", () => {
     loadInteriors();
     loadCayoPericoIsland();
-    //  loadtrains()
 });
+
+alt.setMeta("displayNametag", true);
 
 alt.setMeta("controls", true);
 alt.on("main:toogleControls", (enable) => alt.setMeta("controls", enable));

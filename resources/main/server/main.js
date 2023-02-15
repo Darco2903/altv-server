@@ -17,7 +17,7 @@ function saveLog(msg) {
     alt.log(`~g~${msg}`);
 }
 
-alt.on("serverStarted", () => setTimeout(() => import("./autoReconnect"), 100)); // Dev
+alt.on("serverStarted", () => setTimeout(() => import("./autoReconnect"), 200)); // Dev
 
 alt.on("consoleCommand", (command, args) => {
     switch (command) {
