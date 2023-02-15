@@ -14,6 +14,10 @@ webview.on("spawnVehicle", (model) => {
     close();
 });
 
+webview.on("option", (id) => {
+    if (id === "garage") updateGarage();
+});
+
 alt.on("carManager:spawner", open);
 alt.on("menuOpen", close);
 
@@ -43,3 +47,11 @@ async function toogleControls(state) {
         webview.toogleOnlyVehMove(state);
     }
 }
+
+function updateGarage() {
+    alt.emitServer("getPlayerVehicles");
+}
+
+alt.onServer("playerGarage", (res) => {
+    webview.emit("garageList", res);
+});

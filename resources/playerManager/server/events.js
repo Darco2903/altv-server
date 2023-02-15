@@ -26,3 +26,7 @@ alt.onClient("player:SaveModel", (player) => {
         } else alt.emitClient(player, "notificationRaw", "CHAR_DEFAULT", "Succès", "Modèle", "Modèle sauvegardé");
     });
 });
+
+alt.onClient("getPlayerVehicles", (player) => {
+    player.getVehiclesSaved();
+});

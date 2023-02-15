@@ -41,10 +41,19 @@ for (const vehDiv of document.querySelectorAll(".vehicle")) htmlSearch.append(ve
 searchVehDiv = Array.from(htmlSearch.children);
 
 //  addButtonListeners
-let buttons = document.getElementsByClassName("button");
-for (const but of buttons) {
+const spawnButtons = document.getElementsByClassName("button");
+for (const but of spawnButtons) {
     but.onerror = () => (but.src = defaultImage);
     but.onclick = () => {
         if ("alt" in window) alt.emit("spawnVehicle", but.id);
     };
 }
+
+let listButtons = document.querySelectorAll("button");
+for (const but of listButtons) {
+    but.onclick = () => alt.emit("option", but.id);
+}
+
+alt.on("garageList", (res) => {
+    console.log(res);
+});
