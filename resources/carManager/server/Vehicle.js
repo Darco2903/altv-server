@@ -117,15 +117,11 @@ alt.Vehicle.prototype.parseJSON = function (data) {
 
 alt.Vehicle.prototype.register = function (player) {
     return new Promise((resolve, reject) => {
-        if (this.hasSyncedMeta("id")) {
-            reject(this.getSyncedMeta("id"));
-            return;
-        }
         const model = this.getNameByHash();
         const owner = player.getSyncedMeta("id");
         db.upsertData({ model, owner }, "Vehicle", (res) => {
             if (!res || !res.id) {
-                reject(-1);
+                reject();
                 return;
             }
             this.setSyncedMeta("id", res.id);
@@ -147,29 +143,27 @@ alt.Vehicle.prototype.delete = function () {
                 return;
             }
             this.deleteSyncedMeta("id");
-            resolve(true);
+            resolve();
             db.log(`${this.getNameByHash()} id: ${id} deleted from database`);
         });
     });
 };
 
 alt.Vehicle.prototype.save = function () {
-    if (!this.hasSyncedMeta("id")) return;
-    const id = this.getSyncedMeta("id");
-    // if (!id || this.garage.inGarage) return; // update only if registered and veh is out garage
-    db.updatePartialData(id, this.getDataToSave(), "Vehicle", (callback) => {
-        //  return +(typeof(callback) != "object")
-        //  if (typeof(callback) == "object")
-        //      db.log(`${this.modelName} saved in database`)
-        //  else
-        //      alt.logError(`${this.modelName} has not been saved in database\nCause:\n${callback}`)
+    return new Promise((resolve, reject) => {
+        const id = this.getSyncedMeta("id");
+        db.updatePartialData(id, this.getDataToSave(), "Vehicle", (res) => {
+            if (!res || !res.affected) {
+                reject();
+                return;
+            }
+            db.log(`${this.getNameByHash()} id: ${id} saved in database`);
+            resolve();
+        });
     });
 };
 
 alt.Vehicle.prototype.saveAppearance = function () {
-    if (!this.getSyncedMeta("id"))
-        //update only if registered
-        return;
     const appearance = this.getAppearanceDataBase64();
     db.updatePartialData(this.getSyncedMeta("id"), { appearance }, "Vehicle", (callback) => {});
 };
