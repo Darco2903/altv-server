@@ -75,12 +75,3 @@ alt.onClient("vehicle:delete", (player, vehicle) => {
         .then(() => player.notif(veh, `~g~[${id}] Supprimé avec succès`))
         .catch(() => player.notif(veh, "~r~Erreur lors de la suppression\nVeuillez réessayer"));
 });
-
-alt.Player.prototype.notif = function (vehicle, message) {
-    const modelName = vehicle.getNameByHash().capitalizeFirstLetter();
-    alt.emitClient(this, "notificationRaw", "CHAR_CARSITE", "Garage", modelName, message);
-};
-
-String.prototype.capitalizeFirstLetter = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-};
