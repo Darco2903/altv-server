@@ -11,6 +11,53 @@ function saveLog(msg) {
     alt.log("~g~" + msg);
 }
 
+alt.Player.prototype.notif = function (vehicle, message) {
+    const modelName = vehicle.getNameByHash().capitalizeFirstLetter();
+    alt.emitClient(this, "notificationRaw", "CHAR_CARSITE", "Garage", modelName, message);
+};
+
+String.prototype.capitalizeFirstLetter = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+// alt.Player.prototype.repairNearestVehicle = function () {
+//     const eventName = `vehicle:nearest-${player.id}`;
+//     alt.emitClient(player, "vehicle:getNearest");
+//     const clientHandler = function (player, veh) {
+//         alt.clearTimeout(timeout);
+//         clearEvent();
+//         repair(veh);
+//     };
+//     const repair = function (veh) {
+//         veh.repair();
+//         player.notif(veh, "~g~Réparé");
+//     };
+//     const clearEvent = function () {
+//         alt.offClient(eventName, clientHandler);
+//     };
+//     const timeout = alt.setTimeout(clearEvent, 2000);
+//     alt.onClient(eventName, clientHandler);
+// }
+
+alt.Player.prototype.getNearestVehicle = async function () {
+    return new Promise((resolve, reject) => {
+        const eventName = `vehicle:nearest-${player.id}`;
+        console.log(eventName);
+        alt.emitClient(player, "vehicle:getNearest");
+        alt.onClient(eventName, handler);
+        const handler = function (player, veh) {
+            alt.clearTimeout(timeout);
+            alt.offClient(eventName, handler);
+            if (veh.valid) resolve(veh);
+            else reject();
+        };
+        const timeout = alt.setTimeout(() => {
+            alt.offClient(eventName, handler);
+            reject();
+        }, 2000);
+    });
+};
+
 //  function initSpawn () {
 //      if (db.isReady() && !alt.Vehicle.all.length)
 //          spawnStored()

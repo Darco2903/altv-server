@@ -38,11 +38,11 @@ alt.onServer("vehicle:setSpeed", (vehicle, speed) => {
     alt.Utils.waitFor(() => player.vehicle, 2000).then(() => native.setVehicleForwardSpeed(vehicle, parseFloat(speed)));
 });
 
-alt.onServer("vehicle:nearest", () => {
-    let pos = player.pos;
-    let vehId = native.getClosestVehicle(pos.x, pos.y, pos.z, 50, 0, 70);
+alt.onServer("vehicle:nearest", (range) => {
+    let vehId = native.getClosestVehicle(...player.pos.toArray(), range || 50, 0, 70);
     let veh = alt.Vehicle.getByScriptID(vehId);
-    //alt.emitServer("vehicle:nearest", veh)
+    console.log(`vehicle:nearest-${player.id}`);
+    alt.emitServer(`vehicle:nearest-${player.id}`, veh);
 });
 
 alt.on("carManager:repair", () => {

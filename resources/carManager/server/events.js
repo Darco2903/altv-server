@@ -47,3 +47,28 @@ alt.onClient("sendDataToServer", (player, { mods, wheels, colors, neons, plate }
 alt.onClient("vehicle:repair", (player, vehicle) => {
     vehicle.repair();
 });
+
+alt.onClient("vehicle:despawn", async (player, vehicle) => {
+    const veh = vehicle || player.vehicle;
+    if (!veh) return;
+    // if (veh.hasSyncedMeta("id")) await veh.save();
+    veh.destroy();
+    // player.notif(vehicle, "~g~Disparition");
+});
+alt.onClient("vehicle:register", (player, vehicle) => {
+    const veh = vehicle || player.vehicle;
+    if (!veh) return;
+    if (veh.hasSyncedMeta("id")) player.notif(veh, `~r~Déjà enregistré\n ID [${veh.getSyncedMeta("id")}]res`);
+    veh.register(player)
+        .then((id) => player.notif(veh, `~g~Enregistré avec succès\navec l'id [${id}]`))
+        .catch(() => player.notif(veh, "~r~Erreur lors de l'enregistrement\nVeuillez réessayer"));
+});
+
+alt.onClient("vehicle:delete", (player, vehicle) => {
+    const veh = vehicle || player.vehicle;
+    if (!veh || !veh.hasSyncedMeta("id")) return;
+    const id = veh.getSyncedMeta("id");
+    veh.delete()
+        .then(() => player.notif(veh, `~g~[${id}] Supprimé avec succès`))
+        .catch(() => player.notif(veh, "~r~Erreur lors de la suppression\nVeuillez réessayer"));
+});
