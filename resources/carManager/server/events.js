@@ -44,19 +44,20 @@ alt.onClient("sendDataToServer", (player, { mods, wheels, colors, neons, plate }
     veh.saveAppearance();
 });
 
-alt.onClient("vehicle:repair", (player, vehicle) => {
-    const veh = vehicle ? vehicle : player.vehicle;
-    if (!veh) return;
-    veh.repair();
-    // player.notif(vehicle, "~g~Comme neuve");
-});
-
-alt.onClient("vehicle:despawn", async (player, vehicle) => {
+function repairVehicle(player, vehicle) {
     const veh = vehicle || player.vehicle;
     if (!veh) return;
-    // if (veh.hasSyncedMeta("id")) await veh.save();
+    veh.repair();
+    player.notif(veh, "~g~Réparé");
+}
+
+alt.on("vehicle:repair", repairVehicle);
+alt.onClient("vehicle:repair", repairVehicle);
+
+alt.onClient("vehicle:despawn", (player, vehicle) => {
+    const veh = vehicle || player.vehicle;
+    if (!veh) return;
     veh.destroy();
-    // player.notif(vehicle, "~g~Disparition");
 });
 alt.onClient("vehicle:register", (player, vehicle) => {
     const veh = vehicle || player.vehicle;

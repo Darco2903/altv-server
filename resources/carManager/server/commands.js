@@ -23,12 +23,8 @@ chat.registerCmd("clearveh", (player) => {
 
 chat.registerCmd("repair", async (player) => {
     let vehicle = player.vehicle || (await player.getNearestVehicle());
-    if (!vehicle) {
-        alt.emitClient(player, "notificationRaw", "CHAR_BLOCKED", "Erreur", "", "Aucun véhicule à proximité trouvé");
-        return;
-    }
-    vehicle.repair();
-    player.notif(vehicle, "~g~Réparé");
+    if (vehicle && vehicle.valid) alt.emit("vehicle:repair", player, vehicle);
+    else alt.emitClient(player, "notificationRaw", "CHAR_BLOCKED", "Erreur", "Réparer", "Aucun véhicule trouvé");
 });
 
 chat.registerCmd("setappearance", (player, [hash]) => {
