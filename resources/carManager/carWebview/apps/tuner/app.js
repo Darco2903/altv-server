@@ -9,7 +9,6 @@ import windowTints from "./data/windowTints.json" assert { type: "json" };
 import xenonColors from "./data/xenonColors.json" assert { type: "json" };
 
 let appLoaded;
-
 let htmlGenerated = document.querySelector("generated");
 const nodeList = document.querySelectorAll("button");
 const buttonList = Array.prototype.slice.call(nodeList);
@@ -25,8 +24,9 @@ for (const button of buttonList) {
     button.onclick = function () {
         const id = button.id;
         switch (id) {
-            case "stock":
+            case "exit":
             case "restore":
+            case "stock":
                 alt.emit(id, appLoaded);
                 break;
 
@@ -40,10 +40,8 @@ for (const button of buttonList) {
 alt.on("app", appManager);
 
 function appManager(app, data) {
-    //  const [app, data] = res;
-    //  if (app == appLoaded) return
-    htmlGenerated.replaceChildren();
-    appLoaded = null;
+    if (app === appLoaded) return;
+    htmlGenerated.innerHTML = "";
     for (const but of buttonList) but.className = "unselected";
     document.getElementById(app).className = "selected";
     switch (app) {
@@ -68,8 +66,9 @@ function appManager(app, data) {
             break;
 
         default:
-            break;
+            return;
     }
+    appLoaded = app;
 }
 
 let divSlider = document.getElementById("divSlider");
@@ -120,7 +119,6 @@ function createSeparator() {
 }
 
 function initMods(modsData) {
-    appLoaded = "mods";
     Object.entries(modsData).forEach(([modType, { count, name, num }]) => {
         modType = parseInt(modType);
         name = name ? name : modList[modType];
@@ -164,7 +162,6 @@ function initMods(modsData) {
 ///////////////////////////////////////////////////////////////////////////
 
 function initWheels({ type, num, color, drift /* TEST , camber, track: [trackFront, trackRear] */ }) {
-    appLoaded = "wheels";
     num++;
 
     function emitWheels() {
@@ -235,7 +232,7 @@ function initWheels({ type, num, color, drift /* TEST , camber, track: [trackFro
     let htmlTireExtraSelector = document.createElement("select");
 
     htmlTireExtraSelector.clearOptions = function () {
-        for (let index in this.options) this.options.remove(0);
+        while (this.options.length) this.options.remove(0);
     };
 
     htmlTireExtraSelector.setOptions = function (arr) {
@@ -368,8 +365,6 @@ function initWheels({ type, num, color, drift /* TEST , camber, track: [trackFro
 ///////////////////////////////////////////////////////////////////////////
 
 function initColors(data) {
-    appLoaded = "colors";
-
     let { primary, secondary } = data;
 
     function emitColors() {
@@ -566,7 +561,6 @@ function initColors(data) {
 ///////////////////////////////////////////////////////////////////////////
 
 function initNeons(data) {
-    appLoaded = "neons";
     let { color, enabled } = data;
 
     let [label, checkbox] = createCheckbox(enabled);
@@ -593,8 +587,6 @@ function initNeons(data) {
 ///////////////////////////////////////////////////////////////////////////
 
 function initPlate(data) {
-    appLoaded = "plate";
-
     let { plateIndex, plateText } = data;
 
     function emitPlate() {
@@ -625,7 +617,7 @@ function initPlate(data) {
     htmlInputPlateText.value = plateText;
 
     htmlInputPlateText.oninput = function () {
-        if (this.value.length > 8 || !onlyLettersNumbersSpace(this.value)) {
+        if (this.value.length > 8 || (!onlyLettersNumbersSpace(this.value) && this.value)) {
             this.value = plateText;
             return;
         }

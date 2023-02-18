@@ -19,7 +19,7 @@ alt.on("keyup", (key) => {
             if (!webview.isVisible) return;
         //fall through
         case 75: // K
-            if (alt.isConsoleOpen() || !alt.getMeta("controlsEnabled") && !webview.isVisible) return;
+            if (alt.isConsoleOpen() || (!alt.getMeta("controlsEnabled") && !webview.isVisible)) return;
             toogleMenu();
             break;
 
@@ -50,7 +50,6 @@ function toogleMenu() {
 }
 
 function update() {
-    alt.emit("menuOpen");
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
     webview.emit("vehicle", player.vehicle && player.vehicle.valid);
@@ -58,9 +57,10 @@ function update() {
 }
 
 function toogleControls(state) {
+    alt.setMeta("controlsEnabled", state);
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
-        webview.toogleChat(state);
+        // webview.toogleChat(state);
         webview.toogleOnlyVehMove(state);
     }
 }

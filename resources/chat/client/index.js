@@ -47,12 +47,12 @@ alt.onServer("chat:message", pushMessage);
 
 alt.on("keyup", (key) => {
     if (loaded) {
-        if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
+        if (!opened && key === 0x54 && areControlsEnabled()) {
             opened = true;
             view.emit("openChat", false);
             alt.toggleGameControls(false);
             view.focus();
-        } else if (!opened && key === 0xbf && alt.gameControlsEnabled()) {
+        } else if (!opened && key === 0xbf && areControlsEnabled()) {
             opened = true;
             view.emit("openChat", true);
             alt.toggleGameControls(false);
@@ -66,6 +66,6 @@ alt.on("keyup", (key) => {
     }
 });
 
-alt.on("chat:toogle", (state) => {
-    opened = !state;
-});
+function areControlsEnabled() {
+    return alt.gameControlsEnabled() && alt.getMeta("controlsEnabled");
+}

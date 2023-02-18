@@ -1,49 +1,44 @@
-import * as alt from 'alt-server';
-import * as chat from 'chat';
-import * as db from "database"
+import * as alt from "alt-server";
+import * as chat from "chat";
+import * as db from "database";
 //import { color } from "server-extended"
 //import { Functions } from "exports"
-import Vehicle from './Vehicle';
-
+import Vehicle from "./Vehicle";
 
 ///////////////////////////////
 
-
-export function serverStartVehicleSpawn () {
-    db.selectData("Vehicle", ['id', 'model', 'position', 'rotation', 'owner', 'appearance', 'garage'], data => {
-        if (!data)
-            return
-        data.forEach(data => {
-            Object.keys(data).forEach(function(key) {
-                data[key] = JSON.parse(data[key])
-            })
-            const { id, model, owner, position, rotation, appearance, garage } = data
-            if (!data.garage.inGarage)
-                new Vehicle(model, position, rotation, id, owner, appearance, garage)
-        })
-        log("All vehicle spawned")
-    })
+export function serverStartVehicleSpawn() {
+    db.selectData("Vehicle", ["id", "model", "position", "rotation", "owner", "appearance", "garage"], (data) => {
+        if (!data) return;
+        data.forEach((data) => {
+            Object.keys(data).forEach(function (key) {
+                data[key] = JSON.parse(data[key]);
+            });
+            const { id, model, owner, position, rotation, appearance, garage } = data;
+            if (!data.garage.inGarage) new Vehicle(model, position, rotation, id, owner, appearance, garage);
+        });
+        log("All vehicle spawned");
+    });
 }
 
-export function log (msg) {
-    alt.log(color.FgCyan + msg)
+export function log(msg) {
+    alt.log(color.FgCyan + msg);
 }
 
-export function createVehicle (player, model) {
-    let pos = Functions.vectorFormat(player.pos)
-    pos.x += 2
-    new Vehicle(model, pos, {x: 0, y: 0, z:0}, null, player.name, null, {inGarage: false})
+export function createVehicle(player, model) {
+    let pos = Functions.vectorFormat(player.pos);
+    pos.x += 2;
+    new Vehicle(model, pos, { x: 0, y: 0, z: 0 }, null, player.name, null, { inGarage: false });
 }
 
-
-export function vehCatch (player, x) {
+export function vehCatch(player, x) {
     switch (x) {
         case "noVeh":
-            chat.send(player, "{ff8f00}Entrez dans un vehicule avant d'utiliser cette commande")
+            chat.send(player, "{ff8f00}Entrez dans un vehicule avant d'utiliser cette commande");
             break;
-        
+
         case "notOwner":
-            chat.send(player, "{ff8f00}Ce n'est pas votre véhicule")
+            chat.send(player, "{ff8f00}Ce n'est pas votre véhicule");
             break;
 
         default:
@@ -144,36 +139,34 @@ export function neons (player, neons) {
 }
 */
 
-
-export function tpVehicle (veh, pos, rot, engine) {
+export function tpVehicle(veh, pos, rot, engine) {
     return new Promise((spawned) => {
-        veh.setSyncedMeta('position', pos)
-        if (rot) veh.setSyncedMeta('rotation', rot)
-        else rot = {x: 0, y:0, z:0}
+        veh.setSyncedMeta("position", pos);
+        if (rot) veh.setSyncedMeta("rotation", rot);
+        else rot = { x: 0, y: 0, z: 0 };
 
-        const vehData = getVehData(veh)
-        alt.log(vehData)
+        const vehData = getVehData(veh);
+        alt.log(vehData);
         spawnVehicle(vehData).then((newVeh) => {
-            const engine = veh.engineOn
+            const engine = veh.engineOn;
             setTimeout(() => {
-                newVeh.engineOn = engine
+                newVeh.engineOn = engine;
             }, 500);
-            veh.destroy()
-            spawned(newVeh)
-        })
-    })
+            veh.destroy();
+            spawned(newVeh);
+        });
+    });
 }
 
-export function tpmVehicle (player, veh, pos) {
-    player.spawn(pos)
+export function tpmVehicle(player, veh, pos) {
+    player.spawn(pos);
     tpVehicle(veh, pos).then((newVeh) => {
         ////    setTimeout(alt.emitClient, 400, player, "vehicle:SetPlayerIn", newVeh)
         //  setTimeout(() => {
-        //      alt.emitClient(player, 'vehicle:SetPlayerIn', (newVeh))    
+        //      alt.emitClient(player, 'vehicle:SetPlayerIn', (newVeh))
         //  }, 400);
-    })
+    });
 }
-
 
 /*
 alt.onClient('vehicleToGarage:Found', (player, veh) => {
@@ -211,12 +204,13 @@ export function getVehData (veh) {
 }
 */
 
-export function getPersonnalVehData (player) { // return all vehcile player own
-    let playerVehList = []
-    const vehList = alt.Vehicle.all
-    vehList.sort()
-    vehList.forEach(veh => {
-        if (veh.getSyncedMeta('owner') == player.name) playerVehList.push([veh.model, veh])
-    })
-    return playerVehList
+export function getPersonnalVehData(player) {
+    // return all vehcile player own
+    let playerVehList = [];
+    const vehList = alt.Vehicle.all;
+    vehList.sort();
+    vehList.forEach((veh) => {
+        if (veh.getSyncedMeta("owner") == player.name) playerVehList.push([veh.model, veh]);
+    });
+    return playerVehList;
 }

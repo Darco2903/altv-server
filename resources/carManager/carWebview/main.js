@@ -4,4 +4,3 @@ import * as native from "natives";
 import "./WebView";
 import "./apps/spawner/spawner";
 import "./apps/tuner/tuner";
-

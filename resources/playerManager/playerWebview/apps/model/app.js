@@ -22,13 +22,15 @@ function modelDiv(model) {
 }
 
 //  createAll model div
-peds.concat(freemod).concat(mods).forEach((model) => {
-    document.getElementById(model.Pedtype).appendChild(modelDiv(model));
-});
+peds.concat(freemod)
+    .concat(mods)
+    .forEach((model) => {
+        document.getElementById(model.Pedtype).appendChild(modelDiv(model));
+    });
 
 //  blockSpaceScrollEvent
 window.addEventListener("keydown", (key) => {
-    if (key.code == 32 && key.target == document.body) key.preventDefault();
+    if (key.code === "Space") key.preventDefault();
 });
 
 const searchInput = document.querySelector("input");

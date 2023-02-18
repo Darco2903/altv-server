@@ -8,10 +8,11 @@ const player = alt.Player.local;
 
 let webview = new alt.WebView("http://resource/apps/tuner/index.html", false);
 webview.isVisible = false;
-webview.on("look", setCamPos);
+
 webview.on("startApp", startApp);
-webview.on("stock", setStock);
+webview.on("exit", close);
 webview.on("restore", restoreAll);
+webview.on("stock", setStock);
 webview.on("setMod", (modType, modId) => player.vehicle.setMod(modType, modId));
 webview.on("toogleMod", (modType, state) => player.vehicle.toogleMod(modType, state));
 webview.on("setWheels", (wheelsData) => player.vehicle.setWheels(wheelsData));
@@ -20,10 +21,9 @@ webview.on("setNeons", (neonsData) => player.vehicle.setNeons(neonsData));
 webview.on("setPlate", (plateData) => player.vehicle.setPlate(plateData));
 
 alt.on("carManager:tuner", open);
-alt.on("menuOpen", close);
 
 function keyHandler(key) {
-    if (webview.isVisible && key == 27) close(); // ESC
+    if (key == 27) close(); // ESC
 }
 
 function setCamPos(heading, pitch, scalingFactor = 0.5) {
