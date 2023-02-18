@@ -2,6 +2,13 @@ let htmlClassList = document.getElementById("classList");
 const vehDivTemplate = document.getElementById("template").querySelector(".vehicle");
 const defaultImage = "./imgs/_notfound.webp";
 
+if (window.alt === undefined) {
+    window.alt = {
+        emit: () => {},
+        on: () => {},
+    };
+}
+
 function vehicleDiv(veh) {
     const div = vehDivTemplate.cloneNode(true);
     const img = div.querySelector("img");
@@ -45,7 +52,7 @@ const spawnButtons = document.getElementsByClassName("button");
 for (const but of spawnButtons) {
     but.onerror = () => (but.src = defaultImage);
     but.onclick = () => {
-        if ("alt" in window) alt.emit("spawnVehicle", but.id);
+        alt.emit("spawnVehicle", but.id);
     };
 }
 
