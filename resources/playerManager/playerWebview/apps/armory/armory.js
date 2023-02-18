@@ -13,10 +13,9 @@ webview.on("giveWeapon", (hash, amount, equipNow) => {
 });
 
 alt.on("playerManager:armory", open);
-alt.on("menuOpen", close);
 
 function keyHandler(key) {
-    if (key == 27) close();
+    if (key == 27) close(); // ESC
 }
 
 function open() {
@@ -34,9 +33,7 @@ function close() {
 }
 
 async function toogleControls(state) {
+    alt.setMeta("controlsEnabled", state);
     if (!player.vehicle) alt.toggleGameControls(state);
-    else {
-        webview.toogleChat(state);
-        webview.toogleOnlyVehMove(state);
-    }
+    else webview.toogleOnlyVehMove(state);
 }

@@ -2,12 +2,10 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 alt.WebView.prototype.toogle = function (state) {
-    // console.log(state);
-    setTimeout(() => (this.isVisible = state), 100);
+    this.isVisible = state;
     alt.showCursor(state);
     if (state) this.focus();
     else this.unfocus();
-    alt.setMeta("webviewBlock", state ? this : null);
 };
 
 alt.WebView.prototype.centerPointer = function () {
@@ -15,20 +13,13 @@ alt.WebView.prototype.centerPointer = function () {
     alt.setCursorPos(cursosPos);
 };
 
-alt.WebView.prototype.toogleChat = function (state) {
-    alt.emit("chat:toogle", state);
-};
-
 alt.WebView.prototype.toogleOnlyVehMove = function (state) {
-    // console.log(!!this.onlyVehMoveTick, state);
-    alt.setMeta("controlsEnabled", state && alt.gameControlsEnabled());
     switch (true) {
         case this.onlyVehMoveTick && !state:
         case !this.onlyVehMoveTick && state:
             break;
 
         case !!this.onlyVehMoveTick:
-            // console.log("clear");
             alt.clearEveryTick(this.onlyVehMoveTick);
             this.onlyVehMoveTick = null;
             break;

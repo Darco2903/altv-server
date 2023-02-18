@@ -24,7 +24,8 @@ function toogle(state) {
     }
 }
 
-toogle(player.vehicle);
+alt.on("spawned", () => toogle(player.vehicle));
+alt.on("resourceStart", () => toogle(player.vehicle));
 
 alt.on("enteredVehicle", (vehicle, seat) => {
     toogle(true);

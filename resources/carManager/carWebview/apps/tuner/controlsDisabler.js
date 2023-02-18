@@ -2,7 +2,7 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 alt.WebView.prototype.tunerControlsDisabled = function (state) {
-    alt.setMeta("controlsEnabled", state && alt.gameControlsEnabled());
+    alt.setMeta("controlsEnabled", state);
     switch (true) {
         case this.tunerControls && !state:
         case !this.tunerControls && state:
@@ -18,15 +18,12 @@ alt.WebView.prototype.tunerControlsDisabled = function (state) {
                 native.disableAllControlActions(0);
                 native.enableControlAction(0, 74, true); //  INPUT_VEH_HEADLIGHT
                 native.enableControlAction(0, 86, true); //  INPUT_VEH_HORN
-                if (alt.isKeyDown(2)) { //  RIGHT_CLICK
+                if (alt.isKeyDown(2) /* RIGHT_CLICK */) {
                     if (alt.isCursorVisible()) alt.showCursor(false);
                     native.enableControlAction(0, 1, true); //  INPUT_LOOK_LR
                     native.enableControlAction(0, 2, true); //  INPUT_LOOK_UD
                 } else {
-                    if (!alt.isCursorVisible()) {
-                        alt.showCursor(true);
-                        // this.centerPointer();
-                    }
+                    if (!alt.isCursorVisible()) alt.showCursor(true);
                 }
             });
             break;

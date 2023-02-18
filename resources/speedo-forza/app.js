@@ -140,7 +140,6 @@ class Icon {
 
 const speedoCanvas = document.querySelector("canvas");
 const ctx = speedoCanvas.getContext("2d");
-// console.log(handbrakeDisplay);
 let handbrakeIcon = new Icon(-80, 47.5, 10, 150 * 1 + 10 * 2, 17.5, 17.5, 2);
 const state = 2;
 
@@ -159,7 +158,6 @@ let handbrakeState;
 function setHandBrake(state) {
     if (handbrakeState == state) return;
     handbrakeState = state;
-    console.log("hanbrake");
     ctx.clearRect(0, 0, speedoCanvas.width, speedoCanvas.height);
     ctx.save();
     ctx.translate(185, 65);
@@ -181,7 +179,6 @@ alt.on("updateHUD", (data) => {
     rpmShow.setAttribute("data-value", data.rpm);
     speedDisplay.innerHTML = calcSpeed(data.speed);
     calcGear(data.gear, data.rpm);
-    // console.log(data.abs);
     setAbs(data.abs);
     setHandBrake(data.handbrake);
 });

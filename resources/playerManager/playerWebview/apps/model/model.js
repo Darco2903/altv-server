@@ -15,14 +15,12 @@ webview.on("setPlayerModel", async (hash) => {
     setCam();
     console.log("seat", seat);
     if (veh) native.setPedIntoVehicle(player, veh, seat - 2);
-    // close();
 });
 
 alt.on("playerManager:model", open);
-alt.on("menuOpen", close);
 
 function keyHandler(key) {
-    if (key == 27) close();
+    if (key == 27) close(); // ESC
 }
 
 function open() {
@@ -38,15 +36,13 @@ function close() {
     alt.off("keyup", keyHandler);
     webview.toogle(false);
     toogleControls(true);
-    alt.emitServer("player:SaveModel")
+    alt.emitServer("player:SaveModel");
 }
 
 async function toogleControls(state) {
+    alt.setMeta("controlsEnabled", state);
     if (!player.vehicle) alt.toggleGameControls(state);
-    else {
-        webview.toogleChat(state);
-        webview.toogleOnlyVehMove(state);
-    }
+    else webview.toogleOnlyVehMove(state);
 }
 
 function setCam() {

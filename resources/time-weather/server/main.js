@@ -63,7 +63,7 @@ function saveServerData() {
     });
 }
 
-function timeCommand(time) {
+function timeCommand(player, time) {
     let hour;
     switch (!isNaN(time) || time) {
         case time >= 0 && time < 24:
@@ -95,7 +95,7 @@ chat.registerCmd("time", (player, [parameter, value]) => {
 
     switch (parameter) {
         case "set":
-            timeCommand(value);
+            timeCommand(player, value);
             break;
 
         case "start":

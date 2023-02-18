@@ -50,7 +50,6 @@ function toogleMenu() {
 }
 
 function update() {
-    alt.emit("menuOpen");
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
     webview.emit("vehicle", !!player.vehicle);
@@ -59,9 +58,10 @@ function update() {
 }
 
 function toogleControls(state) {
+    alt.setMeta("controlsEnabled", state);
     if (!player.vehicle) alt.toggleGameControls(state);
     else {
-        webview.toogleChat(state);
+        // webview.toogleChat(state);
         webview.toogleOnlyVehMove(state);
     }
 }

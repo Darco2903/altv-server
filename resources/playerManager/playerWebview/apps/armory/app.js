@@ -31,7 +31,7 @@ Object.entries(weapons).forEach(([key, weapon]) => {
 
 //  blockSpaceScrollEvent
 window.addEventListener("keydown", (key) => {
-    if (key.code == 32 && key.target == document.body) key.preventDefault();
+    if (key.code === "Space") key.preventDefault();
 });
 
 document.getElementById("all").onclick = () => alt.emit("giveAll");
