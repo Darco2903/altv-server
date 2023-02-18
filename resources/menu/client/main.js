@@ -52,7 +52,8 @@ function toogleMenu() {
 function update() {
     webview.centerPointer();
     webview.emit("resources", getResourceNames());
-    webview.emit("vehicle", player.vehicle && player.vehicle.valid);
+    webview.emit("vehicle", !!player.vehicle);
+    if (player.vehicle) webview.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
     webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 

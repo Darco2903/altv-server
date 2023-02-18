@@ -9,15 +9,7 @@ function log(msg) {
 alt.Vehicle.prototype.init = function () {
     this.manualEngineControl = true;
     this.modKit = +(this.modKitsCount > 0);
-    this.setSyncedMeta("kmAge", 0);
-};
-
-alt.Vehicle.prototype.initWithData = function (id, appearance) {
-    this.setSyncedMeta("id", id);
-    //this.setMeta("appearance", appearance)
-    this.setAppearanceDataBase64(appearance);
-    //veh.("owner") = owner
-    //veh.garage = garage
+    // this.setSyncedMeta("kmAge", 0);
 };
 
 alt.Vehicle.prototype.getAllData = function () {
@@ -25,8 +17,6 @@ alt.Vehicle.prototype.getAllData = function () {
         id: this.getSyncedMeta("id"),
         model: this.getMeta("model"),
     };
-    console.log(Object.assign(data, this.getDataToSave()));
-    console.log(data);
     return data;
 };
 
@@ -34,9 +24,9 @@ alt.Vehicle.prototype.getDataToSave = function () {
     const data = {
         pos: JSON.stringify(this.pos.toFixed(2).toArray()),
         rot: JSON.stringify(this.rot.toFixed(2).toArray()),
-        //owner: this.owner,
-        //appearance: this.getAppearanceDataBase64(),
-        //garage: this.garage
+        // owner: this.owner,
+        // appearance: this.getAppearanceDataBase64(),
+        // garage: this.garage
     };
     return data;
 };
@@ -48,14 +38,13 @@ alt.Vehicle.prototype.getVehMods = function () {
     return modData;
 };
 
-alt.Vehicle.prototype.setAllMods = function (data) {
-    // data = [[modType, modNum]]
+alt.Vehicle.prototype.setAllMods = function (data) /* [[modType, modNum]] */ {
     data.forEach(([modType, modNum]) => {
         try {
             this.setMod(modType, modNum);
         } catch (error) {
-            console.log("type", modType, "num", modNum);
-            console.log(error);
+            alt.logWarning("type", modType, "num", modNum);
+            alt.logWarning(error);
         }
     });
 };
@@ -116,51 +105,67 @@ alt.Vehicle.prototype.parseJSON = function (data) {
 };
 
 alt.Vehicle.prototype.register = function (player) {
-    const model = this.getMeta("model");
-    if (this.getSyncedMeta("id")) {
-        log("Vehicle already registered");
-        chat.send(player, `{ff8f00}${model} déjà enregistré`);
-        return;
-    }
-    const owner = player.getSyncedMeta("id");
-    db.upsertData({ model, owner }, "Vehicle", (res) => {
-        this.setSyncedMeta("id", res.id);
-        this.setMeta("owner", owner);
-        this.save();
-        this.saveAppearance();
-        db.log(`${model} registered in database with id: ${res.id}`);
-        chat.send(player, `{00ff00}${model} enregistré`);
+    return new Promise((resolve, reject) => {
+        const model = this.getNameByHash();
+        const owner = player.getSyncedMeta("id");
+        db.upsertData({ model, owner }, "Vehicle", (res) => {
+            if (!res || !res.id) {
+                reject();
+                return;
+            }
+            this.setSyncedMeta("id", res.id);
+            this.setMeta("owner", owner);
+            // this.save();
+            this.saveAppearance();
+            resolve(res.id);
+            db.log(`${player.name} ${model} registered in database with id: ${res.id}`);
+        });
     });
 };
 
 alt.Vehicle.prototype.delete = function () {
-    db.deleteByIds(this.getSyncedMeta("id"), "Vehicle", (callback) => {
-        //  return +(typeof(callback) != "object")
-        //  if (!callback)
-        //      db.log(`${this.modelName} deleted from database`)
-        //  else
-        //      alt.logError(`${this.modelName} has not been deleted from database\nCause:\n${callback}`)
+    return new Promise((resolve, reject) => {
+        const id = this.getSyncedMeta("id");
+        db.deleteByIds(id, "Vehicle", (res) => {
+            if (!res || !res.affected) {
+                reject();
+                return;
+            }
+            this.deleteSyncedMeta("id");
+            resolve();
+            db.log(`${this.getNameByHash()} id: ${id} deleted from database`);
+        });
     });
 };
 
 alt.Vehicle.prototype.save = function () {
-    if (!this.getSyncedMeta("id") /*|| this.garage.inGarage*/)
-        //update only if registered and veh is out garage
-        return;
-    const data = this.getDataToSave();
-    db.updatePartialData(this.getSyncedMeta("id"), data, "Vehicle", (callback) => {
-        //  return +(typeof(callback) != "object")
-        //  if (typeof(callback) == "object")
-        //      db.log(`${this.modelName} saved in database`)
-        //  else
-        //      alt.logError(`${this.modelName} has not been saved in database\nCause:\n${callback}`)
+    return new Promise((resolve, reject) => {
+        const id = this.getSyncedMeta("id");
+        db.updatePartialData(id, this.getDataToSave(), "Vehicle", (res) => {
+            if (!res || !res.affected) {
+                reject();
+                return;
+            }
+            db.log(`${this.getNameByHash()} id: ${id} saved in database`);
+            resolve();
+        });
     });
 };
 
 alt.Vehicle.prototype.saveAppearance = function () {
-    if (!this.getSyncedMeta("id"))
-        //update only if registered
-        return;
-    const appearance = this.getAppearanceDataBase64();
-    db.updatePartialData(this.getSyncedMeta("id"), { appearance }, "Vehicle", (callback) => {});
+    return new Promise((resolve, reject) => {
+        const appearance = this.getAppearanceDataBase64();
+        db.updatePartialData(this.getSyncedMeta("id"), { appearance }, "Vehicle", (res) => {
+            if (!res || !res.affected) reject();
+            else resolve();
+        });
+    });
+};
+
+alt.Vehicle.prototype.getNameByHash = function () {
+    return alt.getVehicleModelInfoByHash(this.model).title;
+};
+
+alt.Vehicle.prototype.getDataById = function (id) {
+    return new Promise((resolve, reject) => {});
 };

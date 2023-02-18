@@ -49,3 +49,9 @@ Player.prototype.save = function () {
 Player.prototype.respawn = function () {
     this.spawn(this.pos);
 };
+
+Player.prototype.getVehiclesSaved = async function () {
+    db.fetchAllByField("owner", this.getSyncedMeta("id"), "Vehicle", (res) => {
+        alt.emitClient(this, "playerGarage", res);
+    });
+};

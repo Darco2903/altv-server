@@ -32,9 +32,9 @@ strong {
     gap: 5vh;
 }
 
-#searchList {
+#searchList,
+#garageList {
     margin-left: 1.5vw;
-    /* margin-right: 1.5vw; */
     margin-top: 8vh;
     margin-bottom: 1.5vh;
 }
@@ -51,7 +51,8 @@ strong {
 }
 
 .vehClass,
-#searchList {
+#searchList,
+#garageList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -77,10 +78,42 @@ strong {
     user-select: none;
 }
 
-div.search {
-    position: absolute;
-    right: 1.5vw;
-    top: 0;
+div#options {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 3vw;
+    position: fixed;
+    height: 5vh;
+    width: 93%;
+}
+
+div#vehList {
+    display: flex;
+    gap: 1vw;
+}
+
+div#search {
+    bottom: 1vh;
+}
+
+button {
+    background-color: var(--color2);
+    padding: 0.8vh 0.4vw;
+    border-radius: 15px;
+    border: none;
+    font-size: 0.75vw;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}
+
+button:hover {
+    background-color: var(--color2-hover);
+}
+
+button:active {
+    background-color: var(--color2-active);
 }
 
 .form__group {

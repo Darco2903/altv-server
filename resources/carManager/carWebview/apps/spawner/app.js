@@ -20,7 +20,7 @@ vehicles.concat(mods).forEach((veh) => {
 
 //  blockSpaceScrollEvent
 window.addEventListener("keydown", (key) => {
-    if (key.code == 32 && key.target == document.body) key.preventDefault();
+    if (key.code === "Space") key.preventDefault();
 });
 
 const searchInput = document.querySelector("input");
@@ -41,10 +41,41 @@ for (const vehDiv of document.querySelectorAll(".vehicle")) htmlSearch.append(ve
 searchVehDiv = Array.from(htmlSearch.children);
 
 //  addButtonListeners
-let buttons = document.getElementsByClassName("button");
-for (const but of buttons) {
+const spawnButtons = document.getElementsByClassName("button");
+for (const but of spawnButtons) {
     but.onerror = () => (but.src = defaultImage);
     but.onclick = () => {
         if ("alt" in window) alt.emit("spawnVehicle", but.id);
     };
 }
+
+const garageSwitch = document.getElementById("garageSwitch");
+const garageDiv = document.getElementById("garageList");
+garageSwitch.onclick = () => {
+    const garage = garageDiv.getAttribute("notInSelection") == "true";
+    garageSwitch.innerHTML = garage ? "Nouveau" : "Garage";
+    garageDiv.setAttribute("notInSelection", !garage);
+    htmlClassList.setAttribute("notInSelection", garage);
+    htmlSearch.setAttribute("notInSelection", garage);
+};
+
+let garageList;
+alt.on("garageList", (res) => {
+    if (garageList === res) return;
+    for (const img of garageDiv.querySelectorAll("img")) img.onclick = null;
+    garageDiv.innerHTML = "";
+    garageList = res;
+    garageList.forEach((veh) => {
+        const div = vehDivTemplate.cloneNode(true);
+        const img = div.querySelector("img");
+        img.src += `${veh.model}.webp`;
+        img.onerror = () => (img.src = defaultImage);
+        // img.src += `${path}${veh.model}.webp`;
+        img.id = veh.id;
+        // div.querySelector("strong").innerHTML = veh.DisplayName;
+        img.onclick = () => alt.emit("spawnGarageVehicle", img.id);
+        div.querySelector("strong").innerHTML = `[${veh.id}] ${veh.model}`;
+        div.id = veh.model;
+        garageDiv.append(div);
+    });
+});

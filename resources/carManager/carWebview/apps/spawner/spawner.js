@@ -54,3 +54,11 @@ alt.onServer("playerGarage", (res) => {
 function notSameVeh(model, id) {
     return (!player.vehicle.hasSyncedMeta("id") && player.vehicle.model != model) || (player.vehicle.hasSyncedMeta("id") && player.vehicle.getSyncedMeta("id") != id);
 }
+
+function updateGarage() {
+    alt.emitServer("getPlayerVehicles");
+}
+
+alt.onServer("playerGarage", (res) => {
+    webview.emit("garageList", res);
+});
