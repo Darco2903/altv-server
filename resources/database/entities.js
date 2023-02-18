@@ -72,7 +72,7 @@ export const Vehicle = new orm.EntitySchema({
             nullable: true
         },
         owner: {
-            type: 'text',
+            type: 'int',
             nullable: true
         },
         appearance: {

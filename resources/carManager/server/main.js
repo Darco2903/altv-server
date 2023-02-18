@@ -20,56 +20,23 @@ String.prototype.capitalizeFirstLetter = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-alt.Player.prototype.getNearestVehicle = async function () {
+alt.Player.prototype.getNearestVehicle = function () {
+    const eventName = `vehicle:nearest`;
+    return this.getDataFromClient(eventName);
+};
+
+alt.Player.prototype.getDataFromClient = function (eventName) {
     return new Promise((resolve, reject) => {
-        const eventName = `vehicle:nearest-${this.id}`;
-        const handler = function (player, veh) {
+        alt.emitClient(this, `${eventName}-get`);
+        const handler = function (player, res) {
             alt.clearTimeout(timeout);
-            alt.offClient(eventName, handler);
-            if (veh && veh.valid) resolve(veh);
+            if (res) resolve(res);
             else resolve();
         };
-        alt.emitClient(this, "vehicle:getNearest");
-        alt.onClient(eventName, handler);
+        alt.onceClient(`${eventName}-${this.id}`, handler);
         const timeout = alt.setTimeout(() => {
-            alt.offClient(eventName, handler);
+            alt.offClient(`${eventName}-${this.id}`, handler);
             resolve();
         }, 2000);
     });
 };
-
-//  function initSpawn () {
-//      if (db.isReady() && !alt.Vehicle.all.length)
-//          spawnStored()
-//  }
-
-//  function spawnStored () {
-//      return
-//      db.fetchAllData("Vehicle", (dataArray) => {
-//          if (!dataArray) return
-//          dataArray.forEach((data) => {
-//              data.pos = new alt.Vector3(JSON.parse(data.pos))
-//              data.rot = new alt.Vector3(JSON.parse(data.rot))
-//              if (data.garage) {
-//                  alt.emit("vehicle:spawnInGarage", data)
-//                  return
-//              }
-//              let veh = new alt.Vehicle(data.model, data.pos, data.rot)
-//              veh.init(data.model)
-//              veh.initWithData(data.id, data.appearance)
-//          })
-//          log("All Vehicles spawned")
-//      })
-//  }
-
-//  let i=0
-//  alt.on("playerEnteredVehicle", (player, vehicle, seat) => {
-//      setInterval(() => {
-//          console.log(vehicle.lightsMultiplier)
-//          vehicle.lightsMultiplier = i++
-//      }, 1000);
-//  })
-
-// chat.registerCmd("enter", (player) => {
-//     alt.emitClient(player, "vehicle:Enter");
-// });

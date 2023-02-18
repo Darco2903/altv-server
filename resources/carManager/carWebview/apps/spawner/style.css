@@ -32,7 +32,8 @@ strong {
     gap: 5vh;
 }
 
-#searchList {
+#searchList,
+#garageList {
     margin-left: 1.5vw;
     margin-top: 8vh;
     margin-bottom: 1.5vh;
@@ -50,7 +51,8 @@ strong {
 }
 
 .vehClass,
-#searchList {
+#searchList,
+#garageList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

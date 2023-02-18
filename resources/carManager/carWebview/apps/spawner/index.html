@@ -14,10 +14,9 @@
                 <div class="form__group field" id="search">
                     <input type="input" class="form__field" placeholder="Search" required />
                     <label for="search" class="form__label">Rechercher un véhicule</label>
-                </div>
+                </search>
                 <div id="vehList">
-                    <button id="new">Nouveau</button>
-                    <button id="garage">Garage</button>
+                    <button id="garageSwitch">Garage</button>
                 </div>
             </div>
 
@@ -96,6 +95,8 @@
                 </div>
             </div>
 
+            <div id="garageList" notInSelection="true"></div>
+
             <div id="searchList" notInSelection="true"></div>
         </div>
 
@@ -108,6 +109,6 @@
 
         <script src="data/vehicles.js"></script>
         <script src="data/mods.js"></script>
-        <script src="app.js"></script>
+        <script type="text/javascript" src="app.js"></script>
     </body>
 </html>
