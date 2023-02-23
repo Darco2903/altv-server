@@ -121,11 +121,10 @@ chat.registerCmd("pm", (player, args) => {
 });
 
 chat.registerCmd("cl", (player, args) => {
-    if (!args) return;
-    let a = args[0] ? args[0] : 0;
-    let b = args[1] ? args[1] : 0;
-    let c = args[2] ? args[2] : 0;
-    player.setClothes(a, b, c);
+    if (!args || args > 4) return;
+    args.forEach((arg) => arg || 0);
+    player.setClothes(...args);
+});
 
 chat.registerCmd("tpm", (player) => {
     alt.emitClient(player, "tpm");
