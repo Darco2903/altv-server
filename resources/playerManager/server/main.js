@@ -126,4 +126,7 @@ chat.registerCmd("cl", (player, args) => {
     let b = args[1] ? args[1] : 0;
     let c = args[2] ? args[2] : 0;
     player.setClothes(a, b, c);
+
+chat.registerCmd("tpm", (player) => {
+    alt.emitClient(player, "tpm");
 });
