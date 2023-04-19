@@ -1,6 +1,8 @@
 import * as alt from "alt-server";
-import * as chat from "chat";
-import * as db from "alt:database";
+import * as chat from "./chat/index.js";
+import { db } from "./database/index.js";
+import("./player/index.js");
+
 // import * as Functions from "./functions";
 
 // Functions.update();
@@ -18,15 +20,6 @@ alt.once("serverStarted", async () => {
     }
 });
 
-function log(msg) {
-    alt.log("~y~" + msg);
-}
-
-alt.on("saveLog", saveLog);
-function saveLog(msg) {
-    alt.log(`~g~${msg}`);
-}
-
 // alt.on("serverStarted", () => {
 //     import("./autoReconnect");
 // }); // Dev
@@ -38,7 +31,7 @@ alt.on("consoleCommand", (command, args) => {
             break;
 
         case "reboot":
-            restartServer();
+            // restartServer();
             break;
 
         case "hash":
@@ -58,33 +51,36 @@ alt.on("consoleCommand", (command, args) => {
         //      break;
 
         default:
-            log(`Unknow command: ${command}`);
+            // log(`Unknow command: ${command}`);
             break;
     }
 });
 
-chat.registerCmd("r", (player, [resourceName]) => {
-    //if (!Functions.authorized(player, 4))
-    //    return
+// chat.registerCmd("r", (player, [resourceName]) => {
+//     //if (!Functions.authorized(player, 4))
+//     //    return
 
-    if (resourceName) restartResource(resourceName, player);
-    else restartServer();
-});
+//     if (resourceName) {
+//         restartResource(resourceName, player);
+//     } else {
+//         restartServer();
+//     }
+// });
 
-chat.registerCmd("save", saveServer);
+// chat.registerCmd("save", saveServer);
 
-function saveServer() {
-    alt.emit("save");
-}
+// function saveServer() {
+//     alt.emit("save");
+// }
 
-export function restartServer() {
-    saveServer();
-    //alt.emitAllClients("serverStop")
-    const msg = "Server Restarting";
-    //alt.Player.all.forEach(player => player.kick(msg))
-    log(msg);
-    setTimeout(alt.stopServer, 200);
-}
+// export function restartServer() {
+//     saveServer();
+//     //alt.emitAllClients("serverStop")
+//     const msg = "Server Restarting";
+//     //alt.Player.all.forEach(player => player.kick(msg))
+//     log(msg);
+//     setTimeout(alt.stopServer, 200);
+// }
 
 export function restartResource(name, player) {
     if (alt.hasResource(name)) alt.restartResource(name);

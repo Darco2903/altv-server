@@ -5,7 +5,7 @@ let buffer = [];
 let loaded = false;
 let opened = false;
 
-const view = new alt.WebView("http://resource/client/html/index.html");
+const view = new alt.WebView("http://resource/client/chat/html/index.html");
 
 function addMessage(name, text) {
     if (name) {
@@ -47,12 +47,12 @@ alt.onServer("chat:message", pushMessage);
 
 alt.on("keyup", (key) => {
     if (loaded) {
-        if (!opened && key === 0x54 && areControlsEnabled()) {
+        if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
             opened = true;
             view.emit("openChat", false);
             alt.toggleGameControls(false);
             view.focus();
-        } else if (!opened && key === 0xbf && areControlsEnabled()) {
+        } else if (!opened && key === 0xbf && alt.gameControlsEnabled()) {
             opened = true;
             view.emit("openChat", true);
             alt.toggleGameControls(false);
@@ -65,7 +65,3 @@ alt.on("keyup", (key) => {
         }
     }
 });
-
-function areControlsEnabled() {
-    return alt.gameControlsEnabled() && alt.getMeta("controlsEnabled");
-}

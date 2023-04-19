@@ -22,7 +22,7 @@
     },
     "homepage": "https://github.com/Darco2903/altv-server#readme",
     "dependencies": {
-        "darco2903-db": "^1.0.5",
+        "darco2903-db": "^1.2.0",
         "mysql": "^2.18.1",
         "node-fetch": "^3.2.10",
         "typeorm": "^0.3.10"

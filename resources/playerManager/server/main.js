@@ -13,17 +13,7 @@ function saveLog(msg) {
     alt.log("~g~" + msg);
 }
 
-alt.on("beforePlayerConnect", (connectionInfo) => {
-    return db.isReady();
-});
-
 alt.on("save", saveAll);
-
-alt.on("playerConnect", (player) => {
-    player.auth();
-    log(`${player.name} connected to the server`);
-    //  alt.emitClient(player, 'load:Locations')
-});
 
 alt.on("playerDisconnect", (player, reason) => {
     player.save();
