@@ -3,13 +3,17 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
-alt.Player.prototype.tp = function (pos) {
+alt.Player.prototype.tp = async function (pos) {
+    console.log(pos);
     if (!(pos instanceof alt.Vector3)) {
         console.log("Teleportation aborted, not a valid position");
         return;
     }
-    if (player.vehicle) native.setPedCoordsKeepVehicle(this, ...pos);
-    else native.startPlayerTeleport(this, ...pos, 0, false, true, null);
+    // native.setPedCoordsKeepVehicle(this, ...pos.toArray());
+    native.startPlayerTeleport(this, ...pos.toArray(), 0, false, true, false);
+    await alt.Utils.wait(500);
+    // native.setPedCoordsKeepVehicle(this, ...pos.toArray());
+    native.startPlayerTeleport(this, ...pos.toArray(), 0, false, true, false);
 };
 
 function getWaypointPos() {
@@ -18,8 +22,9 @@ function getWaypointPos() {
         alt.emit("notificationRaw", "CHAR_BLOCKED", "Commande", "tpm", "Un repère GPS est requis pour cette commande");
         return;
     }
-    // var res = native.getGroundZFor3dCoord(coords.x, coords.y, coords.z + 100, undefined, undefined);
-    return native.getBlipInfoIdCoord(waypoint);
+    let pos = native.getBlipInfoIdCoord(waypoint); //.add(0, 0, 100);
+    // let [floor, z] = native.getGroundZFor3dCoord(...pos.toArray(), 0, 0);
+    return pos;
 }
 
 alt.on("player:tp", (pos) => {

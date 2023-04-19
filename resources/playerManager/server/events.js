@@ -20,10 +20,10 @@ alt.onClient("player:SaveModel", (player) => {
     const id = player.getSyncedMeta("id");
     const model = player.model;
     db.updatePartialData(id, { model }, "Character", (res) => {
-        if (!res || res.affected != 1) {
-            alt.emitClient(player, "notificationRaw", "CHAR_BLOCKED", "Erreur", "Modèle", "Problème lors de la sauvegarde");
-            alt.logError(`model save err ${player.name}`);
-        } else alt.emitClient(player, "notificationRaw", "CHAR_DEFAULT", "Succès", "Modèle", "Modèle sauvegardé");
+        // if (!res || res.affected != 1) {
+        //     alt.emitClient(player, "notificationRaw", "CHAR_BLOCKED", "Erreur", "Modèle", "Problème lors de la sauvegarde");
+        //     alt.logError(`model save err ${player.name}`);
+        // } else alt.emitClient(player, "notificationRaw", "CHAR_DEFAULT", "Succès", "Modèle", "Modèle sauvegardé");
     });
 });
 

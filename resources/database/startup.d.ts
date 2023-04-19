@@ -1,0 +1,12 @@
+export function connect(): Promise<any>;
+export function disconnect(): Promise<any>;
+export function isConnected(): any;
+export function insertData(data: any, repoName: any): Promise<any>;
+export function insertDatsa(datas: any, repoName: any): Promise<any>;
+export function updateDataByIds(ids: any, data: any, repoName: any): Promise<any>;
+export function deleteByIds(ids: any, repoName: any): Promise<any>;
+export function fetchById(ids: any, repoName: any): Promise<any>;
+export function fetchByIds(ids: any, repoName: any): Promise<any>;
+export function fetchAllRepo(repoName: any): Promise<any>;
+export function fetchAllByFields(fieldsNames: any, repoName: any): Promise<any>;
+export function fetchAllByValue(fieldName: any, fieldValue: any, repoName: any): Promise<any>;

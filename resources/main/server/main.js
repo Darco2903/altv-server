@@ -1,12 +1,22 @@
 import * as alt from "alt-server";
 import * as chat from "chat";
-import * as db from "database";
-import * as Functions from "./functions";
+import * as db from "alt:database";
+// import * as Functions from "./functions";
 
-Functions.update();
+// Functions.update();
 
 //  let autoSave = false
 //  let saveTime = 5            //  minutes
+
+alt.once("serverStarted", async () => {
+    try {
+        await db.connect();
+        alt.log("Database connected");
+        alt.emit("database:ready");
+    } catch (err) {
+        alt.log(err);
+    }
+});
 
 function log(msg) {
     alt.log("~y~" + msg);
@@ -17,7 +27,9 @@ function saveLog(msg) {
     alt.log(`~g~${msg}`);
 }
 
-alt.on("serverStarted", () => setTimeout(() => import("./autoReconnect"), 200)); // Dev
+// alt.on("serverStarted", () => {
+//     import("./autoReconnect");
+// }); // Dev
 
 alt.on("consoleCommand", (command, args) => {
     switch (command) {
@@ -30,8 +42,9 @@ alt.on("consoleCommand", (command, args) => {
             break;
 
         case "hash":
-            if (!args) return;
-            alt.log(`hash: ${alt.hash(args)}`);
+            if (args) {
+                alt.log(`hash: ${alt.hash(args)}`);
+            }
             break;
 
         //  case "kick":

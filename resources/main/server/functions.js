@@ -1,9 +1,9 @@
 import * as alt from 'alt-server';
-import * as chat from 'chat';
-import * as db from "database"
-//import * as Table from './Tables.js'
+// import * as Table from './Tables.js'
 import fs from "fs"
 import fetch from 'node-fetch';
+import * as chat from 'alt:chat';
+import * as db from "alt:database"
 
 ///////////////////////////////
 
@@ -262,67 +262,7 @@ export function authorized (player, authRequired) {       //return a boolean if 
 //  Other
 
 
-function dbUpdateBuild (version) {
-    db.selectData("Vehicle", ["id", "appearance"], dataList => {
-        dataList.forEach(vehData => {
-            let oldAppearance = JSON.parse(vehData.appearance)
-            const appearance = JSON.stringify(`${version}_${oldAppearance.split('_')[1]}`)
-            db.updatePartialData(vehData.id, { appearance }, "Vehicle", veh => {})
-        })
-        log("DataBase build updated succesfully")
-    })
-}
 
-
-export function update () {
-    getVersion().then(last => {
-        fs.readFile("version", 'utf8', function (err, data) {
-            const server = JSON.parse(data)
-            if (server.version != last.version) {
-                fs.writeFile("version", JSON.stringify(last), function (err) {})
-                dbUpdateBuild(last.buildnumber)
-                alt.log("Updated successfully")
-                setTimeout(alt.stopServer, 200)
-            }
-        })
-    })
-}
-
-
-function parseObject (str) {
-    [' ', '{', '}', '"'].forEach(symbol => {str = str.replaceAll(symbol, '')})
-    const arr = str.split(',')
-    let obj = {}
-    arr.forEach(elem => {
-        let [key, value] = elem.split(':')
-        if (!isNaN(value)) value = parseFloat(value)
-        obj[key] = value
-    })
-    return obj
-}
-
-
-function getVersion () {
-    return new Promise((resolve, reject) => {
-        const url = "https://raw.githubusercontent.com/altmp/altv-docs-gta/master/articles/references/versions.md"
-        fetch(url)
-        .then(response => response.text())
-        .then(str => {
-            str = str.split("```js\n")[1]
-            str = str.split("```\n")[0]
-            str = str.replaceAll(",\n", '\n')
-            let arr = []
-            let versions = []
-            for (const line of str.split('\n')) if (line.includes("version:")) arr.push(line) 
-            arr.forEach(ver => {
-                const obj = parseObject(ver)
-                versions.push(obj)
-            })
-            let n = versions.length -1
-            resolve(versions[n])
-        })
-    })
-}
 
 
 function checkDbConnection () {
