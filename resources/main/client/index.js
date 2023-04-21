@@ -3,6 +3,7 @@ import * as native from "natives";
 import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations.js";
 
 import "./chat.js";
+import "./nametag.js";
 
 const player = alt.Player.local;
 
