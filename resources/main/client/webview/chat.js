@@ -4,8 +4,9 @@ import * as native from "natives";
 let buffer = [];
 let loaded = false;
 let opened = false;
+let enabled = true;
 
-const view = new alt.WebView("http://resource/client/webviews/chat/index.html");
+const view = new alt.WebView("http://resource/client/webview/chat/index.html");
 
 function addMessage(name, text) {
     if (name) {
@@ -43,8 +44,15 @@ export function pushLine(text) {
 
 alt.onServer("chat:message", pushMessage);
 
+function closeChat() {
+    opened = false;
+    view.emit("closeChat");
+    alt.toggleGameControls(true);
+    view.unfocus();
+}
+
 alt.on("keyup", (key) => {
-    if (loaded) {
+    if (loaded && enabled) {
         if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
             opened = true;
             view.emit("openChat", false);
@@ -56,10 +64,7 @@ alt.on("keyup", (key) => {
             alt.toggleGameControls(false);
             view.focus();
         } else if (opened && key == 0x1b) {
-            opened = false;
-            view.emit("closeChat");
-            alt.toggleGameControls(true);
-            view.unfocus();
+            closeChat();
         }
     }
 });
@@ -80,3 +85,13 @@ export function drawNotification({ imageName = "CHAR_DEFAULT", headerMsg = "", d
 
 alt.Player.prototype.drawNotification = drawNotification;
 alt.onServer("notification", drawNotification);
+
+/**
+ * @param {boolean} state
+ */
+export function enable(state) {
+    if (!state && opened) {
+        closeChat();
+    }
+    enabled = state;
+}
