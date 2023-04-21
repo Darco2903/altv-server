@@ -13,6 +13,10 @@ export default new orm.EntitySchema({
             type: "text",
             nullable: false,
         },
+        op: {
+            type: "int",
+            nullable: true,
+        },
         rsid: {
             type: "text",
             nullable: false,

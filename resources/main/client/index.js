@@ -2,8 +2,7 @@ import * as alt from "alt-client";
 import * as native from "natives";
 import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations.js";
 
-import "./chat/index.js";
-import "./notifManager.js";
+import "./chat.js";
 
 const player = alt.Player.local;
 

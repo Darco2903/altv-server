@@ -1,11 +1,11 @@
 import * as alt from "alt-client";
+import * as native from "natives";
 
 let buffer = [];
-
 let loaded = false;
 let opened = false;
 
-const view = new alt.WebView("http://resource/client/chat/html/index.html");
+const view = new alt.WebView("http://resource/client/webviews/chat/index.html");
 
 function addMessage(name, text) {
     if (name) {
@@ -19,13 +19,11 @@ view.on("chatloaded", () => {
     for (const msg of buffer) {
         addMessage(msg.name, msg.text);
     }
-
     loaded = true;
 });
 
 view.on("chatmessage", (text) => {
     alt.emitServer("chat:message", text);
-
     opened = false;
     alt.toggleGameControls(true);
     view.unfocus();
@@ -65,3 +63,20 @@ alt.on("keyup", (key) => {
         }
     }
 });
+
+/**
+ * @param {Object} options
+ * @param {string} [options.imageName]
+ * @param {string} [options.headerMsg]
+ * @param {string} [options.detailsMsg]
+ * @param {string} [options.message]
+ */
+export function drawNotification({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "" }) {
+    native.beginTextCommandThefeedPost("STRING");
+    native.addTextComponentSubstringPlayerName(message);
+    native.endTextCommandThefeedPostMessagetextTu(imageName.toUpperCase(), imageName.toUpperCase(), false, 4, headerMsg, detailsMsg, 0.5);
+    native.endTextCommandThefeedPostTicker(false, false);
+}
+
+alt.Player.prototype.drawNotification = drawNotification;
+alt.onServer("notification", drawNotification);

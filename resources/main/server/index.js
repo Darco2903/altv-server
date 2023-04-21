@@ -1,7 +1,7 @@
 import * as alt from "alt-server";
-import * as chat from "./chat/index.js";
 import { db } from "./database/index.js";
-import("./player/index.js");
+import * as chat from "./chat.js";
+import "./player/index.js";
 
 // import * as Functions from "./functions";
 
@@ -10,19 +10,22 @@ import("./player/index.js");
 //  let autoSave = false
 //  let saveTime = 5            //  minutes
 
-alt.once("serverStarted", async () => {
-    try {
-        await db.connect();
-        alt.log("Database connected");
-        alt.emit("database:ready");
-    } catch (err) {
-        alt.log(err);
-    }
-});
-
 // alt.on("serverStarted", () => {
 //     import("./autoReconnect");
 // }); // Dev
+
+alt.on("anyResourceStart", (resourceName) => {
+    alt.Player.all.forEach((player) => {
+        if (player.authorized(2)) {
+            player.sendNotification({
+                imageName: "CHAR_MP_FM_CONTACT",
+                headerMsg: resourceName,
+                detailsMsg: `La ressource a bien redémarré.`,
+                message: "",
+            });
+        }
+    });
+});
 
 alt.on("consoleCommand", (command, args) => {
     switch (command) {
@@ -88,9 +91,9 @@ export function restartResource(name, player) {
     alt.emitClient(player, "notification", "restartResource", name);
 }
 
-chat.registerCmd("kick", (player, [idOrName]) => {
-    kickCommand(player, idOrName);
-});
+// chat.registerCmd("kick", (player, [idOrName]) => {
+//     kickCommand(player, idOrName);
+// });
 
 function kickCommand(player, idOrName) {
     if (!idOrName) {
@@ -119,41 +122,41 @@ function searchPlayer(idOrName) {
     } else return alt.Player.all.find((player) => player.name === idOrName);
 }
 
-chat.registerCmd("dim", (player, [dim]) => {
-    if (!dim) {
-        console.log("player dimension", player.dimension);
-        if (player.vehicle) console.log("vehicle dimension", player.vehicle.dimension);
-        return;
-    }
-    if (isNaN(dim)) return;
-    if (player.vehicle) player.vehicle.dimension = dim;
-    player.dimension = dim;
-});
+// chat.registerCmd("dim", (player, [dim]) => {
+//     if (!dim) {
+//         console.log("player dimension", player.dimension);
+//         if (player.vehicle) console.log("vehicle dimension", player.vehicle.dimension);
+//         return;
+//     }
+//     if (isNaN(dim)) return;
+//     if (player.vehicle) player.vehicle.dimension = dim;
+//     player.dimension = dim;
+// });
 
-chat.registerCmd("getpos", (player) => {
-    let pos = player.pos.toFixed(3);
-    pos.dim = player.dimension;
-    chat.send(player, `${pos}`);
-    console.log(pos);
-});
+// chat.registerCmd("getpos", (player) => {
+//     let pos = player.pos.toFixed(3);
+//     pos.dim = player.dimension;
+//     chat.send(player, `${pos}`);
+//     console.log(pos);
+// });
 
-chat.registerCmd("hash", (player, [string]) => {
-    if (!string) return;
-    console.log(alt.hash(string));
-});
+// chat.registerCmd("hash", (player, [string]) => {
+//     if (!string) return;
+//     console.log(alt.hash(string));
+// });
 
-chat.registerCmd("debug", (player, [enable]) => {
-    switch (enable) {
-        case "true":
-        case "false":
-            alt.emitAllClients("debug", enable === "true");
-            break;
+// chat.registerCmd("debug", (player, [enable]) => {
+//     switch (enable) {
+//         case "true":
+//         case "false":
+//             alt.emitAllClients("debug", enable === "true");
+//             break;
 
-        default:
-            alt.emitClient(player, "notification", "command", "/debug true\n/debug false");
-            break;
-    }
-});
+//         default:
+//             alt.emitClient(player, "notification", "command", "/debug true\n/debug false");
+//             break;
+//     }
+// });
 
 ////////////////////////////////////////////
 

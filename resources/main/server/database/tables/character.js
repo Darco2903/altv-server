@@ -10,10 +10,6 @@ export default new orm.EntitySchema({
             type: "int",
             nullable: false,
         },
-        op: {
-            type: "int",
-            nullable: true,
-        },
         pos: {
             type: "simple-array",
             nullable: true,
