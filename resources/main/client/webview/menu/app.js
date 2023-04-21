@@ -17,7 +17,7 @@ function selectMultiple(selectors) {
 }
 
 function sendEvent() {
-    alt.emit("event", { id: this.id, checked: this.checked });
+    alt.emit("event", this.id, this.checked);
     this.blur();
 }
 

@@ -4,6 +4,7 @@ import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations.js"
 
 import "./chat.js";
 import "./nametag.js";
+import "./webview/prototype.js";
 
 const player = alt.Player.local;
 
