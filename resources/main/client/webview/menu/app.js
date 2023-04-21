@@ -2,7 +2,6 @@ const buttons = selectMultiple("button");
 const checkboxs = selectMultiple("input[type=checkbox]");
 const carManager = document.getElementById("carManager");
 const vehButtons = selectMultiple(".requireVehicle");
-const resourcesDiv = selectMultiple(".resource");
 
 if (window.alt === undefined) {
     window.alt = {
@@ -23,13 +22,6 @@ function sendEvent() {
 
 buttons.forEach((button) => (button.onclick = sendEvent));
 checkboxs.forEach((checkbox) => (checkbox.onchange = sendEvent));
-
-alt.on("resources", (resources) => {
-    resourcesDiv.forEach((div) => {
-        if (resources.includes(div.id)) div.removeAttribute("disabled");
-        else div.setAttribute("disabled", "");
-    });
-});
 
 alt.on("vehicle", (playerInVehicle) => {
     Array.from(carManager.children).forEach((button) => {

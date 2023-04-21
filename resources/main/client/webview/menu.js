@@ -1,36 +1,47 @@
 import * as alt from "alt-client";
-import * as chat from "./chat.js";
 //import * as native from "natives";
+import * as chat from "./chat.js";
+import { toogleNametagDisplay } from "../nametag.js";
+import { toggle } from "./spawner.js";
+import { toggle } from "./tuner.js";
 
 let player = alt.Player.local;
 
 let webview = new alt.WebView("http://resource/client/webview/menu/index.html");
 webview.isVisible = false;
 
-webview.on("event", (id, checked) => {
+webview.on("event", (id, state) => {
     switch (id) {
         case "spawner":
+            toggle(true);
+            toggle(false);
+            break;
+
         case "tuner":
-            closeMenu();
-            alt.emit(`carManager:${id}`);
+            toggle(true);
+            toggle(false);
             break;
 
         case "repair":
         case "despawn":
         case "register":
         case "delete":
-            closeMenu();
-            alt.emitServer(`vehicle:${id}`);
+            // toggle
+            toggle(false);
             break;
 
         case "model":
+            // toggle
+            toggle(false);
+            break;
+
         case "armory":
-            closeMenu();
-            alt.emit(`playerManager:${id}`);
+            // toggle
+            toggle(false);
             break;
 
         case "nametag":
-            alt.emit("nametag:toogle", checked);
+            toogleNametagDisplay(state);
             break;
     }
 });
@@ -51,13 +62,13 @@ function toggleControls(state) {
     if (!player.vehicle) {
         alt.toggleGameControls(state);
     } else {
-        webview.toggleOnlyVehMove(state);
+        alt.Utils.toggleOnlyVehMove(state);
     }
 }
 
 function switchControls() {
     if (webview.isVisible) {
-        webview.toggleOnlyVehMove(!!player.vehicle);
+        alt.Utils.toggleOnlyVehMove(!!player.vehicle);
         alt.toggleGameControls(!player.vehicle);
     }
 }
@@ -68,8 +79,8 @@ alt.on("leftVehicle", switchControls);
 /**
  * @param {boolean} state
  */
-export async function toggleMenu(state) {
-    if ((!state && webview.isVisible) || (state && !webview.isVisible)) {
+export function toggle(state) {
+    if ((state && webview.isVisible) || (!state && !webview.isVisible)) {
         return;
     }
     updateWebview();
@@ -78,6 +89,6 @@ export async function toggleMenu(state) {
     toggleControls(!state);
 }
 
-alt.on("webview:close", () => {
-    toggleMenu(false);
+alt.on("webview:closeAll", () => {
+    toggle(false);
 });

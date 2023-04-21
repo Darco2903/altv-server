@@ -2,9 +2,13 @@ import * as alt from "alt-client";
 import * as native from "natives";
 import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations.js";
 
-import "./chat.js";
 import "./nametag.js";
-import "./webview/prototype.js";
+import "./prototype/Utils.js";
+import "./prototype/Vehicle.js";
+import "./prototype/Webview.js";
+import "./webview/index.js";
+
+alt.onServer("notification", alt.Utils.drawNotification);
 
 const player = alt.Player.local;
 
