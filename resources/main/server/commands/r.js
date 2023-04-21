@@ -1,7 +1,7 @@
 import * as alt from "alt-server";
-import { register } from "../chat.js";
+import * as chat from "../chat.js";
 
-register({
+chat.register({
     name: "r",
     description: "Restart server or resource",
     args: [
@@ -18,7 +18,7 @@ register({
         }
 
         if (!resourceName) {
-            player.sendNotification({
+            player.notify({
                 imageName: "CHAR_BLOCKED",
                 headerMsg: "Erreur",
                 detailsMsg: "/r [resourceName]",
@@ -27,13 +27,13 @@ register({
         }
 
         if (alt.hasResource(resourceName)) {
-            player.sendNotification({
+            player.notify({
                 imageName: "CHAR_MP_FM_CONTACT",
                 headerMsg: `Restarting ${resourceName}`,
             });
             alt.restartResource(resourceName);
         } else {
-            player.sendNotification({
+            player.notify({
                 imageName: "CHAR_BLOCKED",
                 headerMsg: "Erreur",
                 detailsMsg: `/${resourceName}`,
