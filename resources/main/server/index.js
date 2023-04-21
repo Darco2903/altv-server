@@ -1,7 +1,10 @@
 import * as alt from "alt-server";
-import { db } from "./database/index.js";
+import { db, tables } from "./database/index.js";
 import * as chat from "./chat.js";
 import "./player/index.js";
+import "./prototype/Player.js";
+import "./prototype/Vehicle.js";
+import "./playerConnection.js";
 
 // import * as Functions from "./functions";
 
@@ -17,7 +20,7 @@ import "./player/index.js";
 alt.on("anyResourceStart", (resourceName) => {
     alt.Player.all.forEach((player) => {
         if (player.authorized(2)) {
-            player.sendNotification({
+            player.notify({
                 imageName: "CHAR_MP_FM_CONTACT",
                 headerMsg: resourceName,
                 detailsMsg: `La ressource a bien redémarré.`,

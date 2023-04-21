@@ -37,7 +37,7 @@ alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
                 command.execute(player, args);
             } catch (error) {
                 alt.logError(`[command] ${player.name}: /${commandName} failed to execute`);
-                player.sendNotification({
+                player.notify({
                     imageName: "CHAR_BLOCKED",
                     headerMsg: "Erreur",
                     detailsMsg: `/${commandName}`,
@@ -45,7 +45,7 @@ alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
                 });
             }
         } else {
-            player.sendNotification({
+            player.notify({
                 imageName: "CHAR_BLOCKED",
                 headerMsg: "Erreur",
                 detailsMsg: `/${commandName}`,
@@ -66,24 +66,20 @@ alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
 });
 
 /**
+ * @description Send a message to all players
+ * @param {string} msg
+ */
+export function broadcast(msg) {
+    alt.emitAllClients("chat:message", null, msg);
+}
+
+/**
  * @description Send a message to specified player
  * @param {alt.Player} player
  * @param {string} msg
  */
 export function send(player, msg) {
     alt.emitClient(player, "chat:message", null, msg);
-}
-
-alt.Player.prototype.chatSend = function (msg) {
-    send(this, msg);
-};
-
-/**
- * @description Send a message to all players
- * @param {string} msg
- */
-export function broadcast(msg) {
-    alt.emitAllClients("chat:message", null, msg);
 }
 
 /**
@@ -94,19 +90,3 @@ export function broadcast(msg) {
 export function mutePlayer(player, state) {
     mutedPlayers.set(player, state);
 }
-
-/**
- * @param {alt.Player} player
- * @param {Object} options
- * @param {string} [options.imageName]
- * @param {string} [options.headerMsg]
- * @param {string} [options.detailsMsg]
- * @param {string} [options.message]
- */
-export function sendNotification(player, { imageName, headerMsg, detailsMsg, message }) {
-    alt.emitClient(player, "notification", { imageName, headerMsg, detailsMsg, message });
-}
-
-alt.Player.prototype.sendNotification = function (notificationOptions) {
-    sendNotification(this, notificationOptions);
-};

@@ -1,10 +1,9 @@
 import * as alt from "alt-client";
-import { drawText3d } from "../utils/index.js";
 
 let displayTick;
 
 alt.on("resourceStart", () => {
-    displayTick = alt.getMeta("nametagDisplay");
+    toogleNametagDisplay(alt.hasMeta("nametagDisplay"));
 });
 
 /**
@@ -15,7 +14,7 @@ function setName(player) {
     const dist = alt.Player.local.pos.distanceTo(pos);
     if (dist < 50) {
         const scale = dist < 6.8 ? 0.3 : 2 / dist;
-        drawText3d(player.name, x, y, z + 1, scale, 0, 255, 255, 255, 255);
+        alt.Utils.drawText3d(player.name, x, y, z + 1, scale, 0, 255, 255, 255, 255);
     }
 }
 
@@ -26,10 +25,11 @@ export function toogleNametagDisplay(state) {
     if ((state && !displayTick) || (!state && displayTick)) {
         if (state) {
             displayTick = alt.everyTick(() => alt.Player.streamedIn.forEach(setName));
+            alt.setMeta("nametagDisplay", displayTick);
         } else {
             alt.clearEveryTick(displayTick);
             displayTick = undefined;
+            alt.deleteMeta("nametagDisplay");
         }
-        alt.setMeta("nametagDisplay", displayTick);
     }
 }

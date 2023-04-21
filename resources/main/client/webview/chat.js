@@ -70,23 +70,6 @@ alt.on("keyup", (key) => {
 });
 
 /**
- * @param {Object} options
- * @param {string} [options.imageName]
- * @param {string} [options.headerMsg]
- * @param {string} [options.detailsMsg]
- * @param {string} [options.message]
- */
-export function drawNotification({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "" }) {
-    native.beginTextCommandThefeedPost("STRING");
-    native.addTextComponentSubstringPlayerName(message);
-    native.endTextCommandThefeedPostMessagetextTu(imageName.toUpperCase(), imageName.toUpperCase(), false, 4, headerMsg, detailsMsg, 0.5);
-    native.endTextCommandThefeedPostTicker(false, false);
-}
-
-alt.Player.prototype.drawNotification = drawNotification;
-alt.onServer("notification", drawNotification);
-
-/**
  * @param {boolean} state
  */
 export function enable(state) {
