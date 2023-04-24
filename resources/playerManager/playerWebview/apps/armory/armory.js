@@ -21,19 +21,19 @@ function keyHandler(key) {
 function open() {
     if (webview.isVisible) return;
     alt.on("keyup", keyHandler);
-    webview.toogle(true);
+    webview.toggle(true);
     toogleControls(false);
 }
 
 function close() {
     if (!webview.isVisible) return;
     alt.off("keyup", keyHandler);
-    webview.toogle(false);
+    webview.toggle(false);
     toogleControls(true);
 }
 
 async function toogleControls(state) {
     alt.setMeta("controlsEnabled", state);
     if (!player.vehicle) alt.toggleGameControls(state);
-    else webview.toogleOnlyVehMove(state);
+    else webview.toggleOnlyVehMove(state);
 }

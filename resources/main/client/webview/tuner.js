@@ -1,8 +1,8 @@
 import * as alt from "alt-client";
 import * as native from "natives";
 
-import "./controlsDisabler";
-import "./Vehicle";
+// import "./controlsDisabler";
+// import "./Vehicle";
 
 const player = alt.Player.local;
 
@@ -48,32 +48,26 @@ function camByApp(app) {
 }
 
 function open() {
-    if (!webview.isVisible) {
-        webview.toggle(true);
-        webview.toggleTunerControls(false);
-        alt.on("keyup", keyHandler);
-        player.vehicle.storeData();
-        native.freezeEntityPosition(player.vehicle, true);
-        native.setVehicleLights(player.vehicle, 2); //  Enable lights
-        startApp("mods");
-    }
+    webview.toggle(true);
+    player.vehicle.storeData();
+    alt.Utils.toggleTunerControls(true);
+    native.freezeEntityPosition(player.vehicle, true);
+    native.setVehicleLights(player.vehicle, 2); //  Enable lights
+    startApp("mods");
 }
 
 function close() {
-    if (webview.isVisible) {
-        webview.toggle(false);
-        webview.toggleTunerControls(true);
-        alt.off("keyup", keyHandler);
-        native.freezeEntityPosition(player.vehicle, false);
-        const speed = player.vehicle.storedData.speed;
-        native.setVehicleForwardSpeed(player.vehicle, speed);
-        native.setVehicleLights(player.vehicle, 0); //  Release lights
-        const pitch = native.getGameplayCamRelativePitch();
-        const heading = speed > 1 ? 0 : native.getGameplayCamRelativeHeading();
-        setCamPos(heading, pitch + 2, 1); //  Remove slow effect
-        player.vehicle.storedData = null;
-        sendModsToServer();
-    }
+    webview.toggle(false);
+    alt.Utils.toggleTunerControls(false);
+    native.freezeEntityPosition(player.vehicle, false);
+    const speed = player.vehicle.storedData.speed;
+    native.setVehicleForwardSpeed(player.vehicle, speed);
+    native.setVehicleLights(player.vehicle, 0); //  Release lights
+    const pitch = native.getGameplayCamRelativePitch();
+    const heading = speed > 1 ? 0 : native.getGameplayCamRelativeHeading();
+    setCamPos(heading, pitch + 2, 1); //  Remove slow effect
+    player.vehicle.storedData = null;
+    sendModsToServer();
 }
 /**
  * @param {boolean} state
@@ -138,3 +132,7 @@ function restoreAll() {
     player.vehicle.restore();
     refreshApp();
 }
+
+alt.on("webview:closeAll", () => {
+    toggle(false);
+});

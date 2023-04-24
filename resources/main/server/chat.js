@@ -36,7 +36,7 @@ alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
             try {
                 command.execute(player, args);
             } catch (error) {
-                alt.logError(`[command] ${player.name}: /${commandName} failed to execute`);
+                alt.logError(`[command] ${player.name}: /${commandName} failed to execute: ${error}`);
                 player.notify({
                     imageName: "CHAR_BLOCKED",
                     headerMsg: "Erreur",

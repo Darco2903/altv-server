@@ -5,20 +5,17 @@ import * as spawner from "./spawner.js";
 import * as tuner from "./tuner.js";
 
 alt.on("keyup", (key) => {
-    if (alt.isConsoleOpen() || (!alt.getMeta("controlsEnabled") && !webview.isVisible)) {
-        return;
-    }
-
     switch (key) {
         case 27: // ESC
             alt.emit("webview:closeAll");
-            alt.toggleGameControls(true);
-            alt.Utils.toggleOnlyVehMove(false);
-            alt.Utils.toggleTunerControls(false);
+            chat.enable(true);
             break;
 
         case 75: // K
-            menu.toggle();
+            if (chat.isOpen()) return;
+            const state = menu.isVisible();
+            alt.emit("webview:closeAll");
+            menu.toggle(!state);
             break;
     }
 });

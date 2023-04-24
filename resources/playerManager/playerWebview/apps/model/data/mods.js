@@ -1,4 +1,4 @@
-const mods = [
+const vehiclesMod = [
     {
         Name: "john-wick",
         Hash: 1559733133,

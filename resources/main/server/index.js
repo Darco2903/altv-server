@@ -1,7 +1,7 @@
 import * as alt from "alt-server";
 import { db, tables } from "./database/index.js";
 import * as chat from "./chat.js";
-import "./player/index.js";
+import * as vehicles from "./vehicles.js";
 import "./prototype/Player.js";
 import "./prototype/Vehicle.js";
 import "./playerConnection.js";
@@ -18,16 +18,18 @@ import "./playerConnection.js";
 // }); // Dev
 
 alt.on("anyResourceStart", (resourceName) => {
-    alt.Player.all.forEach((player) => {
-        if (player.authorized(2)) {
-            player.notify({
-                imageName: "CHAR_MP_FM_CONTACT",
-                headerMsg: resourceName,
-                detailsMsg: `La ressource a bien redémarré.`,
-                message: "",
-            });
-        }
-    });
+    alt.setTimeout(() => {
+        alt.Player.all.forEach((player) => {
+            if (player.authorized(2)) {
+                player.notify({
+                    imageName: "CHAR_MP_FM_CONTACT",
+                    headerMsg: resourceName,
+                    detailsMsg: `La ressource a bien redémarré.`,
+                    message: "",
+                });
+            }
+        });
+    }, 500);
 });
 
 alt.on("consoleCommand", (command, args) => {

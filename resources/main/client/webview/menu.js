@@ -1,9 +1,9 @@
 import * as alt from "alt-client";
 //import * as native from "natives";
 import * as chat from "./chat.js";
-import { toogleNametagDisplay } from "../nametag.js";
-import { toggle } from "./spawner.js";
-import { toggle } from "./tuner.js";
+import * as nametag from "../nametag.js";
+import * as spawner from "./spawner.js";
+import * as tuner from "./tuner.js";
 
 let player = alt.Player.local;
 
@@ -13,13 +13,13 @@ webview.isVisible = false;
 webview.on("event", (id, state) => {
     switch (id) {
         case "spawner":
-            toggle(true);
             toggle(false);
+            spawner.toggle(true);
             break;
 
         case "tuner":
-            toggle(true);
             toggle(false);
+            tuner.toggle(true);
             break;
 
         case "repair":
@@ -41,7 +41,7 @@ webview.on("event", (id, state) => {
             break;
 
         case "nametag":
-            toogleNametagDisplay(state);
+            nametag.toggle(state);
             break;
     }
 });
@@ -54,27 +54,8 @@ function updateWebview() {
     webview.emit("nametag", alt.getMeta("displayNametag"));
 }
 
-/**
- * @param {boolean} state
- */
-function toggleControls(state) {
-    chat.enable(state);
-    if (!player.vehicle) {
-        alt.toggleGameControls(state);
-    } else {
-        alt.Utils.toggleOnlyVehMove(state);
-    }
-}
-
-function switchControls() {
-    if (webview.isVisible) {
-        alt.Utils.toggleOnlyVehMove(!!player.vehicle);
-        alt.toggleGameControls(!player.vehicle);
-    }
-}
-
-alt.on("enteredVehicle", switchControls);
-alt.on("leftVehicle", switchControls);
+// alt.on("enteredVehicle", switchControls);
+// alt.on("leftVehicle", switchControls);
 
 /**
  * @param {boolean} state
@@ -86,7 +67,11 @@ export function toggle(state) {
     updateWebview();
     webview.centerPointer();
     webview.toggle(state);
-    toggleControls(!state);
+    alt.Utils.toggleOnlyMove(state);
+}
+
+export function isVisible() {
+    return webview.isVisible;
 }
 
 alt.on("webview:closeAll", () => {

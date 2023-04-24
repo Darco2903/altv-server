@@ -3,14 +3,18 @@ import * as native from "natives";
 import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations.js";
 
 import "./nametag.js";
+import "./prototype/Player.js";
 import "./prototype/Utils.js";
 import "./prototype/Vehicle.js";
 import "./prototype/Webview.js";
+import "./vehicles.js";
 import "./webview/index.js";
 
-alt.onServer("notification", alt.Utils.drawNotification);
-
 const player = alt.Player.local;
+
+alt.onServer("notification", (notificationOptions) => {
+    player.notify(notificationOptions);
+});
 
 alt.loadDefaultIpls();
 alt.setWatermarkPosition(0);

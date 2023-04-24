@@ -3,7 +3,7 @@ import * as native from "natives";
 
 let buffer = [];
 let loaded = false;
-let opened = false;
+let open = false;
 let enabled = true;
 
 const view = new alt.WebView("http://resource/client/webview/chat/index.html");
@@ -25,7 +25,7 @@ view.on("chatloaded", () => {
 
 view.on("chatmessage", (text) => {
     alt.emitServer("chat:message", text);
-    opened = false;
+    open = false;
     alt.toggleGameControls(true);
     view.unfocus();
 });
@@ -45,7 +45,7 @@ export function pushLine(text) {
 alt.onServer("chat:message", pushMessage);
 
 function closeChat() {
-    opened = false;
+    open = false;
     view.emit("closeChat");
     alt.toggleGameControls(true);
     view.unfocus();
@@ -53,28 +53,33 @@ function closeChat() {
 
 alt.on("keyup", (key) => {
     if (loaded && enabled) {
-        if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
-            opened = true;
+        if (!open && key === 0x54 && alt.gameControlsEnabled()) {
+            open = true;
             view.emit("openChat", false);
             alt.toggleGameControls(false);
             view.focus();
-        } else if (!opened && key === 0xbf && alt.gameControlsEnabled()) {
-            opened = true;
+        } else if (!open && key === 0xbf && alt.gameControlsEnabled()) {
+            open = true;
             view.emit("openChat", true);
             alt.toggleGameControls(false);
             view.focus();
-        } else if (opened && key == 0x1b) {
+        } else if (open && key == 0x1b) {
             closeChat();
         }
     }
 });
 
+export function isOpen() {
+    return open;
+}
+
 /**
  * @param {boolean} state
  */
 export function enable(state) {
-    if (!state && opened) {
-        closeChat();
-    }
-    enabled = state;
+    enabled = !!state;
+}
+
+export function isEnabled() {
+    return enabled;
 }

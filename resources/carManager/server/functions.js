@@ -210,7 +210,7 @@ export function getPersonnalVehData(player) {
     const vehList = alt.Vehicle.all;
     vehList.sort();
     vehList.forEach((veh) => {
-        if (veh.getSyncedMeta("owner") == player.name) playerVehList.push([veh.model, veh]);
+        if (veh.getMeta("owner") == player.name) playerVehList.push([veh.model, veh]);
     });
     return playerVehList;
 }

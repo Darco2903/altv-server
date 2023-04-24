@@ -1,12 +1,12 @@
-import colors from "./data/colors.json" assert { type: "json" };
-import modList from "./data/modList.json" assert { type: "json" };
-import plateList from "./data/plateList.json" assert { type: "json" };
-// import serverColors from "./data/serverColors.json" assert { type: "json" };
-// import tireBrand from "./data/tireBrand.json" assert { type: "json" };
-// import tireColor from "./data/tireColor.json" assert { type: "json" };
-import wheelTypeList from "./data/wheelTypeList.json" assert { type: "json" };
-import windowTints from "./data/windowTints.json" assert { type: "json" };
-import xenonColors from "./data/xenonColors.json" assert { type: "json" };
+import colors from "../../data/colors.json" assert { type: "json" };
+import modList from "../../data/modList.json" assert { type: "json" };
+import plateList from "../../data/plateList.json" assert { type: "json" };
+import serverColors from "../../data/serverColors.json" assert { type: "json" };
+import tireBrands from "../../data/tireBrands.json" assert { type: "json" };
+import tireColors from "../../data/tireColors.json" assert { type: "json" };
+import wheelTypeList from "../../data/wheelTypeList.json" assert { type: "json" };
+import windowTints from "../../data/windowTints.json" assert { type: "json" };
+import xenonColors from "../../data/xenonColors.json" assert { type: "json" };
 
 let appLoaded;
 let htmlGenerated = document.querySelector("generated");

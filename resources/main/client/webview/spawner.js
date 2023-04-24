@@ -7,19 +7,21 @@ webview.isVisible = false;
 
 webview.on("spawnVehicle", (model) => {
     const hash = alt.hash(model);
-    if (!player.vehicle) alt.emitServer("vehicle:create", hash);
-    else if (!notSameVeh(hash, null)) return;
-    else alt.emitServer("vehicle:replace", hash);
-    close();
+    if (!player.vehicle) {
+        alt.emitServer("vehicle:createPlayersIn", hash, [player]);
+    } else if (notSameVeh(hash, null)) {
+        alt.emitServer("vehicle:replace", player.vehicle, hash);
+    }
+    toggle(false);
 });
 
 webview.on("spawnSavedVehicle", (id) => {
     if (!player.vehicle) {
-        alt.emitServer("vehicle:import", id);
+        alt.emitServer("vehicle:importSaved", id, [player]);
     } else if (notSameVeh(null, id)) {
-        alt.emitServer("vehicle:importReplace", id);
+        alt.emitServer("vehicle:importSavedReplace", player.vehicle, id);
     }
-    close();
+    toggle(false);
 });
 
 /**
@@ -28,21 +30,13 @@ webview.on("spawnSavedVehicle", (id) => {
 export function toggle(state) {
     if (state && !webview.isVisible) {
         webview.toggle(true);
-        toogleControls(false);
+        alt.Utils.toggleOnlyMove(true);
         alt.emitServer("getPlayerVehicles");
     } else if (!state && webview.isVisible) {
         webview.toggle(false);
-        toogleControls(true);
+        alt.Utils.toggleOnlyMove(false);
     }
 }
-
-// async function toogleControls(state) {
-//     if (!player.vehicle) {
-//         alt.toggleGameControls(state);
-//     } else {
-//         alt.Utils.toggleOnlyVehMove(state);
-//     }
-// }
 
 function notSameVeh(model, id) {
     return (
@@ -53,4 +47,8 @@ function notSameVeh(model, id) {
 
 alt.onServer("playerGarage", (res) => {
     webview.emit("garageList", res);
+});
+
+alt.on("webview:closeAll", () => {
+    toggle(false);
 });

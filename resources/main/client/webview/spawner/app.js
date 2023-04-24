@@ -1,3 +1,6 @@
+import vehicles from "./data/vehicles.json" assert { type: "json" };
+import vehiclesMod from "./data/vehiclesMod.json" assert { type: "json" };
+
 let htmlClassList = document.getElementById("classList");
 const vehDivTemplate = document.getElementById("template").querySelector(".vehicle");
 const defaultImage = "./imgs/_notfound.webp";
@@ -21,7 +24,7 @@ function vehicleDiv(veh) {
 }
 
 //  createAll vehicle div
-vehicles.concat(mods).forEach((veh) => {
+vehicles.concat(vehiclesMod).forEach((veh) => {
     document.getElementById(veh.Class).appendChild(vehicleDiv(veh));
 });
 

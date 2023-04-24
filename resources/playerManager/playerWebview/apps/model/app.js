@@ -23,7 +23,7 @@ function modelDiv(model) {
 
 //  createAll model div
 peds.concat(freemod)
-    .concat(mods)
+    .concat(vehiclesMod)
     .forEach((model) => {
         document.getElementById(model.Pedtype).appendChild(modelDiv(model));
     });

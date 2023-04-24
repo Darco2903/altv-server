@@ -1,5 +1,5 @@
 import * as alt from "alt-server";
-import * as db from "../database/index.js";
+import { db, tables } from "../database/index.js";
 
 alt.Vehicle.prototype.init = function () {
     this.manualEngineControl = true;
@@ -99,68 +99,44 @@ alt.Vehicle.prototype.parseJSON = function (data) {
     return data;
 };
 
-alt.Vehicle.prototype.register = function (player) {
-    return new Promise((resolve, reject) => {
-        const model = this.getNameByHash();
-        const owner = player.getSyncedMeta("id");
-        db.upsertData({ model, owner }, "Vehicle", (res) => {
-            if (!res || !res.id) {
-                reject();
-                return;
-            }
-            this.setSyncedMeta("id", res.id);
-            this.setMeta("owner", owner);
-            // this.save();
-            this.saveAppearance();
-            resolve(res.id);
-            db.log(`${player.name} ${model} registered in database with id: ${res.id}`);
-        });
-    });
+alt.Vehicle.prototype.register = async function () {
+    const model = this.getNameByHash();
+    const owner = this.driver.getSyncedMeta("id");
+    const data = {
+        model,
+        owner,
+        appearance: vehicle.getAppearanceDataBase64(),
+    };
+    const id = await db.insertData(data, tables.vehicle);
+    this.setSyncedMeta("id", id);
+    this.setMeta("owner", owner);
+    Promise.resolve(id);
 };
 
-alt.Vehicle.prototype.delete = function () {
-    return new Promise((resolve, reject) => {
-        const id = this.getSyncedMeta("id");
-        db.deleteByIds(id, "Vehicle", (res) => {
-            if (!res || !res.affected) {
-                reject();
-                return;
-            }
-            this.deleteSyncedMeta("id");
-            resolve();
-            db.log(`${this.getNameByHash()} id: ${id} deleted from database`);
-        });
-    });
+alt.Vehicle.prototype.delete = async function () {
+    const id = vehicle.getSyncedMeta("id");
+    await db.deleteByIds(id, tables.vehicle);
 };
 
-alt.Vehicle.prototype.save = function () {
-    return new Promise((resolve, reject) => {
-        const id = this.getSyncedMeta("id");
-        db.updatePartialData(id, this.getDataToSave(), "Vehicle", (res) => {
-            if (!res || !res.affected) {
-                reject();
-                return;
-            }
-            db.log(`${this.getNameByHash()} id: ${id} saved in database`);
-            resolve();
-        });
-    });
+alt.Vehicle.prototype.update = async function (data) {
+    if (!this.hasSyncedMeta("id")) {
+        throw new Error("Vehicle not registered");
+    }
+    const id = this.getSyncedMeta("id");
+    const updated = await db.updateDataByIds(id, data, tables.vehicle);
+    if (!updated) {
+        throw new Error("Vehicle not updated");
+    }
 };
 
-alt.Vehicle.prototype.saveAppearance = function () {
-    return new Promise((resolve, reject) => {
-        const appearance = this.getAppearanceDataBase64();
-        db.updatePartialData(this.getSyncedMeta("id"), { appearance }, "Vehicle", (res) => {
-            if (!res || !res.affected) reject();
-            else resolve();
-        });
-    });
+alt.Vehicle.prototype.saveAppearance = async function () {
+    await this.update({ appearance: this.getAppearanceDataBase64() });
+};
+
+alt.Vehicle.prototype.chnageOwner = async function (newOwner) {
+    await this.update({ owner: newOwner });
 };
 
 alt.Vehicle.prototype.getNameByHash = function () {
     return alt.getVehicleModelInfoByHash(this.model).title;
-};
-
-alt.Vehicle.prototype.getDataById = function (id) {
-    return new Promise((resolve, reject) => {});
 };

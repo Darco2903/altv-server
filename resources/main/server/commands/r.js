@@ -29,7 +29,7 @@ chat.register({
         if (alt.hasResource(resourceName)) {
             player.notify({
                 imageName: "CHAR_MP_FM_CONTACT",
-                headerMsg: `Restarting ${resourceName}`,
+                headerMsg: `Restarting ${resourceName}...`,
             });
             alt.restartResource(resourceName);
         } else {

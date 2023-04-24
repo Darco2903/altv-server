@@ -1,15 +1,7 @@
 import * as alt from "alt-client";
 import * as native from "natives";
 
-// const color = JSON.parse(alt.File.read("./data/colors.json", "utf-8"));
-const modList = JSON.parse(alt.File.read("./data/modList.json", "utf-8"));
-// const plateList = JSON.parse(alt.File.read("./data/plateList.json", "utf-8"));
-const serverColors = JSON.parse(alt.File.read("./data/serverColors.json", "utf-8"));
-// const tireBrand = JSON.parse(alt.File.read("./data/tireBrand.json", "utf-8"));
-// const tireColor = JSON.parse(alt.File.read("./data/tireColor.json", "utf-8"));
-// const wheelTypeList = JSON.parse(alt.File.read("./data/wheelTypeList.json", "utf-8"));
-// const windowTints = JSON.parse(alt.File.read("./data/windowTints.json", "utf-8"));
-// const xenonColors = JSON.parse(alt.File.read("./data/xenonColors.json", "utf-8"));
+import { colors, modList, plateList, serverColors, tireBrands, tireColors, wheelTypeList, windowTints, xenonColors } from "../data/index.js";
 
 const FRONTWHEELS = 23; // Front Wheels
 const REARWHEELS = 24; // Rear Wheels (Motorcycles)

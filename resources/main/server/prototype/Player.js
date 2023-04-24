@@ -31,7 +31,7 @@ alt.Player.prototype.authorized = function (authRequired) {
 };
 
 alt.Player.prototype.notAuthorized = function () {
-    this.sendNotification({
+    this.notify({
         imageName: "CHAR_BLOCKED",
         headerMsg: "Permission insuffisante",
         detailsMsg: ``,

@@ -1,5 +1,5 @@
 import * as alt from "alt-server";
-import { db, tables } from "../database/index.js";
+import { db, tables } from "./database/index.js";
 
 const DEFAULT_MODEL = alt.hash("mp_m_freemode_01");
 const DEFAULT_POS = [180, -1030, 28];
