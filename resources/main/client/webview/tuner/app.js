@@ -45,16 +45,12 @@ function appManager(app, data) {
     for (const but of buttonList) but.className = "unselected";
     document.getElementById(app).className = "selected";
     switch (app) {
-        case "mods":
-            initMods(data);
-            break;
-
         case "colors":
             initColors(data);
             break;
 
-        case "wheels":
-            initWheels(data);
+        case "mods":
+            initMods(data);
             break;
 
         case "neons":
@@ -65,8 +61,9 @@ function appManager(app, data) {
             initPlate(data);
             break;
 
-        default:
-            return;
+        case "wheels":
+            initWheels(data);
+            break;
     }
     appLoaded = app;
 }
@@ -118,10 +115,18 @@ function createSeparator() {
     htmlGenerated.append(htmlSeparator);
 }
 
+// /**
+//  * @param {modsData[]} modsData
+//  */
 function initMods(modsData) {
-    Object.entries(modsData).forEach(([modType, { count, name, num }]) => {
+    modsData.forEach(({ count, name, num }, modType) => {
+        if (!count) return;
         modType = parseInt(modType);
-        name = name ? name : modList[modType];
+
+        if (!name) {
+            name = modList[modType];
+            // if (!name) return;
+        }
 
         const htmlMod = document.createElement("mod");
         const htmlName = document.createElement("strong");

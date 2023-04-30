@@ -2,7 +2,7 @@ import * as orm from "typeorm";
 import config from "../config.json" assert { type: "json" };
 
 export default new orm.EntitySchema({
-    name: config.entities.character,
+    name: config.tables.character,
     columns: {
         id: {
             primary: true,

@@ -26,7 +26,7 @@ webview.on("event", (id, state) => {
         case "despawn":
         case "register":
         case "delete":
-            // toggle
+            alt.emitServer(`vehicle:${id}`, player.vehicle);
             toggle(false);
             break;
 

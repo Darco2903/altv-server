@@ -5,7 +5,7 @@ import { loadCayoPericoIsland, loadInteriors, loadtrains } from "./locations.js"
 import "./nametag.js";
 import "./prototype/Player.js";
 import "./prototype/Utils.js";
-import "./prototype/Vehicle.js";
+import "./prototype/Vehicle/index.js";
 import "./prototype/Webview.js";
 import "./vehicles.js";
 import "./webview/index.js";

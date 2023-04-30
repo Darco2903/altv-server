@@ -188,7 +188,7 @@ alt.onClient("getPlayerVehicles", async (player) => {
     }
 });
 
-alt.onClient("sendDataToServer", (player, { mods, wheels, colors, neons, plate }) => {
+alt.onClient("sendDataToServer", async (player, { mods, wheels, colors, neons, plate }) => {
     const veh = player.vehicle;
     veh.setAllMods(mods);
     veh.setAllWheels(wheels);
@@ -196,10 +196,24 @@ alt.onClient("sendDataToServer", (player, { mods, wheels, colors, neons, plate }
     //  veh.setAllExtraColors(data.extraColors);
     veh.setAllNeons(neons);
     veh.setPlate(plate);
-    if (!veh.hasSyncedMeta("id")) return;
-    veh.saveAppearance()
-        .then(() => player.notif(veh, `~g~Modifications sauvegardées`))
-        .catch(() => alt.emitClient(player, "notificationRaw", "CHAR_BLOCKED", "Erreur", "Sauvegarde", `~r~Problème lors de la sauvegarde des modifications`));
+    if (veh.hasSyncedMeta("id")) {
+        try {
+            await veh.saveAppearance();
+            player.notify({
+                imageName: "CHAR_CARSITE",
+                headerMsg: "Sauvegarde effectuée",
+                // detailMsg: veh.model,
+                // message: `~g~Modifications sauvegardées`,
+            });
+        } catch (error) {
+            player.notify({
+                imageName: "CHAR_BLOCKED",
+                headerMsg: "Erreur",
+                detailMsg: "Sauvegarde",
+                message: `~r~Problème lors de la sauvegarde des modifications`,
+            });
+        }
+    }
 });
 
 function repairVehicle(vehicle) {
@@ -212,9 +226,6 @@ function repairVehicle(vehicle) {
     });
 }
 
-alt.on("vehicle:repair", (player, vehicle) => {
-    repairVehicle(vehicle);
-});
 alt.onClient("vehicle:repair", (player, vehicle) => {
     repairVehicle(vehicle);
 });

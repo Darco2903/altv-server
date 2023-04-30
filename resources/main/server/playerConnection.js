@@ -4,12 +4,21 @@ import { db, tables } from "./database/index.js";
 const DEFAULT_MODEL = alt.hash("mp_m_freemode_01");
 const DEFAULT_POS = [180, -1030, 28];
 
-alt.on("beforePlayerConnect", (player) => {
-    return db.isConnected();
+alt.on("playerConnect", (player) => {
+    // const accept = db.isConnected();
+    const accept = true;
+    if (accept) {
+        alt.log(`${player.socialID} (${player.name}) from ${player.ip} connecting...`);
+    } else {
+        alt.log(`Refused connection of ${player.socialID} (${player.name}) from ${player.ip}`);
+    }
+    return accept;
 });
 
 alt.on("playerConnect", connectPlayer);
-alt.on("playerDisconnect", (player, reason) => {});
+alt.on("playerDisconnect", (player, reason) => {
+    alt.log(`${player.name} disconnected. Reason: ${reason}`);
+});
 
 alt.on("resourceStart", () => {
     alt.Player.all.forEach(connectPlayer);
@@ -59,4 +68,6 @@ async function connectPlayer(player) {
     player.spawn(new alt.Vector3(data?.pos ?? DEFAULT_POS));
     player.visible = true;
     player.health = 200;
+    player.armour = 0;
+    alt.log(`[${player.getSyncedMeta("id")}]|${player.name} succesfully connected!`);
 }

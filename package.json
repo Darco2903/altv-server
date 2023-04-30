@@ -7,7 +7,10 @@
         "start": "",
         "build-release": "npx altv-pkg release",
         "build-rc": "npx altv-pkg rc",
-        "build-dev": "npx altv-pkg dev"
+        "build-dev": "npx altv-pkg dev",
+        "update-build": "node tools/update-build.cjs",
+        "clean-ts": "rm resources/main/*.d.ts",
+        "build-ts": "npx -p typescript tsc --allowJs --declaration --emitDeclarationOnly resources/main/client/prototype/Vehicle/index.js"
     },
     "repository": {
         "type": "git",
@@ -28,11 +31,13 @@
         "typeorm": "^0.3.10"
     },
     "devDependencies": {
-        "@altv/types-client": "^2.5.4",
+        "@altv/types-client": "^2.5.5",
         "@altv/types-natives": "^1.5.3",
-        "@altv/types-server": "^2.6.7",
-        "@altv/types-shared": "^1.4.3",
+        "@altv/types-server": "^2.6.8",
+        "@altv/types-shared": "^1.4.4",
         "@altv/types-webview": "^1.0.5",
-        "altv-pkg": "^2.0.7"
+        "altv-pkg": "^2.0.7",
+        "darco2903-os-command-kit": "^1.1.0",
+        "typescript": "^5.0.4"
     }
 }

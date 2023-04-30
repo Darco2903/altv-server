@@ -131,10 +131,12 @@ alt.Vehicle.prototype.update = async function (data) {
 
 alt.Vehicle.prototype.saveAppearance = async function () {
     await this.update({ appearance: this.getAppearanceDataBase64() });
+    return Promise.resolve();
 };
 
 alt.Vehicle.prototype.chnageOwner = async function (newOwner) {
     await this.update({ owner: newOwner });
+    return Promise.resolve();
 };
 
 alt.Vehicle.prototype.getNameByHash = function () {
