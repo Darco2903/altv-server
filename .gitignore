@@ -12,7 +12,7 @@ AltV.Net.Host.*
 altv-server*
 cache/
 crashdumps/
-data/
+/data/
 libnode.dll
 *.log
 modules/
