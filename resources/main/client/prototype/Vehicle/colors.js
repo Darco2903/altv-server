@@ -3,38 +3,6 @@ import * as native from "natives";
 import { colors, serverColors, tireColors, windowTints, xenonColors } from "../../data/index.js";
 
 /**
- * @typedef {Object} primaryColor
- * @property {number} colorType
- * @property {number} colorNum
- * @property {number} pearl
- */
-
-/**
- * @typedef {Object} secondaryColor
- * @property {number} colorType
- * @property {number} colorNum
- */
-
-/**
- * @typedef {Object} colorData
- * @property {primaryColor} primary
- * @property {secondaryColor} secondary
- * @property {number} xenon
- * @property {number} window
- * @property {number} tireSmoke
- */
-
-/**
- * @typedef {Object} serverColors
- * @property {number} primary
- * @property {number} secondary
- * @property {number} pearl
- * @property {number} xenon
- * @property {number} window
- * @property {number} tireSmoke
- */
-
-/**
  * @returns {colorData}
  */
 alt.Vehicle.prototype.getColors = function () {

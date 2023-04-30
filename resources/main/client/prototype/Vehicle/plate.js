@@ -3,12 +3,6 @@ import * as native from "natives";
 import { plateList } from "../../data/index.js";
 
 /**
- * @typedef {Object} plateData
- * @property {number} plateIndex
- * @property {string} plateText
- */
-
-/**
  * @returns {plateData}
  */
 alt.Vehicle.prototype.getPlate = function () {

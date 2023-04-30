@@ -26,6 +26,16 @@ alt.Vehicle.prototype.setStock = function () {
     this.setStockPlate();
 };
 
+/**
+ * @typedef {object} mods
+ * @property {modData} mods
+ * @property {wheelsData} wheels
+ * @property {colorsData} colors
+ * @property {neonsData} neons
+ * @property {plateData} plate
+ * @returns {mods}
+ *
+ */
 alt.Vehicle.prototype.getMods = function () {
     return {
         mods: this.getModsData(),

@@ -10,7 +10,7 @@
         "build-dev": "npx altv-pkg dev",
         "update-build": "node tools/update-build.cjs",
         "clean-ts": "rm resources/main/*.d.ts",
-        "build-ts": "npx -p typescript tsc --allowJs --declaration --emitDeclarationOnly resources/main/client/prototype/Vehicle/index.js"
+        "build-ts": "npx -p typescript tsc --allowJs --declaration --emitDeclarationOnly resources/main/shared/types/*"
     },
     "repository": {
         "type": "git",

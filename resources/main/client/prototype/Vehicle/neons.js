@@ -2,12 +2,6 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 /**
- * @typedef {Object} neonData
- * @property {alt.RGBA} color
- * @property {boolean} enabled
- */
-
-/**
  * @returns {neonData}
  */
 alt.Vehicle.prototype.getNeons = function () {

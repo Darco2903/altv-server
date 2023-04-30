@@ -6,14 +6,6 @@ const FRONTWHEELS = 23; // Front Wheels
 const REARWHEELS = 24; // Rear Wheels (Motorcycles)
 
 /**
- * @typedef {Object} modData
- * @property {number} modData.count
- * @property {number} modData.modType
- * @property {string} modData.name
- * @property {number} modData.num
- */
-
-/**
  * @param {Number} modType
  * @returns {boolean}
  */

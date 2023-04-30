@@ -6,14 +6,6 @@ const FRONTWHEELS = 23; // Front Wheels
 const REARWHEELS = 24; // Rear Wheels (Motorcycles)
 
 /**
- * @typedef {Object} wheelsData
- * @property {number} type
- * @property {number} num
- * @property {number} color
- * @property {boolean} drift
- */
-
-/**
  * @returns {wheelsData}
  */
 alt.Vehicle.prototype.getWheelsData = function () {
