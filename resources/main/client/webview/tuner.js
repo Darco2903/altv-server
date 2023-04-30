@@ -56,10 +56,12 @@ function camByApp(app) {
 
 function open() {
     webview.toggle(true);
-    // player.vehicle.storeData();
+    const veh = player.vehicle;
+    veh.setMeta("speed", native.getEntitySpeed(veh))
+    veh.setMeta("storedData", veh.getMods())
     alt.Utils.toggleTunerControls(true);
-    native.freezeEntityPosition(player.vehicle, true);
-    native.setVehicleLights(player.vehicle, 2); //  Enable lights
+    native.freezeEntityPosition(veh, true);
+    // native.setVehicleLights(veh, 2); //  Enable lights
     startApp("mods");
 }
 
@@ -68,13 +70,14 @@ function close() {
     webview.toggle(false);
     alt.Utils.toggleTunerControls(false);
     native.freezeEntityPosition(veh, false);
-    // const speed = veh.storedData.speed;
+    const speed = veh.getMeta("speed");
     native.setVehicleForwardSpeed(veh, speed);
-    native.setVehicleLights(veh, 0); //  Release lights
+    // native.setVehicleLights(veh, 0); //  Release lights
     const pitch = native.getGameplayCamRelativePitch();
     const heading = speed > 1 ? 0 : native.getGameplayCamRelativeHeading();
     setCamPos(heading, pitch + 2, 1); //  Remove slow effect
-    // player.vehicle.storedData = null;
+    veh.deleteMeta("speed");
+    veh.deleteMeta("storedData");
     veh.sendModsToServer();
 }
 /**

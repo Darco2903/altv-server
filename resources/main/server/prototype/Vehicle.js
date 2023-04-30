@@ -33,12 +33,15 @@ alt.Vehicle.prototype.getVehMods = function () {
     return modData;
 };
 
-alt.Vehicle.prototype.setAllMods = function (data) /* [[modType, modNum]] */ {
-    data.forEach(([modType, modNum]) => {
+/**
+ * @param {modData[]} modsData
+ */
+alt.Vehicle.prototype.setAllMods = function (modsData) {
+    modsData.forEach(({ modType, num }) => {
         try {
-            this.setMod(modType, modNum);
+            this.setMod(modType, num);
         } catch (error) {
-            alt.logWarning("type", modType, "num", modNum);
+            alt.logWarning("type", modType, "num", num);
             alt.logWarning(error);
         }
     });

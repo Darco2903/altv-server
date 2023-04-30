@@ -100,11 +100,15 @@ function updateSliderFill(slider) {
     slider.style.background = color;
 }
 
-function createCheckbox(value) {
+/**
+ * @param {boolean} state
+ * @returns {[HTMLLabelElement, HTMLInputElement]} [label, checkbox]
+ */
+function createCheckbox(state) {
     let label = labelCheckbox.cloneNode(true);
     //  label.removeAttribute("hidden");
     let checkbox = label.childNodes[1];
-    checkbox.checked = value;
+    checkbox.checked = state;
     return [label, checkbox];
 }
 
@@ -119,10 +123,7 @@ function createSeparator() {
 //  * @param {modsData[]} modsData
 //  */
 function initMods(modsData) {
-    modsData.forEach(({ count, name, num }, modType) => {
-        if (!count) return;
-        modType = parseInt(modType);
-
+    modsData.forEach(({ count, modType, name, num }) => {
         if (!name) {
             name = modList[modType];
             // if (!name) return;
@@ -134,32 +135,29 @@ function initMods(modsData) {
         htmlName.innerHTML = name;
         htmlMod.append(htmlName);
 
-        switch (modType) {
-            case 18: //  Turbo
-                const [label, checkbox] = createCheckbox(!!num);
-                checkbox.onchange = function () {
-                    const modId = checkbox.checked;
-                    alt.emit("toogleMod", modType, modId);
-                };
-                htmlMod.append(label);
-                break;
+        if (modType === 18) {
+            const [label, checkbox] = createCheckbox(!!num);
+            checkbox.onchange = function () {
+                const modId = checkbox.checked;
+                alt.emit("toogleMod", modType, modId);
+            };
+            htmlMod.append(label);
+        } else {
+            num++;
+            const [htmlSliderDiv, htmlSlider] = createSlider(num, count);
+            const htmlShow = document.createElement("strong");
+            htmlShow.className = "show";
+            htmlShow.innerHTML = num;
 
-            default:
-                num++;
-                const [htmlSliderDiv, htmlSlider] = createSlider(num, count);
-                const htmlShow = document.createElement("strong");
-                htmlShow.className = "show";
-                htmlShow.innerHTML = num;
-
-                htmlSlider.oninput = function () {
-                    // console.log(modType);
-                    htmlShow.innerHTML = this.value;
-                    alt.emit("setMod", modType, parseInt(this.value) - 1);
-                    //  alt.emit("camPos", name.toLowerCase());
-                };
-                htmlMod.append(htmlSliderDiv, htmlShow);
-                break;
+            htmlSlider.oninput = function () {
+                // console.log(modType);
+                htmlShow.innerHTML = this.value;
+                alt.emit("setMod", modType, parseInt(this.value) - 1);
+                //  alt.emit("camPos", name.toLowerCase());
+            };
+            htmlMod.append(htmlSliderDiv, htmlShow);
         }
+
         htmlGenerated.append(htmlMod);
     });
 }

@@ -2,24 +2,20 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 import "./colors.js";
-import "./mods.js";
+import { isToggleMod } from "./mods.js";
 import "./neons.js";
 import "./plate.js";
 import "./wheels.js";
 
-import { colors, modList, plateList, serverColors, tireBrands, tireColors, wheelTypeList, windowTints, xenonColors } from "../../data/index.js";
-
-alt.Vehicle.prototype.storeData = function () {
-    this.storedData = this.getMods();
-    this.storedData.speed = native.getEntitySpeed(this);
-};
+// import { colors, modList, plateList, serverColors, tireBrands, tireColors, wheelTypeList, windowTints, xenonColors } from "../../data/index.js";
 
 alt.Vehicle.prototype.restore = function () {
-    this.setAllMod(this.storedData.mods);
-    this.setWheels(this.storedData.wheels);
-    this.setColors(this.storedData.colors);
-    this.setNeons(this.storedData.neons);
-    this.setPlate(this.storedData.plate);
+    const stored = this.getMeta("storedData");
+    this.setAllMod(stored.mods);
+    this.setWheels(stored.wheels);
+    this.setColors(stored.colors);
+    this.setNeons(stored.neons);
+    this.setPlate(stored.plate);
 };
 
 alt.Vehicle.prototype.setStock = function () {
@@ -44,7 +40,7 @@ alt.Vehicle.prototype.getMods = function () {
 alt.Vehicle.prototype.sendModsToServer = function () {
     alt.emitServer("sendDataToServer", {
         mods: this.getModsData().map((data) => {
-            if (!isToggleMod) {
+            if (!isToggleMod(data.modType)) {
                 //  +1 client to server conversion except toggle mods
                 data.num++;
             }
