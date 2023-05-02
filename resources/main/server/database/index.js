@@ -1,5 +1,5 @@
 import * as alt from "alt-server";
-import DataBase from "../../../..//node_modules/darco2903-db/src/index.js";
+import { DataBase } from "darco2903-db";
 import * as tables from "./tables/index.js";
 import config from "./config.json" assert { type: "json" };
 

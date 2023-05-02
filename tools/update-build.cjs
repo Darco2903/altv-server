@@ -1,4 +1,4 @@
-const DataBase = require("../node_modules/darco2903-db/src/index.js");
+const DataBase = require("darco2903-db");
 const config = require("../resources/main/server/database/config.json");
 const { type, host, port, username, password, database } = config;
 
@@ -23,8 +23,8 @@ if (!build) {
             await db.updateDataByIds(data.id, { appearance }, tables.vehicle);
         }
         console.log(`Database updated to build ${build}`);
+        await db.disconnect();
     } catch (err) {
         console.log(err);
     }
-    await db.disconnect();
 })();
