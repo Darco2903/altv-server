@@ -5,9 +5,6 @@ import { colors, serverColors, tireBrands, tireColors, wheelTypeList } from "../
 const FRONTWHEELS = 23; // Front Wheels
 const REARWHEELS = 24; // Rear Wheels (Motorcycles)
 
-/**
- * @returns {wheelsData}
- */
 alt.Vehicle.prototype.getWheelsData = function () {
     const type = native.getVehicleWheelType(this);
     const num = native.getVehicleMod(this, FRONTWHEELS);

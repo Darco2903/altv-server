@@ -2,41 +2,39 @@ import * as alt from "alt-client";
 
 const player = alt.Player.local;
 
-let webview = new alt.WebView("http://resource/client/webview/spawner/index.html", false);
-webview.isVisible = false;
+let view = new alt.WebView("http://resource/client/webview/spawner/index.html", false);
+view.isVisible = false;
 
-webview.on("spawnVehicle", (model) => {
+view.on("spawnVehicle", (model) => {
     const hash = alt.hash(model);
     if (!player.vehicle) {
         alt.emitServer("vehicle:createPlayersIn", hash, [player]);
     } else if (notSameVeh(hash, null)) {
         alt.emitServer("vehicle:replace", player.vehicle, hash);
     }
-    toggle(false);
+    view.toggle(false);
 });
 
-webview.on("spawnSavedVehicle", (id) => {
+view.on("spawnSavedVehicle", (id) => {
     if (!player.vehicle) {
         alt.emitServer("vehicle:importSaved", id, [player]);
     } else if (notSameVeh(null, id)) {
         alt.emitServer("vehicle:importSavedReplace", player.vehicle, id);
     }
-    toggle(false);
+    view.toggle(false);
 });
 
-/**
- * @param {boolean} state
- */
-export function toggle(state) {
-    if (state && !webview.isVisible) {
-        webview.toggle(true);
+view.toggle = function (state) {
+    if (state && !view.isVisible) {
+        view.centerPointer();
         alt.Utils.toggleOnlyMove(true);
+        view.open();
         alt.emitServer("getPlayerVehicles");
-    } else if (!state && webview.isVisible) {
-        webview.toggle(false);
+    } else if (!state && view.isVisible) {
+        view.close();
         alt.Utils.toggleOnlyMove(false);
     }
-}
+};
 
 function notSameVeh(model, id) {
     return (
@@ -46,9 +44,7 @@ function notSameVeh(model, id) {
 }
 
 alt.onServer("playerGarage", (res) => {
-    webview.emit("garageList", res);
+    view.emit("garageList", res);
 });
 
-alt.on("webview:closeAll", () => {
-    toggle(false);
-});
+export default view;

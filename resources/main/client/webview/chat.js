@@ -6,7 +6,7 @@ let loaded = false;
 let open = false;
 let enabled = true;
 
-const view = new alt.WebView("http://resource/client/webview/chat/index.html");
+const view = new alt.WebView("http://resource/client/webview/chat/index.html", true);
 
 function addMessage(name, text) {
     if (name) {

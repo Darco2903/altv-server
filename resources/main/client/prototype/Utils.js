@@ -2,12 +2,25 @@ import * as alt from "alt-client";
 import * as native from "natives";
 import * as chat from "../webview/chat.js";
 
-let onlyMoveTick;
-let tunerControls;
+alt.Utils.drawNotification = function ({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "" }) {
+    native.beginTextCommandThefeedPost("STRING");
+    native.addTextComponentSubstringPlayerName(message);
+    native.endTextCommandThefeedPostMessagetextTu(imageName.toUpperCase(), imageName.toUpperCase(), false, 4, headerMsg, detailsMsg, 0.5);
+    native.endTextCommandThefeedPostTicker(false, false);
+};
 
-/**
- * @param {boolean} state
- */
+alt.Utils.getWaypointPos = function () {
+    const waypoint = native.getFirstBlipInfoId(8);
+    if (!native.doesBlipExist(waypoint)) {
+        alt.emit("notificationRaw", "CHAR_BLOCKED", "Commande", "tpm", "Un repère GPS est requis pour cette commande");
+        return;
+    }
+    let pos = native.getBlipInfoIdCoord(waypoint); //.add(0, 0, 100);
+    // let [floor, z] = native.getGroundZFor3dCoord(...pos.toArray(), 0, 0);
+    return pos;
+};
+
+let onlyMoveTick;
 alt.Utils.toggleOnlyMove = function (state) {
     if (!onlyMoveTick && state) {
         chat.enable(false);
@@ -34,12 +47,11 @@ alt.Utils.toggleOnlyMove = function (state) {
     }
 };
 
-/**
- * @param {boolean} state
- */
+let tunerControls;
 alt.Utils.toggleTunerControls = function (state) {
     if (!tunerControls && state) {
         chat.enable(false);
+        native.freezeEntityPosition(alt.Player.local.vehicle, true);
         tunerControls = alt.everyTick(() => {
             native.disableAllControlActions(0);
             native.enableControlAction(0, 74, true); //  INPUT_VEH_HEADLIGHT
@@ -54,67 +66,8 @@ alt.Utils.toggleTunerControls = function (state) {
         });
     } else if (tunerControls && !state) {
         chat.enable(true);
+        native.freezeEntityPosition(alt.Player.local.vehicle, false);
         alt.clearEveryTick(tunerControls);
         tunerControls = null;
     }
-};
-
-// /**
-//  * @param {string} msg
-//  * @param {Number} x x coordinate
-//  * @param {Number} y y coordinate
-//  * @param {Number} z z coordinate
-//  * @param {Number} scale
-//  * @param {Number} fontType
-//  * @param {Number} r 0-255
-//  * @param {Number} g 0-255
-//  * @param {Number} b 0-255
-//  * @param {Number} a 0-1
-//  * @param {boolean} useOutline
-//  * @param {boolean} useDropShadow
-//  * @param {Number} layer
-//  */
-// alt.Utils.drawText3d = function (msg, x, y, z, scale, fontType, r, g, b, a, useOutline = true, useDropShadow = true, layer = 0) {
-//     // let hex = msg.match("{.*}");
-//     // if (hex) {
-//     //     const rgb = hexToRgb(hex[0].replace("{", "").replace("}", ""));
-//     //     r = rgb[0];
-//     //     g = rgb[1];
-//     //     b = rgb[2];
-//     //     msg = msg.replace(hex[0], "");
-//     // }
-
-//     native.setDrawOrigin(x, y, z, 0);
-//     native.beginTextCommandDisplayText("STRING");
-//     native.addTextComponentSubstringPlayerName(msg);
-//     native.setTextFont(fontType);
-//     native.setTextScale(1, scale);
-//     native.setTextWrap(0.0, 1.0);
-//     native.setTextCentre(true);
-//     native.setTextColour(r, g, b, a);
-
-//     if (useOutline) {
-//         native.setTextOutline();
-//     }
-
-//     if (useDropShadow) {
-//         native.setTextDropShadow();
-//     }
-
-//     native.endTextCommandDisplayText(0, 0, 0);
-//     native.clearDrawOrigin();
-// };
-
-/**
- * @param {Object} options
- * @param {string} [options.imageName]
- * @param {string} [options.headerMsg]
- * @param {string} [options.detailsMsg]
- * @param {string} [options.message]
- */
-alt.Utils.drawNotification = function ({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "" }) {
-    native.beginTextCommandThefeedPost("STRING");
-    native.addTextComponentSubstringPlayerName(message);
-    native.endTextCommandThefeedPostMessagetextTu(imageName.toUpperCase(), imageName.toUpperCase(), false, 4, headerMsg, detailsMsg, 0.5);
-    native.endTextCommandThefeedPostTicker(false, false);
 };

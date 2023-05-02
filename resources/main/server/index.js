@@ -4,11 +4,8 @@ import * as chat from "./chat.js";
 import * as vehicles from "./vehicles.js";
 import "./prototype/Player.js";
 import "./prototype/Vehicle.js";
-import "./playerConnection.js";
-
-// import * as Functions from "./functions";
-
-// Functions.update();
+import "./noclip.js";
+import "./players.js";
 
 //  let autoSave = false
 //  let saveTime = 5            //  minutes

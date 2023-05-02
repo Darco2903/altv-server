@@ -11,6 +11,7 @@ import xenonColors from "../../data/xenonColors.json" assert { type: "json" };
 let appLoaded;
 let htmlGenerated = document.querySelector("generated");
 const nodeList = document.querySelectorAll("button");
+/** @type {HTMLButtonElement[]} */
 const buttonList = Array.prototype.slice.call(nodeList);
 
 if (window.alt === undefined) {
@@ -30,19 +31,35 @@ for (const button of buttonList) {
                 alt.emit(id, appLoaded);
                 break;
 
-            default:
-                alt.emit("startApp", id);
+            case "mods":
+            case "colors":
+            case "neons":
+            case "plate":
+            case "wheels":
+                if (appLoaded != id) {
+                    alt.emit("startApp", id);
+                }
                 break;
         }
     };
 }
 
 alt.on("app", appManager);
+alt.on("exit", () => {
+    appLoaded = undefined;
+});
 
+/**
+ * @param {string} app
+ * @param {colorData|modData[]|neonData|plateData|wheelsData|} data
+ */
 function appManager(app, data) {
     if (app === appLoaded) return;
+    appLoaded = app;
     htmlGenerated.innerHTML = "";
-    for (const but of buttonList) but.className = "unselected";
+    for (const but of buttonList) {
+        but.className = "unselected";
+    }
     document.getElementById(app).className = "selected";
     switch (app) {
         case "colors":
@@ -65,12 +82,18 @@ function appManager(app, data) {
             initWheels(data);
             break;
     }
-    appLoaded = app;
 }
 
 let divSlider = document.getElementById("divSlider");
 let labelCheckbox = document.getElementById("labelCheckbox");
 
+/**
+ * @param {number} value
+ * @param {number} max
+ * @param {number} min
+ * @param {number} step
+ * @returns {[HTMLDivElement, HTMLInputElement]}
+ */
 function createSlider(value, max, min, step) {
     let div = divSlider.cloneNode(true);
     //  div.removeAttribute("hidden");
@@ -119,15 +142,17 @@ function createSeparator() {
     htmlGenerated.append(htmlSeparator);
 }
 
-// /**
-//  * @param {modsData[]} modsData
-//  */
+/**
+ * @param {modData[]} modsData
+ */
 function initMods(modsData) {
     modsData.forEach(({ count, modType, name, num }) => {
         if (!name) {
             name = modList[modType];
             // if (!name) return;
         }
+
+        console.log(name, modType);
 
         const htmlMod = document.createElement("mod");
         const htmlName = document.createElement("strong");

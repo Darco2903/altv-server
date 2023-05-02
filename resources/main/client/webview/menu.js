@@ -1,24 +1,25 @@
 import * as alt from "alt-client";
-//import * as native from "natives";
-import * as chat from "./chat.js";
 import * as nametag from "../nametag.js";
-import * as spawner from "./spawner.js";
-import * as tuner from "./tuner.js";
+
+import armory from "./armory.js";
+import model from "./model.js";
+import spawner from "./spawner.js";
+import tuner from "./tuner.js";
 
 let player = alt.Player.local;
 
-let webview = new alt.WebView("http://resource/client/webview/menu/index.html");
-webview.isVisible = false;
+let view = new alt.WebView("http://resource/client/webview/menu/index.html");
+view.isVisible = false;
 
-webview.on("event", (id, state) => {
+view.on("event", (id, state) => {
     switch (id) {
         case "spawner":
-            toggle(false);
+            view.toggle(false);
             spawner.toggle(true);
             break;
 
         case "tuner":
-            toggle(false);
+            view.toggle(false);
             tuner.toggle(true);
             break;
 
@@ -27,17 +28,17 @@ webview.on("event", (id, state) => {
         case "register":
         case "delete":
             alt.emitServer(`vehicle:${id}`, player.vehicle);
-            toggle(false);
+            view.toggle(false);
             break;
 
         case "model":
-            // toggle
-            toggle(false);
+            view.toggle(false);
+            model.toggle(true);
             break;
 
         case "armory":
-            // toggle
-            toggle(false);
+            view.toggle(false);
+            armory.toggle(true);
             break;
 
         case "nametag":
@@ -47,33 +48,26 @@ webview.on("event", (id, state) => {
 });
 
 function updateWebview() {
-    webview.emit("vehicle", !!player.vehicle);
+    view.emit("vehicle", !!player.vehicle);
     if (player.vehicle?.hasSyncedMeta("id")) {
-        webview.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
+        view.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
     }
-    webview.emit("nametag", alt.getMeta("displayNametag"));
+    view.emit("nametag", alt.getMeta("displayNametag"));
 }
 
 // alt.on("enteredVehicle", switchControls);
 // alt.on("leftVehicle", switchControls);
 
-/**
- * @param {boolean} state
- */
-export function toggle(state) {
-    if ((state && webview.isVisible) || (!state && !webview.isVisible)) {
-        return;
+view.toggle = function (state) {
+    if (state && !view.isVisible) {
+        updateWebview();
+        view.centerPointer();
+        alt.Utils.toggleOnlyMove(true);
+        view.open();
+    } else if (!state && view.isVisible) {
+        alt.Utils.toggleOnlyMove(false);
+        view.close();
     }
-    updateWebview();
-    webview.centerPointer();
-    webview.toggle(state);
-    alt.Utils.toggleOnlyMove(state);
-}
+};
 
-export function isVisible() {
-    return webview.isVisible;
-}
-
-alt.on("webview:closeAll", () => {
-    toggle(false);
-});
+export default view;

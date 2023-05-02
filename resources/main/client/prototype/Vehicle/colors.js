@@ -2,10 +2,7 @@ import * as alt from "alt-client";
 import * as native from "natives";
 import { colors, serverColors, tireColors, windowTints, xenonColors } from "../../data/index.js";
 
-/**
- * @returns {colorData}
- */
-alt.Vehicle.prototype.getColors = function () {
+alt.Vehicle.prototype.getColorsData = function () {
     let [serverPrimary, serverSecondary] = native.getVehicleColours(this).splice(1, 2);
     let [type1, color1] = native.getVehicleModColor1(this).splice(1, 2); //  [void, paintType, color, pearl(client-side)]
     let [type2, color2] = native.getVehicleModColor2(this).splice(1, 2); //  [void, paintType, color]
@@ -18,23 +15,13 @@ alt.Vehicle.prototype.getColors = function () {
     const secondary = { colorType: type2, colorNum: color2 };
 
     ////   Extra
-    const { xenon, window, tireSmoke } = this.getExtraColors();
+    const { xenon, window, tireSmoke } = this.getExtraColorsData();
     ////
 
     return { primary, secondary /* Extra */, xenon, window, tireSmoke };
 };
 
-/**
- * @typedef {Object} extraColors
- * @property {number} xenon
- * @property {number} window
- * @property {number} tireSmoke
- */
-
-/**
- * @returns {extraColors}
- */
-alt.Vehicle.prototype.getExtraColors = function () {
+alt.Vehicle.prototype.getExtraColorsData = function () {
     let xenon = native.getVehicleXenonLightColorIndex(this) + 2;
     xenon = xenon < 15 ? xenon : 0;
     const window = native.getVehicleWindowTint(this);
@@ -48,15 +35,12 @@ alt.Vehicle.prototype.getExtraColors = function () {
     return { xenon, window, tireSmoke };
 };
 
-/**
- * @returns {serverColors}
- */
 alt.Vehicle.prototype.getServerColors = function () {
     const [primary, secondary] = native.getVehicleColours(this).splice(1, 2);
     const pearl = native.getVehicleExtraColours(this)[1]; //  [void, pearl(server-side), color(wheels)]
 
     ////   Extra
-    const { xenon, window, tireSmoke } = this.getExtraColors();
+    const { xenon, window, tireSmoke } = this.getExtraColorsData();
     ////
 
     return { primary, secondary, pearl /* Extra */, xenon, window, tireSmoke };
@@ -65,7 +49,7 @@ alt.Vehicle.prototype.getServerColors = function () {
 /**
  * @param {colorData} colorData
  */
-alt.Vehicle.prototype.setColors = function ({ primary, secondary /* Extra */, xenon, window, tireSmoke }) {
+alt.Vehicle.prototype.setColors = function ({ primary, secondary /* Extra */, xenon, window }) {
     native.setVehicleModColor1(this, primary.colorType, primary.colorNum, primary.pearl);
     native.setVehicleModColor2(this, secondary.colorType, secondary.colorNum);
     const wheelColor = native.getVehicleExtraColours(this, 1, 1)[2]; //  [void, pearl, wheelColor]

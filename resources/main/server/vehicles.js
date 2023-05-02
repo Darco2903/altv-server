@@ -9,7 +9,8 @@ import { db, tables } from "./database/index.js";
  */
 export function create(hash, pos, rot) {
     const veh = new alt.Vehicle(hash, pos, rot);
-    veh.init();
+    veh.manualEngineControl = true;
+    veh.modKit = +(veh.modKitsCount > 0);
     return veh;
 }
 
@@ -190,17 +191,17 @@ alt.onClient("getPlayerVehicles", async (player) => {
 
 alt.onClient("sendDataToServer", async (player, { mods, wheels, colors, neons, plate }) => {
     const veh = player.vehicle;
-    veh.setAllMods(mods);
-    veh.setAllWheels(wheels);
-    veh.setAllColors(colors);
+    veh.setModsData(mods);
+    veh.setWheelsData(wheels);
+    veh.setColorsData(colors);
     //  veh.setAllExtraColors(data.extraColors);
-    veh.setAllNeons(neons);
+    veh.setNeonsData(neons);
     veh.setPlate(plate);
     if (veh.hasSyncedMeta("id")) {
         try {
             await veh.saveAppearance();
             player.notify({
-                imageName: "CHAR_CARSITE",
+                imageName: "CHAR_LS_CUSTOMS",
                 headerMsg: "Sauvegarde effectuée",
                 // detailMsg: veh.model,
                 // message: `~g~Modifications sauvegardées`,
@@ -216,7 +217,7 @@ alt.onClient("sendDataToServer", async (player, { mods, wheels, colors, neons, p
     }
 });
 
-function repairVehicle(vehicle) {
+alt.onClient("vehicle:repair", (player, vehicle) => {
     vehicle.repair();
     player.notify({
         imageName: "CHAR_CARSITE",
@@ -224,10 +225,6 @@ function repairVehicle(vehicle) {
         detailMsg: vehicle.model,
         message: `~g~Réparation effectuée`,
     });
-}
-
-alt.onClient("vehicle:repair", (player, vehicle) => {
-    repairVehicle(vehicle);
 });
 
 alt.onClient("vehicle:despawn", (player, vehicle) => {

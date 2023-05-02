@@ -1,17 +1,21 @@
 import * as alt from "alt-client";
-import * as native from "natives";
 
 import "./colors.js";
-import { isToggleMod } from "./mods.js";
+import "./mods.js";
 import "./neons.js";
 import "./plate.js";
 import "./wheels.js";
 
 // import { colors, modList, plateList, serverColors, tireBrands, tireColors, wheelTypeList, windowTints, xenonColors } from "../../data/index.js";
 
+alt.Vehicle.prototype.storeData = function () {
+    this.setMeta("storedData", this.getAllMods());
+};
+
 alt.Vehicle.prototype.restore = function () {
+    /** @type {alt.Vehicle.allMods} */
     const stored = this.getMeta("storedData");
-    this.setAllMod(stored.mods);
+    this.setAllMods(stored.mods);
     this.setWheels(stored.wheels);
     this.setColors(stored.colors);
     this.setNeons(stored.neons);
@@ -26,40 +30,30 @@ alt.Vehicle.prototype.setStock = function () {
     this.setStockPlate();
 };
 
-/**
- * @typedef {object} mods
- * @property {modData} mods
- * @property {wheelsData} wheels
- * @property {colorsData} colors
- * @property {neonsData} neons
- * @property {plateData} plate
- * @returns {mods}
- *
- */
-alt.Vehicle.prototype.getMods = function () {
+alt.Vehicle.prototype.getAllMods = function () {
     return {
         mods: this.getModsData(),
         wheels: this.getWheelsData(),
-        colors: this.getColors(),
+        colors: this.getColorsData(),
         //  extraColors: this.getExtraColors(),
-        neons: this.getNeons(),
-        plate: this.getPlate(),
+        neons: this.getNeonsData(),
+        plate: this.getPlateData(),
     };
 };
 
-alt.Vehicle.prototype.sendModsToServer = function () {
-    alt.emitServer("sendDataToServer", {
+alt.Vehicle.prototype.getAllModsServer = function () {
+    return {
+        colors: this.getServerColors(),
         mods: this.getModsData().map((data) => {
-            if (!isToggleMod(data.modType)) {
+            if (!alt.Vehicle.isToggleMod(data.modType)) {
                 //  +1 client to server conversion except toggle mods
                 data.num++;
             }
             return data;
         }),
-        wheels: this.getWheelsData(),
-        colors: this.getServerColors(),
         //  extraColors: this.getExtraColors(),
-        neons: this.getNeons(),
-        plate: this.getPlate(),
-    });
+        neons: this.getNeonsData(),
+        plate: this.getPlateData(),
+        wheels: this.getWheelsData(),
+    };
 };

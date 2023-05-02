@@ -4,31 +4,37 @@ import * as types from "../prototype/Vehicle/index.js";
 
 const player = alt.Player.local;
 let appLoaded;
-let webview = new alt.WebView("http://resource/client/webview/tuner/index.html", false);
-webview.isVisible = false;
 
-webview.on("startApp", startApp);
-webview.on("exit", close);
-webview.on("restore", () => {
+let view = new alt.WebView("http://resource/client/webview/tuner/index.html", false);
+view.isVisible = false;
+
+view.on("startApp", startApp);
+view.on("exit", () => view.toggle(false));
+view.on("restore", () => {
     player.vehicle.restore();
     refreshApp();
 });
-webview.on("stock", () => {
+view.on("stock", () => {
     player.vehicle.setStock();
     refreshApp();
 });
-webview.on("setMod", (modType, modId) => player.vehicle.setMod(modType, modId));
-webview.on("toogleMod", (modType, state) => player.vehicle.toggleMod(modType, state));
-webview.on("setWheels", (wheelsData) => player.vehicle.setWheels(wheelsData));
-webview.on("setColors", (colorsData) => player.vehicle.setColors(colorsData));
-webview.on("setNeons", (neonsData) => player.vehicle.setNeons(neonsData));
-webview.on("setPlate", (plateData) => player.vehicle.setPlate(plateData));
+view.on("setMod", (modType, modId) => player.vehicle.setMod(modType, modId));
+view.on("toogleMod", (modType, state) => player.vehicle.toggleMod(modType, state));
+view.on("setWheels", (wheelsData) => player.vehicle.setWheels(wheelsData));
+view.on("setColors", (colorsData) => player.vehicle.setColors(colorsData));
+view.on("setNeons", (neonsData) => player.vehicle.setNeons(neonsData));
+view.on("setPlate", (plateData) => player.vehicle.setPlate(plateData));
 
+/**
+ * @param {number} heading
+ * @param {number} pitch
+ * @param {number} scalingFactor
+ */
 function setCamPos(heading, pitch, scalingFactor = 0.5) {
     //  console.log(heading, pitch);
     native.setGameplayCamRelativeHeading(heading);
     native.setGameplayCamRelativePitch(pitch, scalingFactor);
-    webview.emit("lookUpdate", heading, -pitch);
+    view.emit("lookUpdate", heading, -pitch);
 }
 
 /**
@@ -48,48 +54,31 @@ function camByApp(app) {
         case "plate":
             setCamPos(0, 20, 0.02);
             break;
-
-        default:
-            break;
     }
 }
 
-function open() {
-    webview.toggle(true);
+view.toggle = function (state) {
     const veh = player.vehicle;
-    veh.setMeta("speed", native.getEntitySpeed(veh))
-    veh.setMeta("storedData", veh.getMods())
-    alt.Utils.toggleTunerControls(true);
-    native.freezeEntityPosition(veh, true);
-    // native.setVehicleLights(veh, 2); //  Enable lights
-    startApp("mods");
-}
-
-function close() {
-    const veh = player.vehicle;
-    webview.toggle(false);
-    alt.Utils.toggleTunerControls(false);
-    native.freezeEntityPosition(veh, false);
-    const speed = veh.getMeta("speed");
-    native.setVehicleForwardSpeed(veh, speed);
-    // native.setVehicleLights(veh, 0); //  Release lights
-    const pitch = native.getGameplayCamRelativePitch();
-    const heading = speed > 1 ? 0 : native.getGameplayCamRelativeHeading();
-    setCamPos(heading, pitch + 2, 1); //  Remove slow effect
-    veh.deleteMeta("speed");
-    veh.deleteMeta("storedData");
-    veh.sendModsToServer();
-}
-/**
- * @param {boolean} state
- */
-export function toggle(state) {
-    if (state && !webview.isVisible) {
-        open();
-    } else if (!state && webview.isVisible) {
-        close();
+    if (state && !view.isVisible) {
+        veh.setMeta("speed", native.getEntitySpeed(veh));
+        veh.setMeta("storedData", veh.getAllMods());
+        startApp("mods");
+        alt.Utils.toggleTunerControls(true);
+        view.open();
+    } else if (!state && view.isVisible) {
+        alt.Utils.toggleTunerControls(false);
+        view.close();
+        view.emit("exit");
+        const speed = veh.getMeta("speed");
+        native.setVehicleForwardSpeed(veh, speed);
+        const pitch = native.getGameplayCamRelativePitch();
+        const heading = speed > 1 ? 0 : native.getGameplayCamRelativeHeading();
+        setCamPos(heading, pitch + 2, 1); //  Remove slow effect
+        veh.deleteMeta("speed");
+        veh.deleteMeta("storedData");
+        veh.getAllModsServer();
     }
-}
+};
 
 /**
  * @param {string} app
@@ -98,16 +87,19 @@ export function toggle(state) {
 function dataByApp(app) {
     switch (app) {
         case "colors":
-            return player.vehicle.getColors();
+            return player.vehicle.getColorsData();
 
         case "mods":
+            player.vehicle.getModsData().forEach((mod) => {
+                console.log(mod.name, mod.modType);
+            });
             return player.vehicle.getModsData();
 
         case "neons":
-            return player.vehicle.getNeons();
+            return player.vehicle.getNeonsData();
 
         case "plate":
-            return player.vehicle.getPlate();
+            return player.vehicle.getPlateData();
 
         case "wheels":
             const vehClass = native.getVehicleClass(player.vehicle);
@@ -128,15 +120,13 @@ function startApp(app) {
     alt.log("startApp: ", app);
     const data = dataByApp(app);
     if (!data) return;
-    webview.emit("app", app, data);
+    view.emit("app", app, data);
     camByApp(app);
 }
 
 function refreshApp() {
     const data = dataByApp(appLoaded);
-    webview.emit("app", appLoaded, data);
+    view.emit("app", appLoaded, data);
 }
 
-alt.on("webview:closeAll", () => {
-    toggle(false);
-});
+export default view;

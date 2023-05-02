@@ -27,7 +27,7 @@ alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
         }
 
         alt.log(`[command] ${player.name}: /${msg}`);
-        const args = msg.split(" ");
+        const args = msg.split(" ").filter((arg) => arg.length > 0);
         const commandName = args.shift();
 
         if (commands.has(commandName)) {

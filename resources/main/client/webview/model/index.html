@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Player Model</title>
+    </head>
+
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <body>
+        <div id="pannel">
+            <div class="search">
+                <search class="form__group field">
+                    <input type="input" class="form__field" placeholder="Search" required />
+                    <label for="search" class="form__label">Rechercher un véhicule</label>
+                </search>
+            </div>
+
+            <div id="classList">
+                <div class="modelClass" id="freemod">
+                    <strong>Base</strong>
+                </div>
+                <div class="modelClass" id="mods">
+                    <strong>Mods</strong>
+                </div>
+                <div class="modelClass" id="civmale">
+                    <strong>Male</strong>
+                </div>
+                <div class="modelClass" id="CIVFEMALE">
+                    <strong>Female</strong>
+                </div>
+                <div class="modelClass" id="Animal">
+                    <strong>Animals</strong>
+                </div>
+                <div class="modelClass" id="COP">
+                    <strong>Cop</strong>
+                </div>
+                <div class="modelClass" id="PLAYER_1">
+                    <strong>PLAYER_1</strong>
+                </div>
+                <div class="modelClass" id="PLAYER_2">
+                    <strong>PLAYER_2</strong>
+                </div>
+                <div class="modelClass" id="PLAYER_0">
+                    <strong>PLAYER_0</strong>
+                </div>
+                <div class="modelClass" id="army">
+                    <strong>army</strong>
+                </div>
+                <div class="modelClass" id="MEDIC">
+                    <strong>MEDIC</strong>
+                </div>
+                <div class="modelClass" id="FIREMAN">
+                    <strong>FIREMAN</strong>
+                </div>
+                <div class="modelClass" id="Swat">
+                    <strong>Swat</strong>
+                </div>
+            </div>
+
+            <div id="searchList" notInSelection="true"></div>
+        </div>
+
+        <div id="template" hidden>
+            <div class="model">
+                <img src="imgs/" alt="modelImg" class="button" loading="lazy" />
+                <strong></strong>
+            </div>
+        </div>
+
+        <script type="module" src="app.js"></script>
+    </body>
+</html>

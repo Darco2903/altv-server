@@ -13,19 +13,10 @@ alt.Player.prototype.notify = function (notificationOptions) {
     alt.emitClient(this, "notification", notificationOptions);
 };
 
-/**
- * @description Send a message to specified player
- * @param {string} msg
- * @returns {void}
- */
-alt.Player.prototype.send = function (msg) {
-    alt.emitClient(this, "chat:message", null, msg);
+alt.Player.prototype.send = function (message) {
+    alt.emitClient(this, "chat:message", null, message);
 };
 
-/**
- * @param {number} authRequired
- * @returns {boolean}
- */
 alt.Player.prototype.authorized = function (authRequired) {
     return this.getMeta("op") >= authRequired;
 };
