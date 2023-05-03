@@ -1,0 +1,53 @@
+:root {
+    --bg-color: rgba(0, 0, 0, 0.75);
+    --color1: #008cba;
+    --color1-hover: #006a8d;
+    --color1-active: #005a79;
+    --color2: #dfc800;
+    --color2-hover: #af9e00;
+    --color2-active: #968700;
+}
+
+body {
+    user-select: none;
+}
+
+.points {
+    position: fixed;
+    right: 5px;
+    top: 10vh;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+}
+
+.point {
+    width: auto;
+    height: 5vh;
+    background-color: #ff0000;
+    margin: 10px;
+}
+
+*[visible="false"] {
+    display: none !important;
+}
+
+button {
+    background-color: var(--color2);
+    padding: 0.8vh 0.4vw;
+    border-radius: 15px;
+    border: none;
+    font-size: 0.75vw;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}
+
+button:hover {
+    background-color: var(--color2-hover);
+}
+
+button:active {
+    background-color: var(--color2-active);
+}

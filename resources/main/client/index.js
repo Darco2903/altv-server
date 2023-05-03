@@ -7,6 +7,7 @@ import "./prototype/index.js";
 import "./webview/index.js";
 
 import "./nametag.js";
+import "./track.js";
 import "./noclip.js";
 import "./players.js";
 import "./vehicles.js";

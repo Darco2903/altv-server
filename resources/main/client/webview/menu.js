@@ -5,6 +5,7 @@ import armory from "./armory.js";
 import model from "./model.js";
 import * as nametag from "../nametag.js";
 import spawner from "./spawner.js";
+import trackEditor from "./trackEditor.js";
 import tuner from "./tuner.js";
 
 let player = alt.Player.local;
@@ -40,6 +41,11 @@ view.on("event", (id, state) => {
         case "armory":
             view.toggle(false);
             armory.toggle(true);
+            break;
+
+        case "trackEditor":
+            view.toggle(false);
+            trackEditor.toggle(true);
             break;
 
         case "nametag":
