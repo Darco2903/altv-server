@@ -17,7 +17,6 @@ function vehicleDiv(weapon) {
     img.id = weapon.Hash;
     img.src += `${imgNameParser(weapon)}.webp`;
     img.onerror = () => {
-        console.log(`${imgNameParser(weapon)}.webp`);
         img.src = defaultImage;
     };
     div.querySelector("strong").innerHTML = htmlNameParser(weapon);
@@ -32,7 +31,9 @@ Object.entries(weapons).forEach(([key, weapon]) => {
 
 //  blockSpaceScrollEvent
 window.addEventListener("keydown", (key) => {
-    if (key.code === "Space") key.preventDefault();
+    if (key.code === "Space") {
+        key.preventDefault();
+    }
 });
 
 document.getElementById("all").onclick = () => alt.emit("giveAll");
@@ -44,6 +45,8 @@ const equipNow = document.getElementById("equipNow");
 let buttons = document.getElementsByClassName("button");
 for (const but of buttons) {
     but.onclick = function () {
-        if ("alt" in window) alt.emit("giveWeapon", this.id, amount.value, equipNow.checked);
+        if ("alt" in window) {
+            alt.emit("giveWeapon", this.id, amount.value, equipNow.checked);
+        }
     };
 }

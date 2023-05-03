@@ -1,8 +1,9 @@
 import * as alt from "alt-client";
-import * as nametag from "../nametag.js";
+import * as native from "natives";
 
 import armory from "./armory.js";
 import model from "./model.js";
+import * as nametag from "../nametag.js";
 import spawner from "./spawner.js";
 import tuner from "./tuner.js";
 
@@ -42,7 +43,7 @@ view.on("event", (id, state) => {
             break;
 
         case "nametag":
-            nametag.toggle(state);
+            nametag.display(state);
             break;
     }
 });

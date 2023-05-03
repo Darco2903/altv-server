@@ -3,7 +3,7 @@ import * as alt from "alt-client";
 let displayTick;
 
 alt.on("resourceStart", () => {
-    toggle(alt.hasMeta("nametagDisplay"));
+    display(alt.hasMeta("nametagDisplay"));
 });
 
 /**
@@ -21,7 +21,7 @@ function setName(player) {
 /**
  * @param {boolean} state
  */
-export function toggle(state) {
+export function display(state) {
     if ((state && !displayTick) || (!state && displayTick)) {
         if (state) {
             displayTick = alt.everyTick(() => alt.Player.streamedIn.forEach(setName));
