@@ -1,22 +1,17 @@
 import * as alt from "alt-server";
-import * as chat from "../chat.js";
 
-chat.register({
+alt.Utils.registerCommand({
     name: "r",
     description: "Restart server or resource",
     args: [
         {
             name: "resourceName",
-            type: "string",
-            optional: true,
+            description: "Name of the resource to restart",
+            required: true,
         },
     ],
+    permissionLevel: 4,
     execute: (player, [resourceName]) => {
-        if (!player.authorized(4)) {
-            player.notAuthorized();
-            return;
-        }
-
         if (!resourceName) {
             player.notify({
                 imageName: "CHAR_BLOCKED",

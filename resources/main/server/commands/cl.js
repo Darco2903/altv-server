@@ -1,7 +1,6 @@
 import * as alt from "alt-server";
-import * as chat from "../chat.js";
 
-chat.register({
+alt.Utils.registerCommand({
     name: "cl",
     description: "Set specified clothing",
     args: [

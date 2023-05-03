@@ -3,6 +3,7 @@ import { db, tables } from "./database/index.js";
 import * as chat from "./chat.js";
 import * as vehicles from "./vehicles.js";
 import "./prototype/Player.js";
+import "./prototype/Utils.js";
 import "./prototype/Vehicle.js";
 import "./noclip.js";
 import "./players.js";

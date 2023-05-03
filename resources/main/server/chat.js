@@ -9,13 +9,14 @@ let mutedPlayers = new Map();
  * @param {string} options.name
  * @param {string[]} [options.args]
  * @param {string} [options.description]
+ * @param {number} [options.permissionLevel]
  * @param {function(alt.Player, string[])} options.execute
  */
-export function register({ name, args, description, execute }) {
+export function register({ name, args = [], description = "", permissionLevel = 0, execute }) {
     if (!name || typeof execute != "function") {
         throw new Error("Invalid command name or execute function");
     }
-    commands.set(name, { name, args, description, execute });
+    commands.set(name, { name, args, description, permissionLevel, execute });
 }
 
 alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
@@ -31,7 +32,13 @@ alt.onClient("chat:message", (player, /** @type{ string }*/ msg) => {
         const commandName = args.shift();
 
         if (commands.has(commandName)) {
+            /** @type {alt.Utils.commandData} */
             const command = commands.get(commandName);
+
+            if (!player.authorized(command.permissionLevel)) {
+                player.notAuthorized();
+                return;
+            }
 
             try {
                 command.execute(player, args);

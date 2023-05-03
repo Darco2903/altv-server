@@ -1,8 +1,7 @@
 import * as alt from "alt-server";
-import * as chat from "../chat.js";
 import locationsList from "../../shared/data/locations.json" assert { type: "json" };
 
-chat.register({
+alt.Utils.registerCommand({
     name: "goto",
     description: "Go to specified location",
     args: [

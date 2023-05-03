@@ -1,8 +1,8 @@
 import * as alt from "alt-server";
-import * as chat from "../chat.js";
+
 import * as vehicle from "../vehicles.js";
 
-chat.register({
+alt.Utils.registerCommand({
     name: "vehspawn",
     description: "Spawn a vehicle",
     args: [

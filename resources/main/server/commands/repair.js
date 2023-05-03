@@ -1,7 +1,7 @@
 import * as alt from "alt-server";
-import * as chat from "../chat.js";
 
-chat.register({
+
+alt.Utils.registerCommand({
     name: "repair",
     description: "Repair your vehicle or the nearest one",
     args: [],
