@@ -15,7 +15,7 @@ export default new orm.EntitySchema({
             nullable: true,
         },
         model: {
-            type: "int",
+            type: "text",
             nullable: true,
         },
         clothes: {

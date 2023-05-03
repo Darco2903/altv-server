@@ -86,7 +86,6 @@ async function disconnectPlayer(player) {
         await db.updateDataByIds(
             player.getSyncedMeta("id"),
             {
-                model: player.model,
                 pos: player.pos.toFixed(2).toArray(),
             },
             tables.character
@@ -113,7 +112,7 @@ alt.onClient("player:saveModel", async (player) => {
             throw new Error(`(player:saveModel) ${player.name} has no id`);
         }
         const id = player.getSyncedMeta("id");
-        const updated = await db.updateDataByIds(id, { model: player.model }, tables.character);
+        const updated = await db.updateDataByIds(id, { model: player.model.toString() }, tables.character);
         if (updated === 1) {
             player.notify({
                 imageName: "CHAR_DEFAULT",
