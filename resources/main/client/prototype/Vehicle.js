@@ -1,12 +1,10 @@
 import * as alt from "alt-client";
 
-import "./colors.js";
-import "./mods.js";
-import "./neons.js";
-import "./plate.js";
-import "./wheels.js";
-
-// import { colors, modList, plateList, serverColors, tireBrands, tireColors, wheelTypeList, windowTints, xenonColors } from "../../data/index.js";
+import "./Vehicle/colors.js";
+import "./Vehicle/mods.js";
+import "./Vehicle/neons.js";
+import "./Vehicle/plate.js";
+import "./Vehicle/wheels.js";
 
 alt.Vehicle.prototype.storeData = function () {
     this.setMeta("storedData", this.getAllMods());

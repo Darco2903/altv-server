@@ -1,6 +1,5 @@
 import * as alt from "alt-client";
 import * as native from "natives";
-import * as types from "../prototype/Vehicle/index.js";
 
 const player = alt.Player.local;
 let appLoaded;
@@ -82,7 +81,7 @@ view.toggle = function (state) {
 
 /**
  * @param {string} app
- * @returns {types.colorsData|types.modData|types.neonData|types.plateData|types.wheelsData|undefined}
+ * @returns {alt.Vehicle.colorData|alt.Vehicle.modData|alt.Vehicle.neonData|alt.Vehicle.plateData|alt.Vehicle.wheelsData|undefined}
  */
 function dataByApp(app) {
     switch (app) {
@@ -90,9 +89,6 @@ function dataByApp(app) {
             return player.vehicle.getColorsData();
 
         case "mods":
-            player.vehicle.getModsData().forEach((mod) => {
-                console.log(mod.name, mod.modType);
-            });
             return player.vehicle.getModsData();
 
         case "neons":

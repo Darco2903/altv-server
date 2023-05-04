@@ -21,7 +21,7 @@ declare module "alt-client" {
          *  message: "Test"
          * });
          */
-        function drawNotification(notificationOptions: UtilsShared.notificationOptions): void;
+        function drawNotification(notificationOptions: notificationOptions): void;
 
         /**
          * Get the current waypoint position.

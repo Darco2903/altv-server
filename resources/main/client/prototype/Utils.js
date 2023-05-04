@@ -42,7 +42,9 @@ alt.Utils.toggleOnlyMove = function (state) {
             native.enableControlAction(0, 76, true); //  INPUT_VEH_HANDBRAKE
             native.enableControlAction(0, 59, true); //  INPUT_VEH_MOVE_LR
             native.enableControlAction(0, 86, true); //  INPUT_VEH_HORN
-            native.disableFrontendThisFrame();
+            // native.enableControlAction(0, 114, true); //  INPUT_VEH_FLY_PITCH_UP_DOWN
+            // native.enableControlAction(0, 115, true); //  INPUT_VEH_FLY_ROLL_LEFT_RIGHT
+            freeCamOnRightClick();
         });
     } else if (onlyMoveTick && !state) {
         alt.Utils.enableChat(true);
@@ -60,13 +62,7 @@ alt.Utils.toggleTunerControls = function (state) {
             native.disableAllControlActions(0);
             native.enableControlAction(0, 74, true); //  INPUT_VEH_HEADLIGHT
             native.enableControlAction(0, 86, true); //  INPUT_VEH_HORN
-            if (alt.isKeyDown(2) /* RIGHT_CLICK */) {
-                if (alt.isCursorVisible()) alt.showCursor(false);
-                native.enableControlAction(0, 1, true); //  INPUT_LOOK_LR
-                native.enableControlAction(0, 2, true); //  INPUT_LOOK_UD
-            } else if (!alt.isCursorVisible()) {
-                alt.showCursor(true);
-            }
+            freeCamOnRightClick();
         });
     } else if (tunerControls && !state) {
         alt.Utils.enableChat(true);
@@ -75,3 +71,13 @@ alt.Utils.toggleTunerControls = function (state) {
         tunerControls = null;
     }
 };
+
+function freeCamOnRightClick() {
+    if (alt.isKeyDown(2) /* RIGHT_CLICK */) {
+        if (alt.isCursorVisible()) alt.showCursor(false);
+        native.enableControlAction(0, 1, true); //  INPUT_LOOK_LR
+        native.enableControlAction(0, 2, true); //  INPUT_LOOK_UD
+    } else if (!alt.isCursorVisible()) {
+        alt.showCursor(true);
+    }
+}

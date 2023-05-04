@@ -1,5 +1,6 @@
 declare module "alt-client" {
     import { WebView } from "alt-client";
+    
     interface WebView {
         /**
          * Sets the cursor to the center of the screen.
