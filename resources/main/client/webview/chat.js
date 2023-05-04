@@ -72,6 +72,17 @@ alt.on("keyup", (key) => {
 export function isOpen() {
     return open;
 }
+alt.on("resourceStart", () => {
+    const buffer = alt.LocalStorage.get("chatBuffer");
+    if (buffer) {
+        view.emit("restoreBuffer", buffer);
+    }
+});
+
+view.on("chatBuffer", (buffer) => {
+    alt.LocalStorage.set("chatBuffer", buffer);
+    alt.LocalStorage.save();
+});
 
 /**
  * @param {boolean} state
