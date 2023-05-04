@@ -7,12 +7,17 @@ const REARWHEELS = 24; // Rear Wheels (Motorcycles)
 
 alt.Vehicle.isToggleMod = function (modType) {
     // return [17, 18, 19, 20, 21, 22].includes(modType);
-    return modType === 17;
+    return modType === 18;
+};
+
+alt.Vehicle.isSkipMod = function (modType) {
+    return [17, 19, 20, 21, 22].includes(modType);
 };
 
 alt.Vehicle.prototype.getModData = function (modType) {
     let modData = { count: 0, modType, name: "", num: 0 };
-    if (alt.Vehicle.isToggleMod(modType) && ![20, 21, 22, 23].includes(modType)) {
+    if (alt.Vehicle.isSkipMod(modType)) return modData;
+    else if (alt.Vehicle.isToggleMod(modType)) {
         modData.count = 1;
         modData.num = native.isToggleModOn(this, modType);
     } else if (modType != FRONTWHEELS && modType != REARWHEELS) {

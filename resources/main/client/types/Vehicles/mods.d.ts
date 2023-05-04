@@ -5,6 +5,7 @@ declare module "alt-client" {
     namespace Vehicle {
         type modData = VehicleShared.modData;
         function isToggleMod(modType: number): boolean;
+        function isSkipMod(modType: number): boolean;
     }
     interface Vehicle {
         setMod(modType: number, modId: boolean): void;
