@@ -26,7 +26,6 @@ view.on("spawnSavedVehicle", (id) => {
 
 view.toggle = function (state) {
     if (state && !view.isVisible) {
-        view.centerPointer();
         alt.Utils.toggleOnlyMove(true);
         view.open();
         alt.emitServer("getPlayerVehicles");

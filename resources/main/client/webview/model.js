@@ -28,7 +28,6 @@ function setCam() {
 
 view.toggle = function (state) {
     if (state && !view.isVisible) {
-        view.centerPointer();
         alt.Utils.toggleOnlyMove(true);
         view.open();
         setCam();

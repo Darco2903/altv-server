@@ -11,7 +11,6 @@ view.on("giveWeapon", (hash, amount, equipNow) => {
 
 view.toggle = function (state) {
     if (state && !view.isVisible) {
-        view.centerPointer();
         view.open();
         alt.Utils.toggleOnlyMove(true);
     } else if (!state && view.isVisible) {
