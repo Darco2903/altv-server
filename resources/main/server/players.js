@@ -1,7 +1,7 @@
 import * as alt from "alt-server";
 import { db, tables } from "./database/index.js";
 
-const DEFAULT_MODEL = alt.hash("mp_m_freemode_01");
+const DEFAULT_MODEL = alt.hash("MP_M_Freemode_01");
 const DEFAULT_POS = [180, -1030, 28];
 
 alt.on("playerConnect", (player) => {
@@ -65,7 +65,14 @@ async function connectPlayer(player) {
         return;
     }
     const data = await authPlayer(player);
-    player.model = data?.model ?? DEFAULT_MODEL;
+
+    let model;
+    if (!data?.model) {
+        model = DEFAULT_MODEL;
+    } else {
+        model = alt.getPedModelInfoByHash(alt.hash(data.model)).hash || DEFAULT_MODEL;
+    }
+    player.model = model;
     player.spawn(new alt.Vector3(data?.pos.map((x) => +x) ?? DEFAULT_POS));
     player.visible = true;
     player.health = 200;
@@ -112,7 +119,11 @@ alt.onClient("player:saveModel", async (player) => {
             throw new Error(`(player:saveModel) ${player.name} has no id`);
         }
         const id = player.getSyncedMeta("id");
-        const updated = await db.updateDataByIds(id, { model: player.model.toString() }, tables.character);
+        const model = alt.getPedModelInfoByHash(player.model).name;
+        if (!model) {
+            return;
+        }
+        const updated = await db.updateDataByIds(id, { model }, tables.character);
         if (updated === 1) {
             player.notify({
                 imageName: "CHAR_DEFAULT",
