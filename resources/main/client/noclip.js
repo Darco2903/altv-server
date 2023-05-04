@@ -1,6 +1,8 @@
 import * as alt from "alt-client";
 import * as game from "natives";
 
+const player = alt.Player.local;
+
 // DO NOT EDIT //
 let NoclipActive = false;
 let MovingSpeed = 0;
@@ -172,7 +174,7 @@ alt.everyTick(() => {
 /**
  * @param {boolean} state
  */
-function toogleNoClip(state) {
+export default function toogleNoClip(state) {
     NoclipActive = state;
 
     let noclipEntity = alt.Player.local.vehicle ? alt.Player.local.vehicle : alt.Player.local;
@@ -189,21 +191,13 @@ function toogleNoClip(state) {
     }
 }
 
-alt.on("noclip:toggle", (state) => {
-    toogleNoClip(state);
-});
-
-alt.onServer("noclip:toggle", (state) => {
-    toogleNoClip(state);
-});
-
 alt.on("keyup", (key) => {
     // alt.KeyCode.F1
     if (key === 112) {
         if (NoclipActive) {
             toogleNoClip(false);
-        } else {
-            alt.emitServer("noclip:request");
+        } else if (player.authorized(2)) {
+            toogleNoClip(true);
         }
     }
 });

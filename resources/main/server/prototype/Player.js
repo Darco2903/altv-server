@@ -17,8 +17,8 @@ alt.Player.prototype.send = function (message) {
     alt.emitClient(this, "chat:message", null, message);
 };
 
-alt.Player.prototype.authorized = function (authRequired) {
-    return this.getMeta("op") >= authRequired;
+alt.Player.prototype.authorized = function (level) {
+    return this.getSyncedMeta("op") >= level;
 };
 
 alt.Player.prototype.notAuthorized = function () {

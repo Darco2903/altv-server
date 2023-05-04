@@ -22,6 +22,16 @@ alt.once("spawned", () => {
     loc.loadCayoPericoIsland();
 });
 
+alt.on("anyResourceStart", (resourceName) => {
+    if (player.authorized(2)) {
+        player.notify({
+            imageName: "CHAR_MP_FM_CONTACT",
+            headerMsg: resourceName,
+            detailsMsg: `La ressource a bien redémarré.`,
+            message: "",
+        });
+    }
+});
 // alt.on("setGodMode", (enable) => native.setPlayerInvincible(player, enable));
 
 // alt.onServer("audio", () => {

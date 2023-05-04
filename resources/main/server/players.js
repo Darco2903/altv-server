@@ -47,8 +47,8 @@ async function authPlayer(player) {
     try {
         let acc = await db.selectByValue("rsid", player.socialID, tables.account);
         acc = acc[0] ?? (await registerPlayer(player));
-        player.setMeta("op", acc.op);
         player.setSyncedMeta("id", acc.id);
+        player.setSyncedMeta("op", acc.op);
         data = await db.fetchById(acc.id, tables.character);
     } catch (error) {
         alt.logError(error);

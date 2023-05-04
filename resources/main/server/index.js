@@ -15,21 +15,6 @@ import "./players.js";
 //     import("./autoReconnect");
 // }); // Dev
 
-alt.on("anyResourceStart", (resourceName) => {
-    alt.setTimeout(() => {
-        alt.Player.all.forEach((player) => {
-            if (player.authorized(2)) {
-                player.notify({
-                    imageName: "CHAR_MP_FM_CONTACT",
-                    headerMsg: resourceName,
-                    detailsMsg: `La ressource a bien redémarré.`,
-                    message: "",
-                });
-            }
-        });
-    }, 500);
-});
-
 alt.on("consoleCommand", (command, args) => {
     switch (command) {
         case "r":

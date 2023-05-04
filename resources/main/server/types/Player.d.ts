@@ -2,6 +2,21 @@ declare module "alt-server" {
     import { Player, Utils } from "alt-shared";
     namespace Player {}
     interface Player {
+        getSyncedMeta(key: "id"): number;
+        getSyncedMeta(key: "op"): number;
+
+        /**
+         * Checks if the player has the required permission level.
+         *
+         * @param level The required permission level.
+         */
+        authorized(level: number): boolean;
+
+        /**
+         * Sends a notification to the player that they are not authorized to use a command.
+         */
+        notAuthorized(): void;
+
         /**
          * Sends a notification to the player.
          *
@@ -22,17 +37,5 @@ declare module "alt-server" {
          * @param message The message to send.
          */
         send(message: string): void;
-
-        /**
-         * Checks if the player has the required permission level.
-         *
-         * @param authRequired The required permission level.
-         */
-        authorized(authRequired: number): boolean;
-
-        /**
-         * Sends a notification to the player that they are not authorized to use a command.
-         */
-        notAuthorized(): void;
     }
 }
