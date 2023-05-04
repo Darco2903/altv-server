@@ -47,6 +47,7 @@ export default class TrackEditor extends TrackBase {
     /**
      * @param {number} index
      * @param {alt.CheckpointData} data
+     * @returns {number}
      */
     insertCheckpoint(index, data) {
         if (index > this.checkpoints.length) {
@@ -58,13 +59,15 @@ export default class TrackEditor extends TrackBase {
         const checkpoint = this.#createCheckpoint(data);
         this.checkpoints.splice(index, 0, checkpoint);
         this.#updateNextPos(index - 1);
+        return index;
     }
 
     /**
      * @param {alt.CheckpointData} data
+     * @returns {number}
      */
     addCheckpoint(data) {
-        this.insertCheckpoint(this.checkpoints.length, data);
+        return this.insertCheckpoint(this.checkpoints.length, data);
     }
 
     /**
@@ -82,6 +85,7 @@ export default class TrackEditor extends TrackBase {
     moveCheckpoint(index, pos) {
         this.getCheckpoint(index).pos = pos;
         this.#updateNextPos(index - 1);
+        this.#updateCheckpoint(index);
     }
 
     #updateNextPos(index) {
@@ -90,12 +94,7 @@ export default class TrackEditor extends TrackBase {
             console.log("updating nextPos");
             const newPos = this.getCheckpoint(index + 1)?.pos ?? toUpdate.pos;
             toUpdate.nextPos = newPos;
-            if (this.visible) {
-                this.setVisibility(false);
-                alt.setTimeout(() => {
-                    this.setVisibility(true);
-                }, 50);
-            }
+            this.#updateCheckpoint(index);
         }
     }
 
@@ -105,6 +104,7 @@ export default class TrackEditor extends TrackBase {
      */
     resizeCheckpoint(index, radius) {
         this.getCheckpoint(index).radius = radius;
+        this.#updateCheckpoint(index);
     }
 
     /**
@@ -113,6 +113,7 @@ export default class TrackEditor extends TrackBase {
      */
     changeCheckpointColor(index, color) {
         this.getCheckpoint(index).color = color;
+        this.#updateCheckpoint(index);
     }
 
     /**
@@ -121,6 +122,7 @@ export default class TrackEditor extends TrackBase {
      */
     changeCheckpointType(index, type) {
         this.getCheckpoint(index).type = type;
+        this.#updateCheckpoint(index);
     }
 
     /**
@@ -129,6 +131,16 @@ export default class TrackEditor extends TrackBase {
      */
     changeCheckpointHeight(index, height) {
         this.getCheckpoint(index).height = height;
+        this.#updateCheckpoint(index);
+    }
+
+    /**
+     * @param {number} index
+     * @param {number} height
+     */
+    changeCheckpointRadius(index, radius) {
+        this.getCheckpoint(index).radius = radius;
+        this.#updateCheckpoint(index);
     }
 
     /**
@@ -140,6 +152,21 @@ export default class TrackEditor extends TrackBase {
         });
     }
 
+    /**
+     * @param {number} index
+     */
+    async #updateCheckpoint(index) {
+        if (this.visible) {
+            const checkpoint = this.getCheckpoint(index);
+            checkpoint.visible = false;
+            await alt.Utils.wait(100);
+            checkpoint.visible = true;
+        }
+    }
+
+    /**
+     * @param {boolean} state
+     */
     setVisibility(state) {
         this.checkpoints.forEach((checkpoint) => {
             checkpoint.visible = state;
