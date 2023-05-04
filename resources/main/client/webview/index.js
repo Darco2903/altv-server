@@ -1,7 +1,6 @@
 import * as alt from "alt-client";
 
 import armory from "./armory.js";
-import * as chat from "./chat.js";
 import menu from "./menu.js";
 import model from "./model.js";
 import spawner from "./spawner.js";
@@ -20,7 +19,7 @@ alt.on("keyup", (key) => {
             break;
 
         case 75: // K
-            if (!chat.isOpen()) {
+            if (!alt.Utils.isChatOpen()) {
                 const state = menu.isVisible;
                 if (!state) {
                     closeAll();
@@ -41,7 +40,6 @@ function closeAll() {
 
 export default {
     armory,
-    chat,
     menu,
     model,
     spawner,

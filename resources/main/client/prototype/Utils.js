@@ -2,6 +2,10 @@ import * as alt from "alt-client";
 import * as native from "natives";
 import * as chat from "../webview/chat.js";
 
+alt.Utils.enableChat = chat.enable;
+alt.Utils.isChatEnabled = chat.isEnabled;
+alt.Utils.isChatOpen = chat.isOpen;
+
 alt.Utils.drawNotification = function ({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "" }) {
     native.beginTextCommandThefeedPost("STRING");
     native.addTextComponentSubstringPlayerName(message);
@@ -23,7 +27,7 @@ alt.Utils.getWaypointPos = function () {
 let onlyMoveTick;
 alt.Utils.toggleOnlyMove = function (state) {
     if (!onlyMoveTick && state) {
-        chat.enable(false);
+        alt.Utils.enableChat(false);
         onlyMoveTick = alt.everyTick(() => {
             native.disableAllControlActions(0);
             native.enableControlAction(0, 21, true); //  INPUT_SPRINT
@@ -41,7 +45,7 @@ alt.Utils.toggleOnlyMove = function (state) {
             native.disableFrontendThisFrame();
         });
     } else if (onlyMoveTick && !state) {
-        chat.enable(true);
+        alt.Utils.enableChat(true);
         alt.clearEveryTick(onlyMoveTick);
         onlyMoveTick = null;
     }
@@ -50,7 +54,7 @@ alt.Utils.toggleOnlyMove = function (state) {
 let tunerControls;
 alt.Utils.toggleTunerControls = function (state) {
     if (!tunerControls && state) {
-        chat.enable(false);
+        alt.Utils.enableChat(false);
         native.freezeEntityPosition(alt.Player.local.vehicle, true);
         tunerControls = alt.everyTick(() => {
             native.disableAllControlActions(0);
@@ -65,7 +69,7 @@ alt.Utils.toggleTunerControls = function (state) {
             }
         });
     } else if (tunerControls && !state) {
-        chat.enable(true);
+        alt.Utils.enableChat(true);
         native.freezeEntityPosition(alt.Player.local.vehicle, false);
         alt.clearEveryTick(tunerControls);
         tunerControls = null;

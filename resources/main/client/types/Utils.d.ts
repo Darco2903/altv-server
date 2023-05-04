@@ -3,6 +3,12 @@ declare module "alt-client" {
     import { Utils as UtilsShared } from "alt-shared";
 
     namespace Utils {
+        type notificationOptions = UtilsShared.notificationOptions;
+
+        function enableChat(state: boolean): void;
+        function isChatEnabled(): boolean;
+        function isChatOpen(): boolean;
+
         /**
          * Draws a notification on the screen.
          *

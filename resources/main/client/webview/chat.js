@@ -30,7 +30,7 @@ view.on("chatmessage", (text) => {
     view.unfocus();
 });
 
-export function pushMessage(name, text) {
+function pushMessage(name, text) {
     if (!loaded) {
         buffer.push({ name, text });
     } else {
@@ -38,7 +38,7 @@ export function pushMessage(name, text) {
     }
 }
 
-export function pushLine(text) {
+function pushLine(text) {
     pushMessage(null, text);
 }
 
@@ -69,9 +69,6 @@ alt.on("keyup", (key) => {
     }
 });
 
-export function isOpen() {
-    return open;
-}
 alt.on("resourceStart", () => {
     const buffer = alt.LocalStorage.get("chatBuffer");
     if (buffer) {
@@ -93,4 +90,8 @@ export function enable(state) {
 
 export function isEnabled() {
     return enabled;
+}
+
+export function isOpen() {
+    return open;
 }
