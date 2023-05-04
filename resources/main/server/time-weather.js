@@ -1,7 +1,7 @@
 import * as alt from "alt-server";
 import * as db from "database";
 import * as chat from "chat";
-import Clock from "./Clock";
+import Clock from "./class/Clock.js";
 
 let clock;
 

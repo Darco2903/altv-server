@@ -1,6 +1,6 @@
 import * as alt from "alt-server";
 import * as chat from "chat";
-import "./VehicleAudio";
+import "./class/VehicleAudio.js";
 
 alt.on("playerEnteredVehicle", (player, vehicle, seat) => vehicle.playerEnter(player));
 alt.on("playerLeftVehicle", (player, vehicle, seat) => vehicle.playerLeft(player));

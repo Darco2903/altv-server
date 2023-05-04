@@ -2,11 +2,17 @@ import * as alt from "alt-server";
 import { db, tables } from "./database/index.js";
 import * as chat from "./chat.js";
 import * as vehicles from "./vehicles.js";
+
+// import "./prototype/Checkpoint.js";
 import "./prototype/Player.js";
 import "./prototype/Utils.js";
 import "./prototype/Vehicle.js";
+
+// import "./garage.js";
+// import "./musicPlayer.js"
 import "./noclip.js";
 import "./players.js";
+// import "./time-weather.js";
 
 //  let autoSave = false
 //  let saveTime = 5            //  minutes

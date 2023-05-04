@@ -1,115 +1,98 @@
-import * as alt from 'alt-server';
-import { garageList } from '../garageList';
-import "./Checkpoint"
+import * as alt from "alt-server";
+import { garageList } from "../shared/data/garageList.js";
 
+let colshapeAll = [];
+let debugPoints = false;
 
+alt.on("resourceStop", () => colshapeAll.forEach((checkpoint) => checkpoint.destroy()));
 
-let colshapeAll = []
-let debugPoints = false
+Object.values(garageList).forEach(({ name, pos, ped, enter, exit }) => {
+    createPoint(pos, "garage", name, false, [255, 100, 0]);
+    createPedPoints(ped);
+    createEnterPoints(enter);
+    createExitPoints(exit);
+});
 
-alt.on("resourceStop", () => colshapeAll.forEach(checkpoint => checkpoint.destroy()))
-
-Object.values(garageList).forEach(({name, pos, ped, enter, exit}) => {
-    createPoint(pos, "garage", name, false, [255, 100, 0])
-    createPedPoints(ped)
-    createEnterPoints(enter)
-    createExitPoints(exit)
-})
-
-function createPoint (pos, id, name, platerOnly, color) {
-    if (!debugPoints) color.push(0)
-    let colshape = new alt.Checkpoint(48, new alt.Vector3(pos), pos.w, 2, new alt.RGBA(color))
-    colshape.id = id
-    colshape.name = name
-    colshapeAll.push(colshape)
-    return colshape
+function createPoint(pos, id, name, platerOnly, color) {
+    if (!debugPoints) color.push(0);
+    let colshape = new alt.Checkpoint(48, new alt.Vector3(pos), pos.w, 2, new alt.RGBA(color));
+    colshape.id = id;
+    colshape.name = name;
+    colshapeAll.push(colshape);
+    return colshape;
 }
 
-function createPointsPeer ({in: inPos, out: outPos}, id, color) {
+function createPointsPeer({ in: inPos, out: outPos }, id, color) {
     return {
         inColshape: createPoint(inPos, id, "in", true, color),
-        outColshape: createPoint(outPos, id, "out", true, color)
-    }
+        outColshape: createPoint(outPos, id, "out", true, color),
+    };
 }
 
-function createPedPoints (posInOut) {
-    let {inColshape, outColshape} = createPointsPeer(posInOut, "ped", [0, 255, 0])
-    inColshape.tp = {enabled: true, pos: posInOut.out}
-    outColshape.tp = {enabled: true, pos: posInOut.in}
+function createPedPoints(posInOut) {
+    let { inColshape, outColshape } = createPointsPeer(posInOut, "ped", [0, 255, 0]);
+    inColshape.tp = { enabled: true, pos: posInOut.out };
+    outColshape.tp = { enabled: true, pos: posInOut.in };
 }
 
-function createEnterPoints (posInOut) {
-    let {inColshape, outColshape} = createPointsPeer(posInOut, "enter", [0, 200, 255])
-    inColshape.tp = {enabled: false, pos: null}
-    outColshape.tp = {enabled: true, pos: posInOut.in}
+function createEnterPoints(posInOut) {
+    let { inColshape, outColshape } = createPointsPeer(posInOut, "enter", [0, 200, 255]);
+    inColshape.tp = { enabled: false, pos: null };
+    outColshape.tp = { enabled: true, pos: posInOut.in };
 }
 
-function createExitPoints (posInOut) {
-    let {inColshape, outColshape} = createPointsPeer(posInOut, "exit", [255, 200, 0])
-    inColshape.tp = {enabled: true, pos: posInOut.out}
-    outColshape.tp = {enabled: false, pos: null}
+function createExitPoints(posInOut) {
+    let { inColshape, outColshape } = createPointsPeer(posInOut, "exit", [255, 200, 0]);
+    inColshape.tp = { enabled: true, pos: posInOut.out };
+    outColshape.tp = { enabled: false, pos: null };
 }
 
-
-function enterGarage (entity) {
-    const isPlayer = entityType(entity) == "player"
-    const dimension = isPlayer ? -entity.getSyncedMeta("id") : entity.getMeta("owner")
-    entity.dimension = dimension
+function enterGarage(entity) {
+    const isPlayer = entityType(entity) == "player";
+    const dimension = isPlayer ? -entity.getSyncedMeta("id") : entity.getMeta("owner");
+    entity.dimension = dimension;
 }
 
-function leaveGarage (entity) {
-    const dimension = 0
-    entity.dimension = dimension
+function leaveGarage(entity) {
+    const dimension = 0;
+    entity.dimension = dimension;
 }
 
-function entityType (entity) {
-    return entity.type == 0 ? "player" : "vehicle"
+function entityType(entity) {
+    return entity.type == 0 ? "player" : "vehicle";
 }
 
-alt.on('entityEnterColshape', (colshape, entity) => {
-    const id = colshape.id
-    const isAPlayer = entityType(entity) == "player"
+alt.on("entityEnterColshape", (colshape, entity) => {
+    const id = colshape.id;
+    const isAPlayer = entityType(entity) == "player";
     console.log("Enter", id, "player:", isAPlayer);
 
     if (id == "garage") {
-        enterGarage(entity)
-        if (isAPlayer)
-            alt.emitClient(entity, "garage:EnterGarage", colshape.name)
-        return
+        enterGarage(entity);
+        if (isAPlayer) alt.emitClient(entity, "garage:EnterGarage", colshape.name);
+        return;
     }
 
-    if (!isAPlayer)
-        return
-   
-    alt.emitClient(entity, "garage:EnterColshape", Object.values(colshape))
-})
+    if (!isAPlayer) return;
 
-alt.on('entityLeaveColshape', (colshape, entity) => {
-    const id = colshape.id
-    const isAPlayer = entityType(entity) == "player"
+    alt.emitClient(entity, "garage:EnterColshape", Object.values(colshape));
+});
+
+alt.on("entityLeaveColshape", (colshape, entity) => {
+    const id = colshape.id;
+    const isAPlayer = entityType(entity) == "player";
     console.log("Enter", id, "player:", isAPlayer);
 
     if (id == "garage") {
-        leaveGarage(entity)
-        if (isAPlayer)
-            alt.emitClient(entity, "garage:LeaveGarage")
-        return
+        leaveGarage(entity);
+        if (isAPlayer) alt.emitClient(entity, "garage:LeaveGarage");
+        return;
     }
 
-    if (!isAPlayer)
-        return
-   
-    alt.emitClient(entity, "garage:LeaveColshape")
-})
+    if (!isAPlayer) return;
 
-
-
-
-
-
-
-
-
+    alt.emitClient(entity, "garage:LeaveColshape");
+});
 
 //  import * as chat from 'chat';
 //  import * as db from "database"
@@ -129,9 +112,9 @@ for (const name in garages) {
 */
 
 alt.on("vehicle:spawnInGarage", (data) => {
-    let veh = new alt.Vehicle(data.model, data.pos, data.rot)
-    veh.dimension = data.owner
-})
+    let veh = new alt.Vehicle(data.model, data.pos, data.rot);
+    veh.dimension = data.owner;
+});
 
 /*
 function initGarage (player, garageName) {
@@ -263,7 +246,7 @@ function garageCheck (data) {
         }
     }
 */
-    //alt.on("vehParked", vehParked)
+//alt.on("vehParked", vehParked)
 /*
     function vehParked (colshape) {
         console.log("vehParked")
@@ -307,13 +290,11 @@ function garageCheck (data) {
         }
     }*/
 
+//  alt.on('resourceStop', () => {
+//      clearGarage()
+//  });
 
-    //  alt.on('resourceStop', () => {
-    //      clearGarage()
-    //  });
-
-    
-    /*
+/*
     var isInGarage = setInterval(() => {
         const a = garageWaypoint.isEntityIn(player)
         if (!a) {

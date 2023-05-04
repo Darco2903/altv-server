@@ -1,5 +1,5 @@
 import * as alt from "alt-server";
-import Music from "./Music";
+import Music from "./Music.js";
 
 alt.Vehicle.prototype.initMusic = function () {
     this.music = new Music(this.getMeta("music"));
