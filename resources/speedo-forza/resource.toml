@@ -1,8 +1,0 @@
-type = "js"
-main = ""
-server-files = []
-client-main = "main.js"
-client-files = [
-    "*"
-]
-deps = []

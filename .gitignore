@@ -1,51 +1,24 @@
-#AltV Resources
-
-*config*
-
 #stuff on dev
-pm_others/
-pm_new/
-server.toml
-
 
 #dev ignore
 old/
 *-old.*
 _*/
 *template*
-
-#models
-#*.yft
-#*.ytd
-#*.ydd
-#*.ymt
-#*.ydr
-#audio
-#*.dat*
-#*.awc
-
-
-#imgs
-#*.png
-#*.jpg
-#*.jpeg
-
-
-#???
-*.db
-
+*test*
 
 #stuff
-/cache/
-/crashdumps/
-/data/
-/modules/
-*.log
-*test*
 AltV.Net.Host.*
 altv-server*
+cache/
+crashdumps/
+/data/
 libnode.dll
+*.log
+modules/
+node_modules/
+server.toml
 .vscode/
 
-#node_modules
-node_modules
+#config
+config.json

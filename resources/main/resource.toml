@@ -1,13 +1,12 @@
 type = "js"
-main = "server/main.js"
+main = "server/index.js"
 server-files = [
-    "server/*"
+    "server/*",
+    "shared/*"
 ]
-client-main = "client/main.js"
+client-main = "client/index.js"
 client-files = [
-    "client/*"
+    "client/*",
+    "shared/*"
 ]
-deps = [
-    "chat",
-    "database"
-]
+deps = []
