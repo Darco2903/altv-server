@@ -189,33 +189,40 @@ alt.onClient("getPlayerVehicles", async (player) => {
     }
 });
 
-alt.onClient("sendDataToServer", async (player, { mods, wheels, colors, neons, plate }) => {
-    const veh = player.vehicle;
-    veh.setModsData(mods);
-    veh.setWheelsData(wheels);
-    veh.setColorsData(colors);
-    //  veh.setAllExtraColors(data.extraColors);
-    veh.setNeonsData(neons);
-    veh.setPlate(plate);
-    if (veh.hasSyncedMeta("id")) {
-        try {
-            await veh.saveAppearance();
-            player.notify({
-                imageName: "CHAR_LS_CUSTOMS",
-                headerMsg: "Sauvegarde effectuée",
-                // detailMsg: veh.model,
-                // message: `~g~Modifications sauvegardées`,
-            });
-        } catch (error) {
-            player.notify({
-                imageName: "CHAR_BLOCKED",
-                headerMsg: "Erreur",
-                detailMsg: "Sauvegarde",
-                message: `~r~Problème lors de la sauvegarde des modifications`,
-            });
+alt.onClient(
+    "sendDataToServer",
+    /**
+     * @param {alt.Player} player - Player who sent the data
+     * @param {alt.Vehicle.allMods} data - Data to save
+     */
+    async (player, { colors, mods, neons, plate, wheels }) => {
+        const veh = player.vehicle;
+        veh.setColorsData(colors);
+        veh.setModsData(mods);
+        //  veh.setAllExtraColors(data.extraColors);
+        veh.setNeonsData(neons);
+        veh.setPlateData(plate);
+        veh.setWheelsData(wheels);
+        if (veh.hasSyncedMeta("id")) {
+            try {
+                await veh.saveAppearance();
+                player.notify({
+                    imageName: "CHAR_LS_CUSTOMS",
+                    headerMsg: "Sauvegarde effectuée",
+                    // detailMsg: veh.model,
+                    // message: `~g~Modifications sauvegardées`,
+                });
+            } catch (error) {
+                player.notify({
+                    imageName: "CHAR_BLOCKED",
+                    headerMsg: "Erreur",
+                    detailMsg: "Sauvegarde",
+                    message: `~r~Problème lors de la sauvegarde des modifications`,
+                });
+            }
         }
     }
-});
+);
 
 alt.onClient("vehicle:repair", (player, vehicle) => {
     vehicle.repair();
@@ -233,50 +240,65 @@ alt.onClient("vehicle:despawn", (player, vehicle) => {
     alt.setTimeout(() => veh.destroy(), 100);
 });
 
-alt.onClient("vehicle:register", async (player, vehicle) => {
-    if (vehicle.hasSyncedMeta("id") && vehicle.getMeta("owner") === player.getSyncedMeta("id")) {
-        player.notify({
-            imageName: "CHAR_BLOCKED",
-            headerMsg: "Attention",
-            detailMsg: vehicle.model,
-            message: `~r~Ce véhicule est déjà enregistré\n ID: ${vehicle.getSyncedMeta("id")}`,
-        });
-        return;
+alt.onClient(
+    "vehicle:register",
+    /**
+     * @param {alt.Player} player
+     * @param {alt.Vehicle} vehicle
+     */
+    async (player, vehicle) => {
+        if (vehicle.hasSyncedMeta("id") && vehicle.getMeta("owner") === player.getSyncedMeta("id")) {
+            player.notify({
+                imageName: "CHAR_BLOCKED",
+                headerMsg: "Attention",
+                detailMsg: vehicle.model,
+                message: `~r~Ce véhicule est déjà enregistré\n ID: ${vehicle.getSyncedMeta("id")}`,
+            });
+            return;
+        }
+        try {
+            const id = await vehicle.register(player);
+            player.notify({
+                imageName: "CHAR_CARSITE",
+                headerMsg: "Enregistrement",
+                detailMsg: vehicle.model,
+                message: `~g~Véhicule enregistré avec succès\n ID: ${id}`,
+            });
+        } catch (error) {
+            alt.logError(`Failed to register vehicle: ${error}`);
+            player.notify({
+                imageName: "CHAR_BLOCKED",
+                headerMsg: "Erreur",
+                detailMsg: vehicle.model,
+                message: `~r~Problème lors de l'enregistrement du véhicule`,
+            });
+        }
     }
-    try {
-        const id = await vehicle.register();
-        player.notify({
-            imageName: "CHAR_CARSITE",
-            headerMsg: "Enregistrement",
-            detailMsg: vehicle.model,
-            message: `~g~Véhicule enregistré avec succès\n ID: ${id}`,
-        });
-    } catch (error) {
-        player.notify({
-            imageName: "CHAR_BLOCKED",
-            headerMsg: "Erreur",
-            detailMsg: vehicle.model,
-            message: `~r~Problème lors de l'enregistrement du véhicule`,
-        });
-    }
-});
+);
 
-alt.onClient("vehicle:delete", async (player, vehicle) => {
-    try {
-        const id = await vehicle.delete();
-        player.notify({
-            imageName: "CHAR_CARSITE",
-            headerMsg: "Suppression",
-            detailMsg: vehicle.model,
-            message: `~g~Véhicule supprimé avec succès\n ID: ${id}`,
-        });
-    } catch (error) {
-        alt.logError(`Failed to delete vehicle: ${error}`);
-        player.notify({
-            imageName: "CHAR_BLOCKED",
-            headerMsg: "Erreur",
-            detailMsg: vehicle.model,
-            message: `~r~Problème de suppression\n ID: ${vehicle.getSyncedMeta("id")}`,
-        });
+alt.onClient(
+    "vehicle:delete",
+    /**
+     * @param {alt.Player} player
+     * @param {alt.Vehicle} vehicle
+     */
+    async (player, vehicle) => {
+        try {
+            const id = await vehicle.delete();
+            player.notify({
+                imageName: "CHAR_CARSITE",
+                headerMsg: "Suppression",
+                detailMsg: vehicle.model,
+                message: `~g~Véhicule supprimé avec succès\n ID: ${id}`,
+            });
+        } catch (error) {
+            alt.logError(`Failed to delete vehicle: ${error}`);
+            player.notify({
+                imageName: "CHAR_BLOCKED",
+                headerMsg: "Erreur",
+                detailMsg: vehicle.model,
+                message: `~r~Problème de suppression\n ID: ${vehicle.getSyncedMeta("id")}`,
+            });
+        }
     }
-});
+);

@@ -33,22 +33,6 @@ import { db, tables } from "../database/index.js";
 //     return modData;
 // };
 
-alt.Vehicle.prototype.setModsData = function (modsData) {
-    modsData.forEach(({ modType, num }) => {
-        try {
-            this.setMod(modType, num);
-        } catch (error) {
-            alt.logWarning("type", modType, "num", num);
-            alt.logWarning(error);
-        }
-    });
-};
-
-alt.Vehicle.prototype.setWheelsData = function ({ type, num, color }) {
-    this.setWheels(type, num + 1);
-    this.wheelColor = color;
-};
-
 alt.Vehicle.prototype.setColorsData = function (data) {
     const { primary, secondary, pearl } = data;
     this.primaryColor = primary;
@@ -69,6 +53,17 @@ alt.Vehicle.prototype.setColorsData = function (data) {
     //  this.interiorColor = data.interiorColor
 };
 
+alt.Vehicle.prototype.setModsData = function (modsData) {
+    modsData.forEach(({ modType, num }) => {
+        try {
+            this.setMod(modType, num);
+        } catch (error) {
+            alt.logWarning("type", modType, "num", num);
+            alt.logWarning(error);
+        }
+    });
+};
+
 alt.Vehicle.prototype.setNeonsData = function ({ color, enabled }) {
     this.neonColor = color;
     this.neon = {
@@ -85,6 +80,11 @@ alt.Vehicle.prototype.setPlateData = function (data) {
     this.numberPlateText = plateText;
 };
 
+alt.Vehicle.prototype.setWheelsData = function ({ type, num, color }) {
+    this.setWheels(type, num + 1);
+    this.wheelColor = color;
+};
+
 // alt.Vehicle.prototype.toJSON = function (data) {
 //     Object.keys(data).forEach(function (key) {
 //         data[key] = JSON.stringify(data[key]);
@@ -99,29 +99,41 @@ alt.Vehicle.prototype.setPlateData = function (data) {
 //     return data;
 // };
 
-alt.Vehicle.prototype.register = async function () {
-    const model = this.getName();
-    const owner = this.driver.getSyncedMeta("id");
-    const data = {
-        model,
-        owner,
-        appearance: vehicle.getAppearanceDataBase64(),
-    };
-    const id = await db.insertData(data, tables.vehicle);
-    this.setSyncedMeta("id", id);
-    this.setMeta("owner", owner);
-    Promise.resolve(id);
+alt.Vehicle.prototype.getModelName = function () {
+    return alt.getVehicleModelInfoByHash(this.model).title;
 };
 
 alt.Vehicle.prototype.delete = async function () {
-    const id = vehicle.getSyncedMeta("id");
+    const id = this.getSyncedMeta("id");
     await db.deleteByIds(id, tables.vehicle);
+    this.deleteSyncedMeta("id");
+    this.deleteMeta("owner");
+    return Promise.resolve(id);
 };
 
+/**
+ * @param {alt.Player} owner
+ */
+alt.Vehicle.prototype.register = async function (owner) {
+    const model = this.getModelName();
+    const ownerId = owner.getSyncedMeta("id");
+    const id = await db.insertData(
+        {
+            model,
+            owner: ownerId,
+            appearance: this.getAppearanceDataBase64(),
+        },
+        tables.vehicle
+    );
+    this.setSyncedMeta("id", id);
+    this.setMeta("owner", ownerId);
+    return Promise.resolve(id);
+};
+
+/**
+ * @param {object} data
+ */
 alt.Vehicle.prototype.update = async function (data) {
-    if (!this.hasSyncedMeta("id")) {
-        throw new Error("Vehicle not registered");
-    }
     const id = this.getSyncedMeta("id");
     const updated = await db.updateDataByIds(id, data, tables.vehicle);
     if (!updated) {
@@ -134,11 +146,7 @@ alt.Vehicle.prototype.saveAppearance = async function () {
     return Promise.resolve();
 };
 
-alt.Vehicle.prototype.chnageOwner = async function (newOwner) {
+alt.Vehicle.prototype.changeOwner = async function (newOwner) {
     await this.update({ owner: newOwner });
     return Promise.resolve();
-};
-
-alt.Vehicle.prototype.getName = function () {
-    return alt.getVehicleModelInfoByHash(this.model).title;
 };
