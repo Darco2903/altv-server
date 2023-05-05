@@ -76,9 +76,12 @@ alt.on("resourceStart", () => {
     }
 });
 
+alt.on("resourceStop", () => {
+    alt.LocalStorage.save();
+});
+
 view.on("chatBuffer", (buffer) => {
     alt.LocalStorage.set("chatBuffer", buffer);
-    alt.LocalStorage.save();
 });
 
 /**

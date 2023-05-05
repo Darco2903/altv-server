@@ -133,9 +133,11 @@ function saveBuffer() {
         buffer.pop();
     }
 
-    buffer.unshift(msgInputLine.value);
     currentBufferIndex = -1;
-    alt.emit("chatBuffer", buffer);
+    if (buffer[0] != msgInputLine.value) {
+        buffer.unshift(msgInputLine.value);
+        alt.emit("chatBuffer", buffer);
+    }
 }
 
 function loadBuffer(idx) {
