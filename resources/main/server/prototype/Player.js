@@ -1,13 +1,16 @@
 import * as alt from "alt-server";
 
 /**
- * @description Send a notification to specified player
- * @param {Object} notificationOptions
- * @param {string} [notificationOptions.imageName]
- * @param {string} [notificationOptions.headerMsg]
- * @param {string} [notificationOptions.detailsMsg]
- * @param {string} [notificationOptions.message]
- * @returns {void}
+ * Send a notification to all players
+ * @param {alt.Player.notificationOptions} notificationOptions
+ */
+alt.Player.notifyAll = function (notificationOptions) {
+    alt.emitAllClients("notification", notificationOptions);
+};
+
+/**
+ * Send a notification to the player
+ * @param {alt.Player.notificationOptions} notificationOptions
  */
 alt.Player.prototype.notify = function (notificationOptions) {
     alt.emitClient(this, "notification", notificationOptions);

@@ -3,6 +3,7 @@ import * as clock from "./Clock";
 declare module "alt-server" {
     import { Player, Utils } from "alt-server";
     import { register } from "../chat";
+    import { Utils as UtilsShared } from "alt-shared";
 
     namespace Utils {
         type commandArgs = {
@@ -10,6 +11,7 @@ declare module "alt-server" {
             description?: string;
             required: boolean;
         };
+
         type commandData = {
             name: string;
             args?: commandArgs[];
@@ -18,6 +20,9 @@ declare module "alt-server" {
             execute: (player: Player, args: string[]) => void;
         };
 
-        function registerCommand(commandData: Utils.commandData): void;
+        type notificationOptions = UtilsShared.notificationOptions;
+
+        type TimeData = UtilsShared.TimeData;
+
     }
 }

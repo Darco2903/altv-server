@@ -1,6 +1,14 @@
 declare module "alt-server" {
     import { Player, Utils } from "alt-shared";
     namespace Player {}
+    namespace Player {
+        /**
+         * Send a notification to all players.
+         * @param notificationOptions The notification options.
+         */
+        function notifyAll(notificationOptions: Utils.notificationOptions): void;
+    }
+
     interface Player {
         getSyncedMeta(key: "id"): number;
         getSyncedMeta(key: "op"): number;

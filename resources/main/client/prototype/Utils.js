@@ -6,17 +6,22 @@ alt.Utils.enableChat = chat.enable;
 alt.Utils.isChatEnabled = chat.isEnabled;
 alt.Utils.isChatOpen = chat.isOpen;
 
-alt.Utils.drawNotification = function ({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "" }) {
+alt.Utils.drawNotification = function ({ imageName = "CHAR_DEFAULT", headerMsg = "", detailsMsg = "", message = "", duration = 0.5 }) {
     native.beginTextCommandThefeedPost("STRING");
     native.addTextComponentSubstringPlayerName(message);
-    native.endTextCommandThefeedPostMessagetextTu(imageName.toUpperCase(), imageName.toUpperCase(), false, 4, headerMsg, detailsMsg, 0.5);
+    native.endTextCommandThefeedPostMessagetextTu(imageName.toUpperCase(), imageName.toUpperCase(), false, 4, headerMsg, detailsMsg, duration);
     native.endTextCommandThefeedPostTicker(false, false);
 };
 
 alt.Utils.getWaypointPos = function () {
     const waypoint = native.getFirstBlipInfoId(8);
     if (!native.doesBlipExist(waypoint)) {
-        alt.emit("notificationRaw", "CHAR_BLOCKED", "Commande", "tpm", "Un repère GPS est requis pour cette commande");
+        alt.Utils.drawNotification({
+            imageName: "CHAR_BLOCKED",
+            headerMsg: "Erreur",
+            // detailsMsg: "Aucun point GPS",
+            message: "Aucun point GPS",
+        });
         return;
     }
     let pos = native.getBlipInfoIdCoord(waypoint); //.add(0, 0, 100);
