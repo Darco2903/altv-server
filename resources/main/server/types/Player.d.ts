@@ -1,6 +1,4 @@
 declare module "alt-server" {
-    import { Player, Utils } from "alt-shared";
-    namespace Player {}
     namespace Player {
         /**
          * Send a notification to all players.
@@ -10,8 +8,13 @@ declare module "alt-server" {
     }
 
     interface Player {
+        hasSyncedMeta(key: "id"): boolean;
         getSyncedMeta(key: "id"): number;
+        setSyncedMeta(key: "id", value: number): void;
+
+        hasSyncedMeta(key: "op"): boolean;
         getSyncedMeta(key: "op"): number;
+        setSyncedMeta(key: "op", value: number): void;
 
         /**
          * Checks if the player has the required permission level.

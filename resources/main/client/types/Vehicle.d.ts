@@ -1,14 +1,16 @@
 declare module "alt-client" {
-    import { Vehicle } from "alt-client";
+    import { Vehicle as VehicleShared } from "alt-shared";
 
     namespace Vehicle {
         type allMods = {
             colors: Vehicle.colorData;
-            mods: Vehicle.modData;
+            mods: Vehicle.modData[];
             neons: Vehicle.neonData;
             plate: Vehicle.plateData;
             wheels: Vehicle.wheelsData;
         };
+
+        type allModsServer = VehicleShared.allModsServer;
     }
 
     interface Vehicle {

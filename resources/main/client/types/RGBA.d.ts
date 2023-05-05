@@ -1,6 +1,4 @@
 // declare module "alt-client" {
-//     import { RGBA } from "alt-server";
-
 //     namespace RGBA {
 //         /**
 //          * Creates RGBA from hex string

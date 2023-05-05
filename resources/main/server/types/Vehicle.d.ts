@@ -1,5 +1,4 @@
 declare module "alt-server" {
-    import { Player, Vehicle } from "alt-server";
     import { Vehicle as VehicleShared } from "alt-shared";
 
     namespace Vehicle {
@@ -8,17 +7,36 @@ declare module "alt-server" {
         type plateData = VehicleShared.plateData;
         type serverColors = VehicleShared.serverColors;
         type wheelsData = VehicleShared.wheelsData;
+        type allMods = VehicleShared.allModsServer;
     }
 
     interface Vehicle {
-        setColorsData(colorsData: VehicleS.serverColors): void;
-        setModsData(modsData: VehicleS.modData[]): void;
-        setNeonsData(neonsData: VehicleS.neonData): void;
-        setPlateData(platesData: VehicleS.plateData): void;
-        setWheelsData(wheelsData: VehicleS.wheelsData): void;
+        setColorsData(colorsData: Vehicle.serverColors): void;
+        setModsData(modsData: Vehicle.modData[]): void;
+        setNeonsData(neonsData: Vehicle.neonData): void;
+        setPlateData(platesData: Vehicle.plateData): void;
+        setWheelsData(wheelsData: Vehicle.wheelsData): void;
 
         /**
-         * Save the vehicle appearance to the database
+         * Get a vehicle name by its hash
+         */
+        getModelName(): string;
+
+        /**
+         * Delete the vehicle from the database
+         * @returns The id of the vehicle removed from the database
+         */
+        delete(): Promise<number>;
+
+        /**
+         * Register a vehicle in the database
+         * @param owner The owner of the vehicle
+         * @returns The id of the vehicle in the database
+         */
+        register(owner: Player): Promise<number>;
+
+        /**
+         * Save the vehicle appearance in the database
          */
         saveAppearance(): Promise<void>;
 
@@ -27,10 +45,5 @@ declare module "alt-server" {
          * @param player The new owner of the vehicle
          */
         changeOwner(player: Player): Promise<void>;
-
-        /**
-         * Get a vehicle name by its hash
-         */
-        getName(): string;
     }
 }

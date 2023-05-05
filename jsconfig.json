@@ -1,10 +1,8 @@
 {
-	"compilerOptions": {
-		"target": "esNext",
-		"module": "esNext",
-		"rootDir": ".",
-		"typeRoots": [
-			"./node_modules/@altv"
-		]
-	}
+    "compilerOptions": {
+        "target": "esNext",
+        "module": "esNext",
+        "rootDir": ".",
+        "typeRoots": ["./node_modules/@altv", "./node_modules/darco2903-db"]
+    }
 }

@@ -1,6 +1,4 @@
 declare module "alt-client" {
-    import { WebView } from "alt-client";
-    
     interface WebView {
         /**
          * Sets the cursor to the center of the screen.
@@ -22,6 +20,6 @@ declare module "alt-client" {
          *
          * @param state The state to set the webview to.
          */
-        toggle(boolean: state): void;
+        toggle(state: boolean): void;
     }
 }

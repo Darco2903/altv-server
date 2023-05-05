@@ -1,5 +1,5 @@
 declare module "alt-client" {
-    import { Utils, Vector3 } from "alt-server";
+    import { Vector3 } from "alt-client";
     import { Utils as UtilsShared } from "alt-shared";
 
     namespace Utils {

@@ -1,5 +1,4 @@
 declare module "alt-client" {
-    import { Vehicle } from "alt-client";
     import { Vehicle as VehicleShared } from "alt-shared";
 
     namespace Vehicle {
@@ -7,8 +6,21 @@ declare module "alt-client" {
     }
 
     interface Vehicle {
+        /**
+         * Get the vehicle plate data.
+         * @returns The vehicle plate data.
+         */
         getPlateData(): Vehicle.plateData;
+
+        /**
+         * Set the vehicle plate data.
+         * @param plateData The vehicle plate data to set.
+         */
         setPlate(plateData: Vehicle.plateData): void;
+
+        /**
+         * Set the stock vehicle plate.
+         */
         setStockPlate(): void;
     }
 }

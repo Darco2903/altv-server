@@ -1,9 +1,12 @@
 declare module "alt-client" {
-    import { LocalPlayer, Utils, Vector3 } from "alt-client";
-
     interface LocalPlayer {
+        hasSyncedMeta(key: "id"): boolean;
         getSyncedMeta(key: "id"): number;
+        setSyncedMeta(key: "id", value: number): void;
+
+        hasSyncedMeta(key: "op"): boolean;
         getSyncedMeta(key: "op"): number;
+        setSyncedMeta(key: "op", value: number): void;
 
         /**
          * Checks if the player has the required permission level.
