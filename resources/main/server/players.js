@@ -60,11 +60,11 @@ async function authPlayer(player) {
  * @param {alt.Player} player
  */
 async function connectPlayer(player) {
-    // order is important
-    if (player.getSyncedMeta("id") || player.isSpawned) {
-        return;
-    }
+    if (player.hasSyncedMeta("id")) return;
+
     const data = await authPlayer(player);
+
+    if (player.isSpawned) return;
 
     let model;
     if (!data?.model) {
@@ -72,6 +72,7 @@ async function connectPlayer(player) {
     } else {
         model = alt.getPedModelInfoByHash(alt.hash(data.model)).hash || DEFAULT_MODEL;
     }
+    
     player.model = model;
     player.spawn(new alt.Vector3(data?.pos.map((x) => +x) ?? DEFAULT_POS));
     player.visible = true;
