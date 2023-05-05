@@ -12,7 +12,7 @@ import "./prototype/Vehicle.js";
 // import "./musicPlayer.js"
 import "./noclip.js";
 import "./players.js";
-// import "./time-weather.js";
+import "./time-weather.js";
 
 //  let autoSave = false
 //  let saveTime = 5            //  minutes
@@ -20,6 +20,10 @@ import "./players.js";
 // alt.on("serverStarted", () => {
 //     import("./autoReconnect");
 // }); // Dev
+
+alt.once("serverStarted", () => {
+    alt.setMeta("serverStarted", true);
+});
 
 alt.on("consoleCommand", (command, args) => {
     switch (command) {

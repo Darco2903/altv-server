@@ -12,7 +12,7 @@ import "./nametag.js";
 import "./track.js";
 import "./noclip.js";
 import "./players.js";
-// import "./time-weather.js";
+import "./time-weather.js";
 import "./vehicles.js";
 
 const player = alt.Player.local;

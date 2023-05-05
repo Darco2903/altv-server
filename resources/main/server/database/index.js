@@ -7,13 +7,10 @@ const { type, host, port, username, password, database } = config;
 
 const db = new DataBase(type, host, port, username, password, database, tables);
 
-alt.once("serverStarted", () => {
-    alt.setMeta("started", true);
-    initConnection();
-});
+alt.once("serverStarted", initConnection);
 
 alt.once("resourceStart", () => {
-    if (alt.hasMeta("started")) {
+    if (alt.hasMeta("serverStarted")) {
         initConnection();
     }
 });

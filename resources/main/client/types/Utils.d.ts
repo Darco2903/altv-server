@@ -5,6 +5,8 @@ declare module "alt-client" {
     namespace Utils {
         type notificationOptions = UtilsShared.notificationOptions;
 
+        type TimeData = UtilsShared.TimeData;
+
         function enableChat(state: boolean): void;
         function isChatEnabled(): boolean;
         function isChatOpen(): boolean;

@@ -1,3 +1,5 @@
+import * as clock from "./Clock";
+
 declare module "alt-server" {
     import { Player, Utils } from "alt-server";
     import { register } from "../chat";

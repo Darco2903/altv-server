@@ -8,5 +8,12 @@ declare module "alt-shared" {
             detailsMsg: ?string;
             message: ?string;
         };
+
+        export type TimeData = {
+            hour: number;
+            minute: number;
+            speed: number;
+            started: boolean;
+        };
     }
 }

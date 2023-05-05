@@ -6,6 +6,7 @@ import "./pm.js";
 import "./r.js";
 import "./repair.js";
 import "./respawn.js";
+import "./time.js";
 import "./tpm.js";
 import "./vehspawn.js";
 
