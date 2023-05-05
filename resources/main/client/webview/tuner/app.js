@@ -13,6 +13,8 @@ let htmlGenerated = document.querySelector("generated");
 const nodeList = document.querySelectorAll("button");
 /** @type {HTMLButtonElement[]} */
 const buttonList = Array.prototype.slice.call(nodeList);
+const divSlider = document.getElementById("divSlider");
+const labelCheckbox = document.getElementById("labelCheckbox");
 
 if (window.alt === undefined) {
     window.alt = {
@@ -28,7 +30,7 @@ for (const button of buttonList) {
             case "exit":
             case "restore":
             case "stock":
-                alt.emit(id, appLoaded);
+                alt.emit(id);
                 break;
 
             case "mods":
@@ -44,17 +46,11 @@ for (const button of buttonList) {
     };
 }
 
-alt.on("app", appManager);
-alt.on("exit", () => {
-    appLoaded = undefined;
-});
-
 /**
  * @param {string} app
  * @param {colorData|modData[]|neonData|plateData|wheelsData|} data
  */
 function appManager(app, data) {
-    if (app === appLoaded) return;
     appLoaded = app;
     htmlGenerated.innerHTML = "";
     for (const but of buttonList) {
@@ -84,8 +80,7 @@ function appManager(app, data) {
     }
 }
 
-let divSlider = document.getElementById("divSlider");
-let labelCheckbox = document.getElementById("labelCheckbox");
+alt.on("app", appManager);
 
 /**
  * @param {number} value

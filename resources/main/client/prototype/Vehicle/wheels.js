@@ -49,5 +49,5 @@ alt.Vehicle.prototype.setWheels = function ({ type, num, color, drift /* TEST , 
 };
 
 alt.Vehicle.prototype.setStockWheels = function () {
-    this.setWheels({ type: 0, num: 0, color: 0, drift: false /* TEST , camber: 0, track: [0, 0] */ });
+    this.setWheels({ type: 0, num: -1, color: 0, drift: false /* TEST , camber: 0, track: [0, 0] */ });
 };

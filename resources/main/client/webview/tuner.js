@@ -61,13 +61,12 @@ view.toggle = function (state) {
     if (state && !view.isVisible) {
         veh.setMeta("speed", native.getEntitySpeed(veh));
         veh.setMeta("storedData", veh.getAllMods());
-        startApp("mods");
+        startApp(appLoaded ?? "mods");
         alt.Utils.toggleTunerControls(true);
         view.open();
     } else if (!state && view.isVisible) {
         alt.Utils.toggleTunerControls(false);
         view.close();
-        view.emit("exit");
         const speed = veh.getMeta("speed");
         native.setVehicleForwardSpeed(veh, speed);
         const pitch = native.getGameplayCamRelativePitch();
@@ -75,7 +74,8 @@ view.toggle = function (state) {
         setCamPos(heading, pitch + 2, 1); //  Remove slow effect
         veh.deleteMeta("speed");
         veh.deleteMeta("storedData");
-        veh.getAllModsServer();
+        const allMods = veh.getAllModsServer();
+        alt.emitServer("sendDataToServer", allMods);
     }
 };
 
@@ -104,6 +104,7 @@ function dataByApp(app) {
 
         default:
             alt.log(`cant load: ${app}`);
+            appLoaded = undefined;
             return;
     }
 }
