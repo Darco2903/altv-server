@@ -56,9 +56,7 @@ view.on("event", (id, state) => {
 
 function updateWebview() {
     view.emit("vehicle", !!player.vehicle);
-    if (player.vehicle?.hasSyncedMeta("id")) {
-        view.emit("vehicleID", player.vehicle.getSyncedMeta("id"));
-    }
+    view.emit("vehicleHasId", player.vehicle?.hasSyncedMeta("id"));
     view.emit("nametag", alt.getMeta("displayNametag"));
 }
 

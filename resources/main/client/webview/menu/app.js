@@ -29,8 +29,8 @@ alt.on("vehicle", (playerInVehicle) => {
     });
 });
 
-alt.on("vehicleID", (id) => {
-    registered(!!id);
+alt.on("vehicleHasId", (state) => {
+    registered(state);
 });
 
 function registered(state) {
