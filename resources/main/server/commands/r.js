@@ -7,20 +7,11 @@ alt.Utils.registerCommand({
         {
             name: "resourceName",
             description: "Name of the resource to restart",
-            required: true,
+            required: false,
         },
     ],
     permissionLevel: 4,
-    execute: (player, [resourceName]) => {
-        if (!resourceName) {
-            player.notify({
-                imageName: "CHAR_BLOCKED",
-                headerMsg: "Erreur",
-                detailsMsg: "/r [resourceName]",
-                message: "Vous devez spécifier le nom de la ressource à redémarrer.",
-            });
-        }
-
+    execute: (player, [resourceName = "main"]) => {
         if (alt.hasResource(resourceName)) {
             player.notify({
                 imageName: "CHAR_MP_FM_CONTACT",
