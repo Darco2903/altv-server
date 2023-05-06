@@ -37,13 +37,14 @@ alt.Utils.toggleOnlyMove = function (state) {
             native.disableAllControlActions(0);
             native.enableControlAction(0, 21, true); //  INPUT_SPRINT
             native.enableControlAction(0, 22, true); //  INPUT_JUMP
-            // native.enableControlAction(0, 23, true); //  INPUT_ENTER
+            native.enableControlAction(0, 23, true); //  INPUT_ENTER
             native.enableControlAction(0, 30, true); //  INPUT_MOVE_LR
             native.enableControlAction(0, 31, true); //  INPUT_MOVE_UD
             native.enableControlAction(0, 32, true); //  INPUT_MOVE_LR
             native.enableControlAction(0, 71, true); //  INPUT_VEH_ACCELERATE
             native.enableControlAction(0, 72, true); //  INPUT_VEH_BRAKE
             native.enableControlAction(0, 74, true); //  INPUT_VEH_HEADLIGHT
+            native.enableControlAction(0, 75, true); //  INPUT_VEH_EXIT
             native.enableControlAction(0, 76, true); //  INPUT_VEH_HANDBRAKE
             native.enableControlAction(0, 59, true); //  INPUT_VEH_MOVE_LR
             native.enableControlAction(0, 86, true); //  INPUT_VEH_HORN

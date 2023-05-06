@@ -23,20 +23,18 @@ function sendEvent() {
 buttons.forEach((button) => (button.onclick = sendEvent));
 checkboxs.forEach((checkbox) => (checkbox.onchange = sendEvent));
 
-alt.on("vehicle", (playerInVehicle) => {
+alt.on("vehicle", (state, hasId) => {
     Array.from(carManager.children).forEach((button) => {
-        if (button.className.includes("requireVehicle")) button.disabled = !playerInVehicle;
+        if (button.className.includes("requireVehicle")) button.disabled = !state;
     });
+    if (state) {
+        document.getElementById("register").disabled = hasId;
+        document.getElementById("delete").disabled = !hasId;
+    } else {
+        document.getElementById("register").disabled = true;
+        document.getElementById("delete").disabled = true;
+    }
 });
-
-alt.on("vehicleHasId", (state) => {
-    registered(state);
-});
-
-function registered(state) {
-    document.getElementById("register").disabled = state;
-    document.getElementById("delete").disabled = !state;
-}
 
 alt.on("nametag", (state) => {
     const checkbox = document.getElementById("nametag");

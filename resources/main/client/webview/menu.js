@@ -55,13 +55,12 @@ view.on("event", (id, state) => {
 });
 
 function updateWebview() {
-    view.emit("vehicle", !!player.vehicle);
-    view.emit("vehicleHasId", player.vehicle?.hasSyncedMeta("id"));
+    view.emit("vehicle", !!player.vehicle, !!player.vehicle?.hasSyncedMeta("id"));
     view.emit("nametag", alt.getMeta("display:nametags"));
 }
 
-// alt.on("enteredVehicle", switchControls);
-// alt.on("leftVehicle", switchControls);
+alt.on("enteredVehicle", updateWebview);
+alt.on("leftVehicle", updateWebview);
 
 view.toggle = function (state) {
     if (state && !view.isVisible) {
