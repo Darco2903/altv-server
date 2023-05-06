@@ -39,6 +39,6 @@ function registered(state) {
 }
 
 alt.on("nametag", (state) => {
-    const check = document.getElementById("nametag");
-    check.checked = state;
+    const checkbox = document.getElementById("nametag");
+    checkbox.checked = state;
 });

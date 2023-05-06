@@ -3,7 +3,10 @@ import * as alt from "alt-client";
 let displayTick;
 
 alt.on("resourceStart", () => {
-    display(alt.hasMeta("nametagDisplay"));
+    if (!alt.hasMeta("display:nametags")) {
+        alt.setMeta("display:nametags", true);
+    }
+    display(alt.getMeta("display:nametags"));
 });
 
 /**
@@ -22,14 +25,12 @@ function setName(player) {
  * @param {boolean} state
  */
 export function display(state) {
-    if ((state && !displayTick) || (!state && displayTick)) {
-        if (state) {
-            displayTick = alt.everyTick(() => alt.Player.streamedIn.forEach(setName));
-            alt.setMeta("nametagDisplay", displayTick);
-        } else {
-            alt.clearEveryTick(displayTick);
-            displayTick = undefined;
-            alt.deleteMeta("nametagDisplay");
-        }
+    if (state && !displayTick) {
+        displayTick = alt.everyTick(() => alt.Player.streamedIn.forEach(setName));
+        alt.setMeta("display:nametags", true);
+    } else if (!state && displayTick) {
+        alt.clearEveryTick(displayTick);
+        displayTick = undefined;
+        alt.setMeta("display:nametags", false);
     }
 }
