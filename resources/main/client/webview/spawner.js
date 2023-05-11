@@ -1,4 +1,5 @@
 import * as alt from "alt-client";
+import * as native from "natives";
 
 const player = alt.Player.local;
 
@@ -42,8 +43,21 @@ function notSameVeh(model, id) {
     );
 }
 
-alt.onServer("playerGarage", (res) => {
+alt.onServer("playerGarage", async (res) => {
+    for (const [key, { id, model }] of Object.entries(res)) {
+        const modelName = native.getDisplayNameFromVehicleModel(alt.hash(model));
+        const imageKey = `${modelName}_${id}`;
+        if (alt.Utils.Image.exists(imageKey)) {
+            const src = (await alt.Utils.Image.load(imageKey)).getSource();
+            res[key] = Object.assign(res[key], { image: src });
+        }
+    }
     view.emit("garageList", res);
+});
+
+view.on("takeScreenCar", async () => {
+    const img = await takeScreenCar();
+    view.emit("takeScreenCar", img.getSource());
 });
 
 export default view;

@@ -70,22 +70,26 @@ garageSwitch.onclick = () => {
 };
 
 let garageList;
-alt.on("garageList", (res) => {
-    if (garageList === res) return;
-    for (const img of garageDiv.querySelectorAll("img")) img.onclick = null;
-    garageDiv.innerHTML = "";
-    garageList = res;
-    garageList.forEach((veh) => {
-        const div = vehDivTemplate.cloneNode(true);
-        const img = div.querySelector("img");
-        img.src += `${veh.model}.webp`;
-        img.onerror = () => (img.src = defaultImage);
-        // img.src += `${path}${veh.model}.webp`;
-        img.id = veh.id;
-        // div.querySelector("strong").innerHTML = veh.DisplayName;
-        img.onclick = () => alt.emit("spawnSavedVehicle", img.id);
-        div.querySelector("strong").innerHTML = `[${veh.id}] ${veh.model}`;
-        div.id = veh.model;
-        garageDiv.append(div);
-    });
-});
+alt.on(
+    "garageList",
+    /** @param {Array<{id: number, model: string, image: ?string}>} res */
+    (res) => {
+        if (garageList === res) return;
+        for (const img of garageDiv.querySelectorAll("img")) img.onclick = null;
+        garageDiv.innerHTML = "";
+        garageList = res;
+        garageList.forEach((veh) => {
+            const div = vehDivTemplate.cloneNode(true);
+            const img = div.querySelector("img");
+            img.src = veh.image;
+            img.onerror = () => (img.src = defaultImage);
+            // img.src += `${path}${veh.model}.webp`;
+            img.id = veh.id;
+            // div.querySelector("strong").innerHTML = veh.DisplayName;
+            img.onclick = () => alt.emit("spawnSavedVehicle", img.id);
+            div.querySelector("strong").innerHTML = `[${veh.id}] ${veh.model}`;
+            div.id = veh.model;
+            garageDiv.append(div);
+        });
+    }
+);
