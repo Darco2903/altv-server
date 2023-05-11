@@ -1,12 +1,24 @@
 type = "js"
+client-type = "js"
+
 main = "server/index.js"
 server-files = [
     "server/*",
     "shared/*"
 ]
+
 client-main = "client/index.js"
 client-files = [
     "client/*",
     "shared/*"
 ]
+
+required-permissions = [
+    "Screen Capture",
+    "Clipboard Access"
+]
+
+optional-permissions = [
+]
+
 deps = []

@@ -54,3 +54,21 @@ alt.on("anyResourceStart", (resourceName) => {
 //     audio.volume = 1;
 //     // console.log(audio.playing);
 // });
+alt.Utils.takeScreenshotNoHud = async function () {
+    const cursor = alt.isCursorVisible();
+    if (cursor) alt.showCursor(false);
+    const radar = !native.isRadarHidden();
+    if (radar) native.displayRadar(false);
+    native.displayRadar(false);
+    const hud = !native.isHudHidden();
+    if (hud) native.displayHud(false);
+    await alt.Utils.wait(10);
+
+    const screenshot = await alt.takeScreenshotGameOnly();
+
+    if (cursor) alt.showCursor(true);
+    if (radar) native.displayRadar(true);
+    if (hud) native.displayHud(true);
+    return Promise.resolve(screenshot);
+};
+
