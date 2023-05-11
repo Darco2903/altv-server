@@ -9,5 +9,3 @@ import "./respawn.js";
 import "./time.js";
 import "./tpm.js";
 import "./vehspawn.js";
-
-import "./temp.js";
