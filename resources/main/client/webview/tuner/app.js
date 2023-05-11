@@ -141,14 +141,7 @@ function createSeparator() {
  * @param {modData[]} modsData
  */
 function initMods(modsData) {
-    modsData.forEach(({ count, modType, name, num }) => {
-        if (!name) {
-            name = modList[modType];
-            // if (!name) return;
-        }
-
-        console.log(name, modType);
-
+    modsData.forEach(({ count, modType, name = modList[modType], num }) => {
         const htmlMod = document.createElement("mod");
         const htmlName = document.createElement("strong");
         htmlName.className = "name";

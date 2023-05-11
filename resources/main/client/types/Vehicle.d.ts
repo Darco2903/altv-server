@@ -14,6 +14,10 @@ declare module "alt-client" {
     }
 
     interface Vehicle {
+        getSyncedMeta(key: "id"): number;
+        hasSyncedMeta(key: "id"): boolean;
+        setSyncedMeta(key: "id", value: number);
+
         /**
          * Restore the vehicle to its original state.
          */

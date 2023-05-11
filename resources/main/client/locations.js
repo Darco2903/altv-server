@@ -24,7 +24,7 @@ if (natives.isValidInterior(interiorID)) {
 
 
 export function loadInteriors () {
-    console.log('loading Interiors')
+    alt.log('loading Interiors')
 
     //Interiors IPLs
     alt.requestIpl('ex_dt1_02_office_02b');
@@ -173,7 +173,7 @@ export function loadInteriors () {
 
 
 export function loadCayoPericoIsland () {
-console.log('loading Cayo')
+alt.log('loading Cayo')
 
     let blip = natives.addBlipForCoord(5943.5679611650485, -6272.114833599767, 2); // a invisible blip to make the map clickable at the island
     natives.setBlipSprite(blip, 407);

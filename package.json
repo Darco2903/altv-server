@@ -5,6 +5,7 @@
     "main": "",
     "scripts": {
         "start": "",
+        "clean-cache": "npx rm ./cache/*",
         "build-release": "npx altv-pkg release",
         "build-rc": "npx altv-pkg rc",
         "build-dev": "npx altv-pkg dev",

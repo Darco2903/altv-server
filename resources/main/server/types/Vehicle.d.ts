@@ -11,6 +11,14 @@ declare module "alt-server" {
     }
 
     interface Vehicle {
+        getSyncedMeta(key: "id"): number;
+        hasSyncedMeta(key: "id"): boolean;
+        setSyncedMeta(key: "id", value: number);
+
+        getMeta(key: "owner"): number;
+        hasMeta(key: "owner"): boolean;
+        setMeta(key: "owner", value: number);
+
         setColorsData(colorsData: Vehicle.serverColors): void;
         setModsData(modsData: Vehicle.modData[]): void;
         setNeonsData(neonsData: Vehicle.neonData): void;
