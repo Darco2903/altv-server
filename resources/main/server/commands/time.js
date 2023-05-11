@@ -41,22 +41,20 @@ alt.Utils.registerCommand({
         },
     ],
     execute(player, [subcommand, value, minutes]) {
-        console.log(subcommand, value);
         switch (subcommand) {
             case "day":
             case "night":
             case "set":
                 let hour;
-                console.log(!isNaN(value));
                 if (!isNaN(value)) {
                     hour = parseInt(value);
                     if (hour < 0 || hour > 23) {
                         player.notify(syntaxeErrorSet);
                         return;
                     }
-                } else if (value === "day") {
+                } else if (subcommand === "day") {
                     hour = 12;
-                } else if (value === "night") {
+                } else if (subcommand === "night") {
                     hour = 0;
                 } else {
                     player.notify(syntaxeErrorSet);
