@@ -44,12 +44,18 @@ function notSameVeh(model, id) {
 }
 
 alt.onServer("playerGarage", async (res) => {
-    for (const [key, { id, model }] of Object.entries(res)) {
-        const modelName = native.getDisplayNameFromVehicleModel(alt.hash(model));
-        const imageKey = `${modelName}_${id}`;
+    for (let i = 0; i < res.length; i++) {
+        const modelName = native.getDisplayNameFromVehicleModel(alt.hash(res[i].model));
+        if (modelName === "CARNOTFOUND") {
+            res.splice(i, 1);
+            i--;
+            continue;
+        }
+        
+        const imageKey = `${modelName}_${res[i].id}`;
         if (alt.Utils.Image.exists(imageKey)) {
             const src = (await alt.Utils.Image.load(imageKey)).getSource();
-            res[key] = Object.assign(res[key], { image: src });
+            res[i] = Object.assign(res[i], { image: src });
         }
     }
     view.emit("garageList", res);
