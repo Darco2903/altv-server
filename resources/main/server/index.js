@@ -27,8 +27,12 @@ alt.once("serverStarted", () => {
 
 alt.on("consoleCommand", (command, args) => {
     switch (command) {
-        case "r":
+        case "stop-server":
             alt.stopServer();
+            break;
+
+        case "r":
+            alt.restartResource("main");
             break;
 
         case "reboot":
@@ -41,6 +45,16 @@ alt.on("consoleCommand", (command, args) => {
             }
             break;
 
+        case "clearveh":
+            const usedVehicle = alt.Player.all.filter((player) => player.vehicle).map((player) => player.vehicle);
+
+            alt.Vehicle.all.forEach((veh) => {
+                if (!veh.hasSyncedMeta("id") && !usedVehicle.includes(veh)) {
+                    veh.destroy();
+                }
+            });
+            alt.log("All vehicles have been cleared");
+            break;
         //  case "kick":
         //      console.log(args[0]);
         //      let toKick = searchPlayer(args[0])
