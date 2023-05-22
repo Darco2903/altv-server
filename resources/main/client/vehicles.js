@@ -3,9 +3,23 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
+native.setPedConfigFlag(player, 429, true);
+native.setPedConfigFlag(player, 241, true);
+
 alt.on("enteredVehicle", (vehicle, seat) => {
-    native.setVehicleKeepEngineOnWhenAbandoned(vehicle, true);
-    //checkDoors(vehicle)
+    if (vehicle.model === 3096296255) {
+        native.setPedConfigFlag(player, 32, false);
+        native.setEntityInvincible(player, true);
+        native.setEntityInvincible(vehicle, true);
+    }
+});
+
+alt.on("leftVehicle", (vehicle, seat) => {
+    if (vehicle.model === 3096296255) {
+        native.setPedConfigFlag(player, 32, true);
+        native.setEntityInvincible(player, false);
+        native.setEntityInvincible(vehicle, false);
+    }
 });
 
 alt.onServer("vehicle:replace", async (oldVeh, newVeh) => {
