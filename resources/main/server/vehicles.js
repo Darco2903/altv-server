@@ -64,7 +64,8 @@ alt.onClient("vehicle:createPlayersIn", (player, hash, players) => {
 async function replace(vehicle, hash) {
     const newVeh = create(hash, vehicle.pos, vehicle.rot);
     newVeh.engineOn = vehicle.engineOn;
-    const players = alt.getEntitiesInRange(vehicle.pos, 100, vehicle.dimension, 1);
+    // const players = alt.getEntitiesInRange(vehicle.pos, 100, vehicle.dimension, 1);  // dev
+    const players = alt.Player.all.filter((player) => player.pos.isInRange(vehicle.pos, 100));
     alt.emitClient(players, "vehicle:replace", vehicle, newVeh);
     await alt.Utils.wait(2000);
     if (alt.Player.all.filter((player) => player.vehicle === vehicle).length === 0) {
@@ -158,7 +159,8 @@ alt.onClient("vehicle:importSavedPlayersIn", async (player, id, players) => {
 export async function importSavedReplace(vehicle, id) {
     const newVeh = await importSaved(id, vehicle.pos, vehicle.rot);
     newVeh.engineOn = vehicle.engineOn;
-    const players = alt.getEntitiesInRange(vehicle.pos, 100, vehicle.dimension, 1);
+    // const players = alt.getEntitiesInRange(vehicle.pos, 100, vehicle.dimension, 1);  // dev
+    const players = alt.Player.all.filter((player) => player.pos.isInRange(vehicle.pos, 100));
     alt.emitClient(players, "vehicle:replace", vehicle, newVeh);
     await alt.Utils.wait(2000);
     if (alt.Player.all.filter((player) => player.vehicle === vehicle).length === 0) {
