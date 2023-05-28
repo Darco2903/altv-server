@@ -1,7 +1,5 @@
 import * as alt from "alt-server";
 
-import("./commands/r.js");
-
 const commands = {};
 const mutedPlayers = {};
 
