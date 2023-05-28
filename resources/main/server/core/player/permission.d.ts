@@ -22,5 +22,7 @@ declare module "alt-server" {
          * Sends a message to the player if they are not authorized.
          */
         notAuthorized(): void;
+
+        setOpLevel(level: shared.Player.opLevel): void;
     }
 }
