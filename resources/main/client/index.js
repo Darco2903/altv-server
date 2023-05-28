@@ -1,3 +1,4 @@
+import "./core/chat/index.js";
 import "./core/player/notification.js";
 import "./core/player/permission.js";
 
@@ -15,3 +16,6 @@ alt.on("anyResourceStart", (resourceName) => {
         });
     }
 });
+
+alt.on("anyResourceStop", alt.LocalStorage.save);
+alt.on("disconnect", alt.LocalStorage.save);
