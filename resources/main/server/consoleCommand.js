@@ -16,6 +16,11 @@ alt.on("consoleCommand", (name, args) => {
             alt.restartResource("main");
             break;
 
+        case "clearvehall":
+            alt.log("~y~Clearing all vehicles...");
+            alt.Vehicle.clearAll();
+            break;
+
         case "help":
         case "h":
         case "?":
