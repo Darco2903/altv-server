@@ -1,15 +1,9 @@
 declare module "alt-client" {
     import * as shared from "alt-shared";
 
-    namespace Player {
-        /**
-         * Send a notification to all players.
-         * @param notificationOptions The notification options.
-         */
-        function sendNotificationAll(notificationOptions: shared.Player.notificationOptions): void;
-    }
+    function onServer(eventName: "notification", listener: (notificationOptions: shared.Player.notificationOptions) => void): void;
 
-    interface Player {
+    interface LocalPlayer {
         /**
          * Sends a notification to the player.
          *
@@ -33,6 +27,10 @@ declare module "alt-shared" {
             headerMsg: string;
             detailsMsg: string;
             message: string;
+            /**
+             * The duration of the notification in seconds (10 ~= 12-13).
+             * @default 10
+             */
             duration?: number;
         };
 

@@ -1,12 +1,14 @@
 declare module "alt-server" {
     import * as shared from "alt-shared";
 
+    function emitClient(player: Player | Player[], eventName: "notification", notificationOptions: shared.Player.notificationOptions): void;
+
     namespace Player {
         /**
          * Send a notification to all players.
          * @param notificationOptions The notification options.
          */
-        function sendNotificationAll(notificationOptions: shared.Player.notificationOptions): void;
+        function sendNotification(players: Player[], notificationOptions: shared.Player.notificationOptions): void;
     }
 
     interface Player {
