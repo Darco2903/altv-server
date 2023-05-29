@@ -124,6 +124,7 @@ function closeChat() {
         hideChatAutocomplete(false);
         clearTimeout(timeout);
         timeout = setTimeout(() => setChatVisibility(false), 1000);
+        startedTyping = false;
         chatOpened = false;
     }
 }
@@ -146,18 +147,20 @@ function shakeInput() {
  * @returns {HTMLElement[]}
  */
 function getAutocompleteCommands(input) {
-    return commands
-        .filter((cmd) => cmd.name.toLocaleLowerCase().startsWith(input.toLocaleLowerCase()))
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .slice(0, 5)
-        .map((cmd, index) => {
-            const li = document.createElement("li");
-            li.innerHTML = cmd.name; // + " " + cmd.args.map((arg) => `<${arg.name}>`).join(" ");
-            if (index === 0) {
-                li.id = "selected";
-            }
-            return li;
-        });
+    return (
+        commands
+            .filter((cmd) => cmd.name.toLocaleLowerCase().startsWith(input.toLocaleLowerCase()))
+            .sort((a, b) => a.name.localeCompare(b.name))
+            // .slice(0, 5)
+            .map((cmd, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = cmd.name;
+                if (index === 0) {
+                    li.id = "selected";
+                }
+                return li;
+            })
+    );
 }
 
 /**
@@ -195,18 +198,21 @@ async function getAutocompleteCommandValue(command, input, index) {
         values = command.args[index]?.values ?? [];
     }
 
-    return values
-        .filter((value) => value.toString().toLocaleLowerCase().startsWith(input.toLocaleLowerCase()))
-        .sort((a, b) => (typeof a === "string" ? a.localeCompare(b) : 0))
-        .slice(0, 5)
-        .map((value, index) => {
-            const li = document.createElement("li");
-            li.innerHTML = value;
-            if (index === 0) {
-                li.id = "selected";
-            }
-            return li;
-        });
+    return (
+        values
+            .filter((value) => value.toString().toLocaleLowerCase().startsWith(input.toLocaleLowerCase()))
+            .sort((a, b) => (typeof a === "string" ? a.localeCompare(b) : 0))
+            // .slice(0, 5)
+            // .slice(autocompleteIndex, 5)
+            .map((value, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = value;
+                if (index === 0) {
+                    li.id = "selected";
+                }
+                return li;
+            })
+    );
 }
 
 window.addEventListener("load", () => {
@@ -263,6 +269,9 @@ window.addEventListener("load", () => {
                 } else if (autocompleteIndex > 0) {
                     autocomplete.forEach((li) => (li.id = ""));
                     autocomplete[--autocompleteIndex].id = "selected";
+                    // autocompleteDiv.scrollTo({
+                    //     top: autocompleteDiv.scrollTop - 41,
+                    // });
                 }
 
                 break;
@@ -279,6 +288,9 @@ window.addEventListener("load", () => {
                 } else if (autocompleteIndex < autocomplete.length - 1) {
                     autocomplete.forEach((span) => (span.id = ""));
                     autocomplete[++autocompleteIndex].id = "selected";
+                    // autocompleteDiv.scrollTo({
+                    //     top: autocompleteDiv.scrollTop + 41,
+                    // });
                 }
 
                 break;

@@ -77,6 +77,7 @@ alt.on("resourceStart", () => {
 
 view.on("chatBuffer", (updatedBuffer) => {
     alt.LocalStorage.set("chatBuffer", updatedBuffer);
+    alt.LocalStorage.save();
 });
 
 alt.onServer("chat:commandsInit", (cmds) => {

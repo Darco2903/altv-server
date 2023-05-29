@@ -12,11 +12,3 @@ alt.on("anyResourceStart", (resourceName) => {
         });
     }
 });
-
-alt.on("anyResourceStop", () => {
-    alt.LocalStorage.save;
-});
-
-alt.on("disconnect", () => {
-    alt.LocalStorage.save;
-});
