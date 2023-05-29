@@ -3,8 +3,11 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
-native.setPedConfigFlag(player, 241, true); // CPED_CONFIG_FLAG_LeaveEngineOnWhenExitingVehicles
-native.setPedConfigFlag(player, 429, true); // CPED_CONFIG_FLAG_DisableStartEngine
+alt.on("resourceStart", () => {
+    native.setPedConfigFlag(player, 241, true); // CPED_CONFIG_FLAG_LeaveEngineOnWhenExitingVehicles
+    native.setPedConfigFlag(player, 429, true); // CPED_CONFIG_FLAG_DisableStartEngine
+    native.setPedConfigFlag(player, 141, true); // CPED_CONFIG_FLAG_WillJackAnyPlayer
+});
 
 alt.on("keydown", async (key) => {
     // alt.KeyCode.Key1
