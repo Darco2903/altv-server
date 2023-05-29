@@ -3,7 +3,8 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
-alt.on("resourceStart", () => {
+alt.on("resourceStart", async () => {
+    await alt.Utils.waitFor(() => player, 15000);
     native.setPedConfigFlag(player, 241, true); // CPED_CONFIG_FLAG_LeaveEngineOnWhenExitingVehicles
     native.setPedConfigFlag(player, 429, true); // CPED_CONFIG_FLAG_DisableStartEngine
     native.setPedConfigFlag(player, 141, true); // CPED_CONFIG_FLAG_WillJackAnyPlayer
@@ -81,16 +82,46 @@ function getIgnitionTime(vehicle) {
     console.log("healthTime:", healthTime);
 
     // more the vehicle is heavy, more the ignition time is long
-    let classTime = 0;
-    if (vehicleClass === 7) {
-        classTime = 0;
-    } else if (vehicleClass === 8) {
-        classTime = -100;
-    }
-    if (vehicleClass === 16) {
-        classTime = 1500;
-    } else if (vehicleClass === 20) {
-        classTime = 700;
+    let classTime;
+    switch (vehicleClass) {
+        case 8: // Motorcycles
+            classTime = -100;
+            break;
+
+        case 0: // Compacts
+        case 1: // Sedans
+        case 2: // SUVs
+        case 3: // Coupes
+        case 6: // Sports
+        case 7: // Super
+            classTime = 0;
+            break;
+
+        case 4: // Muscle
+        case 5: // Sports Classics
+        case 9: // Off-Road
+            classTime = 100;
+            break;
+
+        case 10: // Industrial
+        case 11: // Utility
+        case 12: // Vans
+        case 17: // Service
+        case 18: // Emergency
+        case 20: // Commercial
+            classTime = 700;
+            break;
+
+        case 14: // Boats
+        case 15: // Helicopters
+        case 16: // Planes
+        case 19: // Military
+            classTime = 1000;
+            break;
+
+        default:
+            classTime = 0;
+            break;
     }
     console.log("classTime:", classTime);
 
