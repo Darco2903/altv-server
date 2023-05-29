@@ -6,7 +6,7 @@ const player = alt.Player.local;
 function deadMessage() {
     const tick = alt.everyTick(() => {
         alt.Utils.drawText3dThisFrame(
-            "Press ~b~E ~w~to respawn",
+            "Appuyez sur ~b~E ~w~pour réapparaître",
             new alt.Vector3(alt.Player.local.pos).add(0, 0, 0.5),
             0,
             0.4,
@@ -31,9 +31,16 @@ alt.onServer("player:death", () => {
 
 alt.on("resourceStart", async () => {
     alt.setTimeout(() => {
-        console.log(player.isDead, player.isSpawned);
         if (player.isDead && player.isSpawned) {
             deadMessage();
         }
     }, 100);
 });
+
+// auto kill
+// alt.on("keydown", (key) => {
+//     // alt.KeyCode.A
+//     if (key === 65) {
+//         native.setEntityHealth(player, 0, 0);
+//     }
+// });
