@@ -20,6 +20,7 @@ function deadMessage() {
             const heading = player.headRot.toDegrees().y;
             native.resurrectPed(player);
             native.startPlayerTeleport(player, player.pos.x, player.pos.y, player.pos.z, heading, false, true, false);
+            native.clearPedBloodDamage(player);
         }
     });
 }
@@ -28,8 +29,11 @@ alt.onServer("player:death", () => {
     deadMessage();
 });
 
-alt.on("resourceStart", () => {
-    if (player.isDead && player.isSpawned) {
-        deadMessage();
-    }
+alt.on("resourceStart", async () => {
+    alt.setTimeout(() => {
+        console.log(player.isDead, player.isSpawned);
+        if (player.isDead && player.isSpawned) {
+            deadMessage();
+        }
+    }, 100);
 });
