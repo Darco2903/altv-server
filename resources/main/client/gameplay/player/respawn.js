@@ -21,6 +21,11 @@ function deadMessage() {
             native.resurrectPed(player);
             native.startPlayerTeleport(player, player.pos.x, player.pos.y, player.pos.z, heading, false, true, false);
             native.clearPedBloodDamage(player);
+            setTimeout(() => {
+                if (player.isDead) {
+                    deadMessage();
+                }
+            }, 500);
         }
     });
 }
