@@ -4,4 +4,5 @@ import "./core/player/notification.js";
 import "./core/player/permission.js";
 
 import "./gameplay/player/death.js";
+import "./gameplay/vehicle/crash.js";
 import "./gameplay/vehicle/starter.js";
