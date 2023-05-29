@@ -9,3 +9,4 @@ import "./core/player/commands/setop.js";
 import "./core/vehicle/commands/clearvehall.js";
 
 import "./gameplay/player/connect.js";
+import "./gameplay/player/death.js";
