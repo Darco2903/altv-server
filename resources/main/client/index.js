@@ -10,4 +10,5 @@ import "./core/player/permission.js";
 import "./gameplay/player/death.js";
 import "./gameplay/player/noclip.js";
 import "./gameplay/vehicle/crash.js";
+import "./gameplay/vehicle/speedo-forza/index.js";
 import "./gameplay/vehicle/starter.js";
