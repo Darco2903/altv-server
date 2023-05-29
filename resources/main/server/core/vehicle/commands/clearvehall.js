@@ -9,7 +9,7 @@ alt.Utils.Chat.registerCmd({
         player.sendNotification({
             imageName: "CHAR_CARSITE",
             headerMsg: "clearvehall",
-            message: "All vehicles have been cleared",
+            message: "Tous les véhicules ont été supprimés",
             duration: 3,
         });
     },
