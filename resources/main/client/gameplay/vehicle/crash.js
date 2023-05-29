@@ -5,7 +5,7 @@ const player = alt.Player.local;
 
 alt.on("enteredVehicle", (vehicle, seat) => {
     if (vehicle.model === 3096296255) {
-        native.setPedConfigFlag(player, 32, false);
+        native.setPedConfigFlag(player, 32, false); // CPED_CONFIG_FLAG_WillFlyThruWindscreen
         native.setEntityInvincible(player, true);
         native.setEntityInvincible(vehicle, true);
         native.setEntityProofs(vehicle, true, true, true, true, true, true, true, true);
@@ -14,7 +14,7 @@ alt.on("enteredVehicle", (vehicle, seat) => {
 
 alt.on("leftVehicle", (vehicle, seat) => {
     if (vehicle.model === 3096296255) {
-        native.setPedConfigFlag(player, 32, true);
+        native.setPedConfigFlag(player, 32, true); // CPED_CONFIG_FLAG_WillFlyThruWindscreen
         native.setEntityInvincible(player, false);
         native.setEntityInvincible(vehicle, false);
         native.setEntityProofs(vehicle, false, false, false, false, false, false, false, false);
