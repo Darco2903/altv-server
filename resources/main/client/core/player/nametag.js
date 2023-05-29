@@ -22,7 +22,7 @@ function setName(player) {
  */
 alt.Player.displayNametags = function (state) {
     if (state && !displayTick) {
-        displayTick = alt.everyTick(() => alt.Player.streamedIn.forEach(setName));
+        displayTick = alt.everyTick(() => alt.Player.streamedIn.filter((player) => player.visible).forEach(setName));
         alt.setMeta("display:nametags", true);
     } else if (!state && displayTick) {
         alt.clearEveryTick(displayTick);
