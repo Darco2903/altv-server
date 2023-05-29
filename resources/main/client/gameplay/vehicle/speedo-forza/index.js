@@ -2,7 +2,7 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 const player = alt.Player.local;
-const vehType = [7, 8, 20];
+const vehType = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 18, 20];
 let updateTick;
 
 const view = new alt.WebView("http://resource/client/gameplay/vehicle/speedo-forza/index.html", true);
