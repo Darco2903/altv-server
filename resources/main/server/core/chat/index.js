@@ -22,7 +22,6 @@ alt.onClient("chat:message", async (player, msg) => {
             return;
         }
 
-        alt.log(`[command] ${player.name}: /${msg}`);
         const args = msg.split(" ").filter((arg) => arg.length > 0);
         const commandName = args.shift();
         /** @type {alt.Utils.Chat.commandData} */
@@ -36,9 +35,9 @@ alt.onClient("chat:message", async (player, msg) => {
 
             try {
                 await command.execute(player, args);
-                alt.log(`~b~[command] ${player.name}: ~w~/${commandName} ${args.join(" ")}`);
+                alt.log(`~b~[command] ${player.name}: ~w~/${msg}`);
             } catch (error) {
-                alt.logError(`[command] ${player.name}: /${commandName} failed to execute: ${error}`);
+                alt.logError(`[command] ${player.name}: /${commandName} failed to execute:\n`, error);
                 player.sendNotification({
                     imageName: "CHAR_BLOCKED",
                     headerMsg: "Erreur",
