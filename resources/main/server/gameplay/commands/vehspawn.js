@@ -19,8 +19,8 @@ alt.Utils.Chat.registerCmd({
     ],
     permissionLevel: 0,
     execute(player, [model]) {
-        const rot = player.rot;
         const pos = player.pos.add(0, -2, 0);
-        const vehicle = new alt.Vehicle(model, pos, rot);
+        const vehicle = alt.Vehicle.spawn(model, pos);
+        player.setIntoVehicle(vehicle, 1);
     },
 });
