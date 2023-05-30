@@ -11,6 +11,7 @@ import "./gameplay/player/noclip.js";
 
 import "./gameplay/commands/clearvehall.js";
 import "./gameplay/commands/getpos.js";
+import "./gameplay/commands/gotocoords.js";
 import "./gameplay/commands/r.js";
 import "./gameplay/commands/repair.js";
 import "./gameplay/commands/setop.js";
