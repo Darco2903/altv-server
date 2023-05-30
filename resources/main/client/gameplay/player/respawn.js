@@ -15,12 +15,20 @@ function deadMessage() {
             false,
             0
         );
-        if (alt.isKeyDown(69)) {
+        if (alt.isKeyDown(69) && alt.gameControlsEnabled()) {
             alt.clearEveryTick(tick);
             const heading = player.headRot.toDegrees().y;
+            const vehicle = player.vehicle;
+            const seat = -player.seat;
             native.resurrectPed(player);
-            native.startPlayerTeleport(player, player.pos.x, player.pos.y, player.pos.z, heading, false, true, false);
             native.clearPedBloodDamage(player);
+
+            if (!vehicle) {
+                native.startPlayerTeleport(player, player.pos.x, player.pos.y, player.pos.z, heading, false, true, false);
+            } else {
+                native.setPedIntoVehicle(player, vehicle, seat);
+            }
+            
             setTimeout(() => {
                 if (player.isDead) {
                     deadMessage();
