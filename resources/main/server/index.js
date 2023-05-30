@@ -5,6 +5,7 @@ import "./core/player/notification.js";
 import "./core/player/permission.js";
 import "./core/vehicle/clearAll.js";
 
+import "./core/commands/getpos.js";
 import "./core/commands/r.js";
 import "./core/commands/time.js";
 import "./core/player/commands/setop.js";
