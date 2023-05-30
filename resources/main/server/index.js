@@ -1,4 +1,4 @@
-import "./consoleCommand.js";
+import "./core/consoleCommand.js";
 import "./core/chat/index.js";
 import "./core/clock/index.js";
 import "./core/player/notification.js";
