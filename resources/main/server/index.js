@@ -4,6 +4,7 @@ import "./core/clock/index.js";
 import "./core/player/notification.js";
 import "./core/player/permission.js";
 import "./core/vehicle/clearAll.js";
+import "./core/vehicle/spawn.js";
 
 import "./gameplay/player/connect.js";
 import "./gameplay/player/death.js";
