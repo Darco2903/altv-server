@@ -7,6 +7,7 @@ import "./core/player/nametag.js";
 import "./core/player/notification.js";
 import "./core/player/permission.js";
 
+import "./gameplay/player/fingerpointing.js";
 import "./gameplay/player/noclip.js";
 import "./gameplay/player/respawn.js";
 import "./gameplay/vehicle/crash.js";
