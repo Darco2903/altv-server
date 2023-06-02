@@ -4,7 +4,7 @@ import * as native from "natives";
 const player = alt.Player.local;
 
 alt.on("resourceStart", async () => {
-    await alt.Utils.waitFor(() => player, 15000);
+    await alt.Utils.waitFor(() => player.isSpawned, 15000);
     native.setPedConfigFlag(player, 241, true); // CPED_CONFIG_FLAG_LeaveEngineOnWhenExitingVehicles
     native.setPedConfigFlag(player, 429, true); // CPED_CONFIG_FLAG_DisableStartEngine
     native.setPedConfigFlag(player, 141, true); // CPED_CONFIG_FLAG_WillJackAnyPlayer
