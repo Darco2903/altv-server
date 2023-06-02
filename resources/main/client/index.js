@@ -16,3 +16,4 @@ import "./gameplay/vehicle/speedo-forza/index.js";
 import "./gameplay/vehicle/starter.js";
 
 import "./gameplay/commands/getpos.js";
+import "./gameplay/commands/tpm.js";

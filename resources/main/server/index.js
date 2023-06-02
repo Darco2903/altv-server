@@ -17,4 +17,5 @@ import "./gameplay/commands/r.js";
 import "./gameplay/commands/repair.js";
 import "./gameplay/commands/setop.js";
 import "./gameplay/commands/time.js";
+import "./gameplay/commands/tpm.js";
 import "./gameplay/commands/vehspawn.js";
