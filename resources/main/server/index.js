@@ -9,6 +9,7 @@ import "./core/vehicle/spawn.js";
 import "./gameplay/player/connect.js";
 import "./gameplay/player/death.js";
 import "./gameplay/player/noclip.js";
+import "./gameplay/vehicle/tuner.js";
 
 import "./gameplay/commands/clearveh.js";
 import "./gameplay/commands/getpos.js";

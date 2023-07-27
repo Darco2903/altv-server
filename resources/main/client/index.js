@@ -23,3 +23,4 @@ import "./gameplay/commands/tpm.js";
 
 import "./gameplay/ui/menu/index.js";
 import "./gameplay/ui/vehiclespawner/index.js";
+import "./gameplay/ui/vehicletuner/index.js";
