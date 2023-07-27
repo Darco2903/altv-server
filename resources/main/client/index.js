@@ -4,8 +4,10 @@ import "./core/loadCayoPerico.js";
 import "./core/loadInterior.js";
 import "./core/resourceState.js";
 import "./core/player/nametag.js";
+import "./core/player/gameplayCamera.js";
 import "./core/player/notification.js";
 import "./core/player/permission.js";
+import "./core/webview/centerPointer.js";
 
 import "./gameplay/player/fingerpointing.js";
 import "./gameplay/player/noclip.js";
@@ -17,3 +19,5 @@ import "./gameplay/vehicle/starter.js";
 
 import "./gameplay/commands/getpos.js";
 import "./gameplay/commands/tpm.js";
+
+import "./gameplay/ui/menu/index.js";

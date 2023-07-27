@@ -1,0 +1,40 @@
+body {
+    font-family: sans-serif;
+}
+
+#menu {
+    margin: 20px;
+}
+
+.menu-category {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-category-title {
+    font-size: 20px;
+    user-select: none;
+    color: #fff;
+    filter: drop-shadow(1px 1px 1px #333);
+}
+
+.menu-category-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.menu-category-buttons button {
+    background-color: #dfc800;
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.menu-category-buttons button:hover {
+    filter: drop-shadow(3px 3px 3px #aaaaaa88) brightness(1.025);
+}
