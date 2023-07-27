@@ -1,0 +1,560 @@
+:root {
+    --bg-color: #33333366;
+    --main-color: #dfc800;
+}
+
+body {
+    font-family: sans-serif;
+    overflow: hidden;
+    user-select: none;
+}
+
+body * {
+    user-select: none;
+}
+
+/* Images Preload */
+
+body:after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: -1;
+    content: url(./images/car.svg) url(./images/plate_1.png) url(./images/plate_2.png) url(./images/plate_3.png) url(./images/plate_4.png)
+        url(./images/plate_5.png) url(./images/plate_6.png);
+}
+
+/* ---------------------------------------------------- */
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--main-color);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #d1bc00;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #b6a401;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* global */
+
+label {
+    font-weight: bold;
+    color: #fff;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #00000088;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(1.025);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(0.9);
+}
+
+select {
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background-color: transparent;
+    border: solid 1px #fff;
+    color: #fff;
+}
+
+select option {
+    background-color: #00000088;
+    color: #fff;
+}
+
+select:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(0.9);
+    cursor: pointer;
+}
+
+select:active {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(0.8);
+}
+
+/* ------------- */
+
+#tune-panel {
+    background-color: var(--bg-color);
+    width: 400px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+}
+
+#tune-category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    row-gap: 0.1vh;
+}
+
+#tune-category button,
+#options button {
+    padding: 10px;
+    border-radius: 10px;
+    border: 0;
+    background-color: var(--main-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+#tune-category button:hover,
+#options button:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(1.025);
+}
+
+#tune-category button[selected] {
+    background-color: #0088ff;
+}
+
+#tune-category button[selected]:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(1.05);
+}
+
+#tune-content {
+    height: 83%;
+    width: 80%;
+    padding: 0 15px;
+    border-radius: 10px;
+    margin: 10px auto;
+    background-color: #00000055;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+#options {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+
+/*  */
+
+#mods > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+#mods > div:not(:last-child) {
+    border-bottom: solid 1px #fff;
+}
+
+#mods .mod-label {
+    width: 40%;
+    margin: auto 0;
+}
+
+#mods input[type="checkbox"] {
+    margin-right: 50px;
+}
+
+/*  */
+
+#colors > div {
+    padding: 10px 0;
+}
+
+#colors > div:not(:last-child) {
+    border-bottom: solid 1px #fff;
+}
+
+#colors .color-title {
+    font-size: 24px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+#colors .color-type,
+#colors .color-num {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+#colors .color-name {
+    width: 100%;
+    text-align: center;
+}
+
+/*  */
+
+#wheels > div {
+    padding: 10px 0;
+}
+
+#wheels-type {
+    display: flex;
+    justify-content: space-between;
+}
+
+#wheels > div:not(:last-child) {
+    border-bottom: solid 1px #fff;
+}
+
+.wheel-num {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wheel-label {
+    margin: auto 0;
+}
+
+/*  */
+
+#neons > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#neons-select {
+    background-image: url(./images/car.svg);
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+    padding: 10px;
+    width: 200px;
+    height: 300px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#neons .neon-select {
+    position: absolute;
+}
+
+#neon-all {
+    top: 52.5%;
+    left: 45%;
+}
+
+#neon-front {
+    top: 15px;
+    left: 45%;
+}
+
+#neon-rear {
+    bottom: 15px;
+    left: 45%;
+}
+
+#neon-left {
+    left: 20px;
+    top: 52.5%;
+}
+
+#neon-right {
+    right: 20px;
+    top: 52.5%;
+}
+
+/*  */
+
+#plate > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+#plate-text {
+    margin-top: 10px;
+    height: 200px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+body:has(#plate-type > select option[value="0"]:checked) #plate-text {
+    background-image: url(./images/plate_1.png);
+}
+body:has(#plate-type > select option[value="1"]:checked) #plate-text {
+    background-image: url(./images/plate_2.png);
+}
+body:has(#plate-type > select option[value="2"]:checked) #plate-text {
+    background-image: url(./images/plate_3.png);
+}
+body:has(#plate-type > select option[value="3"]:checked) #plate-text {
+    background-image: url(./images/plate_4.png);
+}
+body:has(#plate-type > select option[value="4"]:checked) #plate-text {
+    background-image: url(./images/plate_5.png);
+}
+body:has(#plate-type > select option[value="5"]:checked) #plate-text {
+    background-image: url(./images/plate_6.png);
+}
+
+@font-face {
+    font-family: "GTALicensePlatesRegular";
+    src: url("GTALicensePlatesRegular.woff") format("woff");
+}
+
+#plate-text input {
+    background-color: transparent;
+    position: absolute;
+    width: 97.5%;
+    height: 100px;
+    top: 40px;
+    border: 0;
+    outline: none;
+    text-align: center;
+    font-family: GTALicensePlatesRegular;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    line-height: 1;
+    font-size: 80px;
+}
+
+#plate-text input::selection {
+    background-color: #88888888;
+}
+
+body:has(#plate-type > select option[value="0"]:checked) #plate-text input {
+    color: #2c307e;
+}
+body:has(#plate-type > select option[value="1"]:checked) #plate-text input {
+    color: #d29d17;
+}
+body:has(#plate-type > select option[value="2"]:checked) #plate-text input {
+    color: #c07006;
+}
+body:has(#plate-type > select option[value="3"]:checked) #plate-text input {
+    color: #2c307e;
+}
+body:has(#plate-type > select option[value="4"]:checked) #plate-text input {
+    color: #2c307e;
+}
+body:has(#plate-type > select option[value="5"]:checked) #plate-text input {
+    color: #000;
+}
+
+#plate-text input:invalid {
+    color: red;
+}
+
+/*  */
+
+.checkbox {
+    --background: transparent;
+    --border: var(--main-color);
+    --border-hover: var(--main-color);
+    --border-active: var(--main-color);
+    --tick: #fff;
+    position: relative;
+    cursor: pointer;
+}
+.checkbox input,
+.checkbox svg {
+    width: 21px;
+    height: 21px;
+    display: block;
+}
+.checkbox input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    outline: none;
+    background: var(--background);
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: box-shadow 0.3s;
+    box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
+}
+.checkbox input:hover {
+    --s: 3px;
+    --b: var(--border-hover);
+}
+.checkbox input:checked {
+    --b: var(--border-active);
+}
+.checkbox svg {
+    pointer-events: none;
+    fill: none;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: var(--stroke, var(--border-active));
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 21px;
+    height: 21px;
+    transform: scale(var(--scale, 1)) translateZ(0);
+}
+
+.checkbox.path svg {
+    stroke-dasharray: var(--a, 86.12);
+    stroke-dashoffset: var(--o, 86.12);
+    transition: stroke-dasharray 0.6s, stroke-dashoffset 0.6s;
+}
+.checkbox.bounce {
+    --stroke: var(--bg-color);
+}
+.checkbox.bounce input:checked {
+    --s: 11px;
+}
+.checkbox.bounce input:checked + svg {
+    -webkit-animation: bounce 0.4s linear forwards 0.2s;
+    animation: bounce 0.4s linear forwards 0.2s;
+}
+.checkbox.bounce svg {
+    --scale: 0;
+}
+
+@-webkit-keyframes bounce {
+    50% {
+        transform: scale(1.2);
+    }
+    75% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    50% {
+        transform: scale(1.2);
+    }
+    75% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* panel */
+#tune-content > div:not([selected]),
+
+/* mods */
+#mods > div:not([selected]),
+
+/* color types */
+#color-primary:has(select option[value="0"]:not(:checked)) input[data-type="0"],
+#color-primary:has(select option[value="1"]:not(:checked)) input[data-type="1"],
+#color-primary:has(select option[value="2"]:not(:checked)) input[data-type="2"],
+#color-primary:has(select option[value="3"]:not(:checked)) input[data-type="3"],
+#color-primary:has(select option[value="4"]:not(:checked)) input[data-type="4"],
+#color-primary:has(select option[value="5"]:not(:checked)) input[data-type="5"],
+#color-primary:has(select option[value="6"]:not(:checked)) input[data-type="6"],
+
+#color-secondary:has(select option[value="0"]:not(:checked)) input[data-type="0"],
+#color-secondary:has(select option[value="1"]:not(:checked)) input[data-type="1"],
+#color-secondary:has(select option[value="3"]:not(:checked)) input[data-type="3"],
+#color-secondary:has(select option[value="4"]:not(:checked)) input[data-type="4"],
+#color-secondary:has(select option[value="5"]:not(:checked)) input[data-type="5"],
+#color-secondary:has(select option[value="6"]:not(:checked)) input[data-type="6"],
+
+/* pearl color */
+body:has(#color-primary select option[value="2"]:not(:checked)) #color-pearlescent,
+
+/* wheels model */
+body:has(#wheels-type > select option[value="0"]:not(:checked)) #wheels-model [data-type="0"],
+body:has(#wheels-type > select option[value="1"]:not(:checked)) #wheels-model [data-type="1"],
+body:has(#wheels-type > select option[value="2"]:not(:checked)) #wheels-model [data-type="2"],
+body:has(#wheels-type > select option[value="3"]:not(:checked)) #wheels-model [data-type="3"],
+body:has(#wheels-type > select option[value="4"]:not(:checked)) #wheels-model [data-type="4"],
+body:has(#wheels-type > select option[value="5"]:not(:checked)) #wheels-model [data-type="5"],
+body:has(#wheels-type > select option[value="6"]:not(:checked)) #wheels-model [data-type="6"],
+body:has(#wheels-type > select option[value="7"]:not(:checked)) #wheels-model [data-type="7"],
+body:has(#wheels-type > select option[value="8"]:not(:checked)) #wheels-model [data-type="8"],
+body:has(#wheels-type > select option[value="9"]:not(:checked)) #wheels-model [data-type="9"],
+body:has(#wheels-type > select option[value="10"]:not(:checked)) #wheels-model [data-type="10"],
+body:has(#wheels-type > select option[value="11"]:not(:checked)) #wheels-model [data-type="11"],
+body:has(#wheels-type > select option[value="12"]:not(:checked)) #wheels-model [data-type="12"],
+
+/* tire color */
+body:has(#wheels-type > select option[value="0"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="1"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="2"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="3"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="4"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="5"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="6"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="7"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="10"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="11"]:checked) #wheels-tirecolor,
+body:has(#wheels-type > select option[value="12"]:checked) #wheels-tirecolor,
+
+/* tire brand */
+body:has(#wheels-type > select option[value="0"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="1"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="2"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="3"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="4"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="5"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="6"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="7"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="8"]:checked) #wheels-tirebrand,
+body:has(#wheels-type > select option[value="9"]:checked) #wheels-tirebrand,
+
+/* neons */
+body:not(:has(input[type="checkbox"]:checked)) #neons-color {
+    display: none;
+}
