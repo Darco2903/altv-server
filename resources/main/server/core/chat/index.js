@@ -85,30 +85,30 @@ alt.on("resourceStart", () => {
 /**
  * @param {alt.Player} [player]
  */
-function sendCommands(player) {
-    alt.Utils.waitFor(() => commandsLight.length, 1000)
-        .then(() => {
-            // commandsLight.forEach((cmd) => {
-            //     console.log(cmd.args);
-            // });
-            if (player) {
-                alt.emitClient(player, "chat:commandsInit", commandsLight);
-            } else {
-                alt.emitAllClients("chat:commandsInit", commandsLight);
-            }
-        })
-        .catch((err) => {
-            alt.logError("[chat] commandsLight took too long:", err);
-        });
+async function sendCommands(player) {
+    try {
+        await alt.Utils.waitFor(() => commandsLight.length, 1000);
+        // commandsLight.forEach((cmd) => {
+        //     console.log(cmd.args);
+        // });
+        if (player) {
+            alt.emitClient(player, "chat:commandsInit", commandsLight);
+        } else {
+            alt.emitAllClients("chat:commandsInit", commandsLight);
+        }
+    } catch (error) {
+        alt.logError("[chat] commandsLight took too long:", error);
+    }
 }
 
 alt.on("playerConnect", sendCommands);
-alt.on("resourceStart", () => sendCommands());
-alt.on("syncedMetaChange", (entity, key, value) => {
-    if (entity === alt.Player.local && key === "op") {
-        sendCommands();
-    }
-});
+alt.onClient("chat:commandsRequest", sendCommands);
+
+// alt.on("syncedMetaChange", (entity, key, value) => {
+//     if (entity.type === 0 && key === "op") {
+//         sendCommands(entity);
+//     }
+// });
 
 /**
  * @param {string} msg
