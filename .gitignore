@@ -19,6 +19,8 @@ modules/
 node_modules/
 server.toml
 .vscode/
+.server-crashes-cache/
+altv-crash-handler.exe
 
 #config
 config.json
