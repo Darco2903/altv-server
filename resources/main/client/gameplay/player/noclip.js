@@ -29,7 +29,7 @@ const controls = {
     visibility: 4, // Mouse 3
     speedUp: 6, // Mouse 6
     speedDown: 5, // Mouse 5
-    toggle: 112, // F1
+    toggle: 116, // F5
 };
 
 const enabledControls = {
