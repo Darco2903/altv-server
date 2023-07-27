@@ -69,6 +69,7 @@ alt.on("keyup", (key) => {
 });
 
 alt.on("resourceStart", () => {
+    alt.emitServer("chat:commandsRequest");
     const localBuffer = alt.LocalStorage.get("chatBuffer");
     if (localBuffer) {
         view.emit("restoreBuffer", localBuffer);
