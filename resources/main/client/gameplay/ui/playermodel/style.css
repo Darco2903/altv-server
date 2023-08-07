@@ -1,0 +1,199 @@
+:root {
+    --bg-color: #33333388;
+}
+
+body {
+    font-family: sans-serif;
+    overflow-y: hidden;
+}
+
+::selection {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #dfc800;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #d1bc00;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #b6a401;
+}
+
+#pannel {
+    position: relative;
+    background-color: var(--bg-color);
+    height: 96vh;
+    margin: 2vh 2vw;
+    border-radius: 5px;
+    overflow-y: hidden;
+}
+
+#options {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap: 50px;
+    margin: 0 50px 0 0;
+    top: 10px;
+    right: 10px;
+    height: 100px;
+}
+
+#pedClass {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 10px;
+    gap: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.ped-category {
+    padding: 10px;
+    border-radius: 10px;
+    border: 0;
+    background-color: #dfc800;
+    color: #fff;
+    cursor: pointer;
+}
+
+.ped-category[selected] {
+    background-color: #0088ff;
+}
+
+.ped-category:hover {
+    filter: drop-shadow(3px 3px 3px #aaaaaa88) brightness(1.025);
+}
+
+#content {
+    margin: 40px;
+    height: 80%;
+    overflow-y: scroll;
+}
+
+#content > div:not([selected]) {
+    display: none;
+}
+
+#content > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 20px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.ped-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.ped-card img {
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.ped-card label {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    user-select: none;
+}
+
+#searchList .ped-card:not([selected]) {
+    display: none;
+}
+
+#search {
+    position: relative;
+    width: 150px;
+}
+
+.form__group {
+    height: 60px;
+    padding: 15px 0 0;
+}
+
+.form__field {
+    position: absolute;
+    z-index: 1;
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #ffffff88;
+    outline: 0;
+    font-size: 1.3rem;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+.form__field::placeholder {
+    color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+
+.form__label {
+    position: absolute;
+    user-select: none;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #ffffff88;
+}
+
+.form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-color: #fff;
+    border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+    box-shadow: none;
+}
