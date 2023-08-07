@@ -14,8 +14,6 @@ alt.on("keydown", async (key) => {
     // alt.KeyCode.Key1
     if (key === 49 && player.vehicle) {
         if (!native.getIsVehicleEngineRunning(player.vehicle)) {
-            const animDictionary = "anim@veh@std@issi3@ds@base";
-            // await alt.Utils.requestAnimDict(animDictionary);
             let ignition = false;
             const ignitionTime = getIgnitionTime(player.vehicle);
             alt.emit("vehicle:ignition:start");
@@ -33,8 +31,7 @@ alt.on("keydown", async (key) => {
                     alt.emit("vehicle:ignition:success");
                     break;
                 }
-                
-                native.taskPlayAnim(player, animDictionary, "start_engine", 3.0, 2.0, -1, 0, 0, false, false, false);
+
                 native.setVehicleEngineOn(player.vehicle, true, false, true);
                 await new Promise((resolve) => alt.nextTick(resolve));
                 native.setVehicleEngineOn(player.vehicle, false, false, true);
