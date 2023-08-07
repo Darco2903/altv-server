@@ -5,6 +5,10 @@ const player = alt.Player.local;
 
 function deadMessage() {
     const tick = alt.everyTick(() => {
+        if (!player.isDead || player.health > 0 || !player.isSpawned) {
+            alt.clearEveryTick(tick);
+        }
+
         alt.Utils.drawText3dThisFrame(
             "Appuyez sur ~b~E ~w~pour réapparaître",
             new alt.Vector3(alt.Player.local.pos).add(0, 0, 0.5),
@@ -15,6 +19,7 @@ function deadMessage() {
             false,
             0
         );
+
         if (alt.isKeyDown(69) && alt.gameControlsEnabled()) {
             alt.clearEveryTick(tick);
             const heading = player.headRot.toDegrees().y;
@@ -28,7 +33,7 @@ function deadMessage() {
             } else {
                 native.setPedIntoVehicle(player, vehicle, seat);
             }
-            
+
             setTimeout(() => {
                 if (player.isDead) {
                     deadMessage();
@@ -49,11 +54,3 @@ alt.on("resourceStart", async () => {
         }
     }, 100);
 });
-
-// auto kill
-// alt.on("keydown", (key) => {
-//     // alt.KeyCode.A
-//     if (key === 65) {
-//         native.setEntityHealth(player, 0, 0);
-//     }
-// });
