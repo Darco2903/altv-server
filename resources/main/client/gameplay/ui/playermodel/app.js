@@ -1,5 +1,5 @@
 import peds from "./data/peds.json" assert { type: "json" };
-// import pedsMod from "./data/pedsMod.json" assert { type: "json" };
+import pedsMod from "./data/pedsMod.json" assert { type: "json" };
 
 if (window.alt === undefined) {
     window.alt = {
@@ -42,7 +42,7 @@ function createPedCard(ped) {
     return div;
 }
 
-peds.forEach((ped) => {
+peds.concat(pedsMod).forEach((ped) => {
     if (ped.Pedtype.includes("PLAYER")) {
         ped.Pedtype = "PLAYER";
     } else if (["MEDIC", "FIREMAN", "Swat"].includes(ped.Pedtype)) {
