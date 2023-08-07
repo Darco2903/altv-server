@@ -1,0 +1,19 @@
+files = [
+	"stream/assets/*"
+]
+
+[meta]
+	"stream/carcols.meta" = "CARCOLS_FILE"
+	"stream/carvariations.meta" = "VEHICLE_VARIATION_FILE"
+	"stream/dlctext.meta" = "VEHICLE_VARIATION_FILE"
+	"stream/handling.meta" = "HANDLING_FILE"
+	"stream/vehicles.meta" = "VEHICLE_METADATA_FILE"
+	# "stream/vehiclelayouts.meta" = "VEHICLE_LAYOUTS_FILE"
+
+	# "stream/audio/sfx/dlc_CARNAME" = "AUDIO_WAVEPACK"
+	# "stream/audio/CARNAME_game.dat" = "AUDIO_GAMEDATA"
+	# "stream/audio/CARNAME_sounds.dat" = "AUDIO_SOUNDDATA"
+	# "stream/audio/CARNAME_amp.dat" = "AUDIO_SYNTHDATA"
+
+[gxt]
+	"f4uc" = "Vought F4U Corsair"
