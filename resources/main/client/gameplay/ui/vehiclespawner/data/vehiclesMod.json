@@ -25,5 +25,11 @@
     { "Name": "agerars", "DisplayName": "Agera RS", "Class": "MOD" },
     { "Name": "jesko", "DisplayName": "Jesko", "Class": "MOD" },
     { "Name": "multipla", "DisplayName": "Multipla", "Class": "MOD" },
-    { "Name": "16challenger", "DisplayName": "Challenger", "Class": "MOD" }
+    { "Name": "16challenger", "DisplayName": "Challenger", "Class": "MOD" },
+    { "Name": "blackbird", "DisplayName": "Blackbird", "Class": "MOD" },
+    { "Name": "f4uc", "DisplayName": "F4U Corsair", "Class": "MOD" },
+    { "Name": "panther", "DisplayName": "Panther Ausf. G", "Class": "MOD" },
+    { "Name": "sherman", "DisplayName": "M4A3E8 Sherman", "Class": "MOD" },
+    { "Name": "t34", "DisplayName": "T-34-85", "Class": "MOD" },
+    { "Name": "tiger", "DisplayName": "Panzer VI Tiger Ausf. E", "Class": "MOD" }
 ]
