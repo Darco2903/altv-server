@@ -9,7 +9,7 @@ alt.Vehicle.prototype.replace =
      */
     async function (vehicle) {
         native.networkFadeOutEntity(this, false, true);
-        await alt.Utils.waitFor(() => vehicle.isSpawned, 2000);
+        await alt.Utils.waitFor(() => vehicle.isSpawned && player.vehicle === vehicle, 2000);
         native.setEntityCollision(this, false, false);
         native.setEntityVisible(this, false, 0);
         native.setEntityVisible(vehicle, false, 0);
