@@ -44,9 +44,8 @@ function createVehicleCard(veh) {
 
 vehicles.concat(vehiclesMod).forEach((vehicle) => {
     const category = vehicleCategoryContent.find((content) => content.id === vehicle.Class);
-    const vehicleCard = createVehicleCard(vehicle);
-    category.append(vehicleCard);
-    searchList.append(vehicleCard.cloneNode(true));
+    category.append(createVehicleCard(vehicle));
+    searchList.append(createVehicleCard(vehicle));
 });
 
 searchInput.addEventListener("input", () => {

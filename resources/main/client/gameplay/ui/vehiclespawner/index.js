@@ -33,8 +33,8 @@ view.on("spawn:vehicle", async (model) => {
             if (player.seat !== 1) return;
             alt.emitServer("vehicle:replace", player.vehicle, hash);
         }
-        await alt.Utils.waitFor(() => player.vehicle?.model === hash, 1000);
-        toggle(false);
+        // await alt.Utils.waitFor(() => player.vehicle?.model === hash, 1000);
+        // toggle(false);
     } catch (error) {
         alt.logError(`Failed to spawn ${model}`);
     }
