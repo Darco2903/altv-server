@@ -16,15 +16,17 @@ view.on("menu:option:click", (option) => {
 });
 
 function toggleMenu(state) {
-    view.isVisible = state;
-    if (alt.isCursorVisible() !== state) alt.showCursor(state);
-    player.lockCamera(state);
     if (state) {
-        view.centerPointer();
+        if (!alt.isCursorVisible()) view.centerPointer();
         view.focus();
+        alt.emit("ui:close:all");
     } else {
         view.unfocus();
     }
+    view.isVisible = state;
+    if (alt.isCursorVisible() !== state) alt.showCursor(state);
+    player.lockCamera(state);
+    alt.emit("chat:enabled", !state);
 }
 
 alt.on("keyup", (key) => {

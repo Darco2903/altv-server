@@ -44,6 +44,7 @@ function toggle(state) {
         if (alt.isCursorVisible() !== state) alt.showCursor(state);
         toggleControls(state);
         native.freezeEntityPosition(player.vehicle, state);
+        alt.emit("chat:enabled", !state);
         if (state) {
             view.focus();
             updateView();
@@ -107,6 +108,10 @@ alt.on("menu:option:open", (id) => {
     if (id === "vehicletuner" && player.vehicle) {
         toggle(true);
     }
+});
+
+alt.on("ui:close:all", () => {
+    toggle(false);
 });
 
 alt.on("keyup", (key) => {

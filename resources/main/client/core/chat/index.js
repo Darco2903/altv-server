@@ -92,3 +92,10 @@ view.on("getAllPlayers", () => {
         alt.Player.all.map((p) => p.name)
     );
 });
+
+alt.on("chat:enabled", (state) => {
+    enabled = state;
+    if (open && !state) {
+        closeChat();
+    }
+});

@@ -108,6 +108,7 @@ function toggle(state) {
         view.isVisible = state;
         if (alt.isCursorVisible() !== state) alt.showCursor(state);
         player.lockCamera(state);
+        alt.emit("chat:enabled", !state);
         if (state) {
             view.focus();
         } else {
@@ -120,6 +121,10 @@ alt.on("menu:option:open", (id) => {
     if (id === "vehiclespawner") {
         toggle(true);
     }
+});
+
+alt.on("ui:close:all", () => {
+    toggle(false);
 });
 
 alt.on("keyup", (key) => {
