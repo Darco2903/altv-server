@@ -263,6 +263,12 @@ select:active {
 
 /*  */
 
+#lights > div:not(:first-child) {
+    border-top: solid 1px #fff;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
 #neons > div {
     display: flex;
     justify-content: space-between;
@@ -280,7 +286,7 @@ select:active {
     position: relative;
 }
 
-#neons .neon-select {
+#lights .neon-select {
     position: absolute;
 }
 
@@ -307,6 +313,25 @@ select:active {
 #neon-right {
     right: 20px;
     top: 52.5%;
+}
+
+#xenons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#xenons-state {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#xenons-color {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 /*  */
@@ -558,6 +583,7 @@ body:has(#wheels-type > select option[value="8"]:checked) #wheels-tirebrand,
 body:has(#wheels-type > select option[value="9"]:checked) #wheels-tirebrand,
 
 /* neons */
-body:not(:has(input[type="checkbox"]:checked)) #neons-color {
+body:not(:has(#neons-select input[type="checkbox"]:checked)) #neons-color,
+body:not(:has(#xenons-state input[type="checkbox"]:checked)) #xenons-color {
     display: none;
 }

@@ -182,7 +182,7 @@ wheelColorSlider.addEventListener("input", () => {
 
 ////////////////////
 
-////    neons    ////
+////    lights    ////
 
 // checkbox init
 const neonAll = document.querySelector(".neon-select#neon-all input[type=checkbox]");
@@ -211,6 +211,16 @@ neonColor.addEventListener("input", () => {
         b: parseInt(hex.substring(4, 6), 16),
     };
     alt.emit("vehicletuner:neon:color", color);
+});
+
+const xenonCheckbox = document.querySelector("#xenons-state input[type=checkbox]");
+xenonCheckbox.addEventListener("change", () => {
+    alt.emit("vehicletuner:xenon:state", xenonCheckbox.checked);
+});
+
+const xenonColor = document.querySelector("#xenons-color input[type=range]");
+xenonColor.addEventListener("input", () => {
+    alt.emit("vehicletuner:xenon:color", parseInt(xenonColor.value));
 });
 
 ////////////////////
@@ -295,6 +305,16 @@ alt.on("vehicletuner:neon:color", (color) => {
     const hex = "#" + ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
     const neonColor = document.querySelector("#neons-color input[type=color]");
     neonColor.value = hex;
+});
+
+alt.on("vehicletuner:xenon:state", (state) => {
+    const xenonCheckbox = document.querySelector("#xenons-state input[type=checkbox]");
+    xenonCheckbox.checked = state;
+});
+
+alt.on("vehicletuner:xenon:color", (color) => {
+    const xenonColor = document.querySelector("#xenons-color input[type=range]");
+    xenonColor.value = color;
 });
 
 alt.on("vehicletuner:plate:type", (type) => {

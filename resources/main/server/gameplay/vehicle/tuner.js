@@ -84,6 +84,20 @@ alt.onClient(
 );
 
 alt.onClient(
+    "vehicletuner:xenon",
+    /** @param {boolean} state */
+    /** @param {number} color */
+    (player, state, color) => {
+        try {
+            player.vehicle.setMod(22, state);
+            player.vehicle.headlightColor = color;
+        } catch (error) {
+            alt.logError(error);
+        }
+    }
+);
+
+alt.onClient(
     "vehicletuner:plate",
     /** @param {number} plateIndex */
     /** @param {string} plateText */

@@ -12,7 +12,7 @@
                     <button id="mods" selected>Mods</button>
                     <button id="colors">Peinture</button>
                     <button id="wheels">Jantes</button>
-                    <button id="neons">Neons</button>
+                    <button id="lights">Lights</button>
                     <button id="plate">Plaque</button>
                 </div>
 
@@ -500,45 +500,72 @@
                         </div>
                     </div>
 
-                    <div id="neons">
-                        <div id="neons-select">
-                            <div class="neon-select" id="neon-all">
-                                <label class="checkbox bounce" id="labelCheckbox">
-                                    <input type="checkbox" />
-                                    <svg viewBox="0 0 21 21">
-                                        <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
-                                    </svg>
-                                </label>
                             </div>
 
-                            <div class="neon-select" id="neon-front">
-                                <label class="checkbox bounce" id="labelCheckbox">
-                                    <input type="checkbox" data-index="2" />
-                                    <svg viewBox="0 0 21 21">
-                                        <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
-                                    </svg>
-                                </label>
                             </div>
 
-                            <div class="neon-select" id="neon-rear">
-                                <label class="checkbox bounce" id="labelCheckbox">
-                                    <input type="checkbox" data-index="3" />
-                                    <svg viewBox="0 0 21 21">
-                                        <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
-                                    </svg>
-                                </label>
                             </div>
 
-                            <div class="neon-select" id="neon-left">
-                                <label class="checkbox bounce" id="labelCheckbox">
-                                    <input type="checkbox" data-index="0" />
-                                    <svg viewBox="0 0 21 21">
-                                        <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
-                                    </svg>
-                                </label>
                             </div>
 
-                            <div class="neon-select" id="neon-right">
+                    <div id="lights">
+                        <div id="neons">
+                            <div id="neons-select">
+                                <div class="neon-select" id="neon-all">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-front">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="2" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-rear">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="3" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-left">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="0" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-right">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="1" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="neons-color">
+                                <label class="mod-label">Couleur</label>
+                                <input type="color" value="#ffffff" />
+                            </div>
+                        </div>
+
+                        <div id="xenons">
+                            <div id="xenons-state">
+                                <label class="mod-label">Xenon</label>
                                 <label class="checkbox bounce" id="labelCheckbox">
                                     <input type="checkbox" data-index="1" />
                                     <svg viewBox="0 0 21 21">
@@ -546,11 +573,14 @@
                                     </svg>
                                 </label>
                             </div>
-                        </div>
 
-                        <div id="neons-color">
-                            <label class="mod-label">Couleur</label>
-                            <input type="color" value="#ffffff" />
+                            <div id="xenons-color">
+                                <label class="mod-label">Couleur des xenons</label>
+                                <div class="neons-num">
+                                    <input type="range" min="" max="12" value="0" />
+                                    <label class="color-name"></label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

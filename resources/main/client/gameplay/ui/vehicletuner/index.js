@@ -98,6 +98,12 @@ function updateView() {
         b: neonColor[3],
     });
 
+    const xenonState = native.isToggleModOn(veh, 22);
+    view.emit("vehicletuner:xenon:state", xenonState);
+
+    const xenonColor = native.getVehicleXenonLightColorIndex(player.vehicle);
+    view.emit("vehicletuner:xenon:color", xenonColor);
+
     const plateType = native.getVehicleNumberPlateTextIndex(veh);
     view.emit("vehicletuner:plate:type", plateType);
 
@@ -160,6 +166,10 @@ function save() {
     const [____, r, g, b] = native.getVehicleNeonColour(veh);
     const neonColor = new alt.RGBA(r, g, b);
     alt.emitServer("vehicletuner:neon", neonStates, neonColor);
+
+    const xenonState = native.isToggleModOn(veh, 22);
+    const xenonColor = native.getVehicleXenonLightColorIndex(player.vehicle);
+    alt.emitServer("vehicletuner:xenon", xenonState, xenonColor);
 
     const plateType = native.getVehicleNumberPlateTextIndex(veh);
     const plateText = native.getVehicleNumberPlateText(veh).trim();
@@ -253,6 +263,14 @@ view.on("vehicletuner:neon:state", (index, state) => {
 
 view.on("vehicletuner:neon:color", (color) => {
     native.setVehicleNeonColour(player.vehicle, color.r, color.g, color.b);
+});
+
+view.on("vehicletuner:xenon:state", (state) => {
+    native.toggleVehicleMod(player.vehicle, 22, state);
+});
+
+view.on("vehicletuner:xenon:color", (color) => {
+    native.setVehicleXenonLightColorIndex(player.vehicle, color);
 });
 
 view.on("vehicletuner:plate:type", (type) => {
