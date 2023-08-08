@@ -260,7 +260,11 @@ alt.on("vehicletuner:color2", (type, num) => {
     }
 });
 
-alt.on("vehicletuner:wheel", (type, num, drift) => {
+alt.on("vehicletuner:wheel", (type, num) => {
+    if (num === -1) {
+        type = -1;
+    }
+
     const slider = document.querySelector(`#wheels-model input[data-type="${type}"]`);
     const sliderMax = parseInt(slider.max) + 1;
     if ([8, 9].includes(type)) {
@@ -268,8 +272,8 @@ alt.on("vehicletuner:wheel", (type, num, drift) => {
     } else if ([10, 11, 12].includes(type)) {
         wheelTireBrandSelect.value = Math.floor(num / sliderMax);
     }
-    wheelSelect.value = type;
     slider.value = num % sliderMax;
+    wheelSelect.value = type;
     slider.dispatchEvent(new Event("input"));
 });
 

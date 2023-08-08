@@ -57,6 +57,7 @@ function toggle(state) {
 function updateView() {
     const veh = player.vehicle;
     view.emit("vehicletuner:mod:reset");
+
     for (let i = 0; i < 50; i++) {
         const max = native.getNumVehicleMods(veh, i);
         let num;

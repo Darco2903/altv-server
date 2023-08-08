@@ -515,6 +515,7 @@ body:has(#plate-type > select option[value="5"]:checked) #plate-text input {
 body:has(#color-primary select option[value="2"]:not(:checked)) #color-pearlescent,
 
 /* wheels model */
+body:has(#wheels-type > select option[value="-1"]:checked) #wheels-model,
 body:has(#wheels-type > select option[value="0"]:not(:checked)) #wheels-model [data-type="0"],
 body:has(#wheels-type > select option[value="1"]:not(:checked)) #wheels-model [data-type="1"],
 body:has(#wheels-type > select option[value="2"]:not(:checked)) #wheels-model [data-type="2"],
@@ -530,6 +531,7 @@ body:has(#wheels-type > select option[value="11"]:not(:checked)) #wheels-model [
 body:has(#wheels-type > select option[value="12"]:not(:checked)) #wheels-model [data-type="12"],
 
 /* tire color */
+body:has(#wheels-type > select option[value="-1"]:checked) #wheels-tirecolor,
 body:has(#wheels-type > select option[value="0"]:checked) #wheels-tirecolor,
 body:has(#wheels-type > select option[value="1"]:checked) #wheels-tirecolor,
 body:has(#wheels-type > select option[value="2"]:checked) #wheels-tirecolor,
@@ -543,6 +545,7 @@ body:has(#wheels-type > select option[value="11"]:checked) #wheels-tirecolor,
 body:has(#wheels-type > select option[value="12"]:checked) #wheels-tirecolor,
 
 /* tire brand */
+body:has(#wheels-type > select option[value="-1"]:checked) #wheels-tirebrand,
 body:has(#wheels-type > select option[value="0"]:checked) #wheels-tirebrand,
 body:has(#wheels-type > select option[value="1"]:checked) #wheels-tirebrand,
 body:has(#wheels-type > select option[value="2"]:checked) #wheels-tirebrand,

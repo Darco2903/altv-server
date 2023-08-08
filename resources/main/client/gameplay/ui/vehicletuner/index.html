@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" type="text/css" href="style.css" />
-
         <title>Vehicles Tuner</title>
     </head>
 
@@ -418,7 +417,8 @@
                         <div id="wheels-type">
                             <label class="wheel-label">Type de jantes</label>
                             <select>
-                                <option value="0" selected>Sport</option>
+                                <option value="-1" selected>Stock</option>
+                                <option value="0">Sport</option>
                                 <option value="1">Muscle</option>
                                 <option value="2">Lowrider</option>
                                 <option value="3">SUV</option>
@@ -437,6 +437,7 @@
                         <div id="wheels-model">
                             <label class="wheel-label">Modèle des jantes</label>
                             <div class="wheel-num">
+                                <input type="range" data-type="-1" min="-1" max="-1" value="-1" hidden />
                                 <input type="range" data-type="0" min="0" max="49" value="0" />
                                 <input type="range" data-type="1" min="0" max="35" value="0" />
                                 <input type="range" data-type="2" min="0" max="29" value="0" />
@@ -450,8 +451,6 @@
                                 <input type="range" data-type="10" min="0" max="19" value="0" />
                                 <input type="range" data-type="11" min="0" max="29" value="0" />
                                 <input type="range" data-type="12" min="0" max="29" value="0" />
-                                <!-- <button>-</button>
-                                <button>+</button> -->
                                 <label class="wheel-counter">0</label>
                             </div>
                         </div>
