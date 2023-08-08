@@ -145,9 +145,9 @@ alt.everyTick(() => {
 });
 
 function toogleNoClip(state) {
-    NoclipActive = state;
-
     const noclipEntity = alt.Player.local.vehicle ? alt.Player.local.vehicle : alt.Player.local;
+    NoclipActive = state;
+    alt.setMeta("noclip:active", state);
     if (NoclipActive) {
         native.freezeEntityPosition(noclipEntity.scriptID, true);
         native.setEntityCollision(noclipEntity.scriptID, false, false);
@@ -163,6 +163,15 @@ function toogleNoClip(state) {
     }
 }
 
+alt.on("resourceStart", () => {
+    if (alt.getMeta("noclip:active")) {
+        toogleNoClip(true);
+    }
+    if (alt.hasMeta("noclip:speed")) {
+        MovingSpeed = alt.getMeta("noclip:speed");
+    }
+});
+
 alt.on("keyup", (key) => {
     if (key === controls.toggle) {
         if (NoclipActive) {
@@ -174,10 +183,12 @@ alt.on("keyup", (key) => {
         if (key === controls.speedUp) {
             if (MovingSpeed < SpeedsCount - 1) {
                 MovingSpeed++;
+                alt.setMeta("noclip:speed", MovingSpeed);
             }
         } else if (key === controls.speedDown) {
             if (MovingSpeed > 0) {
                 MovingSpeed--;
+                alt.setMeta("noclip:speed", MovingSpeed);
             }
         } else if (key === controls.visibility) {
             PlayerVisible = !PlayerVisible;
