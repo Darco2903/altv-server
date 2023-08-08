@@ -180,6 +180,33 @@ wheelColorSlider.addEventListener("input", () => {
     alt.emit("vehicletuner:wheel:color", parseInt(color));
 });
 
+const wheelTrack = document.querySelectorAll("#wheels-track > div");
+wheelTrack.forEach((track) => {
+    const counter = track.querySelector(".mod-counter");
+    const slider = track.querySelector("input[type=range]");
+    const wheelsIndexes = JSON.parse(slider.dataset.ids);
+    slider.addEventListener("input", () => {
+        console.log(wheelsIndexes);
+        counter.innerHTML = slider.value;
+        wheelsIndexes.forEach((wheelIndex) => {
+            alt.emit("vehicletuner:wheel:trackwidth", wheelIndex, parseFloat(slider.value));
+        });
+    });
+});
+
+const wheelCamber = document.querySelectorAll("#wheels-camber > div");
+wheelCamber.forEach((camber) => {
+    const counter = camber.querySelector(".mod-counter");
+    const slider = camber.querySelector("input[type=range]");
+    const wheelsIndexes = JSON.parse(slider.dataset.ids);
+    slider.addEventListener("input", () => {
+        counter.innerHTML = slider.value;
+        wheelsIndexes.forEach((wheelIndex) => {
+            alt.emit("vehicletuner:wheel:camber", wheelIndex, parseFloat(slider.value));
+        });
+    });
+});
+
 ////////////////////
 
 ////    lights    ////
@@ -294,6 +321,24 @@ alt.on("vehicletuner:wheel:color", (color) => {
 
 alt.on("vehicletuner:wheel:drift", (state) => {
     wheelDriftCheckbox.checked = state;
+});
+
+alt.on("vehicletuner:wheel:trackWidth", (trackWidth) => {
+    const trackWidthFront = document.querySelector('#wheels-trackwidth-front input');
+    const trackWidthRear = document.querySelector('#wheels-trackwidth-rear input');
+    trackWidthFront.value = trackWidth[0];
+    trackWidthRear.value = trackWidth[1];
+    trackWidthFront.dispatchEvent(new Event("input"));
+    trackWidthRear.dispatchEvent(new Event("input"));
+});
+
+alt.on("vehicletuner:wheel:camber", (camber) => {
+    const camberFront = document.querySelector("#wheels-camber-front input");
+    const camberRear = document.querySelector("#wheels-camber-rear input");
+    camberFront.value = camber[0];
+    camberRear.value = camber[1];
+    camberFront.dispatchEvent(new Event("input"));
+    camberRear.dispatchEvent(new Event("input"));
 });
 
 alt.on("vehicletuner:neon:state", (n, state) => {

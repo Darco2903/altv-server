@@ -87,6 +87,12 @@ function updateView() {
     const drift = native.getDriftTyresSet(veh);
     view.emit("vehicletuner:wheel:drift", drift);
 
+    const wheelTrackWidth = [veh.getWheelTrackWidth(0), veh.getWheelTrackWidth(2)];
+    view.emit("vehicletuner:wheel:trackWidth", wheelTrackWidth);
+
+    const wheelCamber = [veh.getWheelCamber(0), veh.getWheelCamber(2)];
+    view.emit("vehicletuner:wheel:camber", wheelCamber);
+
     for (let i = 0; i < 4; i++) {
         const state = native.getVehicleNeonEnabled(veh, i);
         view.emit("vehicletuner:neon:state", i, state);
@@ -156,6 +162,11 @@ function save() {
     const [___, wheelPearl, wheelColor] = native.getVehicleExtraColours(veh);
     const wheelDrift = native.getDriftTyresSet(veh);
     alt.emitServer("vehicletuner:wheels", wheelType, wheelNum, wheelColor, wheelDrift);
+
+    const wheelsTrackWidth = [veh.getWheelTrackWidth(0), veh.getWheelTrackWidth(2)];
+    alt.emitServer("vehicletuner:wheel:trackWidth", wheelsTrackWidth);
+    const wheelsCamber = [veh.getWheelCamber(0), veh.getWheelCamber(2)];
+    alt.emitServer("vehicletuner:wheel:camber", wheelsCamber);
 
     const neonStates = {
         left: native.getVehicleNeonEnabled(veh, 0),
@@ -245,6 +256,34 @@ view.on("vehicletuner:wheel", (type, index) => {
 view.on("vehicletuner:wheel:color", (color) => {
     const pearl = native.getVehicleExtraColours(player.vehicle)[1];
     native.setVehicleExtraColours(player.vehicle, pearl, color);
+});
+
+view.on("vehicletuner:wheel:trackwidth", (wheelIndex, width) => {
+    player.vehicle.setWheelTrackWidth(wheelIndex, width);
+});
+
+view.on("vehicletuner:wheel:camber", (wheelIndex, camber) => {
+    player.vehicle.setWheelCamber(wheelIndex, camber);
+});
+
+alt.on("streamSyncedMetaChange", (entity, key, value) => {
+    if (entity.type !== 1) return;
+
+    switch (key) {
+        case "trackWidth":
+            entity.setWheelTrackWidth(0, value[0]);
+            entity.setWheelTrackWidth(1, value[0]);
+            entity.setWheelTrackWidth(2, value[1]);
+            entity.setWheelTrackWidth(3, value[1]);
+            break;
+
+        case "camber":
+            entity.setWheelCamber(0, value[0]);
+            entity.setWheelCamber(1, value[0]);
+            entity.setWheelCamber(2, value[1]);
+            entity.setWheelCamber(3, value[1]);
+            break;
+    }
 });
 
 view.on("vehicletuner:wheel:drift", (state) => {

@@ -70,6 +70,20 @@ alt.onClient(
 );
 
 alt.onClient(
+    "vehicletuner:wheels:track",
+    /** @param {Array<number>} trackWidth */
+    /** @param {Array<number>} camber */
+    (player, trackWidth, camber) => {
+        try {
+            player.vehicle.setStreamSyncedMeta("trackWidth", trackWidth);
+            player.vehicle.setStreamSyncedMeta("camber", camber);
+        } catch (error) {
+            alt.logError(error);
+        }
+    }
+);
+
+alt.onClient(
     "vehicletuner:neon",
     /** @param {Array<boolean>} states */
     /** @param {number} color */

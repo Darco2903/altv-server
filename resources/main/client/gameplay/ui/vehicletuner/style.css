@@ -193,8 +193,14 @@ select:active {
     padding: 10px 0;
 }
 
+#mods > div:first-child {
+    margin-top: 10px;
+}
+
 #mods > div:not(:last-child) {
     border-bottom: solid 1px #fff;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 #mods .mod-label {
@@ -212,8 +218,10 @@ select:active {
     padding: 10px 0;
 }
 
-#colors > div:not(:last-child) {
-    border-bottom: solid 1px #fff;
+#colors > div:not(:first-child) {
+    border-top: solid 1px #fff;
+    margin-top: 20px;
+    padding-top: 20px;
 }
 
 #colors .color-title {
@@ -237,8 +245,8 @@ select:active {
 
 /*  */
 
-#wheels > div {
-    padding: 10px 0;
+#wheels > div:first-child {
+    padding-top: 10px;
 }
 
 #wheels-type {
@@ -246,8 +254,10 @@ select:active {
     justify-content: space-between;
 }
 
-#wheels > div:not(:last-child) {
-    border-bottom: solid 1px #fff;
+#wheels > div:not(:first-child) {
+    border-top: solid 1px #fff;
+    margin-top: 20px;
+    padding-top: 20px;
 }
 
 .wheel-num {
@@ -259,6 +269,29 @@ select:active {
 
 .wheel-label {
     margin: auto 0;
+}
+
+#wheels-drift {
+    display: flex;
+    align-items: center;
+}
+
+#wheels-drift > .checkbox {
+    margin-left: 20px;
+}
+
+#wheels-track,
+#wheels-camber {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#wheels-track > div,
+#wheels-camber > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /*  */
