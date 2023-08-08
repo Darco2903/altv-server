@@ -574,6 +574,7 @@ body:has(#color-primary select option[value="2"]:not(:checked)) #color-pearlesce
 
 /* wheels model */
 body:has(#wheels-type > select option[value="-1"]:checked) #wheels-model,
+body:has(#wheels-type > select option[value="-1"]:checked) #wheels-color,
 body:has(#wheels-type > select option[value="0"]:not(:checked)) #wheels-model [data-type="0"],
 body:has(#wheels-type > select option[value="1"]:not(:checked)) #wheels-model [data-type="1"],
 body:has(#wheels-type > select option[value="2"]:not(:checked)) #wheels-model [data-type="2"],

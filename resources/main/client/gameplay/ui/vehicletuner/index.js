@@ -37,6 +37,12 @@ function toggleControls(state) {
     }
 }
 
+alt.on("resourceStop", () => {
+    if (controlsTick) {
+        native.freezeEntityPosition(player.vehicle, false);
+    }
+});
+
 function toggle(state) {
     if (state && player.seat !== 1) return;
     if (state !== view.isVisible) {
@@ -107,7 +113,8 @@ function updateView() {
     const xenonState = native.isToggleModOn(veh, 22);
     view.emit("vehicletuner:xenon:state", xenonState);
 
-    const xenonColor = native.getVehicleXenonLightColorIndex(player.vehicle);
+    let xenonColor = native.getVehicleXenonLightColorIndex(player.vehicle);
+    if (xenonColor === 255) xenonColor = -1;
     view.emit("vehicletuner:xenon:color", xenonColor);
 
     const plateType = native.getVehicleNumberPlateTextIndex(veh);
@@ -164,9 +171,8 @@ function save() {
     alt.emitServer("vehicletuner:wheels", wheelType, wheelNum, wheelColor, wheelDrift);
 
     const wheelsTrackWidth = [veh.getWheelTrackWidth(0), veh.getWheelTrackWidth(2)];
-    alt.emitServer("vehicletuner:wheel:trackWidth", wheelsTrackWidth);
     const wheelsCamber = [veh.getWheelCamber(0), veh.getWheelCamber(2)];
-    alt.emitServer("vehicletuner:wheel:camber", wheelsCamber);
+    alt.emitServer("vehicletuner:wheels:track", wheelsTrackWidth, wheelsCamber);
 
     const neonStates = {
         left: native.getVehicleNeonEnabled(veh, 0),
@@ -258,7 +264,7 @@ view.on("vehicletuner:wheel:color", (color) => {
     native.setVehicleExtraColours(player.vehicle, pearl, color);
 });
 
-view.on("vehicletuner:wheel:trackwidth", (wheelIndex, width) => {
+view.on("vehicletuner:wheel:trackWidth", (wheelIndex, width) => {
     player.vehicle.setWheelTrackWidth(wheelIndex, width);
 });
 

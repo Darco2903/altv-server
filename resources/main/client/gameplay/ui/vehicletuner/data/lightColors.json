@@ -1,0 +1,54 @@
+[
+    {
+        "index": 0,
+        "name": "White"
+    },
+    {
+        "index": 1,
+        "name": "Blue"
+    },
+    {
+        "index": 2,
+        "name": "Electric Blue"
+    },
+    {
+        "index": 3,
+        "name": "Mint Green"
+    },
+    {
+        "index": 4,
+        "name": "Lime Green"
+    },
+    {
+        "index": 5,
+        "name": "Yellow"
+    },
+    {
+        "index": 6,
+        "name": "Golden Shower"
+    },
+    {
+        "index": 7,
+        "name": "Orange"
+    },
+    {
+        "index": 8,
+        "name": "Red"
+    },
+    {
+        "index": 9,
+        "name": "PonyPink"
+    },
+    {
+        "index": 10,
+        "name": "Hot Pink"
+    },
+    {
+        "index": 11,
+        "name": "Purple"
+    },
+    {
+        "index": 12,
+        "name": "Blacklight"
+    }
+]

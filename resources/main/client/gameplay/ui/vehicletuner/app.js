@@ -1,4 +1,5 @@
 import colors from "./data/colors.json" assert { type: "json" };
+import lightColors from "./data/lightColors.json" assert { type: "json" };
 import serverColors from "./data/serverColors.json" assert { type: "json" };
 
 if (window.alt === undefined) {
@@ -9,7 +10,6 @@ if (window.alt === undefined) {
 }
 
 const tuneCategoryButtons = document.querySelectorAll("#tune-category button");
-
 tuneCategoryButtons.forEach((button) => {
     button.addEventListener("click", () => {
         document.querySelector("#tune-category > button[selected]")?.removeAttribute("selected");
@@ -186,10 +186,9 @@ wheelTrack.forEach((track) => {
     const slider = track.querySelector("input[type=range]");
     const wheelsIndexes = JSON.parse(slider.dataset.ids);
     slider.addEventListener("input", () => {
-        console.log(wheelsIndexes);
         counter.innerHTML = slider.value;
         wheelsIndexes.forEach((wheelIndex) => {
-            alt.emit("vehicletuner:wheel:trackwidth", wheelIndex, parseFloat(slider.value));
+            alt.emit("vehicletuner:wheel:trackWidth", wheelIndex, parseFloat(slider.value));
         });
     });
 });
@@ -246,8 +245,11 @@ xenonCheckbox.addEventListener("change", () => {
 });
 
 const xenonColor = document.querySelector("#xenons-color input[type=range]");
+const xenonColorLabel = document.querySelector("#xenons-color .color-name");
 xenonColor.addEventListener("input", () => {
-    alt.emit("vehicletuner:xenon:color", parseInt(xenonColor.value));
+    const color = parseInt(xenonColor.value);
+    xenonColorLabel.innerHTML = lightColors[color]?.name ?? "Default";
+    alt.emit("vehicletuner:xenon:color", color);
 });
 
 ////////////////////
@@ -324,8 +326,8 @@ alt.on("vehicletuner:wheel:drift", (state) => {
 });
 
 alt.on("vehicletuner:wheel:trackWidth", (trackWidth) => {
-    const trackWidthFront = document.querySelector('#wheels-trackwidth-front input');
-    const trackWidthRear = document.querySelector('#wheels-trackwidth-rear input');
+    const trackWidthFront = document.querySelector("#wheels-trackwidth-front input");
+    const trackWidthRear = document.querySelector("#wheels-trackwidth-rear input");
     trackWidthFront.value = trackWidth[0];
     trackWidthRear.value = trackWidth[1];
     trackWidthFront.dispatchEvent(new Event("input"));
@@ -344,6 +346,7 @@ alt.on("vehicletuner:wheel:camber", (camber) => {
 alt.on("vehicletuner:neon:state", (n, state) => {
     const neonCheckbox = document.querySelector(`.neon-select input[data-index="${n}"]`);
     neonCheckbox.checked = state;
+    neonCheckbox.dispatchEvent(new Event("change"));
 });
 
 alt.on("vehicletuner:neon:color", (color) => {
@@ -355,11 +358,13 @@ alt.on("vehicletuner:neon:color", (color) => {
 alt.on("vehicletuner:xenon:state", (state) => {
     const xenonCheckbox = document.querySelector("#xenons-state input[type=checkbox]");
     xenonCheckbox.checked = state;
+    xenonCheckbox.dispatchEvent(new Event("change"));
 });
 
 alt.on("vehicletuner:xenon:color", (color) => {
     const xenonColor = document.querySelector("#xenons-color input[type=range]");
     xenonColor.value = color;
+    xenonColor.dispatchEvent(new Event("input"));
 });
 
 alt.on("vehicletuner:plate:type", (type) => {
