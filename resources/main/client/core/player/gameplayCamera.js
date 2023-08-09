@@ -10,9 +10,11 @@ alt.LocalPlayer.prototype.lockCamera = function (state) {
         controlsTick = alt.everyTick(() => {
             native.disableControlAction(0, 1, true); // LookLeftRight
             native.disableControlAction(0, 2, true); // LookUpDown
-            native.disableControlAction(0, 24, true); // Attack
+            native.disableControlAction(0, 24, true); // INPUT_ATTACK
+            native.disableControlAction(0, 25, true); // INPUT_AIM
             native.disableControlAction(0, 199, true); // INPUT_FRONTEND_PAUSE
             native.disableControlAction(0, 200, true); // INPUT_FRONTEND_PAUSE_ALTERNATE
+            native.disableControlAction(0, 257, true); // INPUT_ATTACK2
 
             native.hideHudAndRadarThisFrame();
 
