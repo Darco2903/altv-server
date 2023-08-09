@@ -31,10 +31,10 @@
         "darco2903-os-command-kit": "^1.1.0"
     },
     "devDependencies": {
-        "@altv/types-client": "^2.8.7",
+        "@altv/types-client": "^2.8.8",
         "@altv/types-natives": "^1.5.4",
-        "@altv/types-server": "^2.9.0",
-        "@altv/types-shared": "^1.5.8",
-        "@altv/types-webview": "^1.0.5"
+        "@altv/types-server": "^2.9.1",
+        "@altv/types-shared": "^1.5.9",
+        "@altv/types-webview": "^1.0.6"
     }
 }
