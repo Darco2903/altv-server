@@ -9,6 +9,15 @@ if (window.alt === undefined) {
     };
 }
 
+document.querySelectorAll("input[type=range]").forEach((slider) => {
+    slider.addEventListener("focusout", async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        if (document.activeElement === document.body) {
+            slider.focus();
+        }
+    });
+});
+
 const tuneCategoryButtons = document.querySelectorAll("#tune-category button");
 tuneCategoryButtons.forEach((button) => {
     button.addEventListener("click", () => {

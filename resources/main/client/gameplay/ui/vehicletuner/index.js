@@ -5,6 +5,7 @@ const player = alt.Player.local;
 let controlsTick;
 let isMoving = false;
 let cursorPos;
+let velocity;
 
 let view = new alt.WebView("http://resource/client/gameplay/ui/vehicletuner/index.html");
 view.isVisible = false;
@@ -46,19 +47,58 @@ alt.on("resourceStop", () => {
 function toggle(state) {
     if (state && player.seat !== 1) return;
     if (state !== view.isVisible) {
+        if (state) {
+            view.focus();
+            updateView();
+            velocity = native.getEntityVelocity(player.vehicle);
+        }
+
+        alt.emit("chat:enabled", !state);
         view.isVisible = state;
         if (alt.isCursorVisible() !== state) alt.showCursor(state);
         toggleControls(state);
         native.freezeEntityPosition(player.vehicle, state);
-        alt.emit("chat:enabled", !state);
-        if (state) {
-            view.focus();
-            updateView();
-        } else {
+
+        alt.emitServer("vehicletuner:player:toggle", state);
+
+        if (!state) {
             view.unfocus();
+            native.setEntityVelocity(player.vehicle, velocity.x, velocity.y, velocity.z);
         }
     }
 }
+
+alt.on("menu:option:open", (id) => {
+    if (id === "vehicletuner" && player.vehicle) {
+        toggle(true);
+    }
+});
+
+alt.on("ui:close:all", () => {
+    toggle(false);
+});
+
+alt.on("streamSyncedMetaChange", (entity, key, value) => {
+    if (key !== "isInTuner" || entity === player.vehicle) return;
+    console.log("isInTuner", entity, value);
+    native.setEntityCollision(entity, !value, false);
+    native.freezeEntityPosition(entity, value);
+    native.setEntityAlpha(entity, value ? 200 : 255, false);
+});
+
+alt.on("leftVehicle", (vehicle, seat) => {
+    if (view.isVisible) {
+        toggle(false);
+    }
+});
+
+alt.on("keyup", (key) => {
+    if (key === 27 && view.isVisible) {
+        // Escape
+        toggle(false);
+        save();
+    }
+});
 
 function updateView() {
     const veh = player.vehicle;
@@ -123,24 +163,6 @@ function updateView() {
     const plateText = native.getVehicleNumberPlateText(veh).trim();
     view.emit("vehicletuner:plate:text", plateText);
 }
-
-alt.on("menu:option:open", (id) => {
-    if (id === "vehicletuner" && player.vehicle) {
-        toggle(true);
-    }
-});
-
-alt.on("ui:close:all", () => {
-    toggle(false);
-});
-
-alt.on("keyup", (key) => {
-    if (key === 27 && view.isVisible) {
-        // Escape
-        toggle(false);
-        save();
-    }
-});
 
 function save() {
     const veh = player.vehicle;

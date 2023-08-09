@@ -9,6 +9,40 @@ import * as alt from "alt-server";
 // });
 
 alt.onClient(
+    "vehicletuner:player:toggle",
+    /** @param {boolean} state */
+    (player, state) => {
+        player.vehicle.setStreamSyncedMeta("isInTuner", state);
+        alt.Player.all
+            .filter((p) => p.vehicle === player.vehicle && p !== player)
+            .forEach((p) => {
+                p.setStreamSyncedMeta("isInTuner", state);
+            });
+    }
+);
+
+alt.on("playerEnteredVehicle", (player, vehicle, seat) => {
+    if (vehicle.getStreamSyncedMeta("isInTuner")) {
+        player.setStreamSyncedMeta("isInTuner", true);
+    }
+});
+
+alt.on("playerLeftVehicle", (player, vehicle, seat) => {
+    if (vehicle.getStreamSyncedMeta("isInTuner")) {
+        player.setStreamSyncedMeta("isInTuner", false);
+    }
+});
+
+alt.on("resourceStop", () => {
+    alt.Player.all
+        .filter((p) => p.vehicle && p.vehicle.getStreamSyncedMeta("isInTuner"))
+        .forEach((p) => {
+            p.vehicle.setStreamSyncedMeta("isInTuner", false);
+            p.setStreamSyncedMeta("isInTuner", false);
+        });
+});
+
+alt.onClient(
     "vehicletuner:mods",
     /** @param {Array<{type: number, num: number}>} mods */
     (player, mods) => {
