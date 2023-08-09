@@ -9,12 +9,14 @@ view.isVisible = false;
 view.on("model:player", async (model) => {
     const hash = alt.hash(model);
     if (player.model === hash) return;
+    const camHeading = native.getGameplayCamRelativeHeading();
     alt.emitServer("playermodel:set", hash);
     await alt.Utils.waitFor(() => player.model === hash, 1000);
     await new Promise((resolve) => alt.nextTick(resolve));
-    native.setGameplayCamRelativeHeading(180);
     if (!player.vehicle) {
-        native.startPlayerTeleport(player, player.pos.x, player.pos.y, player.pos.z + 1, 180, true, true, true);
+        const heading = native.getEntityHeading(player);
+        native.startPlayerTeleport(player, player.pos.x, player.pos.y, player.pos.z + 1, heading, true, true, true);
+        native.setGameplayCamRelativeHeading(camHeading);
     }
 });
 

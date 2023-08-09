@@ -7,6 +7,10 @@ body {
     overflow-y: hidden;
 }
 
+* {
+    outline: none;
+}
+
 ::selection {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.25);
