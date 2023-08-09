@@ -9,11 +9,24 @@ if (window.alt === undefined) {
     };
 }
 
-document.querySelectorAll("input[type=range]").forEach((slider) => {
+document.querySelectorAll("input[type=range]").forEach((slider, i, arr) => {
     slider.addEventListener("focusout", async () => {
         await new Promise((resolve) => setTimeout(resolve, 0));
         if (document.activeElement === document.body) {
             slider.focus();
+        }
+    });
+    slider.addEventListener("keydown", (e) => {
+        switch (e.code) {
+            case "ArrowUp":
+                e.preventDefault();
+                arr[i - 1]?.focus();
+                break;
+
+            case "ArrowDown":
+                e.preventDefault();
+                arr[i + 1]?.focus();
+                break;
         }
     });
 });

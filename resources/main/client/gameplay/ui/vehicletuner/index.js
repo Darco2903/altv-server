@@ -45,7 +45,6 @@ alt.on("resourceStop", () => {
 });
 
 function toggle(state) {
-    if (state && player.seat !== 1) return;
     if (state !== view.isVisible) {
         if (state) {
             view.focus();
@@ -69,8 +68,24 @@ function toggle(state) {
 }
 
 alt.on("menu:option:open", (id) => {
-    if (id === "vehicletuner" && player.vehicle) {
-        toggle(true);
+    if (id === "vehicletuner") {
+        if (!player.vehicle) {
+            alt.logWarning("You must be in a vehicle to use the vehicle tuner");
+            player.sendNotification({
+                imageName: "CHAR_LS_CUSTOMS",
+                headerMsg: "LS Customs",
+                message: "Montez dans le véhicule que vous souhaitez modifier",
+                duration: 4,
+            });
+        } else if (player.seat !== 1) {
+            alt.logWarning("You must be in the driver seat to use the vehicle tuner");
+            player.sendNotification({
+                imageName: "CHAR_LS_CUSTOMS",
+                headerMsg: "LS Customs",
+                message: "Vous devez être au volant pour modifier le véhicule",
+                duration: 4,
+            });
+        } else toggle(true);
     }
 });
 
