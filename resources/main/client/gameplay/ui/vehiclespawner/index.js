@@ -14,27 +14,20 @@ const player = alt.Player.local;
 let view = new alt.WebView("http://resource/client/gameplay/ui/vehiclespawner/index.html");
 view.isVisible = false;
 
-// view.on("spawnVehicle", (model) => {
-//     const hash = alt.hash(model);
-//     if (!player.vehicle) {
-//         alt.emitServer("vehicle:createPlayersIn", hash, [player]);
-//     } else if (notSameVeh(hash, null)) {
-//         alt.emitServer("vehicle:replace", player.vehicle, hash);
-//     }
-//     toggle(false);
-// });
-
 view.on("spawn:vehicle", async (model) => {
     try {
         const hash = alt.hash(model);
         if (!player.vehicle) {
             alt.emitServer("vehicle:spawn", hash, player.pos, player.rot, { engineOn: false, passengers: [player] });
-        } else {
-            if (player.seat !== 1) return;
+        } else if (player.seat === 1) {
             alt.emitServer("vehicle:replace", player.vehicle, hash);
+        } else {
+            player.sendNotification({
+                imageName: "CHAR_CARSITE",
+                headerMsg: "Concessionnaire",
+                message: "Vous devez être au volant pour modifier le véhicule",
+            });
         }
-        // await alt.Utils.waitFor(() => player.vehicle?.model === hash, 1000);
-        // toggle(false);
     } catch (error) {
         alt.logError(`Failed to spawn ${model}`);
     }
@@ -82,25 +75,6 @@ view.on("search:end", () => {
 // view.on("takeScreenCar", async () => {
 //     const img = await takeScreenCar();
 //     view.emit("takeScreenCar", img.getSource());
-// });
-
-// alt.on("ui:toggle:spawner", async (state) => {
-//     if (state && !view.isVisible) {
-//         alt.Utils.toggleOnlyMove(true);
-//         view.open();
-//         try {
-//             const garage = await getPlayerGarage();
-//             if (garage !== playerGarage) {
-//                 playerGarage = garage;
-//                 view.emit("garageList", garage);
-//             }
-//         } catch (error) {
-//             alt.logError(error);
-//         }
-//     } else if (!state && view.isVisible) {
-//         view.close();
-//         alt.Utils.toggleOnlyMove(false);
-//     }
 // });
 
 function toggle(state) {
