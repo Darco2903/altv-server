@@ -14,6 +14,7 @@ const vehicleCategoryButtons = document.querySelectorAll("button.vehicle-categor
 const vehicleCategoryContent = Array.from(document.querySelectorAll("#content > div"));
 const searchInput = document.getElementById("search-input");
 const searchList = document.getElementById("searchList");
+let antiSpam = false;
 
 vehicleCategoryButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -35,6 +36,11 @@ function createVehicleCard(veh) {
         img.src = DEFAULT_IMAGE;
     };
     img.onclick = () => {
+        if (antiSpam) return;
+        antiSpam = true;
+        setTimeout(() => {
+            antiSpam = false;
+        }, 1000);
         alt.emit("spawn:vehicle", veh.Name);
     };
     div.querySelector("label").innerHTML = veh.DisplayName;
