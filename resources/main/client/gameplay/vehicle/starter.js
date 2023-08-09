@@ -10,7 +10,6 @@ async function init() {
     await alt.Utils.waitFor(() => player.isSpawned, 15000);
     native.setPedConfigFlag(player, 241, true); // CPED_CONFIG_FLAG_LeaveEngineOnWhenExitingVehicles
     native.setPedConfigFlag(player, 429, true); // CPED_CONFIG_FLAG_DisableStartEngine
-    native.setPedConfigFlag(player, 141, true); // CPED_CONFIG_FLAG_WillJackAnyPlayer
 }
 
 alt.on("keydown", async (key) => {
