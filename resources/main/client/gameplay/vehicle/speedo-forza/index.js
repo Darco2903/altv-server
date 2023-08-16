@@ -2,7 +2,7 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 const player = alt.Player.local;
-const vehType = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 18, 20];
+const vehType = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 18, 20, 22];
 let updateTick;
 
 const view = new alt.WebView("http://resource/client/gameplay/vehicle/speedo-forza/index.html", true);
@@ -28,17 +28,17 @@ function toggle(state) {
 }
 
 alt.on("resourceStart", () => {
-    toggle(!!player.vehicle && vehType.includes(native.getVehicleClass(player.vehicle)));
+    toggle(player.seat === 1 && vehType.includes(native.getVehicleClass(player.vehicle)));
 });
 
 alt.on("enteredVehicle", (vehicle, seat) => {
-    if (vehType.includes(native.getVehicleClass(vehicle))) {
+    if (vehType.includes(native.getVehicleClass(vehicle)) && seat === 1) {
         toggle(true);
     }
 });
 
 alt.on("leftVehicle", (vehicle, seat) => {
-    if (vehType.includes(native.getVehicleClass(vehicle))) {
+    if (vehType.includes(native.getVehicleClass(vehicle)) && seat === 1) {
         toggle(false);
     }
 });
