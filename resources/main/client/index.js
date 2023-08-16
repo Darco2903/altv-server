@@ -22,6 +22,7 @@ import "./gameplay/commands/getpos.js";
 import "./gameplay/commands/tpm.js";
 
 import "./gameplay/ui/menu/index.js";
+import "./gameplay/ui/playerclothes/index.js";
 import "./gameplay/ui/playermodel/index.js";
 import "./gameplay/ui/playerweapon/index.js";
 import "./gameplay/ui/vehiclespawner/index.js";

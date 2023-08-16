@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <title>Player Clothes</title>
+    </head>
+    <body>
+        <div id="clothes-panel">
+            <div id="panel-content">
+                <div id="clothes-category">
+                    <button id="head" selected>Head & Skin</button>
+                    <button id="hair_styles">Hairs</button>
+                    <button id="masks">Masks</button>
+                    <button id="torsos">Torsos</button>
+                    <button id="legs">Legs</button>
+                    <button id="bags_and_parachutes">Bags and Parachutes</button>
+                    <button id="shoes">Shoes</button>
+                    <button id="accessories">Accessories</button>
+                    <button id="undershirts">Undershirts</button>
+                    <button id="body_armors">Body Armors</button>
+                    <button id="decals">Decals</button>
+                    <button id="tops">Tops</button>
+
+                    <button id="hats">Hats</button>
+                    <button id="glasses">Glasses</button>
+                    <button id="ears">Ears</button>
+                    <button id="watches">Watches</button>
+                    <button id="bracelet">Bracelet</button>
+                </div>
+
+                <div id="clothes-content">
+                    <div id="head" data-index="0" data-type="clothes" selected>
+                        <div class="sub-category" id="shape-first">
+                            <label class="sub-category-title">Shape First</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category" id="shape-second">
+                            <label class="sub-category-title">Shape Second</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <!-- <div class="sub-category" id="shape-third">
+                            <label class="sub-category-title">Shape Third</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div> -->
+
+                        <div class="sub-category" id="shape-mix">
+                            <label class="sub-category-title">Shape Mix</label>
+                            <input type="number" min="0" max="1" value="0" />
+                            <input type="range" min="0" max="1" step="0.01" value="0" />
+                        </div>
+
+                        <div class="sub-category" id="skin-first">
+                            <label class="sub-category-title">Skin First</label>
+                            <input type="number" min="0" max="11" value="0" />
+                            <input type="range" min="0" max="11" value="0" />
+                        </div>
+
+                        <div class="sub-category" id="skin-second">
+                            <label class="sub-category-title">Skin Second</label>
+                            <input type="number" min="0" max="11" value="0" />
+                            <input type="range" min="0" max="11" value="0" />
+                        </div>
+
+                        <!-- <div class="sub-category" id="skin-third">
+                            <label class="sub-category-title">Skin Third</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div> -->
+
+                        <div class="sub-category" id="skin-mix">
+                            <label class="sub-category-title">Skin Mix</label>
+                            <input type="number" min="0" max="1" value="0" />
+                            <input type="range" min="0" max="1" step="0.01" value="0" />
+                        </div>
+
+                        <!-- <div class="sub-category" id="third-mix">
+                            <label class="sub-category-title">Third Mix</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div> -->
+
+                        <div class="sub-category" id="eye-color">
+                            <label class="sub-category-title">Eyes Color</label>
+                            <input type="number" min="0" max="32" value="0" />
+                            <input type="range" min="0" max="32" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="masks" data-index="1" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="hair_styles" data-index="2" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category" id="hair-color">
+                            <label class="sub-category-title">Color</label>
+                            <input type="number" min="0" max="63" value="0" />
+                            <input type="range" min="0" max="63" value="0" />
+                        </div>
+
+                        <div class="sub-category" id="hair-highlight">
+                            <label class="sub-category-title">Highlight</label>
+                            <input type="number" min="0" max="63" value="0" />
+                            <input type="range" min="0" max="63" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="torsos" data-index="3" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="legs" data-index="4" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="bags_and_parachutes" data-index="5" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="shoes" data-index="6" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="accessories" data-index="7" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="undershirts" data-index="8" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="body_armors" data-index="9" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="decals" data-index="10" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="tops" data-index="11" data-type="clothes">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+
+                        <div class="sub-category palette">
+                            <label class="sub-category-title">Palette</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="hats" data-index="0" data-type="props">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="glasses" data-index="1" data-type="props">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="ears" data-index="2" data-type="props">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="watches" data-index="6" data-type="props">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+
+                    <div id="bracelet" data-index="7" data-type="props">
+                        <div class="sub-category drawable">
+                            <label class="sub-category-title">Drawable</label>
+                            <input type="number" min="0" max="45" value="0" />
+                            <input type="range" min="0" max="45" value="0" />
+                        </div>
+
+                        <div class="sub-category texture">
+                            <label class="sub-category-title">Texture</label>
+                            <input type="number" min="0" max="0" value="0" />
+                            <input type="range" min="0" max="0" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="options">
+                    <button id="exit">Quitter</button>
+                    <button id="save">Sauvegarder</button>
+                    <button id="random" hidden>Aléatoire</button>
+                    <button id="reset">Réinitialiser</button>
+                    <select id="model">
+                        <option value="mp_m_freemode_01" selected>Homme</option>
+                        <option value="mp_f_freemode_01">Femme</option>
+                        <option value="custom" hidden>Custom</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script src="app.js"></script>
+</html>

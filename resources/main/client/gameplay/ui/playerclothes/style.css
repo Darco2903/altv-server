@@ -1,0 +1,278 @@
+:root {
+    --bg-color: #33333366;
+    --main-color: #dfc800;
+    --selected-color: #0088ff;
+    --focus-color: #ff6600;
+}
+
+body {
+    font-family: sans-serif;
+    overflow-y: hidden;
+}
+
+* {
+    user-select: none;
+    outline: none;
+}
+
+::selection {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #dfc800;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #d1bc00;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #b6a401;
+}
+
+/* global */
+
+label {
+    font-weight: bold;
+    color: #fff;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #00000088;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(1.025);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(0.9);
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+    background-color: var(--focus-color);
+}
+
+input[type="number"] {
+    width: 40px;
+    padding: 5px;
+    color: #fff;
+    background-color: #00000066;
+    border-radius: 5px;
+    border: solid 1px transparent;
+}
+
+input[type="number"]:focus {
+    border: solid 1px #ffffffaa;
+}
+
+select {
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background-color: transparent;
+    border: solid 1px #fff;
+    color: #fff;
+}
+
+select option {
+    background-color: #00000088;
+    color: #fff;
+}
+
+select:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(0.9);
+    cursor: pointer;
+}
+
+select:active {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(0.8);
+}
+
+/* ------------- */
+
+#clothes-panel {
+    background-color: var(--bg-color);
+    width: 400px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+}
+
+#clothes-category {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#clothes-category button,
+#options button {
+    padding: 10px;
+    border-radius: 10px;
+    border: 0;
+    background-color: var(--main-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+#clothes-category button:hover,
+#options button:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(1.025);
+}
+
+#clothes-category button[selected] {
+    background-color: var(--selected-color);
+}
+
+#clothes-category button[selected]:hover {
+    filter: drop-shadow(3px 3px 3px #00000044) brightness(1.05);
+}
+
+#clothes-content {
+    height: 83%;
+    width: 80%;
+    padding: 0 15px;
+    border-radius: 10px;
+    margin: 10px auto;
+    background-color: #00000055;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+#options {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+#clothes-content > div:not([selected]) {
+    display: none;
+}
+
+#clothes-content > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+#clothes-content > div {
+    margin-top: 20px;
+}
+
+.sub-category:not(:first-child) {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: solid 1px #fff;
+}
+
+/* drawables count === -1 (none) */
+/* clothes */
+body:has(#masks .drawable input[type="range"][max="-1"]) #masks,
+body:has(#hair_styles .drawable input[type="range"][max="-1"]) #hair_styles,
+body:has(#torsos .drawable input[type="range"][max="-1"]) #torsos,
+body:has(#legs .drawable input[type="range"][max="-1"]) #legs,
+body:has(#bags_and_parachutes .drawable input[type="range"][max="-1"]) #bags_and_parachutes,
+body:has(#shoes .drawable input[type="range"][max="-1"]) #shoes,
+body:has(#accessories .drawable input[type="range"][max="-1"]) #accessories,
+body:has(#undershirts .drawable input[type="range"][max="-1"]) #undershirts,
+body:has(#body_armors .drawable input[type="range"][max="-1"]) #body_armors,
+body:has(#decals .drawable input[type="range"][max="-1"]) #decals,
+body:has(#tops .drawable input[type="range"][max="-1"]) #tops,
+
+/* props */
+body:has(#hats .drawable input[type="range"][max="-1"]) #hats,
+body:has(#glasses .drawable input[type="range"][max="-1"]) #glasses,
+body:has(#ears .drawable input[type="range"][max="-1"]) #ears,
+body:has(#watches .drawable input[type="range"][max="-1"]) #watches,
+body:has(#bracelet .drawable input[type="range"][max="-1"]) #bracelet,
+
+/* drawables === 0 */
+/* clothes */
+body:has(#masks .drawable input[type="range"][value="0"]) #masks div:not(.drawable),
+body:has(#hair_styles .drawable input[type="range"][value="0"]) #hair_styles div:not(.drawable),
+body:has(#torsos .drawable input[type="range"][value="0"]) #torsos div:not(.drawable),
+body:has(#legs .drawable input[type="range"][value="0"]) #legs div:not(.drawable),
+body:has(#bags_and_parachutes .drawable input[type="range"][value="0"]) #bags_and_parachutes div:not(.drawable),
+body:has(#shoes .drawable input[type="range"][value="0"]) #shoes div:not(.drawable),
+body:has(#accessories .drawable input[type="range"][value="0"]) #accessories div:not(.drawable),
+body:has(#undershirts .drawable input[type="range"][value="0"]) #undershirts div:not(.drawable),
+body:has(#body_armors .drawable input[type="range"][value="0"]) #body_armors div:not(.drawable),
+body:has(#decals .drawable input[type="range"][value="0"]) #decals div:not(.drawable),
+body:has(#tops .drawable input[type="range"][value="0"]) #tops div:not(.drawable),
+
+/* props */
+body:has(#hats .drawable input[type="range"][value="0"]) #hats div:not(.drawable),
+body:has(#glasses .drawable input[type="range"][value="0"]) #glasses div:not(.drawable),
+body:has(#ears .drawable input[type="range"][value="0"]) #ears div:not(.drawable),
+body:has(#watches .drawable input[type="range"][value="0"]) #watches div:not(.drawable),
+body:has(#bracelet .drawable input[type="range"][value="0"]) #bracelet div:not(.drawable) {
+    display: none;
+}
+
+.sub-category {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sub-category > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.sub-category input[type="range"] {
+    width: 100%;
+}
+
+.palette {
+    display: none;
+}
