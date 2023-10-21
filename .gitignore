@@ -3,7 +3,8 @@
 #dev ignore
 old/
 *-old.*
-_*
+*_
+*_.*
 *template*
 *test*
 
