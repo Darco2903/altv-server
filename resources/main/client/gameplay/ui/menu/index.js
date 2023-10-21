@@ -5,7 +5,7 @@ const keys = {
 };
 
 const player = alt.Player.local;
-const view = new alt.WebView("http://resource/client/gameplay/ui/menu/index.html");
+const view = new alt.WebView("http://resource/client/gameplay/ui/menu/browser/index.html");
 view.isVisible = false;
 
 view.on("menu:option:click", (option) => {

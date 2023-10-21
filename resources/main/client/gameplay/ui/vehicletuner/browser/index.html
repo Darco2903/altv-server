@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles/style.css" />
+        <title>Vehicles Tuner</title>
+    </head>
+
+    <body>
+        <div id="tune-panel">
+            <div id="panel-content">
+                <div id="tune-category">
+                    <button id="mods" selected>Mods</button>
+                    <button id="colors">Peinture</button>
+                    <button id="wheels">Jantes</button>
+                    <button id="lights">Lights</button>
+                    <button id="plate">Plaque</button>
+                </div>
+
+                <div id="tune-content">
+                    <div id="mods" selected>
+                        <div id="mod-n0">
+                            <label class="mod-label">Spoilers</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="0" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n1">
+                            <label class="mod-label">Front Bumper</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="1" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n2">
+                            <label class="mod-label">Rear Bumper</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="2" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n3">
+                            <label class="mod-label">Side skirt</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="3" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n4">
+                            <label class="mod-label">Exhaust</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="4" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n5">
+                            <label class="mod-label">Frame</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="5" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n6">
+                            <label class="mod-label">Grille</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="6" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n7">
+                            <label class="mod-label">Bonnet</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="7" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n8">
+                            <label class="mod-label">Left Wing</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="8" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n9">
+                            <label class="mod-label">Right wing</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="9" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n10">
+                            <label class="mod-label">Roof</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="10" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n11">
+                            <label class="mod-label">Engine</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="11" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n12">
+                            <label class="mod-label">Brakes</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="12" value="0" min="0" max="3" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n13">
+                            <label class="mod-label">Transmission</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="13" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n14">
+                            <label class="mod-label">Horns</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="14" value="0" min="0" max="51" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n15">
+                            <label class="mod-label">Suspension</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="15" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n16">
+                            <label class="mod-label">Armor</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="16" value="0" min="0" max="5" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n18">
+                            <label class="mod-label">Turbo</label>
+                            <label class="checkbox bounce" id="labelCheckbox">
+                                <input type="checkbox" data-type="18" />
+                                <svg viewBox="0 0 21 21">
+                                    <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                </svg>
+                            </label>
+                        </div>
+
+                        <div id="mod-n25">
+                            <label class="mod-label">Plate holders</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="25" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n26">
+                            <label class="mod-label">Plate vanity</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="26" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n27">
+                            <label class="mod-label">Trim Design</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="27" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n28">
+                            <label class="mod-label">Ornaments</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="28" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n30">
+                            <label class="mod-label">Dial Design</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="30" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n31">
+                            <label class="mod-label">Door interior</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="31" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n32">
+                            <label class="mod-label">Seats</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="32" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n33">
+                            <label class="mod-label">Steering Wheel</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="33" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n34">
+                            <label class="mod-label">Shift Lever</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="34" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n35">
+                            <label class="mod-label">Plaques</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="35" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n36">
+                            <label class="mod-label">Rear shelf</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="36" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n37">
+                            <label class="mod-label">Trunk</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="37" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n38">
+                            <label class="mod-label">Hydraulics</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="38" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n39">
+                            <label class="mod-label">Engine block</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="39" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n40">
+                            <label class="mod-label">Air filter</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="40" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n41">
+                            <label class="mod-label">Strut bar</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="41" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n42">
+                            <label class="mod-label">Arch Cover</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="42" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n43">
+                            <label class="mod-label">Antenna</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="43" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n44">
+                            <label class="mod-label">Exterior parts</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="44" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n45">
+                            <label class="mod-label">Tank</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="45" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n46">
+                            <label class="mod-label">Door Or Windows</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="46" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n47">
+                            <label class="mod-label">Wheels Rear Or Hydraulics</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="47" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+
+                        <div id="mod-n48">
+                            <label class="mod-label">Livery</label>
+                            <div class="right">
+                                <label class="mod-counter">0</label>
+                                <input type="range" data-type="48" value="0" min="0" max="4" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="colors">
+                        <div id="color-primary">
+                            <label class="color-title">Principale</label>
+
+                            <div class="color-type">
+                                <label class="color-label">Type de peinture</label>
+                                <select>
+                                    <option value="0" selected>Normale</option>
+                                    <option value="1">Metallique</option>
+                                    <option value="2">Nacrée</option>
+                                    <option value="3">Mate</option>
+                                    <option value="4">Métale</option>
+                                    <option value="5">Chrome</option>
+                                    <option value="6">Caméléonne</option>
+                                </select>
+                            </div>
+
+                            <div class="color-num">
+                                <input type="range" data-type="0" value="0" min="0" max="74" />
+                                <input type="range" data-type="1" value="0" min="0" max="74" />
+                                <input type="range" data-type="2" value="0" min="0" max="73" />
+                                <input type="range" data-type="3" value="0" min="0" max="19" />
+                                <input type="range" data-type="4" value="0" min="0" max="4" />
+                                <input type="range" data-type="5" value="0" min="0" max="0" />
+                                <input type="range" data-type="6" value="0" min="0" max="9" />
+                                <label class="color-name"></label>
+                            </div>
+                        </div>
+
+                        <div id="color-secondary">
+                            <label class="color-title">Secondaire</label>
+
+                            <div class="color-type">
+                                <label class="color-label">Type de peinture</label>
+                                <select>
+                                    <option value="0">Normale</option>
+                                    <option value="1">Metallique</option>
+                                    <option value="3">Mate</option>
+                                    <option value="4">Métale</option>
+                                    <option value="5">Chrome</option>
+                                    <option value="6">Caméléonne</option>
+                                </select>
+                            </div>
+
+                            <div class="color-num">
+                                <input type="range" data-type="0" value="0" min="0" max="74" />
+                                <input type="range" data-type="1" value="0" min="0" max="74" />
+                                <input type="range" data-type="3" value="0" min="0" max="19" />
+                                <input type="range" data-type="4" value="0" min="0" max="4" />
+                                <input type="range" data-type="5" value="0" min="0" max="0" />
+                                <input type="range" data-type="6" value="0" min="0" max="9" />
+                                <label class="color-name"></label>
+                            </div>
+                        </div>
+
+                        <div id="color-pearlescent">
+                            <label class="color-title">Nacrage</label>
+                            <div class="color-num">
+                                <input type="range" value="0" min="0" max="160" />
+                                <label class="color-name"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="wheels">
+                        <div id="wheels-type">
+                            <label class="wheel-label">Type de jantes</label>
+                            <select>
+                                <option value="-1" selected>Stock</option>
+                                <option value="0">Sport</option>
+                                <option value="1">Muscle</option>
+                                <option value="2">Lowrider</option>
+                                <option value="3">SUV</option>
+                                <option value="4">Tout Terrain</option>
+                                <option value="5">Tuner</option>
+                                <option value="6">Moto</option>
+                                <option value="7">Haut de Gamme</option>
+                                <option value="8">Rue</option>
+                                <option value="9">Rue Rouillées</option>
+                                <option value="10">Circuit</option>
+                                <option value="11">Tunning 1</option>
+                                <option value="12">Tunning 2</option>
+                            </select>
+                        </div>
+
+                        <div id="wheels-model">
+                            <label class="wheel-label">Modèle des jantes</label>
+                            <div class="wheel-num">
+                                <input type="range" data-type="-1" min="-1" max="-1" value="-1" hidden />
+                                <input type="range" data-type="0" min="0" max="49" value="0" />
+                                <input type="range" data-type="1" min="0" max="35" value="0" />
+                                <input type="range" data-type="2" min="0" max="29" value="0" />
+                                <input type="range" data-type="3" min="0" max="37" value="0" />
+                                <input type="range" data-type="4" min="0" max="34" value="0" />
+                                <input type="range" data-type="5" min="0" max="47" value="0" />
+                                <input type="range" data-type="6" min="0" max="47" value="0" />
+                                <input type="range" data-type="7" min="0" max="39" value="0" />
+                                <input type="range" data-type="8" min="0" max="30" value="0" />
+                                <input type="range" data-type="9" min="0" max="30" value="0" />
+                                <input type="range" data-type="10" min="0" max="19" value="0" />
+                                <input type="range" data-type="11" min="0" max="29" value="0" />
+                                <input type="range" data-type="12" min="0" max="29" value="0" />
+                                <label class="wheel-counter">0</label>
+                            </div>
+                        </div>
+
+                        <div id="wheels-color">
+                            <label class="wheel-label">Couleur des jantes</label>
+                            <div class="wheel-num">
+                                <input type="range" min="0" max="160" value="0" />
+                                <label class="color-name"></label>
+                            </div>
+                        </div>
+
+                        <div id="wheels-tirecolor">
+                            <label class="wheel-label">Couleur des pneus</label>
+                            <select>
+                                <option value="0" selected>Aucune</option>
+                                <option value="1">Blanc Fin</option>
+                                <option value="2">Blanc Moyen</option>
+                                <option value="3">Blanc Large</option>
+                                <option value="4">Rouge Fin</option>
+                                <option value="5">Bleu Fin</option>
+                                <option value="6">Atomic Blanc</option>
+                            </select>
+                        </div>
+
+                        <div id="wheels-tirebrand">
+                            <label class="wheel-label">Marque des pneus</label>
+                            <select>
+                                <option value="0" selected>Aucune</option>
+                                <option value="1">Atomic Blanc</option>
+                                <option value="2">Atomic Jaune</option>
+                                <option value="3">Fukaru Blanc</option>
+                                <option value="4">Fukaru Rouge</option>
+                                <option value="5">Chepalle Jaune</option>
+                                <option value="6">Chepalle Vert</option>
+                            </select>
+                        </div>
+
+                        <div id="wheels-drift">
+                            <label class="wheel-label">Drift</label>
+                            <label class="checkbox bounce" id="labelCheckbox">
+                                <input type="checkbox" id="checkbox" />
+                                <svg viewBox="0 0 21 21">
+                                    <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                </svg>
+                            </label>
+                        </div>
+
+                        <div id="wheels-track">
+                            <label class="mod-label">Largeur de voie</label>
+
+                            <div id="wheels-trackwidth-front">
+                                <label class="mod-label">Avant</label>
+                                <div class="right">
+                                    <label class="mod-counter">0</label>
+                                    <input type="range" data-ids="[0,1]" min="0.5" max="1.5" step="0.01" value="1" />
+                                </div>
+                            </div>
+
+                            <div id="wheels-trackwidth-rear">
+                                <label class="mod-label">Arrière</label>
+                                <div class="right">
+                                    <label class="mod-counter">0</label>
+                                    <input type="range" data-ids="[2,3]" min="0.5" max="1.5" step="0.01" value="1" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="wheels-camber">
+                            <label class="mod-label">Carrossage</label>
+
+                            <div id="wheels-camber-front">
+                                <label class="mod-label">Avant</label>
+                                <div class="right">
+                                    <label class="mod-counter">0</label>
+                                    <input type="range" data-ids="[0,1]" min="-0.45" max="0.45" step="0.01" value="0" />
+                                </div>
+                            </div>
+
+                            <div id="wheels-camber-rear">
+                                <label class="mod-label">Arrière</label>
+                                <div class="right">
+                                    <label class="mod-counter">0</label>
+                                    <input type="range" data-ids="[2,3]" min="-0.45" max="0.45" step="0.01" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="lights">
+                        <div id="neons">
+                            <div id="neons-select">
+                                <div class="neon-select" id="neon-all">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-front">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="2" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-rear">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="3" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-left">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="0" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <div class="neon-select" id="neon-right">
+                                    <label class="checkbox bounce" id="labelCheckbox">
+                                        <input type="checkbox" data-index="1" />
+                                        <svg viewBox="0 0 21 21">
+                                            <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                        </svg>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="neons-color">
+                                <label class="mod-label">Couleur</label>
+                                <input type="color" value="#ffffff" />
+                            </div>
+                        </div>
+
+                        <div id="xenons">
+                            <div id="xenons-state">
+                                <label class="mod-label">Xenon</label>
+                                <label class="checkbox bounce" id="labelCheckbox">
+                                    <input type="checkbox" data-index="1" />
+                                    <svg viewBox="0 0 21 21">
+                                        <polyline points="5 10.75 8.5 14.25 16 6"></polyline>
+                                    </svg>
+                                </label>
+                            </div>
+
+                            <div id="xenons-color">
+                                <label class="mod-label">Couleur des xenons</label>
+                                <div class="neons-num">
+                                    <input type="range" min="-1" max="12" value="0" />
+                                    <label class="color-name">Default</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="plate">
+                        <div id="plate-type">
+                            <label class="mod-label">Type de plaque</label>
+                            <select>
+                                <option value="0">Bleu / Blanc 1</option>
+                                <option value="1">Jaune / Noir</option>
+                                <option value="2">Jaune / Bleu</option>
+                                <option value="3">Bleu / Blanc 2</option>
+                                <option value="4">Bleu / Blanc 3</option>
+                                <option value="5">Yankton</option>
+                            </select>
+                        </div>
+
+                        <div id="plate-text">
+                            <input type="text" value="ALTV" maxlength="8" pattern="[A-Za-z0-9]+" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="options">
+                    <button id="exit">Quitter</button>
+                    <button id="save">Sauvegarder</button>
+                    <!-- <button id="restore">Restorer</button> -->
+                    <button id="stock">Stock</button>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script src="js/app.js" type="module"></script>
+</html>

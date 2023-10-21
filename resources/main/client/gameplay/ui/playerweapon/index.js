@@ -3,7 +3,7 @@ import * as native from "natives";
 
 const player = alt.Player.local;
 
-let view = new alt.WebView("http://resource/client/gameplay/ui/playerweapon/index.html");
+const view = new alt.WebView("http://resource/client/gameplay/ui/playerweapon/browser/index.html");
 view.isVisible = false;
 
 view.on("weapon:player", async (weapon, ammoAmount) => {

@@ -7,7 +7,7 @@ let isMoving = false;
 let cursorPos;
 let velocity;
 
-let view = new alt.WebView("http://resource/client/gameplay/ui/vehicletuner/index.html");
+const view = new alt.WebView("http://resource/client/gameplay/ui/vehicletuner/browser/index.html");
 view.isVisible = false;
 
 function toggleControls(state) {

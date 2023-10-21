@@ -24,7 +24,7 @@ let hairHighlight;
 /** @type {HeadBlendData}*/
 let headBlendData;
 
-let view = new alt.WebView("http://resource/client/gameplay/ui/playerclothes/index.html");
+const view = new alt.WebView("http://resource/client/gameplay/ui/playerclothes/browser/index.html");
 view.isVisible = false;
 
 function toggleControls(state) {

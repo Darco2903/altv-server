@@ -1,17 +1,8 @@
 import * as alt from "alt-client";
-// import * as native from "natives";
 
 const player = alt.Player.local;
-// let playerGarage;
 
-// function notSameVeh(model, id) {
-//     return (
-//         (!player.vehicle.hasSyncedMeta("id") && player.vehicle.model != model) ||
-//         (player.vehicle.hasSyncedMeta("id") && player.vehicle.getSyncedMeta("id") != id)
-//     );
-// }
-
-let view = new alt.WebView("http://resource/client/gameplay/ui/vehiclespawner/index.html");
+const view = new alt.WebView("http://resource/client/gameplay/ui/vehiclespawner/browser/index.html");
 view.isVisible = false;
 
 view.on("spawn:vehicle", async (model) => {
@@ -41,53 +32,14 @@ view.on("search:end", () => {
     alt.toggleGameControls(true);
 });
 
-// view.on("spawnSavedVehicle", (id) => {
-//     if (!player.vehicle) {
-//         alt.emitServer("vehicle:importSaved", id, [player]);
-//     } else if (notSameVeh(null, id)) {
-//         alt.emitServer("vehicle:importSavedReplace", player.vehicle, id);
-//     }
-//     view.toggle(false);
-// });
-
-// async function getPlayerGarage() {
-//     alt.emitServer("getPlayerVehicles");
-//     return new Promise((resolve) => {
-//         const timeout = alt.setTimeout(() => {
-//             reject("getPlayerGarage: response took too long");
-//         }, 5000);
-//         alt.onceServer("playerGarage", (res) => {
-//             for (let i = 0; i < res.length; i++) {
-//                 const imageKey = `${modelName}_${res[i].id}`;
-//                 if (modelName === "CARNOTFOUND") {
-//                     res.splice(i, 1);
-//                     i--;
-//                 } else if (alt.Utils.Image.exists(imageKey)) {
-//                     res[i].image = alt.Utils.Image.load(imageKey).getSource();
-//                 }
-//             }
-//             alt.clearTimeout(timeout);
-//             resolve(res);
-//         });
-//     });
-// }
-
-// view.on("takeScreenCar", async () => {
-//     const img = await takeScreenCar();
-//     view.emit("takeScreenCar", img.getSource());
-// });
-
 function toggle(state) {
     if (state !== view.isVisible) {
         view.isVisible = state;
         if (alt.isCursorVisible() !== state) alt.showCursor(state);
         player.lockCamera(state);
         alt.emit("chat:enabled", !state);
-        if (state) {
-            view.focus();
-        } else {
-            view.unfocus();
-        }
+        if (state) view.focus();
+        else view.unfocus();
     }
 }
 

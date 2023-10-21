@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles/style.css" />
+        <title>Player Weapon</title>
+    </head>
+
+    <body>
+        <div id="pannel">
+            <div id="options">
+                <div>
+                    <label class="option-name">Nombre de munition</label>
+                    <input type="number" id="ammo-amount" min="0" max="9999" value="60" />
+                </div>
+
+                <button class="button" id="give-all">Give All</button>
+
+                <div class="form__group field" id="search">
+                    <input type="input" class="form__field" id="search-input" placeholder="Search" required />
+                    <label for="search" class="form__label">Recherche</label>
+                </div>
+            </div>
+
+            <div id="weaponClass">
+                <button class="weapon-category" id="GROUP_UNARMED" selected>Unarmed</button>
+                <button class="weapon-category" id="GROUP_MELEE">Melee</button>
+                <button class="weapon-category" id="GROUP_PISTOL">Pistol</button>
+                <button class="weapon-category" id="GROUP_SMG">SMG</button>
+                <button class="weapon-category" id="GROUP_RIFLE">Rifle</button>
+                <button class="weapon-category" id="GROUP_MG">MG</button>
+                <button class="weapon-category" id="GROUP_SHOTGUN">Shotgun</button>
+                <button class="weapon-category" id="GROUP_STUNGUN">Stungun</button>
+                <button class="weapon-category" id="GROUP_SNIPER">Sniper</button>
+                <button class="weapon-category" id="GROUP_HEAVY">Heavy</button>
+                <button class="weapon-category" id="GROUP_THROWN">Thrown</button>
+                <button class="weapon-category" id="GROUP_FIREEXTINGUISHER">Fire Extinguisher</button>
+                <button class="weapon-category" id="GROUP_PETROLCAN">Petrol Can</button>
+            </div>
+
+            <div id="content">
+                <div id="GROUP_UNARMED" selected></div>
+                <div id="GROUP_MELEE"></div>
+                <div id="GROUP_PISTOL"></div>
+                <div id="GROUP_SMG"></div>
+                <div id="GROUP_RIFLE"></div>
+                <div id="GROUP_MG"></div>
+                <div id="GROUP_SHOTGUN"></div>
+                <div id="GROUP_STUNGUN"></div>
+                <div id="GROUP_SNIPER"></div>
+                <div id="GROUP_HEAVY"></div>
+                <div id="GROUP_THROWN"></div>
+                <div id="GROUP_FIREEXTINGUISHER"></div>
+                <div id="GROUP_PETROLCAN"></div>
+
+                <div id="searchList"></div>
+            </div>
+        </div>
+
+        <div id="clones" hidden>
+            <div class="weapon-card">
+                <img loading="lazy" />
+                <label></label>
+            </div>
+        </div>
+    </body>
+
+    <script src="js/app.js" type="module"></script>
+</html>

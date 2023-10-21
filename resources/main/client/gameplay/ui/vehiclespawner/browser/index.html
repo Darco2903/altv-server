@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles/style.css" />
+        <title>Vehicle Spawner</title>
+    </head>
+
+    <body>
+        <div id="pannel">
+            <div id="options">
+                <div id="garage-category">
+                    <!-- <button class="vehicle-category" id="GARAGE">Garage</button> -->
+                </div>
+
+                <div class="form__group field" id="search">
+                    <input type="input" class="form__field" id="search-input" placeholder="Search" required />
+                    <label for="search" class="form__label">Recherche</label>
+                </div>
+            </div>
+
+            <div id="vehicleClass">
+                <button class="vehicle-category" id="MOD" selected>Mod</button>
+                <button class="vehicle-category" id="SUPER">Super</button>
+                <button class="vehicle-category" id="SPORT">Sport</button>
+                <button class="vehicle-category" id="SPORT_CLASSIC">Sport Classic</button>
+                <button class="vehicle-category" id="COUPE">Coupe</button>
+                <button class="vehicle-category" id="MUSCLE">Muscle</button>
+                <button class="vehicle-category" id="COMPACT">Compact</button>
+                <button class="vehicle-category" id="COMMERCIAL">Commercial</button>
+                <button class="vehicle-category" id="SUV">Suv</button>
+                <button class="vehicle-category" id="SEDAN">Sedan</button>
+                <button class="vehicle-category" id="OFF_ROAD">Off Road</button>
+                <button class="vehicle-category" id="VAN">Van</button>
+                <button class="vehicle-category" id="MOTORCYCLE">Motorcycle</button>
+                <button class="vehicle-category" id="EMERGENCY">Emergency</button>
+                <button class="vehicle-category" id="INDUSTRIAL">Industrial</button>
+                <button class="vehicle-category" id="SERVICE">Service</button>
+                <button class="vehicle-category" id="UTILITY">Utility</button>
+                <button class="vehicle-category" id="OPEN_WHEEL">Open Wheel</button>
+                <button class="vehicle-category" id="CYCLE">Cycle</button>
+                <button class="vehicle-category" id="HELICOPTER">Helicopter</button>
+                <button class="vehicle-category" id="PLANE">Plane</button>
+                <button class="vehicle-category" id="BOAT">Boat</button>
+                <button class="vehicle-category" id="MILITARY">Military</button>
+                <button class="vehicle-category" id="RAIL">Rail</button>
+            </div>
+
+            <div id="content">
+                <div id="MOD" selected></div>
+                <div id="SUPER"></div>
+                <div id="SPORT"></div>
+                <div id="SPORT_CLASSIC"></div>
+                <div id="COUPE"></div>
+                <div id="MUSCLE"></div>
+                <div id="COMPACT"></div>
+                <div id="COMMERCIAL"></div>
+                <div id="SUV"></div>
+                <div id="SEDAN"></div>
+                <div id="OFF_ROAD"></div>
+                <div id="VAN"></div>
+                <div id="MOTORCYCLE"></div>
+                <div id="EMERGENCY"></div>
+                <div id="INDUSTRIAL"></div>
+                <div id="SERVICE"></div>
+                <div id="UTILITY"></div>
+                <div id="OPEN_WHEEL"></div>
+                <div id="CYCLE"></div>
+                <div id="HELICOPTER"></div>
+                <div id="PLANE"></div>
+                <div id="BOAT"></div>
+                <div id="MILITARY"></div>
+                <div id="RAIL"></div>
+
+                <div id="searchList"></div>
+
+                <div id="GARAGE"></div>
+            </div>
+        </div>
+
+        <div id="clones" hidden>
+            <div class="vehicle-card">
+                <img loading="lazy" />
+                <label></label>
+            </div>
+        </div>
+    </body>
+
+    <script src="js/app.js" type="module"></script>
+</html>

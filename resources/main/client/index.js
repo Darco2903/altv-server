@@ -7,6 +7,7 @@ import "./core/player/nametag.js";
 import "./core/player/gameplayCamera.js";
 import "./core/player/notification.js";
 import "./core/player/permission.js";
+import "./core/vehicle/drivingCar.js";
 import "./core/vehicle/spawn.js";
 import "./core/webview/centerPointer.js";
 
