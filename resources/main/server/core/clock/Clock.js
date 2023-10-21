@@ -1,16 +1,62 @@
 import * as alt from "alt-server";
 
-const LOG_PREFIX = "~y~[Clock]~w~ ";
+class Clock {
+    static #LOG_PREFIX = "~y~[Clock]~w~ ";
 
-export default class Clock {
     /** @type {number} */
     #hour;
+    get hour() {
+        return this.#hour;
+    }
+
     /** @type {number} */
     #minute;
+    get minute() {
+        return this.#minute;
+    }
+
+    /**
+     * Get current time
+     */
+    get timeData() {
+        return {
+            hour: this.#hour,
+            minute: this.#minute,
+            speed: this.#speed,
+            started: this.#started,
+        };
+    }
+
     /** @type {number} */
     #speed;
+    /**
+     * Get the time speed multiplier
+     * @returns {number}
+     */
+    get speed() {
+        return this.#speed;
+    }
+
+    /**
+     * Set time speed multiplier
+     * @param {number} speed - time speed multiplier
+     */
+    set speed(speed) {
+        console.log("SPEED CHANGED");
+        this.#speed = speed;
+        alt.emitAllClients("time:setSpeed", speed);
+        alt.log(Clock.#LOG_PREFIX, `Clock Speed set to: ${speed}`);
+    }
+
     /** @type {boolean} */
     #started;
+    /**
+     * Get if the clock is started
+     * @returns {boolean}
+     */
+    get started() {
+        return this.#started;
+    }
 
     /**
      * Creates an instance of Clock.
@@ -28,53 +74,6 @@ export default class Clock {
         this.#started = false;
     }
 
-    get hour() {
-        return this.#hour;
-    }
-
-    get minute() {
-        return this.#minute;
-    }
-
-    /**
-     * Get if the clock is started
-     * @returns {boolean}
-     */
-    get started() {
-        return this.#started;
-    }
-
-    /**
-     * Get current time
-     */
-    get timeData() {
-        return {
-            hour: this.#hour,
-            minute: this.#minute,
-            speed: this.#speed,
-            started: this.#started,
-        };
-    }
-
-    /**
-     * Get the time speed multiplier
-     * @returns {number}
-     */
-    get speed() {
-        return this.#speed;
-    }
-
-    /**
-     * Set time speed multiplier
-     * @param {number} speed - time speed multiplier
-     */
-    set speed(speed) {
-        console.log("SPEED CHANGED");
-        this.#speed = speed;
-        alt.emitAllClients("time:setSpeed", speed);
-        alt.log(LOG_PREFIX, `Clock Speed set to: ${speed}`);
-    }
-
     /**
      * Initialize the clock
      * @param {alt.Utils.Clock.TimeData} time
@@ -87,7 +86,7 @@ export default class Clock {
         if (this.#started) {
             this.#run();
         }
-        alt.log(LOG_PREFIX, `Clock Initialized: ${hour}:${minute} - ${speed}x - ${started ? "Started" : "Stopped"}`);
+        alt.log(Clock.#LOG_PREFIX, `Clock Initialized: ${hour}:${minute} - ${speed}x - ${started ? "Started" : "Stopped"}`);
     }
 
     /**
@@ -124,7 +123,7 @@ export default class Clock {
         this.#started = true;
         this.#run();
         alt.emitAllClients("time:run", true);
-        alt.log(LOG_PREFIX, "Clock Started");
+        alt.log(Clock.#LOG_PREFIX, "Clock Started");
     }
 
     /**
@@ -134,7 +133,7 @@ export default class Clock {
         if (!this.#started) return;
         this.#started = false;
         alt.emitAllClients("time:run", false);
-        alt.log(LOG_PREFIX, "Clock Stopped");
+        alt.log(Clock.#LOG_PREFIX, "Clock Stopped");
     }
 
     /**
@@ -147,9 +146,11 @@ export default class Clock {
             this.#hour = hour;
             this.#minute = minute;
             alt.emitAllClients("time:setTime", this.timeData);
-            alt.log(LOG_PREFIX, `Clock Time set to: ${hour}:${minute}`);
+            alt.log(Clock.#LOG_PREFIX, `Clock Time set to: ${hour}:${minute}`);
         } else {
             throw new Error("Invalid Time");
         }
     }
 }
+
+export default Clock;
