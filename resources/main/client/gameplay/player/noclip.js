@@ -7,7 +7,6 @@ let NoclipActive = false;
 let MovingSpeed = 0;
 let Scale = -1;
 let FollowCamMode = true;
-
 let PlayerVisible = true;
 
 const SpeedsCount = 5;
@@ -17,6 +16,15 @@ const speeds = {
     2: "Normal",
     3: "Rapide",
     4: "Très rapide",
+};
+
+const enabledControls = {
+    nextCamera: 0,
+    lookLeftRight: 1,
+    lookUpDown: 2,
+    headLight: 74,
+    horn: 88,
+    frontEnd: 199,
 };
 
 const controls = {
@@ -29,17 +37,14 @@ const controls = {
     visibility: 4, // Mouse 3
     speedUp: 6, // Mouse 6
     speedDown: 5, // Mouse 5
+};
+
+const defaultKeys = {
     toggle: 116, // F5
 };
 
-const enabledControls = {
-    nextCamera: 0,
-    lookLeftRight: 1,
-    lookUpDown: 2,
-    headLight: 74,
-    horn: 88,
-    frontEnd: 199,
-};
+const inputKeys = Object.assign(controls, defaultKeys);
+const APP_NAME = "noclip";
 
 alt.everyTick(() => {
     if (NoclipActive) {
@@ -51,8 +56,8 @@ alt.everyTick(() => {
 
             native.beginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
             native.scaleformMovieMethodAddParamInt(0);
-            native.scaleformMovieMethodAddParamInt(controls.toggle - 7);
-            native.scaleformMovieMethodAddParamInt(controls.toggle - 8);
+            native.scaleformMovieMethodAddParamInt(inputKeys.toggle - 7);
+            native.scaleformMovieMethodAddParamInt(inputKeys.toggle - 8);
             native.scaleformMovieMethodAddParamTextureNameString(`Vitesse (${speeds[MovingSpeed]})`);
             native.endScaleformMovieMethod();
 
@@ -113,24 +118,12 @@ alt.everyTick(() => {
         let zoff = 0.0;
 
         if (native.updateOnscreenKeyboard() !== 0 && alt.isGameFocused()) {
-            if (alt.isKeyDown(controls.forward)) {
-                yoff = 2;
-            }
-            if (alt.isKeyDown(controls.backward)) {
-                yoff = -2;
-            }
-            if (alt.isKeyDown(controls.right)) {
-                xoff = 2;
-            }
-            if (alt.isKeyDown(controls.left)) {
-                xoff = -2;
-            }
-            if (alt.isKeyDown(controls.up)) {
-                zoff = 1;
-            }
-            if (alt.isKeyDown(controls.down)) {
-                zoff = -1;
-            }
+            if (alt.isKeyDown(inputKeys.forward)) yoff = 2;
+            if (alt.isKeyDown(inputKeys.backward)) yoff = -2;
+            if (alt.isKeyDown(inputKeys.right)) xoff = 2;
+            if (alt.isKeyDown(inputKeys.left)) xoff = -2;
+            if (alt.isKeyDown(inputKeys.up)) zoff = 1;
+            if (alt.isKeyDown(inputKeys.down)) zoff = -1;
         }
 
         const moveSpeed = ((MovingSpeed + 0.5) / 3) ** 2;
@@ -163,36 +156,52 @@ function toogleNoClip(state) {
     }
 }
 
-alt.on("resourceStart", () => {
-    if (alt.getMeta("noclip:active")) {
-        toogleNoClip(true);
-    }
-    if (alt.hasMeta("noclip:speed")) {
-        MovingSpeed = alt.getMeta("noclip:speed");
-    }
-});
-
 alt.on("keyup", (key) => {
-    if (key === controls.toggle) {
+    if (key === inputKeys.toggle) {
         if (NoclipActive) {
             toogleNoClip(false);
         } else if (player.hasPermission(2)) {
             toogleNoClip(true);
         }
     } else if (NoclipActive) {
-        if (key === controls.speedUp) {
+        if (key === inputKeys.speedUp) {
             if (MovingSpeed < SpeedsCount - 1) {
                 MovingSpeed++;
                 alt.setMeta("noclip:speed", MovingSpeed);
             }
-        } else if (key === controls.speedDown) {
+        } else if (key === inputKeys.speedDown) {
             if (MovingSpeed > 0) {
                 MovingSpeed--;
                 alt.setMeta("noclip:speed", MovingSpeed);
             }
-        } else if (key === controls.visibility) {
+        } else if (key === inputKeys.visibility) {
             PlayerVisible = !PlayerVisible;
             alt.emitServer("noclip:playerVisible", PlayerVisible);
         }
     }
+});
+
+alt.on("resourceStart", () => {
+    if (alt.getMeta("noclip:active")) toogleNoClip(true);
+    if (alt.hasMeta("noclip:speed")) MovingSpeed = alt.getMeta("noclip:speed");
+
+    Object.keys(defaultKeys).forEach((name) => {
+        inputKeys[name] = alt.LocalStorage.get(`${APP_NAME}:key:${name}`) ?? defaultKeys[name];
+        alt.emit("input-manager:keyInit", APP_NAME, name, inputKeys[name]);
+    });
+});
+
+alt.on("input-manager:keyUpdate", (app, name, key) => {
+    if (app !== APP_NAME) return;
+    inputKeys[name] = key;
+    alt.LocalStorage.set(`${APP_NAME}:key:${name}`, key);
+    alt.LocalStorage.save();
+});
+
+alt.on("input-manager:keyReset", (app, name) => {
+    if (app !== APP_NAME) return;
+    inputKeys[name] = defaultKeys[name];
+    alt.emit("input-manager:keyInit", APP_NAME, name, inputKeys[name]);
+    alt.LocalStorage.delete(`${APP_NAME}:key:${name}`);
+    alt.LocalStorage.save();
 });
