@@ -32,6 +32,7 @@ alt.Utils.Chat.registerCmd({
             case "abs":
             case "esc":
             case "tc":
+            case "speedController":
                 player.emit(`electronics:${subcommand}:toggle`, state === "on");
                 break;
 

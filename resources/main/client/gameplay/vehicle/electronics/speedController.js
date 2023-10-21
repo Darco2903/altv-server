@@ -120,17 +120,11 @@ function main() {
     const speedDiffRelative = speed2 - speed1;
     const speedDiffController = speed2 - speed;
 
-    if (speedDiffController > 0 && speedDiffController < speedControllerMargin && speedDiffRelative > 0) {
-        if (throttle > 0) throttle -= 0.01;
-    } else if (speedDiffController < 0 && speedDiffController > -speedControllerMargin && speedDiffRelative < 0) {
-        if (throttle < 1) throttle += 0.01;
-        // console.log("2");
-    } else if (speedDiffController > 1 && speedDiffRelative > 0) {
-        if (throttle > 0) throttle -= 0.05;
-        // console.log("3");
-    } else if (speedDiffController < -1 && speedDiffRelative < 0) {
-        if (throttle < 1) throttle += 0.05;
-    }
+    if (speedDiffController > 0 && speedDiffController < speedControllerMargin && speedDiffRelative > 0 && throttle > 0) throttle -= 0.01;
+    else if (speedDiffController < 0 && speedDiffController > -speedControllerMargin && speedDiffRelative < 0 && throttle < 1) throttle += 0.01;
+    else if (speedDiffController > 1 && speedDiffRelative > 0 && throttle > 0) throttle -= 0.05;
+    else if (speedDiffController < -1 && speedDiffRelative < 0 && throttle < 1) throttle += 0.05;
+
     native.setControlValueNextFrame(0, 71, throttle);
     speed1 = speed2;
 }
