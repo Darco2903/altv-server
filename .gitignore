@@ -1,6 +1,4 @@
-#stuff on dev
-
-#dev ignore
+# dev ignore
 old/
 *-old.*
 *_
@@ -8,12 +6,12 @@ old/
 *template*
 *test*
 
-#stuff
+# stuff
 AltV.Net.Host.*
 altv-server*
 cache/
 crashdumps/
-/data/
+data/
 libnode.dll
 *.log
 modules/
@@ -23,5 +21,12 @@ server.toml
 .server-crashes-cache/
 altv-crash-handler.exe
 
-#config
+# resources
+resources/mapping/
+resources/models/
+resources/vehicles/
+
+
+
+# config
 config.json
