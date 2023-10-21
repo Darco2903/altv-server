@@ -14,6 +14,7 @@ import "./gameplay/player/death.js";
 import "./gameplay/player/noclip.js";
 import "./gameplay/player/playermodel.js";
 
+import "./gameplay/vehicle/signals.js";
 import "./gameplay/vehicle/tuner.js";
 
 import "./gameplay/commands/clearveh.js";

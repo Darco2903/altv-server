@@ -20,6 +20,7 @@ import "./gameplay/vehicle/crash.js";
 
 import "./gameplay/vehicle/flight-instruments/index.js";
 import "./gameplay/vehicle/speedo-forza/index.js";
+import "./gameplay/vehicle/signals.js";
 import "./gameplay/vehicle/starter.js";
 
 import "./gameplay/commands/getpos.js";
