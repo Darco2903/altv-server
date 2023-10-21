@@ -18,6 +18,7 @@ import "./gameplay/vehicle/signals.js";
 import "./gameplay/vehicle/tuner.js";
 
 import "./gameplay/commands/clearveh.js";
+import "./gameplay/commands/electronics.js";
 import "./gameplay/commands/getpos.js";
 import "./gameplay/commands/gotocoords.js";
 import "./gameplay/commands/r.js";
