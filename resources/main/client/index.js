@@ -3,6 +3,7 @@ import "./core/clock/index.js";
 import "./core/loadCayoPerico.js";
 import "./core/loadInterior.js";
 import "./core/resourceState.js";
+import "./core/input-manager/index.js";
 import "./core/player/nametag.js";
 import "./core/player/gameplayCamera.js";
 import "./core/player/notification.js";

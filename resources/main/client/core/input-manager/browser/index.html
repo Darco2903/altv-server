@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles/style.css" />
+        <title>Input Manager</title>
+    </head>
+    <body>
+        <div id="content">
+            <h2 id="title">Configuration des touches</h2>
+
+            <div id="categories">
+                <div class="category">
+                    <h3 class="category-title">Menu</h3>
+                    <div class="category-content">
+                        <div class="input-container" data-name="menu-toggle" initialized>
+                            <div class="input">
+                                <label class="text input-name">Ouvrir le menu</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3 class="category-title">Joueur</h3>
+                    <div class="category-content">
+                        <div class="input-container" data-name="noclip-toggle" initialized>
+                            <div class="input">
+                                <label class="text input-name">Activer/Désactiver le noclip</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="fingerpoint-point" initialized>
+                            <div class="input">
+                                <label class="text input-name">Pointer du doigt</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="ragdoll-toggle" initialized>
+                            <div class="input">
+                                <label class="text input-name">Activer/Désactiver le ragdoll</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="respawn-respawn" initialized>
+                            <div class="input">
+                                <label class="text input-name">Réapparaitre</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3 class="category-title">Véhicules</h3>
+                    <div class="category-content">
+                        <div class="input-container" data-name="vehicleStarter-push">
+                            <div class="input">
+                                <label class="text input-name">Démarreur</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="vehicleSignals-left">
+                            <div class="input">
+                                <label class="text input-name">Clignotant gauche</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="vehicleSignals-right">
+                            <div class="input">
+                                <label class="text input-name">Clignotant droit</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="vehicleSignals-hazard">
+                            <div class="input">
+                                <label class="text input-name">Warning</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3 class="category-title">Régulateur de vitesse</h3>
+                    <div class="category-content">
+                        <div class="input-container" data-name="speedController-set">
+                            <div class="input">
+                                <label class="text input-name">Activer/Désactiver le régulateur de vitesse</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="speedController-unset">
+                            <div class="input">
+                                <label class="text input-name">Désactiver le régulateur de vitesse</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="speedController-add">
+                            <div class="input">
+                                <label class="text input-name">Augmenter la vitesse du régulateur de vitesse</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                        <div class="input-container" data-name="speedController-reduce">
+                            <div class="input">
+                                <label class="text input-name">Diminuer la vitesse du régulateur de vitesse</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3 class="category-title">Miscs</h3>
+                    <div class="category-content">
+                        <div class="input-container" data-name="screenshot-take">
+                            <div class="input">
+                                <label class="text input-name">Prendre un screenshot</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+
+                        <div class="input-container" data-name="hideHud-toggle">
+                            <div class="input">
+                                <label class="text input-name">Masquer l'interface</label>
+                                <label class="text input-key"></label>
+                                <img class="input-icon" src="" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="category">
+                    <h3 class="category-title">Category</h3>
+                    <div class="category-content">
+                        <div class="input-container" data-name="open-menu">
+                            <div class="input">
+                                <label class="text input-name">Ouvrir le menu</label>
+                                <label class="text input-key">Windows</label>
+                                <img class="input-icon" src="./icons/key-windows-100px.png" />
+                                <button class="input-reset">Réinitialiser</button>
+                            </div>
+                            <label class="press-key">Appuyez sur une touche</label>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </body>
+    <script src="js/app.js" type="module"></script>
+</html>
