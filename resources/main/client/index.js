@@ -12,7 +12,7 @@ import "./core/vehicle/drivingCar.js";
 import "./core/vehicle/spawn.js";
 import "./core/webview/centerPointer.js";
 
-import "./gameplay/player/fingerpointing.js";
+import "./gameplay/player/fingerpoint.js";
 import "./gameplay/player/noclip.js";
 import "./gameplay/player/ragdoll.js";
 import "./gameplay/player/respawn.js";
