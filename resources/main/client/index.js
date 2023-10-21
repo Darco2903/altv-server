@@ -1,8 +1,5 @@
 import "./core/chat/index.js";
 import "./core/clock/index.js";
-import "./core/loadCayoPerico.js";
-import "./core/loadInterior.js";
-import "./core/resourceState.js";
 import "./core/input-manager/index.js";
 import "./core/player/nametag.js";
 import "./core/player/gameplayCamera.js";
@@ -11,6 +8,10 @@ import "./core/player/permission.js";
 import "./core/vehicle/drivingCar.js";
 import "./core/vehicle/spawn.js";
 import "./core/webview/centerPointer.js";
+import "./core/loadCayoPerico.js";
+import "./core/loadInterior.js";
+import "./core/mapBoundExtend.js";
+import "./core/resourceState.js";
 
 import "./gameplay/player/fingerpoint.js";
 import "./gameplay/player/noclip.js";
