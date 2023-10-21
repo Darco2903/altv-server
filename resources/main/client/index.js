@@ -15,6 +15,8 @@ import "./gameplay/player/noclip.js";
 import "./gameplay/player/ragdoll.js";
 import "./gameplay/player/respawn.js";
 import "./gameplay/vehicle/crash.js";
+
+import "./gameplay/vehicle/flight-instruments/index.js";
 import "./gameplay/vehicle/speedo-forza/index.js";
 import "./gameplay/vehicle/starter.js";
 
