@@ -2,6 +2,11 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 const player = alt.Player.local;
+const APP_NAME = "vehicleStarter";
+const defaultKeys = {
+    push: 49, // &
+};
+const inputKeys = Object.assign({}, defaultKeys);
 
 alt.on("connectionComplete", init);
 alt.on("resourceStart", init);
@@ -14,8 +19,9 @@ async function init() {
 
 alt.on("keydown", async (key) => {
     // alt.KeyCode.Key1
-    if (key === 49 && player.vehicle) {
+    if (key === inputKeys.push && player.vehicle) {
         if (!native.getIsVehicleEngineRunning(player.vehicle)) {
+            const animDictionary = "anim@veh@std@issi3@ds@base";
             let ignition = false;
             const ignitionTime = getIgnitionTime(player.vehicle);
             alt.emit("vehicle:ignition:start");
@@ -24,7 +30,7 @@ alt.on("keydown", async (key) => {
                 ignition = true;
             }, ignitionTime);
             while (true) {
-                if (!alt.isKeyDown(49) && timeout) {
+                if (!alt.isKeyDown(inputKeys.push) && timeout) {
                     alt.clearTimeout(timeout);
                     alt.emit("vehicle:ignition:cancel");
                     break;
@@ -34,6 +40,7 @@ alt.on("keydown", async (key) => {
                     break;
                 }
 
+                native.taskPlayAnim(player, animDictionary, "start_engine", 3.0, 2.0, -1, 0, 0, false, false, false);
                 native.setVehicleEngineOn(player.vehicle, true, false, true);
                 await new Promise((resolve) => alt.nextTick(resolve));
                 native.setVehicleEngineOn(player.vehicle, false, false, true);
@@ -53,13 +60,7 @@ function getIgnitionTime(vehicle) {
     const engineHealth = native.getVehicleEngineHealth(vehicle);
     const vehicleClass = native.getVehicleClass(vehicle);
 
-    console.log("temp:", temp);
-    console.log("fuelLevel:", fuelLevel);
-    console.log("engineHealth:", engineHealth);
-    console.log("vehicleClass:", vehicleClass);
-
     let ignitionTime = Math.floor(Math.random() * 300) + 200;
-    console.log("random:", ignitionTime);
 
     // less the engine is hot, more the ignition time is long
     let tempTime = 0;
@@ -68,7 +69,6 @@ function getIgnitionTime(vehicle) {
     } else if (temp < 60) {
         tempTime = 100;
     }
-    console.log("tempTime:", tempTime);
 
     // more the engine is damaged, more the ignition time is long
     let healthTime = 0;
@@ -81,7 +81,6 @@ function getIgnitionTime(vehicle) {
     } else if (engineHealth < 800) {
         healthTime = 150;
     }
-    console.log("healthTime:", healthTime);
 
     // more the vehicle is heavy, more the ignition time is long
     let classTime;
@@ -125,8 +124,27 @@ function getIgnitionTime(vehicle) {
             classTime = 0;
             break;
     }
-    console.log("classTime:", classTime);
-
-    console.log("ignitionTime:", ignitionTime + tempTime + healthTime + classTime);
     return ignitionTime + tempTime + healthTime + classTime;
 }
+
+alt.on("resourceStart", () => {
+    Object.keys(defaultKeys).forEach((name) => {
+        inputKeys[name] = alt.LocalStorage.get(`${APP_NAME}:key:${name}`) ?? defaultKeys[name];
+        alt.emit("input-manager:keyInit", APP_NAME, name, inputKeys[name]);
+    });
+});
+
+alt.on("input-manager:keyUpdate", (app, name, key) => {
+    if (app !== APP_NAME) return;
+    inputKeys[name] = key;
+    alt.LocalStorage.set(`${APP_NAME}:key:${name}`, key);
+    alt.LocalStorage.save();
+});
+
+alt.on("input-manager:keyReset", (app, name) => {
+    if (app !== APP_NAME) return;
+    inputKeys[name] = defaultKeys[name];
+    alt.emit("input-manager:keyInit", APP_NAME, name, inputKeys[name]);
+    alt.LocalStorage.delete(`${APP_NAME}:key:${name}`);
+    alt.LocalStorage.save();
+});
