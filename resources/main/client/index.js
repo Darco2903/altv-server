@@ -27,6 +27,7 @@ import "./gameplay/vehicle/starter.js";
 import "./gameplay/commands/getpos.js";
 import "./gameplay/commands/tpm.js";
 
+import "./gameplay/ui/hideHud.js";
 import "./gameplay/ui/menu/index.js";
 import "./gameplay/ui/playerclothes/index.js";
 import "./gameplay/ui/playermodel/index.js";
