@@ -5,7 +5,7 @@ let loaded = false;
 let open = false;
 let enabled = true;
 
-const view = new alt.WebView("http://resource/client/core/chat/html/index.html", true);
+const view = new alt.WebView("http://resource/client/core/chat/html/index.html", false);
 
 function addMessage(name, text) {
     if (name) {
@@ -35,10 +35,6 @@ function pushMessage(name, text) {
     } else {
         addMessage(name, text);
     }
-}
-
-function pushLine(text) {
-    pushMessage(null, text);
 }
 
 function closeChat() {

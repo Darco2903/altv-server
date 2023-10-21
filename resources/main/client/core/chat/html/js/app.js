@@ -192,10 +192,14 @@ async function getAutocompleteCommandValue(command, input, index) {
     const argName = command.args[index]?.name ?? "";
     let values;
 
-    if (argName === "player") {
-        values = await getAllPlayers();
-    } else {
-        values = command.args[index]?.values ?? [];
+    switch (argName) {
+        case "player":
+            values = await getAllPlayers();
+            break;
+
+        default:
+            values = command.args[index]?.values ?? [];
+            break;
     }
 
     return (
