@@ -21,4 +21,8 @@ declare module "alt-server" {
         function registerCmd(commandData: commandData): void;
         function send(player: Player, msg: string, senderName: string): void;
     }
+
+    interface Player {
+        sendMsg(msg: string, senderName?: string): void;
+    }
 }

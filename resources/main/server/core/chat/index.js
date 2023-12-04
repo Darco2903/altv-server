@@ -134,6 +134,10 @@ function send(player, msg, senderName = null) {
     alt.emitClient(player, "chat:message", senderName, msg);
 }
 
+alt.Player.prototype.sendMsg = function (msg, senderName = null) {
+    send(this, msg, senderName);
+};
+
 /**
  * @param {Object} options
  * @param {string} options.name
