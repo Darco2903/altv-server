@@ -59,11 +59,16 @@ body {
     line-height: 25px;
     padding: 5px 0;
     margin: 0;
-    text-shadow: 1px 1px 10px #000;
     font-size: 1em;
     width: 100%;
     word-break: break-all;
     display: inline-block;
+}
+
+.chatbox p:not(:has(font)),
+font[color="#fff"],
+font[color="#ffffff"] {
+    text-shadow: 1px 1px 10px #000;
 }
 
 .chatbox p b {
