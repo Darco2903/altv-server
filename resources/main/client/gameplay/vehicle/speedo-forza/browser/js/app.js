@@ -47,14 +47,18 @@ let o_rpm;
 let IsOverLoad;
 let OverLoadRPM;
 function calcGear(gear, rpm) {
-    if (gear == 0) {
+    if (gear == -1) {
+        gearSpan.innerHTML = "N";
+        gearDisplay.setAttribute("gear", "neutral");
+    } else if (gear == 0) {
         gearSpan.innerHTML = "R";
-        gearDisplay.setAttribute("style", "color: #FFF;border-color:#FFF;");
+        gearDisplay.setAttribute("gear", "reverse");
     } else {
         gearSpan.innerHTML = gear;
-        if (rpm > 7.5) gearDisplay.setAttribute("style", "color: rgb(235,30,76);border-color:rgb(235,30,76);");
-        else gearDisplay.removeAttribute("style");
+        gearDisplay.removeAttribute("gear");
     }
+    if (rpm > 7.5) gearDisplay.setAttribute("redline", "");
+    else gearDisplay.removeAttribute("redline");
 }
 
 /**
