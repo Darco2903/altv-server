@@ -8,12 +8,12 @@ import "./core/player/permission.js";
 import "./core/vehicle/drivingCar.js";
 import "./core/vehicle/spawn.js";
 import "./core/webview/centerPointer.js";
-import "./core/loadCayoPerico.js";
-import "./core/loadInterior.js";
-import "./core/mapBoundExtend.js";
 import "./core/resourceState.js";
 import "./core/map/blackout.js";
 import "./core/map/disableAmbient.js";
+import "./core/map/loadCayoPerico.js";
+import "./core/map/loadInterior.js";
+import "./core/map/mapBoundExtend.js";
 
 import "./gameplay/player/fingerpoint.js";
 import "./gameplay/player/noclip.js";
