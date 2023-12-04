@@ -2,9 +2,10 @@ import * as alt from "alt-client";
 import * as native from "natives";
 
 const player = alt.Player.local;
+const crash = alt.hash("crash");
 
 alt.on("enteredVehicle", (vehicle, seat) => {
-    if (vehicle.model === 3096296255) {
+    if (vehicle.model === crash) {
         native.setPedConfigFlag(player, 32, false); // CPED_CONFIG_FLAG_WillFlyThruWindscreen
         native.setEntityInvincible(player, true);
         native.setEntityInvincible(vehicle, true);
@@ -13,7 +14,7 @@ alt.on("enteredVehicle", (vehicle, seat) => {
 });
 
 alt.on("leftVehicle", (vehicle, seat) => {
-    if (vehicle.model === 3096296255) {
+    if (vehicle.model === crash) {
         native.setPedConfigFlag(player, 32, true); // CPED_CONFIG_FLAG_WillFlyThruWindscreen
         native.setEntityInvincible(player, false);
         native.setEntityInvincible(vehicle, false);
