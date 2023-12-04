@@ -12,6 +12,7 @@ import "./core/loadCayoPerico.js";
 import "./core/loadInterior.js";
 import "./core/mapBoundExtend.js";
 import "./core/resourceState.js";
+import "./core/map/blackout.js";
 import "./core/map/disableAmbient.js";
 
 import "./gameplay/player/fingerpoint.js";

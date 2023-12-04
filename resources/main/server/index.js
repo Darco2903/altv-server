@@ -7,6 +7,7 @@ import "./core/player/permission.js";
 
 import "./core/vehicle/clear.js";
 import "./core/vehicle/spawn.js";
+import "./core/map/blackout.js";
 
 import "./gameplay/player/clothes.js";
 import "./gameplay/player/connect.js";
