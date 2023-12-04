@@ -17,6 +17,7 @@ import "./gameplay/player/playermodel.js";
 
 import "./gameplay/vehicle/signals.js";
 import "./gameplay/vehicle/tuner.js";
+import "./gameplay/vehicle/model-script/s1000rr.js";
 
 import "./gameplay/commands/clearveh.js";
 import "./gameplay/commands/electronics.js";
