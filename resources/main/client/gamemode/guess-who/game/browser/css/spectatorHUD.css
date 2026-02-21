@@ -1,0 +1,50 @@
+:root {
+    --left-arrow: url("http://assets/data-pack/content/input-key/icons/key-arrowleft-100px.png");
+    --right-arrow: url("http://assets/data-pack/content/input-key/icons/key-arrowright-100px.png");
+}
+
+body {
+    margin: 0;
+}
+
+#keybinds {
+    height: 20%;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 128px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #2224;
+}
+
+.icon {
+    height: 64px;
+    width: 64px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.description {
+    font-size: 100%;
+    font-weight: bold;
+    color: white;
+}
+
+#arrow-left {
+    background-image: var(--left-arrow);
+}
+
+#arrow-right {
+    background-image: var(--right-arrow);
+}

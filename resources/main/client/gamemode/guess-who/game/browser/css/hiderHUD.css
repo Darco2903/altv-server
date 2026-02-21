@@ -1,0 +1,67 @@
+:root {
+    --icon-phone: url("http://assets/data-pack/content/resources/icons/iphone7-white.png");
+    --icon-wave: url("https://img.icons8.com/ios-filled/256/ffffff/so-so.png");
+    --icon-sound: url("https://img.icons8.com/ios-filled/256/ffffff/audio-wave--v1.png");
+}
+
+#perks {
+    position: fixed;
+    bottom: 4%;
+    left: 3%;
+    transform: translate(0%, -50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+}
+
+.perk {
+    background-color: #a8f;
+    width: 64px;
+    height: 64px;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    filter: opacity(0.8);
+    position: relative;
+}
+
+.perk[reload] {
+    filter: saturate(0.5) opacity(0.6);
+}
+
+.perk * {
+    transform: rotate(-45deg);
+}
+
+.icon {
+    background-position: center;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+}
+
+#phone .icon {
+    background-image: var(--icon-phone);
+}
+
+#wave .icon {
+    background-image: var(--icon-wave);
+}
+
+#sound .icon {
+    background-image: var(--icon-sound);
+}
+
+.keybind {
+    position: absolute;
+    right: -25px;
+    bottom: -25px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-family: "Arial";
+    font-weight: bold;
+    color: white;
+    background-color: #0008;
+    transform: rotate(-45deg) translate(25%, 0%);
+}

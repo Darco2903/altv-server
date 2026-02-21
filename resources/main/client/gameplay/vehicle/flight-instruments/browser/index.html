@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <title>Artificial Horizon</title>
+        <link href="./css/main.css" rel="stylesheet" media="all" />
+    </head>
+
+    <body>
+        <div id="content">
+            <div id="horizon">
+                <canvas width="270" height="270" id="canvas"></canvas>
+                <div id="top"></div>
+            </div>
+            <div id="info">
+                <div class="unit" id="engine">
+                    <span class="value"></span>
+                    <span class="unit" state="1"></span>
+                </div>
+                <div class="unit" id="gear">
+                    <span class="value"></span>
+                    <span class="unit">gears</span>
+                </div>
+                <div class="unit" id="speed">
+                    <span class="value"></span>
+                    <span class="unit">knots</span>
+                </div>
+                <div class="unit" id="altitude">
+                    <span class="value"></span>
+                    <span class="unit">feet</span>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <!-- <script src="script/RequestAnimationFrame.js"></script> -->
+    <script src="./js/app.js"></script>
+</html>

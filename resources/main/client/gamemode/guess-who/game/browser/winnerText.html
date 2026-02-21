@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Guess Who - Winner Text</title>
+        
+        <link rel="stylesheet" href="./css/fade.css" />
+        <link rel="stylesheet" href="./css/text.css" />
+
+        <style>
+            #text-container {
+                color: #f24;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="hud">
+            <div id="text-container">
+                <h1 class="text"></h1>
+                <p class="text"></p>
+            </div>
+        </div>
+    </body>
+
+    <script src="./js/fade.js"></script>
+    <script>
+        alt.on("winner", (winner, win) => {
+            document.querySelector("h1").innerText = `Les ${winner} ont gagné`;
+            document.querySelector("p").innerText = `Vous avez ${win ? "gagné" : "perdu"} !`;
+            document.querySelector("div").style.color = win ? "#4af" : "#f22";
+        });
+    </script>
+</html>

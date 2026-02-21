@@ -1,0 +1,8 @@
+#hud {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+#hud[fade] {
+    opacity: 1;
+}

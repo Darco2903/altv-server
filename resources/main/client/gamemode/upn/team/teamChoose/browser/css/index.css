@@ -1,0 +1,249 @@
+:root {
+    --ready-icon: url(https://img.icons8.com/fluency/48/verified-badge--v1.png);
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #777;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #444;
+}
+
+body {
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    user-select: none;
+    /* background-color: #00000088; */
+}
+
+#content {
+    transition: opacity 0.5s ease-in-out;
+}
+
+#content:not([open="true"]) {
+    opacity: 0;
+}
+
+#teams {
+    --margin: 4%;
+    height: calc(100% - var(--margin) * 2);
+    margin: var(--margin) 0;
+}
+
+#teams-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 90%;
+    margin: 0 auto;
+}
+
+#teams-count {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 25%;
+    gap: 10%;
+}
+
+.team-count {
+    font-size: 64px;
+    flex: 1;
+}
+
+#hunters-count {
+    text-align: right;
+}
+
+#survivor-count {
+    text-align: left;
+}
+
+.team {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+    /* background-color: aliceblue; */
+}
+
+.team#hunters {
+    border-right: 1px solid #ffffff;
+    --team-color: #f44;
+}
+
+.team#survivors {
+    border-left: 1px solid #ffffff;
+    --team-color: #0af;
+}
+
+.team-name {
+    text-align: center;
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px;
+    filter: drop-shadow(0 0 5px #0004);
+    color: transparent;
+    text-transform: uppercase;
+    -webkit-text-stroke: 2px var(--team-color);
+}
+
+.team-content {
+    width: 95%;
+    height: 100%;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1%;
+    overflow-y: visible;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.team-content:hover {
+    background-color: #0001;
+    filter: drop-shadow(0 0 200px var(--team-color));
+}
+
+.team-content[selected] {
+    background-color: #0002;
+    /* fill-opacity: 0.5; */
+    filter: drop-shadow(0 0 100px var(--team-color));
+}
+
+.player {
+    --size: 64px;
+    display: flex;
+    flex-direction: row;
+    height: var(--size);
+    background-color: #0004;
+    border-radius: 5px;
+    padding: 6px 8px;
+    gap: 20px;
+    align-items: center;
+    width: 50%;
+}
+
+.player-avatar {
+    width: var(--size);
+}
+
+.player-avatar img {
+    width: 100%;
+    height: 100%;
+}
+
+.player-info {
+    flex: 3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.player-ready {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 32px;
+    height: 32px;
+    background-size: 100%;
+}
+
+.player[ready] .player-ready {
+    background-image: var(--ready-icon);
+}
+
+#ready-container {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    height: 60px;
+}
+
+#ready-container button {
+    width: 200px;
+    font-size: 32px;
+    font-weight: bold;
+    background-color: #014;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+
+#ready-container button:hover {
+    background-color: #025;
+}
+
+#ready-container button:active {
+    background-color: #036;
+}
+
+#ready-container button[disabled] {
+    opacity: 0.7;
+    background-color: #444;
+    pointer-events: none;
+}
+
+#ready[ready] {
+    background-color: #fc0;
+    color: #222;
+}
+
+#ready[ready]:hover {
+    background-color: #ffd500;
+}
+
+#ready[ready]:active {
+    background-color: #ffde00;
+}
+
+#content:has(#ready[ready]) .team-content {
+    pointer-events: none;
+}
+
+#content:has(#ready[ready]) {
+    /* filter: drop-shadow(0 0 100px #fc0); */
+}

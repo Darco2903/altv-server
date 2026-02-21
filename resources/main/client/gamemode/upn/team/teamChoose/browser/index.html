@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/index.css" />
+
+        <title>UPN - Team Choose</title>
+    </head>
+    <body>
+        <div id="content" open="false">
+            <div id="teams">
+                <div id="teams-content">
+                    <div id="teams-count">
+                        <div class="team-count" id="hunters-count">0</div>
+                        <div class="team-count" id="survivors-count">0</div>
+                    </div>
+                    <div class="team" id="hunters">
+                        <div class="team-header">
+                            <div class="team-name">Hunters</div>
+                        </div>
+                        <div class="team-content"></div>
+                    </div>
+                    <div class="team" id="survivors">
+                        <div class="team-header">
+                            <div class="team-name">Survivors</div>
+                        </div>
+                        <div class="team-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ready-container">
+                <button id="start" disabled hidden>Démarrer</button>
+                <button id="ready" disabled>Prêt</button>
+            </div>
+        </div>
+
+        <div id="clones" hidden>
+            <div class="player">
+                <div class="player-avatar">
+                    <img src="https://img.icons8.com/pastel-glyph/64/user-male-circle.png" />
+                </div>
+                <div class="player-info">
+                    <div class="player-name"></div>
+                    <div class="player-ready"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="./js/index.js"></script>
+</html>

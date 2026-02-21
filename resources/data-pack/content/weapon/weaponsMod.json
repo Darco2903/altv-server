@@ -1,0 +1,8 @@
+[
+    { "Category": "MOD", "DisplayName": "Jason Dagger", "Name": "WEAPON_jasondagger" },
+    { "Category": "MOD", "DisplayName": "Leatherface Hammer", "Name": "WEAPON_leatherfacehammer" },
+    { "Category": "MOD", "DisplayName": "Leatherface Hatchet", "Name": "WEAPON_leatherfacehatchet" },
+    { "Category": "MOD", "DisplayName": "Myers Knife", "Name": "WEAPON_myersknife" },
+    { "Category": "MOD", "DisplayName": "M4A4", "Name": "WEAPON_M4A4" },
+    { "Category": "MOD", "DisplayName": "AK47", "Name": "WEAPON_AK47" }
+]

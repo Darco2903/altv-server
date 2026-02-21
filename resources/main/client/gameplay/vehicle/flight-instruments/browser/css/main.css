@@ -1,0 +1,85 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+#canvas {
+    position: absolute;
+    margin-left: -135px;
+    margin-top: -135px;
+}
+
+#top {
+    position: absolute;
+    margin-left: -180px;
+    margin-top: -180px;
+    width: 360px;
+    height: 360px;
+    background: transparent url(../images/tool_320.png) no-repeat;
+    background-position: 50% 50%;
+}
+
+#info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: inherit;
+    margin-top: -100px;
+    margin-left: -330px;
+}
+
+div.unit span {
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Helvetica;
+    color: #009607cc;
+}
+
+span.value {
+    width: 70px;
+    text-align: end;
+}
+
+#engine .unit {
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 50px;
+    height: 50px;
+    margin-bottom: -10px;
+}
+
+#engine .unit[state="0"] {
+    background-image: url(../images/engine-red-512px.png);
+}
+
+#engine .unit[state="1"] {
+    background-image: url(../images/engine-grey-512px.png);
+}
+
+#engine .unit[state="2"] {
+    background-image: url(../images/engine-orange-512px.png);
+}
+
+#gear .unit[state="0"] {
+    color: #ff000066;
+}
+
+#gear .unit[state="1"] {
+    color: #aaaaa522;
+}
