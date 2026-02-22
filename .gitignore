@@ -21,6 +21,7 @@ server.toml
 .server-crashes-cache/
 altv-crash-handler.exe
 altv-voice-server.exe
+voice.toml
 
 # resources
 resources/mapping/
